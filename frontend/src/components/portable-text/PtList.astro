@@ -1,0 +1,17 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import type {ListProps} from 'astro-portabletext/types'
+
+type Props = ListProps
+
+const {node} = Astro.props
+const isNumbered = stegaClean(node.listItem) === 'number'
+---
+
+{
+  isNumbered ? (
+    <ol class="mb-4 ml-6 list-decimal space-y-1"><slot /></ol>
+  ) : (
+    <ul class="mb-4 ml-6 list-disc space-y-1"><slot /></ul>
+  )
+}

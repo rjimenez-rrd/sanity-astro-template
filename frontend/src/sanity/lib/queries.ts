@@ -1,4 +1,4 @@
-import {defineQuery} from 'next-sanity'
+import {defineQuery} from 'groq'
 
 const imageFragment = /* groq */ `
   asset->{
@@ -15,7 +15,7 @@ const blockStylesFragment = /* groq */ `
   blockStyles {
     padding, margin, border, borderRadius,
     background { color, image { ${imageFragment} }, size, overlay },
-    typography, effects
+    typography, effects, motion
   }
 `
 
@@ -128,6 +128,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
   *[_id == "siteSettings"][0] {
     siteName, tagline,
     logo { ${imageFragment} },
+    phone,
     primaryColor, secondaryColor,
     socialLinks[] { _key, platform, url },
     mainNav[] {

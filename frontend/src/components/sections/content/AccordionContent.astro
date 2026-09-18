@@ -1,0 +1,85 @@
+---
+import PortableTextRenderer from '@/components/shared/PortableTextRenderer.astro'
+import type {AccordionData} from '@/types/sanity'
+
+interface Props {
+  data: AccordionData
+}
+
+const {data} = Astro.props
+
+const panels = data.panels || []
+---
+
+{
+  panels.length > 0 && (
+    <div>
+      {data.title && <h3 class="mb-4 text-xl font-semibold text-foreground">{data.title}</h3>}
+      <div class="divide-y divide-border rounded-lg border border-border">
+        {panels.map((panel) => (
+          <details class="group">
+            <summary class="flex w-full cursor-pointer list-none items-center justify-between px-5 py-4 text-left transition-colors duration-200 hover:bg-muted/50">
+              <span class="font-medium text-foreground">{panel.title || 'Untitled'}</span>
+              <span
+                class="ml-4 flex h-6 w-6 shrink-0 items-center justify-center text-muted"
+                aria-hidden="true"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3v10"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    class="origin-center transition-opacity duration-200 group-open:opacity-0"
+                  />
+                  <path d="M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+              </span>
+            </summary>
+            <div class="panel">
+              <div class="overflow-hidden">
+                <div class="px-5 p-4">
+                  {panel.content && panel.content.length > 0 ? (
+                    <div class="prose prose-slate max-w-none">
+                      <PortableTextRenderer value={panel.content} />
+                    </div>
+                  ) : (
+                    <p class="text-sm text-muted">No content.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  /* grid-template-rows 0fr -> 1fr is the portable way to animate a panel of
+     unknown height, and it keeps this block at zero JavaScript. */
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.3s ease-in-out,
+      opacity 0.3s ease-in-out;
+  }
+
+  details[open] .panel {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel {
+      transition: none;
+    }
+  }
+</style>

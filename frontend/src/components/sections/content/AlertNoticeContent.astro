@@ -1,0 +1,72 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import type {AlertNoticeData} from '@/types/sanity'
+
+interface Props {
+  data: AlertNoticeData
+}
+
+const {data} = Astro.props
+
+const ALERT_CONFIG: Record<
+  string,
+  {border: string; bg: string; icon: string; titleColor: string; messageColor: string}
+> = {
+  info: {
+    border: 'border-l-blue-500',
+    bg: 'bg-blue-50',
+    icon: 'ℹ️',
+    titleColor: 'text-blue-800',
+    messageColor: 'text-blue-700',
+  },
+  success: {
+    border: 'border-l-green-500',
+    bg: 'bg-green-50',
+    icon: '✅',
+    titleColor: 'text-green-800',
+    messageColor: 'text-green-700',
+  },
+  warning: {
+    border: 'border-l-amber-500',
+    bg: 'bg-amber-50',
+    icon: '⚠️',
+    titleColor: 'text-amber-800',
+    messageColor: 'text-amber-700',
+  },
+  error: {
+    border: 'border-l-red-500',
+    bg: 'bg-red-50',
+    icon: '❌',
+    titleColor: 'text-red-800',
+    messageColor: 'text-red-700',
+  },
+  tip: {
+    border: 'border-l-purple-500',
+    bg: 'bg-purple-50',
+    icon: '💡',
+    titleColor: 'text-purple-800',
+    messageColor: 'text-purple-700',
+  },
+}
+
+const cleanType = stegaClean(data.type)
+const alertType = cleanType && cleanType in ALERT_CONFIG ? cleanType : 'info'
+const config = ALERT_CONFIG[alertType]
+---
+
+{
+  (data.title || data.message) && (
+    <div class={`my-4 rounded-r-lg border-l-4 p-4 ${config.border} ${config.bg}`} role="alert">
+      <div class="flex items-start gap-3">
+        <span class="shrink-0 text-lg leading-none" aria-hidden="true">
+          {config.icon}
+        </span>
+
+        <div class="min-w-0 flex-1">
+          {data.title && <p class={`text-sm font-bold ${config.titleColor}`}>{data.title}</p>}
+          {data.message && <p class={`mt-1 text-sm ${config.messageColor}`}>{data.message}</p>}
+        </div>
+      </div>
+    </div>
+  )
+}

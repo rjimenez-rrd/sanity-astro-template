@@ -1,5 +1,3 @@
-import {defineType, defineArrayMember} from 'sanity'
-
 // Content types (used inside grid columns)
 import {callToActionType} from './call-to-action'
 import {richTextBlockType} from './rich-text-block'
@@ -27,6 +25,7 @@ import {featureCardGridType} from './feature-card-grid'
 import {tocBlockType} from './toc-block'
 import {testimonialCarouselType} from './testimonial-carousel'
 import {imageGalleryType} from './image-gallery'
+import {pageBuilderType} from './pageBuilder'
 
 // Grid Row (the page builder section)
 import {gridRowType} from './grid-row'
@@ -60,20 +59,6 @@ export {
   tocBlockType,
   gridRowType,
 }
-
-/**
- * Page builder array — heroSection + gridRow.
- * All content is composed through flexible grid layouts.
- */
-export const pageBuilderType = defineType({
-  name: 'pageBuilder',
-  title: 'Page Builder',
-  type: 'array',
-  of: [
-    defineArrayMember({type: 'heroSection'}),
-    defineArrayMember({type: 'gridRow'}),
-  ],
-})
 
 /** All block types for schema registration */
 export const blockTypes = [

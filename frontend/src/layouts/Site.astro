@@ -1,0 +1,29 @@
+---
+import Base from './Base.astro'
+import Header from '@/components/shared/Header.astro'
+import Footer from '@/components/shared/Footer.astro'
+import VisualEditing from '@/components/shared/VisualEditing.astro'
+import SanityLive from '@/components/shared/SanityLive.astro'
+import type {SiteSettings} from '@/types/sanity'
+
+interface Props {
+  settings: SiteSettings | null
+  title?: string
+  description?: string
+  noIndex?: boolean
+  ogImage?: string
+}
+
+const {settings, ...seo} = Astro.props
+const {isDraft} = Astro.locals
+---
+
+<Base {...seo}>
+  <Header settings={settings} />
+  <main class="flex-1">
+    <slot />
+  </main>
+  <Footer settings={settings} />
+  {/* Drafts refresh through Presentation; published pages through the Live API. */}
+  {isDraft ? <VisualEditing /> : <SanityLive tags={Astro.locals.syncTags} />}
+</Base>

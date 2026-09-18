@@ -1,0 +1,75 @@
+---
+/**
+ * Entrance animations for any element with `data-animate`, set from the
+ * Studio's Motion Effects. Mounted once in the base layout.
+ *
+ * Elements stay visible until this script marks them pending, so readers
+ * without JavaScript — and anyone preferring reduced motion — always see them.
+ */
+---
+
+<style is:global>
+  [data-animate][data-animate-state='pending'] {
+    opacity: 0;
+  }
+  [data-animate='fadeInUp'][data-animate-state='pending'] {
+    transform: translateY(40px);
+  }
+  [data-animate='fadeInDown'][data-animate-state='pending'] {
+    transform: translateY(-40px);
+  }
+  [data-animate='fadeInLeft'][data-animate-state='pending'] {
+    transform: translateX(-40px);
+  }
+  [data-animate='fadeInRight'][data-animate-state='pending'] {
+    transform: translateX(40px);
+  }
+  [data-animate='zoomIn'][data-animate-state='pending'] {
+    transform: scale(0.9);
+  }
+
+  [data-animate][data-animate-state='done'] {
+    transition:
+      opacity var(--pb-animate-duration, 0.6s) ease-out var(--pb-animate-delay, 0ms),
+      transform var(--pb-animate-duration, 0.6s) ease-out var(--pb-animate-delay, 0ms);
+  }
+  [data-animate-duration='slow'] {
+    --pb-animate-duration: 1.2s;
+  }
+  [data-animate-duration='fast'] {
+    --pb-animate-duration: 0.3s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  const elements = document.querySelectorAll<HTMLElement>('[data-animate]')
+
+  if (elements.length > 0 && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          const el = entry.target as HTMLElement
+          el.dataset.animateState = 'done'
+          observer.unobserve(el)
+        }
+      },
+      {threshold: 0.1},
+    )
+
+    elements.forEach((el) => {
+      const delay = Number(el.dataset.animateDelay || 0)
+      if (delay > 0) el.style.setProperty('--pb-animate-delay', `${delay}ms`)
+      el.dataset.animateState = 'pending'
+      observer.observe(el)
+    })
+  }
+</script>

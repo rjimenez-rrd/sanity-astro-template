@@ -26,7 +26,7 @@ export const structure: StructureResolver = (S) =>
             .schemaType('homePage')
             .documentId('homePage')
             .title('Home Page'),
-        ),
+        ), 
 
       S.divider(),
 
@@ -41,6 +41,6 @@ export const structure: StructureResolver = (S) =>
 
       // Filter out singletons from auto-generated list
       ...S.documentTypeListItems().filter(
-        (listItem) => !['page', 'blogPost', ...SINGLETONS].includes(listItem.getId() as string),
+        (listItem) => !['page', 'blogPost',  ...SINGLETONS].includes(listItem.getId() as string),
       ),
     ])

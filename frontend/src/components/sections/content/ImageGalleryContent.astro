@@ -1,0 +1,188 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage from '@/components/shared/SanityImage.astro'
+import {urlFor} from '@/sanity/lib/image'
+import type {ImageGalleryData} from '@/types/sanity'
+
+interface Props {
+  data: ImageGalleryData
+}
+
+const {data} = Astro.props
+
+const COLS_MAP: Record<string, string> = {
+  '2': 'sm:columns-2',
+  '3': 'sm:columns-2 lg:columns-3',
+  '4': 'sm:columns-2 lg:columns-4',
+}
+
+const GRID_COLS_MAP: Record<string, string> = {
+  '2': 'sm:grid-cols-2',
+  '3': 'sm:grid-cols-2 lg:grid-cols-3',
+  '4': 'sm:grid-cols-2 lg:grid-cols-4',
+}
+
+const images = (data.images || []).filter((img) => img.image?.asset)
+const cleanLayout = stegaClean(data.layout || 'grid')
+const cleanColumns = stegaClean(data.columns || '3')!
+const isMasonry = cleanLayout === 'masonry'
+const enableLightbox = Boolean(data.enableLightbox)
+
+const containerClass = isMasonry
+  ? `columns-1 gap-4 ${COLS_MAP[cleanColumns] || COLS_MAP['3']}`
+  : `grid grid-cols-1 gap-4 ${GRID_COLS_MAP[cleanColumns] || GRID_COLS_MAP['3']}`
+const itemClass = isMasonry ? 'mb-4 break-inside-avoid' : 'aspect-square'
+
+// Full-size sources are resolved at build time and carried on the trigger, so
+// the lightbox needs no data round-trip when it opens.
+const lightboxSlides = images.map((img) => ({
+  src: urlFor(img.image).width(1200).fit('max').auto('format').url(),
+  alt: stegaClean(img.alt) || '',
+  caption: img.caption || '',
+}))
+
+const CLOSE_PATH = 'M6 18L18 6M6 6l12 12'
+const PREV_PATH = 'M15 19l-7-7 7-7'
+const NEXT_PATH = 'M9 5l7 7-7 7'
+---
+
+{
+  images.length > 0 && (
+    <div data-gallery data-lightbox-enabled={enableLightbox ? 'true' : 'false'}>
+      {data.title && (
+        <h2 class="mb-8 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          {data.title}
+        </h2>
+      )}
+
+      <div class={containerClass}>
+        {images.map((img, idx) => (
+          <figure class={itemClass}>
+            <button
+              type="button"
+              data-gallery-item={idx}
+              data-src={lightboxSlides[idx].src}
+              data-alt={lightboxSlides[idx].alt}
+              data-caption={lightboxSlides[idx].caption}
+              class={`block w-full overflow-hidden rounded-lg ${enableLightbox ? 'cursor-zoom-in' : 'cursor-default'}`}
+              disabled={!enableLightbox}
+            >
+              <SanityImage
+                value={img.image}
+                alt={stegaClean(img.alt) || ''}
+                width={600}
+                class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </button>
+            {img.caption && <figcaption class="mt-2 text-xs text-muted">{img.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+
+      {enableLightbox && (
+        <dialog
+          data-gallery-lightbox
+          class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/90"
+        >
+          <div class="fixed inset-0 flex items-center justify-center p-4" data-gallery-backdrop>
+            <button
+              type="button"
+              data-gallery-close
+              class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+              aria-label="Close"
+            >
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={2}>
+                <path stroke-linecap="round" stroke-linejoin="round" d={CLOSE_PATH} />
+              </svg>
+            </button>
+
+            {images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  data-gallery-prev
+                  class="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                  aria-label="Previous"
+                >
+                  <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={2}>
+                    <path stroke-linecap="round" stroke-linejoin="round" d={PREV_PATH} />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  data-gallery-next
+                  class="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                  aria-label="Next"
+                >
+                  <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={2}>
+                    <path stroke-linecap="round" stroke-linejoin="round" d={NEXT_PATH} />
+                  </svg>
+                </button>
+              </>
+            )}
+
+            <div data-gallery-stage>
+              <img data-gallery-img class="max-h-[85vh] w-auto rounded-lg object-contain" alt="" />
+              <p class="mt-3 text-center text-sm text-white/70" data-gallery-caption />
+            </div>
+          </div>
+        </dialog>
+      )}
+    </div>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+    if (root.dataset.lightboxEnabled !== 'true') return
+
+    const dialog = root.querySelector<HTMLDialogElement>('[data-gallery-lightbox]')
+    const img = root.querySelector<HTMLImageElement>('[data-gallery-img]')
+    const caption = root.querySelector<HTMLElement>('[data-gallery-caption]')
+    const triggers = Array.from(
+      root.querySelectorAll<HTMLButtonElement>('[data-gallery-item]'),
+    )
+    if (!dialog || !img || !triggers.length) return
+
+    let current = 0
+
+    function show(index: number) {
+      current = ((index % triggers.length) + triggers.length) % triggers.length
+      const trigger = triggers[current]
+      img!.src = trigger.dataset.src || ''
+      img!.alt = trigger.dataset.alt || ''
+      if (caption) {
+        caption.textContent = trigger.dataset.caption || ''
+        caption.hidden = !trigger.dataset.caption
+      }
+    }
+
+    triggers.forEach((trigger, index) =>
+      trigger.addEventListener('click', () => {
+        show(index)
+        dialog.showModal()
+      }),
+    )
+
+    root.querySelector('[data-gallery-close]')?.addEventListener('click', () => dialog.close())
+    root.querySelector('[data-gallery-prev]')?.addEventListener('click', (e) => {
+      e.stopPropagation()
+      show(current - 1)
+    })
+    root.querySelector('[data-gallery-next]')?.addEventListener('click', (e) => {
+      e.stopPropagation()
+      show(current + 1)
+    })
+
+    // Clicking the backdrop closes, clicking the image itself does not.
+    root.querySelector('[data-gallery-backdrop]')?.addEventListener('click', (event) => {
+      if (!(event.target as HTMLElement).closest('[data-gallery-stage]')) dialog.close()
+    })
+
+    // <dialog> gives us Escape-to-close and focus trapping for free.
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(current - 1)
+      if (event.key === 'ArrowRight') show(current + 1)
+    })
+  })
+</script>

@@ -21,7 +21,7 @@ export default defineCliConfig({
     autoUpdates: true,
   },
   typegen: {
-    path: '../frontend/src/**/*.{ts,tsx}',
-    generates: '../frontend/src/sanity/types.ts',
+    path: '../frontend-astro/src/**/*.{ts,tsx}',
+    generates: '../frontend-astro/src/sanity/types.ts',
   },
 });

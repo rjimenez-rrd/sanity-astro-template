@@ -1,0 +1,34 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import type {StatMetricData} from '@/types/sanity'
+
+interface Props {
+  data: StatMetricData
+}
+
+const {data} = Astro.props
+
+const SIZE_CLASSES: Record<string, {value: string; label: string}> = {
+  small: {value: 'text-3xl md:text-4xl', label: 'text-sm'},
+  medium: {value: 'text-4xl md:text-5xl', label: 'text-base'},
+  large: {value: 'text-5xl md:text-7xl', label: 'text-lg'},
+}
+
+const size = data.size || 'medium'
+const sizeClasses = SIZE_CLASSES[stegaClean(size)!] || SIZE_CLASSES.medium
+---
+
+{
+  data.value && (
+    <div class="text-center">
+      <div class={`font-bold tracking-tight text-foreground ${sizeClasses.value}`}>
+        {data.prefix && <span class="text-muted">{data.prefix}</span>}
+        {data.value}
+        {data.suffix && <span class="text-muted">{data.suffix}</span>}
+      </div>
+      {data.label && (
+        <p class={`mt-2 font-medium text-muted ${sizeClasses.label}`}>{data.label}</p>
+      )}
+    </div>
+  )
+}

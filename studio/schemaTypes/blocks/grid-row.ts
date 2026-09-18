@@ -1,8 +1,15 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
-import {DashboardIcon, ImageIcon} from '@sanity/icons'
+import {DashboardIcon} from '@sanity/icons'
 import {LayoutPickerInput} from '../../components/LayoutPickerInput'
 import {ColumnsInput} from '../../components/ColumnsInput'
-
+import {
+  CONTAINER_GROUPS,
+  advancedField,
+  containerField,
+  styleField,
+  visibilityField,
+} from '../shared/container'
+import {designField} from '../shared/design'
 
 const LAYOUT_OPTIONS = [
   {title: 'Full Width', value: 'full'},
@@ -16,24 +23,47 @@ const LAYOUT_OPTIONS = [
   {title: '25 / 25 / 25 / 25', value: '25-25-25-25'},
 ] as const
 
+type ContainerParent = {container?: {layoutType?: string}} | undefined
+
+/** Rows saved before the container settings existed have no `container`. */
+const isLegacyRow = (parent: ContainerParent) => !parent?.container
+
+/** The grid template picker only matters in Grid mode (and for legacy rows). */
+const usesGridTemplate = (parent: ContainerParent) =>
+  isLegacyRow(parent) || parent?.container?.layoutType === 'grid'
+
 export const gridRowType = defineType({
   name: 'gridRow',
-  title: 'Grid Row',
+  title: 'Container',
   type: 'object',
   icon: DashboardIcon,
-  groups: [
-    {name: 'columns', title: 'Columns', default: true},
-    {name: 'style', title: 'Style'},
+  groups: CONTAINER_GROUPS,
+  fieldsets: [
+    {
+      name: 'legacy',
+      title: 'Legacy layout',
+      description: 'Used by rows created before the container settings. Saved container settings replace these.',
+      options: {collapsible: true, collapsed: true},
+    },
   ],
   fields: [
+    // --- Layout tab ---
+    containerField('row'),
+
     defineField({
       name: 'layout',
-      title: 'Layout',
+      title: 'Grid Template',
       type: 'string',
-      group: 'columns',
-      description: 'Pick a column layout, then add content to each column below.',
-      validation: (rule) => rule.required(),
+      group: 'layout',
+      description: 'Column widths for Grid mode. Columns stack on mobile.',
       initialValue: '50-50',
+      hidden: ({parent}) => !usesGridTemplate(parent as ContainerParent),
+      validation: (rule) =>
+        rule.custom((value, context) =>
+          usesGridTemplate(context.parent as ContainerParent) && !value
+            ? 'Pick a grid template'
+            : true,
+        ),
       components: {
         input: LayoutPickerInput,
       },
@@ -41,9 +71,10 @@ export const gridRowType = defineType({
 
     defineField({
       name: 'columns',
-      title: 'Columns',
+      title: 'Items',
       type: 'array',
-      group: 'columns',
+      group: 'layout',
+      description: 'Each item is a column inside this container. Open one to edit its own layout and style.',
       validation: (rule) => rule.required().min(1),
       components: {
         input: ColumnsInput,
@@ -53,11 +84,14 @@ export const gridRowType = defineType({
           type: 'object',
           name: 'gridColumn',
           title: 'Column',
+          groups: CONTAINER_GROUPS,
           fields: [
+            containerField('column'),
             defineField({
               name: 'content',
               title: 'Content',
               type: 'array',
+              group: 'layout',
               of: [
                 // Rich text & media
                 defineArrayMember({type: 'richTextBlock'}),
@@ -101,9 +135,11 @@ export const gridRowType = defineType({
             }),
             defineField({
               name: 'verticalAlign',
-              title: 'Vertical Align',
+              title: 'Align Self (older rows only)',
               type: 'string',
-              description: 'Controls how content aligns when columns have different heights.',
+              group: 'advanced',
+              description:
+                'Only used when the row has no container settings. In a container, columns always match the tallest column — use Justify Content on the Layout tab to position the content.',
               initialValue: 'top',
               options: {
                 list: [
@@ -113,20 +149,25 @@ export const gridRowType = defineType({
                 ],
               },
             }),
-            defineField({
-              name: 'blockStyles',
-              title: 'Column Styles',
-              type: 'blockStyles',
-              options: {collapsible: true, collapsed: true},
-            }),
+            designField(),
+            styleField(),
+            advancedField(),
+            visibilityField(),
           ],
           preview: {
-            select: {content: 'content'},
-            prepare({content}: {content?: Array<unknown>}) {
+            select: {content: 'content', width: 'container.width.desktop'},
+            prepare({
+              content,
+              width,
+            }: {
+              content?: Array<unknown>
+              width?: {size?: number; unit?: string}
+            }) {
               const blockCount = content?.length ?? 0
+              const widthLabel = width?.size !== undefined ? ` · ${width.size}${width.unit ?? ''}` : ''
               return {
                 title: 'Column',
-                subtitle: `${blockCount} block${blockCount !== 1 ? 's' : ''}`,
+                subtitle: `${blockCount} block${blockCount !== 1 ? 's' : ''}${widthLabel}`,
               }
             },
           },
@@ -134,14 +175,14 @@ export const gridRowType = defineType({
       ],
     }),
 
-    // --- Style tab ---
+    // --- Legacy fields: only shown on rows without container settings ---
     defineField({
       name: 'gap',
       title: 'Column Gap',
       type: 'string',
-      group: 'style',
-      description: 'Space between columns.',
-      initialValue: 'md',
+      group: 'layout',
+      fieldset: 'legacy',
+      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
       options: {
         list: [
           {title: 'None', value: 'none'},
@@ -157,17 +198,17 @@ export const gridRowType = defineType({
       name: 'reverseOnMobile',
       title: 'Reverse order on mobile',
       type: 'boolean',
-      group: 'style',
-      description:
-        'Reverses the column stacking order on small screens. Useful when you want text above image on mobile.',
-      initialValue: false,
+      group: 'layout',
+      fieldset: 'legacy',
+      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
     }),
     defineField({
       name: 'paddingY',
       title: 'Vertical Padding',
       type: 'string',
-      group: 'style',
-      initialValue: 'md',
+      group: 'layout',
+      fieldset: 'legacy',
+      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
       options: {
         list: [
           {title: 'None', value: 'none'},
@@ -183,10 +224,12 @@ export const gridRowType = defineType({
       name: 'maxWidth',
       title: 'Max Width',
       type: 'string',
-      group: 'style',
-      initialValue: 'default',
+      group: 'layout',
+      fieldset: 'legacy',
+      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
       options: {
         list: [
+          {title: 'None', value: 'none'},
           {title: 'Narrow (768px)', value: 'narrow'},
           {title: 'Default (1200px)', value: 'default'},
           {title: 'Wide (1400px)', value: 'wide'},
@@ -194,29 +237,32 @@ export const gridRowType = defineType({
         ],
       },
     }),
-    defineField({
-      name: 'blockStyles',
-      title: 'Advanced Layout',
-      type: 'blockStyles',
-      group: 'style',
-      options: {collapsible: true, collapsed: true},
-    }),
+
+    // --- Style / Advanced / Visibility tabs ---
+    designField(),
+    styleField(),
+    advancedField(),
+    visibilityField(),
   ],
   preview: {
-    select: {layout: 'layout', columns: 'columns'},
+    select: {layout: 'layout', columns: 'columns', layoutType: 'container.layoutType'},
     prepare({
       layout,
       columns,
+      layoutType,
     }: {
       layout?: string
       columns?: Array<unknown>
+      layoutType?: string
     }) {
       const colCount = columns?.length ?? 0
-      const label =
-        LAYOUT_OPTIONS.find((o) => o.value === layout)?.title ?? layout ?? '—'
+      const mode =
+        layoutType === 'flex'
+          ? 'Flexbox'
+          : `Grid ${LAYOUT_OPTIONS.find((o) => o.value === layout)?.title ?? layout ?? ''}`.trim()
       return {
-        title: `Grid Row — ${label}`,
-        subtitle: `${colCount} column${colCount !== 1 ? 's' : ''}`,
+        title: `Container — ${mode}`,
+        subtitle: `${colCount} item${colCount !== 1 ? 's' : ''}`,
         media: DashboardIcon,
       }
     },

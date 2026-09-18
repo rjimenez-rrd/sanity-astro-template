@@ -1,0 +1,72 @@
+---
+import PortableTextRenderer from '@/components/shared/PortableTextRenderer.astro'
+import type {TabbedContentData} from '@/types/sanity'
+
+interface Props {
+  data: TabbedContentData
+}
+
+const {data} = Astro.props
+
+const tabs = data.tabs || []
+---
+
+{
+  tabs.length > 0 && (
+    <div data-tabs>
+      <div class="flex border-b border-border" role="tablist">
+        {tabs.map((tab, index) => (
+          <button
+            type="button"
+            role="tab"
+            data-tab-trigger={index}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            aria-controls={`tabpanel-${tab._key}`}
+            class="px-4 py-2.5 text-sm font-medium transition-colors duration-200 aria-selected:border-b-2 aria-selected:border-primary aria-selected:text-primary text-muted hover:text-foreground aria-selected:hover:text-primary"
+          >
+            {tab.label || `Tab ${index + 1}`}
+          </button>
+        ))}
+      </div>
+      {tabs.map((tab, index) => (
+        <div
+          id={`tabpanel-${tab._key}`}
+          role="tabpanel"
+          data-tab-panel={index}
+          class="pt-6"
+          hidden={index !== 0}
+        >
+          {tab.content && tab.content.length > 0 ? (
+            <div class="prose prose-slate max-w-none">
+              <PortableTextRenderer value={tab.content as never} />
+            </div>
+          ) : (
+            <p class="text-sm text-muted">No content for this tab.</p>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+<script>
+  // Astro hoists this script once per page, so it has to bind every instance
+  // rather than assume a single one.
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const triggers = root.querySelectorAll<HTMLButtonElement>('[data-tab-trigger]')
+    const panels = root.querySelectorAll<HTMLElement>('[data-tab-panel]')
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const index = trigger.dataset.tabTrigger
+
+        triggers.forEach((t) =>
+          t.setAttribute('aria-selected', t.dataset.tabTrigger === index ? 'true' : 'false'),
+        )
+        panels.forEach((p) => {
+          p.hidden = p.dataset.tabPanel !== index
+        })
+      })
+    })
+  })
+</script>

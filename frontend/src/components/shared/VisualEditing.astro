@@ -1,0 +1,65 @@
+---
+/**
+ * Mounts Sanity's visual-editing overlays. Rendered only for draft requests,
+ * so published pages ship none of this code.
+ */
+---
+
+<script>
+  import {enableVisualEditing} from '@sanity/visual-editing'
+  import {primeReloadBaseline, reloadWhenChanged} from '@/lib/reloadWhenChanged'
+
+  // Pages are server-rendered, so showing an edit means re-requesting the page.
+  // Studio sends a mutation event per keystroke; waiting for a pause in typing
+  // avoids reloading mid-word.
+  const MUTATION_DEBOUNCE_MS = 800
+  let reloadTimer: ReturnType<typeof setTimeout> | undefined
+  primeReloadBaseline()
+
+  // History adapter lets Presentation drive the preview iframe's URL. These are
+  // full page navigations, so `subscribe` only has to report the initial
+  // location and `update` performs a real navigation.
+  const disable = enableVisualEditing({
+    history: {
+      subscribe: (navigate) => {
+        navigate({type: 'push', url: location.pathname + location.search})
+
+        const onPopState = () =>
+          navigate({type: 'replace', url: location.pathname + location.search})
+
+        window.addEventListener('popstate', onPopState)
+        return () => window.removeEventListener('popstate', onPopState)
+      },
+      update: (update) => {
+        if (update.type === 'push') location.assign(update.url)
+        else if (update.type === 'replace') location.replace(update.url)
+        else if (update.type === 'pop') history.back()
+      },
+    },
+    // Without this handler the library never subscribes to Studio's refresh
+    // events at all, so edits only showed up after a manual reload.
+    refresh: (payload) => {
+      if (payload.source === 'manual') {
+        location.reload()
+        return false
+      }
+
+      clearTimeout(reloadTimer)
+      reloadTimer = setTimeout(reloadWhenChanged, MUTATION_DEBOUNCE_MS)
+      // Returning false stops the library from scheduling its own second
+      // refresh; the debounce above already covers it.
+      return false
+    },
+  })
+
+  // Astro replaces the document on view transitions; tear the overlay down so
+  // it does not observe a detached tree.
+  document.addEventListener('astro:before-swap', () => disable())
+</script>
+
+<a
+  href="/api/draft-mode/disable"
+  class="fixed bottom-4 right-4 z-50 rounded-full bg-black px-4 py-2 text-sm font-medium text-white shadow-lg hover:bg-gray-800"
+>
+  Exit Preview
+</a>

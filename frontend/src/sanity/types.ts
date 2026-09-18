@@ -29,7 +29,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   right?:
     | "0"
     | "4px"
@@ -43,7 +45,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   bottom?:
     | "0"
     | "4px"
@@ -57,7 +61,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   left?:
     | "0"
     | "4px"
@@ -71,7 +77,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   topMd?:
     | "0"
     | "4px"
@@ -85,7 +93,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   rightMd?:
     | "0"
     | "4px"
@@ -99,7 +109,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   bottomMd?:
     | "0"
     | "4px"
@@ -113,7 +125,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   leftMd?:
     | "0"
     | "4px"
@@ -127,7 +141,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   topLg?:
     | "0"
     | "4px"
@@ -141,7 +157,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   rightLg?:
     | "0"
     | "4px"
@@ -155,7 +173,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   bottomLg?:
     | "0"
     | "4px"
@@ -169,7 +189,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   leftLg?:
     | "0"
     | "4px"
@@ -183,7 +205,9 @@ export type Padding = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
 };
 
 export type Margin = {
@@ -200,7 +224,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   right?:
     | "0"
     | "4px"
@@ -214,7 +240,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   bottom?:
     | "0"
     | "4px"
@@ -228,7 +256,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   left?:
     | "0"
     | "4px"
@@ -242,7 +272,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   topMd?:
     | "0"
     | "4px"
@@ -256,7 +288,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   rightMd?:
     | "0"
     | "4px"
@@ -270,7 +304,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   bottomMd?:
     | "0"
     | "4px"
@@ -284,7 +320,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   leftMd?:
     | "0"
     | "4px"
@@ -298,7 +336,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   topLg?:
     | "0"
     | "4px"
@@ -312,7 +352,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   rightLg?:
     | "0"
     | "4px"
@@ -326,7 +368,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   bottomLg?:
     | "0"
     | "4px"
@@ -340,7 +384,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
   leftLg?:
     | "0"
     | "4px"
@@ -354,7 +400,9 @@ export type Margin = {
     | "48px"
     | "56px"
     | "64px"
-    | "80px";
+    | "80px"
+    | "96px"
+    | "128px";
 };
 
 export type Border = {
@@ -389,6 +437,54 @@ export type Effects = {
   overflow?: string;
 };
 
+export type Motion = {
+  animation?:
+    | "none"
+    | "fadeIn"
+    | "fadeInUp"
+    | "fadeInDown"
+    | "fadeInLeft"
+    | "fadeInRight"
+    | "zoomIn";
+  duration?: "slow" | "normal" | "fast";
+  delay?: number;
+};
+
+export type Container = {
+  layoutType?: "flex" | "grid";
+  contentWidth?: "boxed" | "full";
+  width?: Width;
+  minHeight?: MinHeight;
+  gridColumns?: GridColumns;
+  direction?: Direction;
+  justifyContent?: JustifyContent;
+  alignItems?: AlignItems;
+  justifyItems?: JustifyItems;
+  gap?: Gap;
+  wrap?: Wrap;
+};
+
+export type Design = {
+  background?: GridRowDesignBackground;
+  overlay?: DesignOverlay;
+  border?: GridRowDesignBorder;
+};
+
+export type Advanced = {
+  margin?: GridRowAdvancedMargin;
+  padding?: GridRowAdvancedPadding;
+  zIndex?: number;
+  cssId?: string;
+  cssClasses?: string;
+  motion?: GridRowAdvancedMotion;
+};
+
+export type Visibility = {
+  hideOnDesktop?: boolean;
+  hideOnTablet?: boolean;
+  hideOnMobile?: boolean;
+};
+
 export type SanityImageAssetReference = {
   _ref: string;
   _type: "reference";
@@ -402,6 +498,262 @@ export type BackgroundImage = {
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
+};
+
+export type Width = {
+  desktop?: Desktop;
+  tablet?: Tablet;
+  mobile?: Mobile;
+};
+
+export type Desktop = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type Tablet = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type Mobile = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type MinHeight = {
+  desktop?: MinHeightDesktop;
+  tablet?: MinHeightTablet;
+  mobile?: MinHeightMobile;
+};
+
+export type MinHeightDesktop = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type MinHeightTablet = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type MinHeightMobile = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type GridColumns = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Direction = {
+  desktop?: "row" | "column" | "row-reverse" | "column-reverse";
+  tablet?: "row" | "column" | "row-reverse" | "column-reverse";
+  mobile?: "row" | "column" | "row-reverse" | "column-reverse";
+};
+
+export type JustifyContent = {
+  desktop?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  tablet?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  mobile?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+};
+
+export type AlignItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type JustifyItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type Gap = {
+  linked?: boolean;
+  desktop?: GapDesktop;
+  tablet?: GapTablet;
+  mobile?: GapMobile;
+};
+
+export type GapDesktop = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type GapTablet = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type GapMobile = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type Wrap = {
+  desktop?: "nowrap" | "wrap";
+  tablet?: "nowrap" | "wrap";
+  mobile?: "nowrap" | "wrap";
+};
+
+export type GridColumnContainer = {
+  layoutType?: "flex" | "grid";
+  contentWidth?: "boxed" | "full";
+  width?: ContainerWidth;
+  minHeight?: ContainerMinHeight;
+  gridColumns?: ContainerGridColumns;
+  direction?: ContainerDirection;
+  justifyContent?: ContainerJustifyContent;
+  alignItems?: ContainerAlignItems;
+  justifyItems?: ContainerJustifyItems;
+  gap?: ContainerGap;
+  wrap?: ContainerWrap;
+};
+
+export type ContainerWidth = {
+  desktop?: WidthDesktop;
+  tablet?: WidthTablet;
+  mobile?: WidthMobile;
+};
+
+export type WidthDesktop = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type WidthTablet = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type WidthMobile = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type ContainerMinHeight = {
+  desktop?: ContainerMinHeightDesktop;
+  tablet?: ContainerMinHeightTablet;
+  mobile?: ContainerMinHeightMobile;
+};
+
+export type ContainerMinHeightDesktop = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type ContainerMinHeightTablet = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type ContainerMinHeightMobile = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type ContainerGridColumns = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type ContainerDirection = {
+  desktop?: "row" | "column" | "row-reverse" | "column-reverse";
+  tablet?: "row" | "column" | "row-reverse" | "column-reverse";
+  mobile?: "row" | "column" | "row-reverse" | "column-reverse";
+};
+
+export type ContainerJustifyContent = {
+  desktop?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  tablet?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  mobile?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+};
+
+export type ContainerAlignItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type ContainerJustifyItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type ContainerGap = {
+  linked?: boolean;
+  desktop?: ContainerGapDesktop;
+  tablet?: ContainerGapTablet;
+  mobile?: ContainerGapMobile;
+};
+
+export type ContainerGapDesktop = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type ContainerGapTablet = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type ContainerGapMobile = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type ContainerWrap = {
+  desktop?: "nowrap" | "wrap";
+  tablet?: "nowrap" | "wrap";
+  mobile?: "nowrap" | "wrap";
 };
 
 export type Icon = {
@@ -457,6 +809,2121 @@ export type GalleryImageImage = {
   _type: "image";
 };
 
+export type GridColumnDesign = {
+  background?: DesignBackground;
+  overlay?: Overlay;
+  border?: DesignBorder;
+};
+
+export type DesignBackground = {
+  normal?: Normal;
+  hover?: Hover;
+};
+
+export type Normal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: NormalImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: Position;
+  attachment?: "scroll" | "fixed";
+  repeat?: Repeat;
+  size?: Size;
+  gradient?: Gradient;
+};
+
+export type NormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type Position = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type Repeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type Size = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type Gradient = {
+  color?: string;
+  location?: Location;
+  secondColor?: string;
+  secondLocation?: SecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: Angle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type Location = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type SecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Angle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Hover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: HoverImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: HoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: HoverRepeat;
+  size?: HoverSize;
+  gradient?: HoverGradient;
+  transition?: number;
+};
+
+export type HoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type HoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type HoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type HoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type HoverGradient = {
+  color?: string;
+  location?: GradientLocation;
+  secondColor?: string;
+  secondLocation?: GradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Overlay = {
+  normal?: OverlayNormal;
+  hover?: OverlayHover;
+};
+
+export type OverlayNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: OverlayNormalImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: NormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: NormalRepeat;
+  size?: NormalSize;
+  gradient?: NormalGradient;
+  opacity?: Opacity;
+  filters?: Filters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+};
+
+export type OverlayNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "overlay.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type NormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type NormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type NormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type NormalGradient = {
+  color?: string;
+  location?: NormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: NormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: NormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type NormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type NormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type NormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Opacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Filters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type OverlayHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: OverlayHoverImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: OverlayHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: OverlayHoverRepeat;
+  size?: OverlayHoverSize;
+  gradient?: OverlayHoverGradient;
+  opacity?: HoverOpacity;
+  filters?: HoverFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+  transition?: number;
+};
+
+export type OverlayHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "overlay.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type OverlayHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type OverlayHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type OverlayHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type OverlayHoverGradient = {
+  color?: string;
+  location?: HoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: HoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: HoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type HoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type HoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type HoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type HoverOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type HoverFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type DesignBorder = {
+  normal?: BorderNormal;
+  hover?: BorderHover;
+};
+
+export type BorderNormal = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: NormalWidth;
+  color?: string;
+  radius?: Radius;
+  shadow?: Shadow;
+};
+
+export type NormalWidth = {
+  linked?: boolean;
+  desktop?: NormalWidthDesktop;
+  tablet?: NormalWidthTablet;
+  mobile?: NormalWidthMobile;
+};
+
+export type NormalWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type Radius = {
+  linked?: boolean;
+  desktop?: RadiusDesktop;
+  tablet?: RadiusTablet;
+  mobile?: RadiusMobile;
+};
+
+export type RadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type RadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type RadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type Shadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type BorderHover = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: HoverWidth;
+  color?: string;
+  radius?: HoverRadius;
+  shadow?: HoverShadow;
+  transition?: number;
+};
+
+export type HoverWidth = {
+  linked?: boolean;
+  desktop?: HoverWidthDesktop;
+  tablet?: HoverWidthTablet;
+  mobile?: HoverWidthMobile;
+};
+
+export type HoverWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type HoverWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type HoverWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type HoverRadius = {
+  linked?: boolean;
+  desktop?: HoverRadiusDesktop;
+  tablet?: HoverRadiusTablet;
+  mobile?: HoverRadiusMobile;
+};
+
+export type HoverRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type HoverRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type HoverRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type HoverShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type GridColumnAdvanced = {
+  margin?: AdvancedMargin;
+  padding?: AdvancedPadding;
+  zIndex?: number;
+  cssId?: string;
+  cssClasses?: string;
+  motion?: AdvancedMotion;
+};
+
+export type AdvancedMargin = {
+  top?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  right?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottom?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  left?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+};
+
+export type AdvancedPadding = {
+  top?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  right?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottom?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  left?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+};
+
+export type AdvancedMotion = {
+  animation?:
+    | "none"
+    | "fadeIn"
+    | "fadeInUp"
+    | "fadeInDown"
+    | "fadeInLeft"
+    | "fadeInRight"
+    | "zoomIn";
+  duration?: "slow" | "normal" | "fast";
+  delay?: number;
+};
+
+export type GridColumnVisibility = {
+  hideOnDesktop?: boolean;
+  hideOnTablet?: boolean;
+  hideOnMobile?: boolean;
+};
+
+export type GridRowDesignBackground = {
+  normal?: BackgroundNormal;
+  hover?: BackgroundHover;
+};
+
+export type BackgroundNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: BackgroundNormalImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: BackgroundNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: BackgroundNormalRepeat;
+  size?: BackgroundNormalSize;
+  gradient?: BackgroundNormalGradient;
+};
+
+export type BackgroundNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "background.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type BackgroundNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type BackgroundNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type BackgroundNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type BackgroundNormalGradient = {
+  color?: string;
+  location?: BackgroundNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: BackgroundNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: BackgroundNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type BackgroundNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type BackgroundNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type BackgroundNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type BackgroundHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: BackgroundHoverImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: BackgroundHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: BackgroundHoverRepeat;
+  size?: BackgroundHoverSize;
+  gradient?: BackgroundHoverGradient;
+  transition?: number;
+};
+
+export type BackgroundHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "background.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type BackgroundHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type BackgroundHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type BackgroundHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type BackgroundHoverGradient = {
+  color?: string;
+  location?: BackgroundHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: BackgroundHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: BackgroundHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type BackgroundHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type BackgroundHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type BackgroundHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlay = {
+  normal?: DesignOverlayNormal;
+  hover?: DesignOverlayHover;
+};
+
+export type DesignOverlayNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: DesignOverlayNormalImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: OverlayNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: OverlayNormalRepeat;
+  size?: OverlayNormalSize;
+  gradient?: OverlayNormalGradient;
+  opacity?: NormalOpacity;
+  filters?: NormalFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+};
+
+export type DesignOverlayNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.overlay.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type OverlayNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type OverlayNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type OverlayNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type OverlayNormalGradient = {
+  color?: string;
+  location?: OverlayNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: OverlayNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: OverlayNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type OverlayNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type NormalOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type NormalFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type DesignOverlayHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: DesignOverlayHoverImage;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: DesignOverlayHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: DesignOverlayHoverRepeat;
+  size?: DesignOverlayHoverSize;
+  gradient?: DesignOverlayHoverGradient;
+  opacity?: OverlayHoverOpacity;
+  filters?: OverlayHoverFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+  transition?: number;
+};
+
+export type DesignOverlayHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.overlay.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignOverlayHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignOverlayHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type DesignOverlayHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type DesignOverlayHoverGradient = {
+  color?: string;
+  location?: OverlayHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: OverlayHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: OverlayHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type OverlayHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayHoverOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayHoverFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type GridRowDesignBorder = {
+  normal?: DesignBorderNormal;
+  hover?: DesignBorderHover;
+};
+
+export type DesignBorderNormal = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: BorderNormalWidth;
+  color?: string;
+  radius?: NormalRadius;
+  shadow?: NormalShadow;
+};
+
+export type BorderNormalWidth = {
+  linked?: boolean;
+  desktop?: BorderNormalWidthDesktop;
+  tablet?: BorderNormalWidthTablet;
+  mobile?: BorderNormalWidthMobile;
+};
+
+export type BorderNormalWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalRadius = {
+  linked?: boolean;
+  desktop?: NormalRadiusDesktop;
+  tablet?: NormalRadiusTablet;
+  mobile?: NormalRadiusMobile;
+};
+
+export type NormalRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type DesignBorderHover = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: BorderHoverWidth;
+  color?: string;
+  radius?: BorderHoverRadius;
+  shadow?: BorderHoverShadow;
+  transition?: number;
+};
+
+export type BorderHoverWidth = {
+  linked?: boolean;
+  desktop?: BorderHoverWidthDesktop;
+  tablet?: BorderHoverWidthTablet;
+  mobile?: BorderHoverWidthMobile;
+};
+
+export type BorderHoverWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverRadius = {
+  linked?: boolean;
+  desktop?: BorderHoverRadiusDesktop;
+  tablet?: BorderHoverRadiusTablet;
+  mobile?: BorderHoverRadiusMobile;
+};
+
+export type BorderHoverRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type GridRowAdvancedMargin = {
+  top?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  right?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottom?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  left?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+};
+
+export type GridRowAdvancedPadding = {
+  top?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  right?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottom?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  left?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftMd?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  topLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  rightLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  bottomLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+  leftLg?:
+    | "0"
+    | "4px"
+    | "8px"
+    | "12px"
+    | "16px"
+    | "20px"
+    | "24px"
+    | "32px"
+    | "40px"
+    | "48px"
+    | "56px"
+    | "64px"
+    | "80px"
+    | "96px"
+    | "128px";
+};
+
+export type GridRowAdvancedMotion = {
+  animation?:
+    | "none"
+    | "fadeIn"
+    | "fadeInUp"
+    | "fadeInDown"
+    | "fadeInLeft"
+    | "fadeInRight"
+    | "zoomIn";
+  duration?: "slow" | "normal" | "fast";
+  delay?: number;
+};
+
 export type PageBuilder = Array<
   | ({
       _key: string;
@@ -468,8 +2935,10 @@ export type PageBuilder = Array<
 
 export type GridRow = {
   _type: "gridRow";
-  layout: string;
+  container?: Container;
+  layout?: string;
   columns: Array<{
+    container?: GridColumnContainer;
     content?: Array<
       | ({
           _key: string;
@@ -554,15 +3023,21 @@ export type GridRow = {
         } & TocBlock)
     >;
     verticalAlign?: "top" | "center" | "bottom";
+    design?: GridColumnDesign;
     blockStyles?: BlockStyles;
+    advanced?: GridColumnAdvanced;
+    visibility?: GridColumnVisibility;
     _type: "gridColumn";
     _key: string;
   }>;
   gap?: "none" | "sm" | "md" | "lg" | "xl";
   reverseOnMobile?: boolean;
   paddingY?: "none" | "sm" | "md" | "lg" | "xl";
-  maxWidth?: "narrow" | "default" | "wide" | "full";
+  maxWidth?: "none" | "narrow" | "default" | "wide" | "full";
+  design?: Design;
   blockStyles?: BlockStyles;
+  advanced?: Advanced;
+  visibility?: Visibility;
 };
 
 export type TocBlock = {
@@ -643,13 +3118,7 @@ export type FormBlock = {
     label: string;
     name: string;
     type:
-      | "text"
-      | "email"
-      | "tel"
-      | "number"
-      | "textarea"
-      | "select"
-      | "checkbox";
+      "text" | "email" | "tel" | "number" | "textarea" | "select" | "checkbox";
     placeholder?: string;
     required?: boolean;
     options?: Array<string>;
@@ -694,10 +3163,7 @@ export type HeroSection = {
   gradientFrom?: string;
   gradientTo?: string;
   gradientDirection?:
-    | "to bottom"
-    | "to bottom right"
-    | "to right"
-    | "to top right";
+    "to bottom" | "to bottom right" | "to right" | "to top right";
   backgroundImage?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -1121,7 +3587,7 @@ export type BlockContent = Array<
         _type: "span";
         _key: string;
       }>;
-      style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -1153,6 +3619,7 @@ export type BlockStyles = {
   background?: Background;
   typography?: Typography;
   effects?: Effects;
+  motion?: Motion;
 };
 
 export type BlogPost = {
@@ -1216,6 +3683,7 @@ export type SiteSettings = {
     alt?: string;
     _type: "image";
   };
+  phone?: string;
   primaryColor?: string;
   secondaryColor?: string;
   socialLinks?: Array<{
@@ -1457,8 +3925,50 @@ export type AllSanitySchemaTypes =
   | Background
   | Typography
   | Effects
+  | Motion
+  | Container
+  | Design
+  | Advanced
+  | Visibility
   | SanityImageAssetReference
   | BackgroundImage
+  | Width
+  | Desktop
+  | Tablet
+  | Mobile
+  | MinHeight
+  | MinHeightDesktop
+  | MinHeightTablet
+  | MinHeightMobile
+  | GridColumns
+  | Direction
+  | JustifyContent
+  | AlignItems
+  | JustifyItems
+  | Gap
+  | GapDesktop
+  | GapTablet
+  | GapMobile
+  | Wrap
+  | GridColumnContainer
+  | ContainerWidth
+  | WidthDesktop
+  | WidthTablet
+  | WidthMobile
+  | ContainerMinHeight
+  | ContainerMinHeightDesktop
+  | ContainerMinHeightTablet
+  | ContainerMinHeightMobile
+  | ContainerGridColumns
+  | ContainerDirection
+  | ContainerJustifyContent
+  | ContainerAlignItems
+  | ContainerJustifyItems
+  | ContainerGap
+  | ContainerGapDesktop
+  | ContainerGapTablet
+  | ContainerGapMobile
+  | ContainerWrap
   | Icon
   | TabImageImage
   | LogoItemImage
@@ -1466,6 +3976,141 @@ export type AllSanitySchemaTypes =
   | FeatureCardIcon
   | Cta
   | GalleryImageImage
+  | GridColumnDesign
+  | DesignBackground
+  | Normal
+  | NormalImage
+  | Position
+  | Repeat
+  | Size
+  | Gradient
+  | Location
+  | SecondLocation
+  | Angle
+  | Hover
+  | HoverImage
+  | HoverPosition
+  | HoverRepeat
+  | HoverSize
+  | HoverGradient
+  | GradientLocation
+  | GradientSecondLocation
+  | GradientAngle
+  | Overlay
+  | OverlayNormal
+  | OverlayNormalImage
+  | NormalPosition
+  | NormalRepeat
+  | NormalSize
+  | NormalGradient
+  | NormalGradientLocation
+  | NormalGradientSecondLocation
+  | NormalGradientAngle
+  | Opacity
+  | Filters
+  | OverlayHover
+  | OverlayHoverImage
+  | OverlayHoverPosition
+  | OverlayHoverRepeat
+  | OverlayHoverSize
+  | OverlayHoverGradient
+  | HoverGradientLocation
+  | HoverGradientSecondLocation
+  | HoverGradientAngle
+  | HoverOpacity
+  | HoverFilters
+  | DesignBorder
+  | BorderNormal
+  | NormalWidth
+  | NormalWidthDesktop
+  | NormalWidthTablet
+  | NormalWidthMobile
+  | Radius
+  | RadiusDesktop
+  | RadiusTablet
+  | RadiusMobile
+  | Shadow
+  | BorderHover
+  | HoverWidth
+  | HoverWidthDesktop
+  | HoverWidthTablet
+  | HoverWidthMobile
+  | HoverRadius
+  | HoverRadiusDesktop
+  | HoverRadiusTablet
+  | HoverRadiusMobile
+  | HoverShadow
+  | GridColumnAdvanced
+  | AdvancedMargin
+  | AdvancedPadding
+  | AdvancedMotion
+  | GridColumnVisibility
+  | GridRowDesignBackground
+  | BackgroundNormal
+  | BackgroundNormalImage
+  | BackgroundNormalPosition
+  | BackgroundNormalRepeat
+  | BackgroundNormalSize
+  | BackgroundNormalGradient
+  | BackgroundNormalGradientLocation
+  | BackgroundNormalGradientSecondLocation
+  | BackgroundNormalGradientAngle
+  | BackgroundHover
+  | BackgroundHoverImage
+  | BackgroundHoverPosition
+  | BackgroundHoverRepeat
+  | BackgroundHoverSize
+  | BackgroundHoverGradient
+  | BackgroundHoverGradientLocation
+  | BackgroundHoverGradientSecondLocation
+  | BackgroundHoverGradientAngle
+  | DesignOverlay
+  | DesignOverlayNormal
+  | DesignOverlayNormalImage
+  | OverlayNormalPosition
+  | OverlayNormalRepeat
+  | OverlayNormalSize
+  | OverlayNormalGradient
+  | OverlayNormalGradientLocation
+  | OverlayNormalGradientSecondLocation
+  | OverlayNormalGradientAngle
+  | NormalOpacity
+  | NormalFilters
+  | DesignOverlayHover
+  | DesignOverlayHoverImage
+  | DesignOverlayHoverPosition
+  | DesignOverlayHoverRepeat
+  | DesignOverlayHoverSize
+  | DesignOverlayHoverGradient
+  | OverlayHoverGradientLocation
+  | OverlayHoverGradientSecondLocation
+  | OverlayHoverGradientAngle
+  | OverlayHoverOpacity
+  | OverlayHoverFilters
+  | GridRowDesignBorder
+  | DesignBorderNormal
+  | BorderNormalWidth
+  | BorderNormalWidthDesktop
+  | BorderNormalWidthTablet
+  | BorderNormalWidthMobile
+  | NormalRadius
+  | NormalRadiusDesktop
+  | NormalRadiusTablet
+  | NormalRadiusMobile
+  | NormalShadow
+  | DesignBorderHover
+  | BorderHoverWidth
+  | BorderHoverWidthDesktop
+  | BorderHoverWidthTablet
+  | BorderHoverWidthMobile
+  | BorderHoverRadius
+  | BorderHoverRadiusDesktop
+  | BorderHoverRadiusTablet
+  | BorderHoverRadiusMobile
+  | BorderHoverShadow
+  | GridRowAdvancedMargin
+  | GridRowAdvancedPadding
+  | GridRowAdvancedMotion
   | PageBuilder
   | GridRow
   | TocBlock
@@ -1527,9 +4172,9 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: ../frontend/src/sanity/lib/queries.ts
+// Source: ../frontend-astro/src/sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homePage"][0] {      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "richTextBlock" => {      content[] { ... },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }  },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }  }  }
+// Query: *[_id == "homePage"][0] {      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "richTextBlock" => {      content[] { ... },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  }  }
 export type HOME_PAGE_QUERY_RESULT =
   | {
       seo: null;
@@ -1565,9 +4210,11 @@ export type HOME_PAGE_QUERY_RESULT =
         | {
             _key: string;
             _type: "gridRow";
-            layout: string;
+            container?: Container;
+            layout?: string;
             columns: Array<{
               _key: string;
+              container?: GridColumnContainer;
               content: Array<
                 | {
                     _key: string;
@@ -1611,6 +4258,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -1655,6 +4303,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -1696,6 +4345,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -1764,6 +4414,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -1814,6 +4465,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -1864,6 +4516,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -1918,6 +4571,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -1963,6 +4617,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2023,6 +4678,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2077,6 +4733,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2127,6 +4784,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2171,6 +4829,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2226,6 +4885,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2271,6 +4931,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2308,6 +4969,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2353,6 +5015,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2366,7 +5029,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             _type: "span";
                             _key: string;
                           }>;
-                          style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+                          style?:
+                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
                           listItem?: "bullet" | "number";
                           markDefs?: Array<{
                             href?: string;
@@ -2416,17 +5080,14 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
                     _key: string;
                     _type: "socialEmbed";
                     platform:
-                      | "facebook"
-                      | "instagram"
-                      | "other"
-                      | "tiktok"
-                      | "twitter";
+                      "facebook" | "instagram" | "other" | "tiktok" | "twitter";
                     embedUrl: string;
                     caption?: string;
                     aspectRatio?: "auto" | "landscape" | "portrait" | "square";
@@ -2458,6 +5119,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2496,6 +5158,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2534,6 +5197,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2632,6 +5296,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2675,6 +5340,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2729,6 +5395,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2763,6 +5430,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       } | null;
                       typography: Typography | null;
                       effects: Effects | null;
+                      motion: Motion | null;
                     } | null;
                   }
                 | {
@@ -2774,6 +5442,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   }
               > | null;
               verticalAlign?: "bottom" | "center" | "top";
+              design?: GridColumnDesign;
               blockStyles: {
                 padding: Padding | null;
                 margin: Margin | null;
@@ -2802,13 +5471,17 @@ export type HOME_PAGE_QUERY_RESULT =
                 } | null;
                 typography: Typography | null;
                 effects: Effects | null;
+                motion: Motion | null;
               } | null;
+              advanced?: GridColumnAdvanced;
+              visibility?: GridColumnVisibility;
               _type: "gridColumn";
             }>;
             gap?: "lg" | "md" | "none" | "sm" | "xl";
             reverseOnMobile?: boolean;
             paddingY?: "lg" | "md" | "none" | "sm" | "xl";
-            maxWidth?: "default" | "full" | "narrow" | "wide";
+            maxWidth?: "default" | "full" | "narrow" | "none" | "wide";
+            design?: Design;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -2837,7 +5510,10 @@ export type HOME_PAGE_QUERY_RESULT =
               } | null;
               typography: Typography | null;
               effects: Effects | null;
+              motion: Motion | null;
             } | null;
+            advanced?: Advanced;
+            visibility?: Visibility;
           }
         | {
             _key: string;
@@ -2891,10 +5567,7 @@ export type HOME_PAGE_QUERY_RESULT =
             gradientFrom?: string;
             gradientTo?: string;
             gradientDirection?:
-              | "to bottom right"
-              | "to bottom"
-              | "to right"
-              | "to top right";
+              "to bottom right" | "to bottom" | "to right" | "to top right";
             backgroundImage: {
               asset: {
                 _id: string;
@@ -2944,6 +5617,7 @@ export type HOME_PAGE_QUERY_RESULT =
               } | null;
               typography: Typography | null;
               effects: Effects | null;
+              motion: Motion | null;
             } | null;
             columns: null;
           }
@@ -2951,9 +5625,9 @@ export type HOME_PAGE_QUERY_RESULT =
     }
   | null;
 
-// Source: ../frontend/src/sanity/lib/queries.ts
+// Source: ../frontend-astro/src/sanity/lib/queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0] {    _id, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "richTextBlock" => {      content[] { ... },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }  },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects  }  }  }
+// Query: *[_type == "page" && slug.current == $slug][0] {    _id, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "richTextBlock" => {      content[] { ... },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  }  }
 export type PAGE_QUERY_RESULT = {
   _id: string;
   title: string;
@@ -2973,9 +5647,11 @@ export type PAGE_QUERY_RESULT = {
     | {
         _key: string;
         _type: "gridRow";
-        layout: string;
+        container?: Container;
+        layout?: string;
         columns: Array<{
           _key: string;
+          container?: GridColumnContainer;
           content: Array<
             | {
                 _key: string;
@@ -3019,6 +5695,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3063,6 +5740,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3104,6 +5782,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3172,6 +5851,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3222,6 +5902,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3272,6 +5953,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3326,6 +6008,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3371,6 +6054,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3431,6 +6115,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3485,6 +6170,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3535,6 +6221,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3579,6 +6266,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3634,6 +6322,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3679,6 +6368,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3716,6 +6406,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3761,6 +6452,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3774,7 +6466,8 @@ export type PAGE_QUERY_RESULT = {
                         _type: "span";
                         _key: string;
                       }>;
-                      style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+                      style?:
+                        "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
                       listItem?: "bullet" | "number";
                       markDefs?: Array<{
                         href?: string;
@@ -3824,17 +6517,14 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
                 _key: string;
                 _type: "socialEmbed";
                 platform:
-                  | "facebook"
-                  | "instagram"
-                  | "other"
-                  | "tiktok"
-                  | "twitter";
+                  "facebook" | "instagram" | "other" | "tiktok" | "twitter";
                 embedUrl: string;
                 caption?: string;
                 aspectRatio?: "auto" | "landscape" | "portrait" | "square";
@@ -3866,6 +6556,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3904,6 +6595,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -3942,6 +6634,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -4040,6 +6733,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -4083,6 +6777,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -4137,6 +6832,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -4171,6 +6867,7 @@ export type PAGE_QUERY_RESULT = {
                   } | null;
                   typography: Typography | null;
                   effects: Effects | null;
+                  motion: Motion | null;
                 } | null;
               }
             | {
@@ -4182,6 +6879,7 @@ export type PAGE_QUERY_RESULT = {
               }
           > | null;
           verticalAlign?: "bottom" | "center" | "top";
+          design?: GridColumnDesign;
           blockStyles: {
             padding: Padding | null;
             margin: Margin | null;
@@ -4210,13 +6908,17 @@ export type PAGE_QUERY_RESULT = {
             } | null;
             typography: Typography | null;
             effects: Effects | null;
+            motion: Motion | null;
           } | null;
+          advanced?: GridColumnAdvanced;
+          visibility?: GridColumnVisibility;
           _type: "gridColumn";
         }>;
         gap?: "lg" | "md" | "none" | "sm" | "xl";
         reverseOnMobile?: boolean;
         paddingY?: "lg" | "md" | "none" | "sm" | "xl";
-        maxWidth?: "default" | "full" | "narrow" | "wide";
+        maxWidth?: "default" | "full" | "narrow" | "none" | "wide";
+        design?: Design;
         blockStyles: {
           padding: Padding | null;
           margin: Margin | null;
@@ -4245,7 +6947,10 @@ export type PAGE_QUERY_RESULT = {
           } | null;
           typography: Typography | null;
           effects: Effects | null;
+          motion: Motion | null;
         } | null;
+        advanced?: Advanced;
+        visibility?: Visibility;
       }
     | {
         _key: string;
@@ -4299,10 +7004,7 @@ export type PAGE_QUERY_RESULT = {
         gradientFrom?: string;
         gradientTo?: string;
         gradientDirection?:
-          | "to bottom right"
-          | "to bottom"
-          | "to right"
-          | "to top right";
+          "to bottom right" | "to bottom" | "to right" | "to top right";
         backgroundImage: {
           asset: {
             _id: string;
@@ -4352,20 +7054,21 @@ export type PAGE_QUERY_RESULT = {
           } | null;
           typography: Typography | null;
           effects: Effects | null;
+          motion: Motion | null;
         } | null;
         columns: null;
       }
   > | null;
 } | null;
 
-// Source: ../frontend/src/sanity/lib/queries.ts
+// Source: ../frontend-astro/src/sanity/lib/queries.ts
 // Variable: PAGE_SLUGS_QUERY
 // Query: *[_type == "page" && defined(slug.current)] {    "slug": slug.current  }
 export type PAGE_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
-// Source: ../frontend/src/sanity/lib/queries.ts
+// Source: ../frontend-astro/src/sanity/lib/queries.ts
 // Variable: BLOG_POSTS_QUERY
 // Query: *[_type == "blogPost"] | order(publishedAt desc) {    _id, title, slug, excerpt, publishedAt, author,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  }  }
 export type BLOG_POSTS_QUERY_RESULT = Array<{
@@ -4404,7 +7107,7 @@ export type BLOG_POSTS_QUERY_RESULT = Array<{
   } | null;
 }>;
 
-// Source: ../frontend/src/sanity/lib/queries.ts
+// Source: ../frontend-astro/src/sanity/lib/queries.ts
 // Variable: BLOG_POST_QUERY
 // Query: *[_type == "blogPost" && slug.current == $slug][0] {    _id, title, slug, excerpt, publishedAt, author,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    body[] { ... },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  }  }
 export type BLOG_POST_QUERY_RESULT = {
@@ -4438,7 +7141,7 @@ export type BLOG_POST_QUERY_RESULT = {
           _type: "span";
           _key: string;
         }>;
-        style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
         listItem?: "bullet" | "number";
         markDefs?: Array<{
           href?: string;
@@ -4473,21 +7176,22 @@ export type BLOG_POST_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: ../frontend/src/sanity/lib/queries.ts
+// Source: ../frontend-astro/src/sanity/lib/queries.ts
 // Variable: BLOG_SLUGS_QUERY
 // Query: *[_type == "blogPost" && defined(slug.current)] {    "slug": slug.current  }
 export type BLOG_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
-// Source: ../frontend/src/sanity/lib/queries.ts
+// Source: ../frontend-astro/src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_id == "siteSettings"][0] {    siteName, tagline,    logo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    primaryColor, secondaryColor,    socialLinks[] { _key, platform, url },    mainNav[] {      _key, _type, label, href, isButton,      _type == "navDropdown" => {        items[] { _key, label, href, description, icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      }    },    footerStyle,    footerDescription,    footerColumns[] {      _key, title,      links[] { _key, label, href }    }  }
+// Query: *[_id == "siteSettings"][0] {    siteName, tagline,    logo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    phone,    primaryColor, secondaryColor,    socialLinks[] { _key, platform, url },    mainNav[] {      _key, _type, label, href, isButton,      _type == "navDropdown" => {        items[] { _key, label, href, description, icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      }    },    footerStyle,    footerDescription,    footerColumns[] {      _key, title,      links[] { _key, label, href }    }  }
 export type SITE_SETTINGS_QUERY_RESULT =
   | {
       siteName: null;
       tagline: null;
       logo: null;
+      phone: null;
       primaryColor: null;
       secondaryColor: null;
       socialLinks: null;
@@ -4515,6 +7219,7 @@ export type SITE_SETTINGS_QUERY_RESULT =
         hotspot: SanityImageHotspot | null;
         crop: SanityImageCrop | null;
       } | null;
+      phone: string | null;
       primaryColor: string | null;
       secondaryColor: string | null;
       socialLinks: Array<{
@@ -4585,12 +7290,12 @@ export type SITE_SETTINGS_QUERY_RESULT =
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_id == "homePage"][0] {\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "richTextBlock" => {\n      content[] { ... },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "richTextBlock" => {\n      content[] { ... },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_id == "homePage"][0] {\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "richTextBlock" => {\n      content[] { ... },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "richTextBlock" => {\n      content[] { ... },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "blogPost"] | order(publishedAt desc) {\n    _id, title, slug, excerpt, publishedAt, author,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n\n  }\n': BLOG_POSTS_QUERY_RESULT;
     '\n  *[_type == "blogPost" && slug.current == $slug][0] {\n    _id, title, slug, excerpt, publishedAt, author,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    body[] { ... },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n\n  }\n': BLOG_POST_QUERY_RESULT;
     '\n  *[_type == "blogPost" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': BLOG_SLUGS_QUERY_RESULT;
-    '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    primaryColor, secondaryColor,\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    footerStyle,\n    footerDescription,\n    footerColumns[] {\n      _key, title,\n      links[] { _key, label, href }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
+    '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    primaryColor, secondaryColor,\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    footerStyle,\n    footerDescription,\n    footerColumns[] {\n      _key, title,\n      links[] { _key, label, href }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }
 }

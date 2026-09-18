@@ -1,0 +1,23 @@
+---
+import SanityImage from '@/components/shared/SanityImage.astro'
+import type {ImageBlockData} from '@/types/sanity'
+
+interface Props {
+  data: ImageBlockData
+}
+
+const {data} = Astro.props
+---
+
+{/* <figure> only earns its place when there is a caption to pair with the image. */}
+{
+  data.image?.asset &&
+    (data.caption ? (
+      <figure>
+        <SanityImage value={data.image} class="w-full rounded-lg object-cover" />
+        <figcaption class="mt-3 text-center text-sm text-muted">{data.caption}</figcaption>
+      </figure>
+    ) : (
+      <SanityImage value={data.image} class="w-full rounded-lg object-cover" />
+    ))
+}

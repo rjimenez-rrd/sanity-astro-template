@@ -1,0 +1,74 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage from '@/components/shared/SanityImage.astro'
+import type {FeatureCardGridData} from '@/types/sanity'
+
+interface Props {
+  data: FeatureCardGridData
+}
+
+const {data} = Astro.props
+
+const COLS_MAP: Record<string, string> = {
+  '2': 'sm:grid-cols-2',
+  '3': 'sm:grid-cols-2 lg:grid-cols-3',
+  '4': 'sm:grid-cols-2 lg:grid-cols-4',
+}
+
+const CARD_STYLES: Record<string, string> = {
+  simple: '',
+  bordered: 'border border-border',
+  shadow: 'shadow-md shadow-black/5',
+  highlighted: 'border border-primary/20 bg-primary/5',
+}
+
+const cards = data.cards || []
+const colClass = COLS_MAP[stegaClean(data.columns || '3')!] || COLS_MAP['3']
+const cardClass = CARD_STYLES[stegaClean(data.style || 'simple')!] || ''
+---
+
+{
+  cards.length > 0 && (
+    <div>
+      {data.title && (
+        <h2 class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{data.title}</h2>
+      )}
+      {data.subtitle && <p class="mt-2 text-base text-muted">{data.subtitle}</p>}
+
+      <div
+        class={`${data.title || data.subtitle ? 'mt-8' : ''} grid grid-cols-1 gap-6 ${colClass}`}
+      >
+        {cards.map((card) => (
+          <div class={`rounded-xl p-6 transition-colors ${cardClass}`}>
+            {card.icon?.asset && (
+              <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <SanityImage value={card.icon} alt="" width={40} height={40} class="h-5 w-5" />
+              </div>
+            )}
+            {card.title && <h3 class="text-lg font-semibold text-foreground">{card.title}</h3>}
+            {card.description && (
+              <p class="mt-2 text-sm leading-relaxed text-muted">{card.description}</p>
+            )}
+            {card.cta?.label && card.cta?.href && (
+              <a
+                href={card.cta.href}
+                class="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"
+              >
+                {card.cta.label}
+                <svg
+                  class="ml-1 h-3 w-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width={2}
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}

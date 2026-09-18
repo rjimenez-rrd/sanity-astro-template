@@ -1,0 +1,33 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import type {MapEmbedData} from '@/types/sanity'
+
+interface Props {
+  data: MapEmbedData
+}
+
+const {data} = Astro.props
+
+const resolvedHeight = stegaClean(data.height) || '400px'
+---
+
+{
+  data.embedUrl && (
+    <figure class="my-4">
+      <div class="overflow-hidden rounded-xl border border-border">
+        <iframe
+          src={data.embedUrl}
+          style={`height:${resolvedHeight}`}
+          class="w-full border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+          title="Map embed"
+        />
+      </div>
+      {data.caption && (
+        <figcaption class="mt-2 text-center text-sm text-muted">{data.caption}</figcaption>
+      )}
+    </figure>
+  )
+}

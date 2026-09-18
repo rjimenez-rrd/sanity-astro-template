@@ -1,0 +1,278 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import ContentRenderer from './ContentRenderer.astro'
+import {
+  CssBuilder,
+  buildContainerCss,
+  buildGridWidthCss,
+  safeCssClasses,
+  safeCssId,
+  safeKey,
+  type ContainerSettings,
+  type VisibilitySettings,
+} from '@/lib/container'
+import {elementStyle, type BlockStyles} from '@/lib/blockStyles'
+import {animationAttrs, type MotionSettings} from '@/lib/animation'
+import {buildDesignCss, designOverrides, type DesignSettings} from '@/lib/design'
+import type {GridRowData} from '@/types/sanity'
+
+interface Props {
+  data: GridRowData
+}
+
+const {data} = Astro.props
+
+type Advanced = {
+  padding?: BlockStyles['padding']
+  margin?: BlockStyles['margin']
+  zIndex?: number | null
+  cssId?: string | null
+  cssClasses?: string | null
+  motion?: MotionSettings | null
+} | null
+
+type Column = GridRowData['columns'][number] & {
+  design?: DesignSettings | null
+  container?: ContainerSettings | null
+  advanced?: Advanced
+  visibility?: VisibilitySettings | null
+}
+
+type Row = GridRowData & {
+  design?: DesignSettings | null
+  container?: ContainerSettings | null
+  advanced?: Advanced
+  visibility?: VisibilitySettings | null
+}
+
+const row = data as Row
+
+// --- Legacy row layout (rows saved before the container settings) ---
+
+const GAP_MAP: Record<string, string> = {
+  none: 'gap-0',
+  sm: 'gap-2 md:gap-4',
+  md: 'gap-4 md:gap-6',
+  lg: 'gap-6 md:gap-8',
+  xl: 'gap-8 md:gap-12',
+}
+
+const PADDING_Y_MAP: Record<string, string> = {
+  none: '',
+  sm: 'py-4 md:py-6',
+  md: 'py-8 md:py-12',
+  lg: 'py-12 md:py-16',
+  xl: 'py-16 md:py-24',
+}
+
+const MAX_WIDTH_MAP: Record<string, string> = {
+  none: '',
+  narrow: 'max-w-3xl',
+  default: 'max-w-7xl',
+  wide: 'max-w-[1400px]',
+  full: 'max-w-full',
+}
+
+const LAYOUT_GRID: Record<string, string> = {
+  full: 'grid-cols-1',
+  '50-50': 'grid-cols-1 md:grid-cols-2',
+  '33-66': 'grid-cols-1 md:grid-cols-[1fr_2fr]',
+  '66-33': 'grid-cols-1 md:grid-cols-[2fr_1fr]',
+  '25-75': 'grid-cols-1 md:grid-cols-[1fr_3fr]',
+  '75-25': 'grid-cols-1 md:grid-cols-[3fr_1fr]',
+  '33-33-33': 'grid-cols-1 md:grid-cols-3',
+  '25-50-25': 'grid-cols-1 md:grid-cols-[1fr_2fr_1fr]',
+  '25-25-25-25': 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+}
+
+const VALIGN_MAP: Record<string, string> = {
+  top: 'self-start',
+  center: 'self-center',
+  bottom: 'self-end',
+}
+
+
+const layout = stegaClean(data.layout) || 'full'
+const gridClass = LAYOUT_GRID[layout] || 'grid-cols-1'
+const gapClass = GAP_MAP[stegaClean(data.gap) || 'md'] || ''
+// Unset means no container styling at all; spacing and width are left to the
+// page's own styles unless an editor explicitly picks a value.
+const paddingClass = PADDING_Y_MAP[stegaClean(data.paddingY) || 'none'] ?? ''
+const maxWidthClass = MAX_WIDTH_MAP[stegaClean(data.maxWidth) || 'none'] ?? ''
+const containerClass = [maxWidthClass && `mx-auto ${maxWidthClass}`, paddingClass]
+  .filter(Boolean)
+  .join(' ')
+const reverseClass = data.reverseOnMobile ? 'flex-col-reverse md:grid' : ''
+
+// --- Container settings (Elementor-style Layout / Style / Advanced / Visibility) ---
+
+const clean = <T,>(value: T): T => (value ? (stegaClean(value) as T) : value)
+
+const rowContainer = clean(row.container) ?? undefined
+const rowKey = safeKey(stegaClean(row._key))
+const isContainer = Boolean(rowContainer && rowKey)
+
+/**
+ * Inline styles for a container: the older block styles, minus whatever the
+ * Style panel or Advanced tab now sets. Inline styles would otherwise beat the
+ * Style panel's scoped CSS.
+ */
+function mergeStyles(
+  blockStyles: unknown,
+  advanced: Advanced,
+  design?: DesignSettings | null,
+): BlockStyles | null {
+  const base = (clean(blockStyles) ?? {}) as BlockStyles
+  const adv = clean(advanced)
+  const owned = designOverrides(design)
+  const merged: BlockStyles = {
+    ...base,
+    padding: adv?.padding ?? base.padding,
+    margin: adv?.margin ?? base.margin,
+  }
+  if (owned.background) merged.background = null
+  else if (owned.overlay && merged.background) merged.background = {...merged.background, overlay: null}
+  if (owned.border) {
+    merged.border = null
+    merged.borderRadius = null
+    if (merged.effects) merged.effects = {...merged.effects, shadow: null}
+  }
+  return merged
+}
+
+const columns = ((row.columns ?? []) as Column[]).map((column) => {
+  const key = safeKey(stegaClean(column._key))
+  const advanced = clean(column.advanced)
+  const design = clean(column.design)
+  return {
+    design,
+    column,
+    key,
+    container: clean(column.container) ?? undefined,
+    ...elementStyle(mergeStyles(column.blockStyles, advanced ?? null, design)),
+    id: safeCssId(advanced?.cssId),
+    classes: safeCssClasses(advanced?.cssClasses),
+    zIndex: advanced?.zIndex,
+    visibility: clean(column.visibility),
+    animation: animationAttrs(advanced?.motion),
+  }
+})
+
+const css = new CssBuilder()
+const rowAdvanced = clean(row.advanced)
+
+if (isContainer) {
+  buildContainerCss(
+    {
+      key: rowKey!,
+      variant: 'row',
+      container: rowContainer!,
+      gridTemplate: stegaClean(row.layout),
+      zIndex: rowAdvanced?.zIndex,
+      visibility: clean(row.visibility),
+    },
+    css,
+  )
+}
+
+for (const col of columns) {
+  // Columns saved before the container settings have nothing to emit.
+  if (!col.key || (!col.container && !col.visibility && col.zIndex == null)) continue
+  buildContainerCss(
+    {
+      key: col.key,
+      variant: 'column',
+      container: col.container ?? {},
+      zIndex: col.zIndex,
+      visibility: col.visibility,
+      // Widths only apply inside a flex container row.
+      parent: isContainer ? rowContainer : undefined,
+    },
+    css,
+  )
+}
+
+// Style tab (background, overlay, border) for the row and each column.
+const rowDesign = clean(row.design)
+if (rowKey) buildDesignCss(rowKey, rowDesign, css)
+for (const col of columns) if (col.key) buildDesignCss(col.key, col.design, css)
+
+// Column widths on a grid row (legacy, or Flexbox's Grid mode) set its tracks.
+if (!isContainer || rowContainer?.layoutType === 'grid') {
+  buildGridWidthCss(
+    {
+      // Doubled attribute outranks the legacy grid's responsive Tailwind class.
+      selector: isContainer
+        ? `[data-pb-inner="${rowKey}"]`
+        : `[data-pb-grid="${rowKey}"][data-pb-grid]`,
+      columns: columns.map((col) => ({key: col.key, width: col.container?.width})),
+    },
+    css,
+  )
+}
+
+const cssText = css.toString()
+
+const rowStyle = elementStyle(
+  mergeStyles(row.blockStyles, isContainer ? (rowAdvanced ?? null) : null, rowDesign),
+)
+
+/**
+ * In a container, columns always stretch to the tallest one, as in Elementor;
+ * each column's Justify Content positions its blocks within that height.
+ * Align Self only applies to rows saved before the container settings.
+ */
+const alignSelf = (value: string | null | undefined) =>
+  isContainer ? undefined : VALIGN_MAP[stegaClean(value) || 'top']
+---
+
+{cssText && <Fragment set:html={`<style>${cssText}</style>`} />}
+
+{/*
+  One element per level. A column is simultaneously the row's flex/grid item,
+  its own styled box, and the flex container for its blocks — as in Elementor.
+*/}
+<section
+  data-pb={rowKey}
+  id={isContainer ? safeCssId(rowAdvanced?.cssId) : undefined}
+  class={isContainer ? safeCssClasses(rowAdvanced?.cssClasses) : undefined}
+  style={rowStyle.style}
+  data-pb-overlay={rowStyle.overlay ? '' : undefined}
+  {...(isContainer ? animationAttrs(rowAdvanced?.motion) : {})}
+>
+  <div
+    data-pb-inner={isContainer ? rowKey : undefined}
+    data-pb-grid={isContainer ? undefined : rowKey}
+    class={
+      isContainer
+        ? undefined
+        : [containerClass, 'grid', gridClass, gapClass, reverseClass].filter(Boolean).join(' ')
+    }
+  >
+    {
+      columns.map((col) => {
+        const content = col.column.content ?? []
+        return (
+          <div
+            class={[alignSelf(col.column.verticalAlign), col.classes].filter(Boolean).join(' ') || undefined}
+            id={col.id}
+            data-pb={col.key}
+            data-pb-inner={col.container ? col.key : undefined}
+            data-pb-overlay={col.overlay ? '' : undefined}
+            style={col.style}
+            {...col.animation}
+          >
+            {content.map((block) => (
+              <ContentRenderer block={block} />
+            ))}
+            {content.length === 0 && (
+              <div class="flex min-h-[100px] items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted">
+                Empty column
+              </div>
+            )}
+          </div>
+        )
+      })
+    }
+  </div>
+</section>

@@ -1,0 +1,18 @@
+---
+import PortableTextRenderer from '@/components/shared/PortableTextRenderer.astro'
+import type {RichTextBlockData} from '@/types/sanity'
+
+interface Props {
+  data: RichTextBlockData
+}
+
+const {data} = Astro.props
+---
+
+{
+  data.content && (
+    <div class="prose prose-slate max-w-none">
+      <PortableTextRenderer value={data.content} />
+    </div>
+  )
+}

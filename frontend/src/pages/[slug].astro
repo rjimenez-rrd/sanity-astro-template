@@ -1,0 +1,26 @@
+---
+export const prerender = false
+
+import Site from '@/layouts/Site.astro'
+import SectionRenderer from '@/components/SectionRenderer.astro'
+import {getClient} from '@/sanity/lib/client'
+import {sanityFetch} from '@/sanity/lib/live'
+import {PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
+import {buildSeo} from '@/lib/seo'
+
+const {slug} = Astro.params
+const client = getClient(Astro.locals.isDraft)
+
+const [page, settings] = await Promise.all([
+  sanityFetch(client, Astro.locals, PAGE_QUERY, {slug}),
+  sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
+])
+
+if (!page) return Astro.rewrite('/404')
+
+const seo = buildSeo(page.seo, {title: page.title})
+---
+
+<Site settings={settings} {...seo}>
+  <SectionRenderer sections={page.pageBuilder} />
+</Site>

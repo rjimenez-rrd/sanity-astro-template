@@ -1,13 +1,45 @@
-import {createClient} from 'next-sanity'
+import type {SanityClient} from '@sanity/client'
+import {sanityClient} from 'sanity:client'
+import {apiVersion, studioUrl} from './env'
 
-export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!
-export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!
-export const apiVersion = '2025-03-20'
+/**
+ * The shared, CDN-backed client configured in astro.config.mjs.
+ *
+ * The cast bridges two installed copies of @sanity/client: `sanity:client` is
+ * typed against the one @sanity/astro resolves, while `sanity typegen` writes
+ * its SanityQueries map into the one this workspace depends on. Same runtime
+ * object either way, but without the cast every fetch() loses its result type.
+ */
+export const client = sanityClient as unknown as SanityClient
 
-export const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn: true,
-  stega: {studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || 'http://localhost:3333'},
-})
+/** Name of the cookie the draft-mode endpoints set and middleware reads. */
+export const DRAFT_COOKIE = '__sanity_draft'
+
+/**
+ * Client for the current request.
+ *
+ * Draft requests bypass the CDN, read the `drafts` perspective and turn stega
+ * on so Presentation can map rendered text back to Studio fields. Published
+ * requests keep the CDN and stay stega-free.
+ */
+export function getClient(isDraft: boolean): SanityClient {
+  if (!isDraft) return client
+
+  const token = import.meta.env.SANITY_API_READ_TOKEN
+  if (!token) throw new Error('SANITY_API_READ_TOKEN is required for draft mode')
+
+  return client.withConfig({
+    apiVersion,
+    token,
+    useCdn: false,
+    perspective: 'drafts',
+    stega: {enabled: true, studioUrl},
+  })
+}
+
+/** Draft client for endpoints that need one before a request is classified. */
+export function getDraftClient(token: string): SanityClient {
+  if (!token) throw new Error('SANITY_API_READ_TOKEN is required for draft mode')
+
+  return client.withConfig({apiVersion, token, useCdn: false, perspective: 'drafts'})
+}

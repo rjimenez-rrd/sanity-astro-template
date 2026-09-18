@@ -1,0 +1,63 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import {resolveHref, type LinkItem} from '@/lib/links'
+import type {ButtonGroupData} from '@/types/sanity'
+
+interface Props {
+  data: ButtonGroupData
+}
+
+const {data} = Astro.props
+
+const ALIGN_MAP: Record<string, string> = {
+  left: 'justify-start',
+  center: 'justify-center',
+  right: 'justify-end',
+}
+
+const buttons = data.buttons || []
+const cleanDirection = stegaClean(data.direction || 'horizontal')
+const cleanAlignment = stegaClean(data.alignment || 'left')
+const flexDirection = cleanDirection === 'vertical' ? 'flex-col' : 'flex-row flex-wrap'
+const justifyClass = ALIGN_MAP[cleanAlignment!] || ALIGN_MAP.left
+
+const resolved = buttons
+  .filter((button) => button.label)
+  .map((button) => {
+    const {href, isExternal} = resolveHref((button.link || []) as unknown as LinkItem[])
+    const bg = stegaClean(button.color)
+    const fg = stegaClean(button.textColor)
+    const hasCustomColors = Boolean(button.color || button.textColor)
+
+    return {
+      key: button._key,
+      label: button.label,
+      href,
+      isExternal,
+      colorClasses: hasCustomColors
+        ? 'hover:opacity-90'
+        : 'bg-primary text-primary-foreground hover:bg-primary/90',
+      style: hasCustomColors
+        ? [bg && `background-color:${bg}`, fg && `color:${fg}`].filter(Boolean).join(';')
+        : undefined,
+    }
+  })
+---
+
+{
+  resolved.length > 0 && (
+    <div class={`flex ${flexDirection} ${justifyClass} gap-3`}>
+      {resolved.map((button) => (
+        <a
+          href={button.href}
+          target={button.isExternal ? '_blank' : undefined}
+          rel={button.isExternal ? 'noopener noreferrer' : undefined}
+          class={`inline-block rounded-lg px-6 py-3 text-center font-medium transition-colors duration-200 ${button.colorClasses}`}
+          style={button.style || undefined}
+        >
+          {button.label}
+        </a>
+      ))}
+    </div>
+  )
+}

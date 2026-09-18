@@ -1,0 +1,70 @@
+---
+import type {TocBlockData} from '@/types/sanity'
+
+interface Props {
+  data: TocBlockData
+}
+
+const {data} = Astro.props
+
+const title = data.title || 'Table of Contents'
+---
+
+{/* Headings are discovered from the rendered document, so the list is filled
+    on the client. The nav is hidden until it finds at least one heading. */}
+<nav class="rounded-xl border border-border bg-surface/50 p-5" data-toc hidden>
+  <h3 class="mb-3 text-sm font-semibold text-foreground">{title}</h3>
+  <ul class="space-y-1" data-toc-list></ul>
+</nav>
+
+<script>
+  const OFFSET_PX = 100
+
+  const INACTIVE = ['text-muted', 'hover:text-foreground']
+
+  document.querySelectorAll<HTMLElement>('[data-toc]').forEach((root) => {
+    const list = root.querySelector<HTMLElement>('[data-toc-list]')
+    if (!list) return
+
+    const headings = Array.from(document.querySelectorAll<HTMLElement>('h2[id], h3[id]'))
+    if (headings.length === 0) return
+
+    const links = new Map<string, HTMLAnchorElement>()
+
+    for (const heading of headings) {
+      const li = document.createElement('li')
+      if (heading.tagName === 'H3') li.className = 'ml-4'
+
+      const a = document.createElement('a')
+      a.href = `#${heading.id}`
+      a.textContent = heading.textContent || ''
+      a.className = 'block rounded-md px-2 py-1 text-sm transition-colors'
+      a.classList.add(...INACTIVE)
+
+      li.appendChild(a)
+      list.appendChild(li)
+      links.set(heading.id, a)
+    }
+
+    root.hidden = false
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((e) => e.isIntersecting)
+        if (!visible) return
+
+        for (const [id, a] of links) {
+          const isActive = id === visible.target.id
+          a.classList.toggle('bg-primary/10', isActive)
+          a.classList.toggle('font-medium', isActive)
+          a.classList.toggle('text-primary', isActive)
+          a.classList.toggle('text-muted', !isActive)
+          a.classList.toggle('hover:text-foreground', !isActive)
+        }
+      },
+      {rootMargin: `-${OFFSET_PX}px 0px -66% 0px`},
+    )
+
+    headings.forEach((h) => observer.observe(h))
+  })
+</script>

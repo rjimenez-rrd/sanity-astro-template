@@ -18,6 +18,7 @@ export const homePageType = defineType({
       type: 'seo',
       options: {collapsible: true, collapsed: true},
     }),
+    
   ],
   preview: {
     prepare() {

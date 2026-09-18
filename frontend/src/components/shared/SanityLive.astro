@@ -1,0 +1,73 @@
+---
+/**
+ * Keeps published pages current, like next-sanity's <SanityLive />: listens to
+ * Sanity's Live Content API and reloads when content this page uses changes.
+ *
+ * The browser connects straight to Sanity, so the site's origin must be in the
+ * project's CORS origins (sanity.io/manage → API → CORS origins).
+ */
+import {apiVersion, dataset, projectId} from '@/sanity/lib/env'
+
+interface Props {
+  tags: string[]
+}
+
+const {tags} = Astro.props
+const endpoint = `https://${projectId}.api.sanity.io/v${apiVersion}/data/live/events/${dataset}`
+---
+
+{
+  tags.length > 0 && (
+    <sanity-live data-endpoint={endpoint} data-tags={JSON.stringify(tags)} hidden />
+  )
+}
+
+<script>
+  import {primeReloadBaseline, reloadWhenChanged} from '@/lib/reloadWhenChanged'
+
+  // Give up quietly after repeated failures instead of reconnecting forever,
+  // which is what a blocked (CORS) or offline stream would otherwise do.
+  const MAX_FAILURES = 3
+
+  const el = document.querySelector<HTMLElement>('sanity-live')
+  if (el?.dataset.endpoint && 'EventSource' in window) {
+    const tags = new Set<string>(JSON.parse(el.dataset.tags || '[]'))
+    let failures = 0
+    let connected = false
+
+    const source = new EventSource(el.dataset.endpoint)
+
+    source.addEventListener('welcome', () => {
+      connected = true
+      failures = 0
+      primeReloadBaseline()
+    })
+
+    source.addEventListener('message', (event) => {
+      try {
+        const {tags: changed = []} = JSON.parse((event as MessageEvent).data) as {tags?: string[]}
+        if (changed.some((tag) => tags.has(tag))) void reloadWhenChanged()
+      } catch {
+        // Malformed event: ignore.
+      }
+    })
+
+    // The API asks clients to refetch everything after a restart.
+    source.addEventListener('restart', () => void reloadWhenChanged())
+
+    const giveUp = () => {
+      source.close()
+      console.info(
+        `[SanityLive] Could not connect to Sanity's Live Content API, so this page won't update live. If the browser reports a CORS error, add ${location.origin} to the project's CORS origins (sanity.io/manage → API).`,
+      )
+    }
+
+    source.addEventListener('error', () => {
+      // A refused connection (e.g. CORS) closes the stream for good at once;
+      // anything else, EventSource retries by itself — count those.
+      if (source.readyState === EventSource.CLOSED) return giveUp()
+      if (connected) return
+      if (++failures >= MAX_FAILURES) giveUp()
+    })
+  }
+</script>

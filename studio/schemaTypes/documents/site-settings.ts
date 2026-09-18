@@ -38,12 +38,20 @@ export const siteSettingsType = defineType({
       ],
     }),
     defineField({
+      name: 'phone',
+      title: 'Phone Number',
+      type: 'string',
+      group: 'branding',
+    }),
+    defineField({
       name: 'primaryColor',
       title: 'Primary Color',
       type: 'string',
       group: 'branding',
       description: 'Hex color (e.g., #3b82f6)',
       components: {input: ColorStringInput},
+      // default color in # format
+      initialValue: '#f63b99',
     }),
     defineField({
       name: 'secondaryColor',
@@ -298,7 +306,7 @@ export const siteSettingsType = defineType({
           },
         }),
       ],
-    }),
+    }), 
   ],
   preview: {
     prepare() {

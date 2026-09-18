@@ -1,0 +1,115 @@
+---
+import type {CountdownTimerData} from '@/types/sanity'
+
+interface Props {
+  data: CountdownTimerData
+}
+
+const {data} = Astro.props
+
+const expiredMessage = data.expiredMessage || 'This event has ended.'
+
+function computeTimeRemaining(targetDate: string) {
+  const difference = new Date(targetDate).getTime() - Date.now()
+  if (difference <= 0) return {days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true}
+  return {
+    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((difference / (1000 * 60)) % 60),
+    seconds: Math.floor((difference / 1000) % 60),
+    isExpired: false,
+  }
+}
+
+// Rendered server-side so the first paint already shows a countdown; the
+// script then corrects for the gap between build and page view.
+const initial = data.targetDate
+  ? computeTimeRemaining(data.targetDate)
+  : {days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true}
+
+const UNITS = [
+  {key: 'days', label: 'Days'},
+  {key: 'hours', label: 'Hours'},
+  {key: 'minutes', label: 'Minutes'},
+  {key: 'seconds', label: 'Seconds'},
+] as const
+---
+
+{
+  data.targetDate && (
+    <div class="text-center" data-countdown data-target={data.targetDate}>
+      {data.title && <h3 class="mb-6 text-xl font-semibold text-foreground">{data.title}</h3>}
+
+      <p class="text-lg text-muted" data-countdown-expired hidden={!initial.isExpired}>
+        {expiredMessage}
+      </p>
+
+      <div
+        class="flex items-center justify-center gap-3 sm:gap-4"
+        data-countdown-units
+        hidden={initial.isExpired}
+      >
+        {UNITS.map((unit, index) => (
+          <>
+            {index > 0 && <span class="text-2xl font-bold text-muted">:</span>}
+            <div class="flex flex-col items-center">
+              <div
+                class="flex h-16 w-16 items-center justify-center rounded-lg bg-primary/10 text-2xl font-bold tabular-nums text-primary sm:h-20 sm:w-20 sm:text-3xl"
+                data-unit={unit.key}
+              >
+                {String(initial[unit.key]).padStart(2, '0')}
+              </div>
+              <span class="mt-2 text-xs font-medium uppercase tracking-wider text-muted">
+                {unit.label}
+              </span>
+            </div>
+          </>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<script>
+  function compute(target: string) {
+    const difference = new Date(target).getTime() - Date.now()
+    if (difference <= 0) return {days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: true}
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / (1000 * 60)) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+      isExpired: false,
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-countdown]').forEach((root) => {
+    const target = root.dataset.target
+    if (!target) return
+
+    const expired = root.querySelector<HTMLElement>('[data-countdown-expired]')
+    const units = root.querySelector<HTMLElement>('[data-countdown-units]')
+
+    const tick = () => {
+      const time = compute(target)
+
+      if (time.isExpired) {
+        if (expired) expired.hidden = false
+        if (units) units.hidden = true
+        clearInterval(interval)
+        return
+      }
+
+      if (expired) expired.hidden = true
+      if (units) units.hidden = false
+
+      for (const key of ['days', 'hours', 'minutes', 'seconds'] as const) {
+        const el = root.querySelector<HTMLElement>(`[data-unit="${key}"]`)
+        if (el) el.textContent = String(time[key]).padStart(2, '0')
+      }
+    }
+
+    const interval = setInterval(tick, 1000)
+    tick()
+  })
+</script>

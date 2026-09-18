@@ -1,6 +1,6 @@
 {
   "name": "sanity-page-builder",
-  "description": "The most complete open-source page builder template for Sanity + Next.js — 26 content blocks, 16 custom studio inputs, drag-and-drop grid layout, visual editing.",
+  "description": "The most complete open-source page builder template for Sanity + Next.js \u2014 26 content blocks, 16 custom studio inputs, drag-and-drop grid layout, visual editing.",
   "license": "MIT",
   "keywords": [
     "sanity",
@@ -21,16 +21,19 @@
     "dev:frontend": "cd frontend && npm run dev",
     "dev:studio": "cd studio && npm run dev",
     "build": "npm-run-all build:*",
-    "build:frontend": "cd frontend && npm run build",
+    "build:frontend": "cd frontend-astro && npm run build",
     "build:studio": "cd studio && npm run build",
     "deploy:studio": "cd studio && sanity deploy",
     "validate": "sanity-template-validate",
-    "seed": "cd frontend && npm run seed",
-    "typegen": "cd studio && npx sanity schema extract --enforce-required-fields && npx sanity typegen generate"
+    "seed": "cd frontend-astro && npm run seed",
+    "typegen": "cd studio && npx sanity schema extract --enforce-required-fields && npx sanity typegen generate",
+    "legacy:dev": "cd frontend && npm run dev",
+    "legacy:build": "cd frontend && npm run build"
   },
   "workspaces": [
     "frontend",
-    "studio"
+    "studio",
+    "frontend-astro"
   ],
   "devDependencies": {
     "@sanity/template-validator": "^2",

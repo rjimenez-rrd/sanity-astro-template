@@ -1,0 +1,44 @@
+---
+import {PortableText} from 'astro-portabletext'
+import type {PortableTextBlock} from '@portabletext/types'
+import type {SomePortableTextComponents} from 'astro-portabletext/types'
+import PtHeading from '@/components/portable-text/PtHeading.astro'
+import PtNormal from '@/components/portable-text/PtNormal.astro'
+import PtBlockquote from '@/components/portable-text/PtBlockquote.astro'
+import PtList from '@/components/portable-text/PtList.astro'
+import PtLink from '@/components/portable-text/PtLink.astro'
+import PtImage from '@/components/portable-text/PtImage.astro'
+
+interface Props {
+  value?: PortableTextBlock[] | Array<Record<string, unknown>> | null
+}
+
+const {value} = Astro.props
+
+const components: SomePortableTextComponents = {
+  type: {
+    image: PtImage,
+  },
+  mark: {
+    link: PtLink,
+  },
+  block: {
+    h1: PtHeading,
+    h2: PtHeading,
+    h3: PtHeading,
+    h4: PtHeading,
+    normal: PtNormal,
+    blockquote: PtBlockquote,
+  },
+  list: {
+    bullet: PtList,
+    number: PtList,
+  },
+}
+---
+
+{
+  value && value.length > 0 && (
+    <PortableText value={value as PortableTextBlock[]} components={components} />
+  )
+}

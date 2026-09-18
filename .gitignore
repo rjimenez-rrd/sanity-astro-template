@@ -55,3 +55,6 @@ schema.json
 
 # lock (regenerated on install)
 package-lock.json
+
+# astro
+.astro/

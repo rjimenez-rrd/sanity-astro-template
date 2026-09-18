@@ -1,0 +1,93 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import BlockStylesWrapper from '@/components/shared/BlockStylesWrapper.astro'
+import {hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
+import {animationAttrs, type MotionSettings} from '@/lib/animation'
+import RichTextContent from './content/RichTextContent.astro'
+import ImageContent from './content/ImageContent.astro'
+import CallToActionContent from './content/CallToActionContent.astro'
+import VideoContent from './content/VideoContent.astro'
+import TabbedContent from './content/TabbedContent.astro'
+import AccordionContent from './content/AccordionContent.astro'
+import SpacerDividerContent from './content/SpacerDividerContent.astro'
+import CountdownTimerContent from './content/CountdownTimerContent.astro'
+import IconTextContent from './content/IconTextContent.astro'
+import ButtonGroupContent from './content/ButtonGroupContent.astro'
+import StatMetricContent from './content/StatMetricContent.astro'
+import TestimonialQuoteContent from './content/TestimonialQuoteContent.astro'
+import AlertNoticeContent from './content/AlertNoticeContent.astro'
+import PricingCardContent from './content/PricingCardContent.astro'
+import SocialEmbedContent from './content/SocialEmbedContent.astro'
+import LogoRowContent from './content/LogoRowContent.astro'
+import MapEmbedContent from './content/MapEmbedContent.astro'
+import CodeBlockContent from './content/CodeBlockContent.astro'
+import DataTableContent from './content/DataTableContent.astro'
+import LottieAnimationContent from './content/LottieAnimationContent.astro'
+import FormBlockContent from './content/FormBlockContent.astro'
+import FaqBlockContent from './content/FaqBlockContent.astro'
+import FeatureCardGridContent from './content/FeatureCardGridContent.astro'
+import TestimonialCarouselContent from './content/TestimonialCarouselContent.astro'
+import ImageGalleryContent from './content/ImageGalleryContent.astro'
+import TocBlockContent from './content/TocBlockContent.astro'
+import type {ContentBlock} from '@/types/sanity'
+
+interface Props {
+  block: ContentBlock
+}
+
+const {block} = Astro.props
+
+const CONTENT_MAP: Record<string, any> = {
+  richTextBlock: RichTextContent,
+  imageBlock: ImageContent,
+  callToAction: CallToActionContent,
+  externalVideo: VideoContent,
+  youtubeVideo: VideoContent,
+  tabbedContent: TabbedContent,
+  accordion: AccordionContent,
+  spacerDivider: SpacerDividerContent,
+  countdownTimer: CountdownTimerContent,
+  iconText: IconTextContent,
+  buttonGroup: ButtonGroupContent,
+  statMetric: StatMetricContent,
+  testimonialQuote: TestimonialQuoteContent,
+  alertNotice: AlertNoticeContent,
+  pricingCard: PricingCardContent,
+  socialEmbed: SocialEmbedContent,
+  logoRow: LogoRowContent,
+  mapEmbed: MapEmbedContent,
+  codeBlock: CodeBlockContent,
+  dataTable: DataTableContent,
+  lottieAnimation: LottieAnimationContent,
+  formBlock: FormBlockContent,
+  faqBlock: FaqBlockContent,
+  featureCardGrid: FeatureCardGridContent,
+  testimonialCarousel: TestimonialCarouselContent,
+  imageGallery: ImageGalleryContent,
+  tocBlock: TocBlockContent,
+}
+
+const Component = CONTENT_MAP[stegaClean(block._type)!]
+
+const styles = stegaClean(block.blockStyles) as (BlockStyles & {motion?: MotionSettings}) | null
+const animation = animationAttrs(styles?.motion)
+// A wrapper only exists to carry styles or an animation.
+const needsWrapper = hasBlockStyles(styles) || Object.keys(animation).length > 0
+---
+
+{
+  Component ? (
+    needsWrapper ? (
+      <BlockStylesWrapper blockStyles={block.blockStyles} {...animation}>
+        <Component data={block} />
+      </BlockStylesWrapper>
+    ) : (
+      // No styles, no wrapper: the block is a direct item of its column.
+      <Component data={block} />
+    )
+  ) : (
+    <div class="my-2 rounded-lg border border-dashed border-border p-4 text-center text-xs text-muted">
+      Unsupported: <code>{block._type}</code>
+    </div>
+  )
+}

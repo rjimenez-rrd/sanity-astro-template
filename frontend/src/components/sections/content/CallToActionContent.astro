@@ -1,0 +1,56 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import {resolveHref, type LinkItem} from '@/lib/links'
+import type {CallToActionData} from '@/types/sanity'
+
+interface Props {
+  data: CallToActionData
+}
+
+const {data} = Astro.props
+
+const VARIANT_CLASSES: Record<string, string> = {
+  primary: 'bg-foreground text-background hover:bg-foreground/90',
+  secondary: 'bg-white/15 ring-1 ring-foreground/10 text-foreground hover:bg-foreground/5',
+  outline: 'border border-foreground/20 text-foreground hover:bg-foreground/5',
+  ghost: 'text-foreground hover:bg-foreground/5',
+}
+
+const {href, isExternal} = resolveHref((data.link || []) as unknown as LinkItem[])
+
+const hasCustomColors = Boolean(data.color || data.textColor)
+const cleanColor = stegaClean(data.color)
+const cleanTextColor = stegaClean(data.textColor)
+const cleanHoverColor = stegaClean(data.hoverColor)
+const cleanVariant = stegaClean(data.variant) || 'primary'
+
+const style = hasCustomColors
+  ? [
+      cleanColor && `background-color:${cleanColor}`,
+      cleanTextColor && `color:${cleanTextColor}`,
+      cleanHoverColor && `--cta-hover-bg:${cleanHoverColor}`,
+    ]
+      .filter(Boolean)
+      .join(';')
+  : undefined
+
+const baseClasses =
+  'inline-block rounded-full px-6 py-3 font-medium transition-colors duration-200 text-center text-sm'
+const colorClasses = hasCustomColors
+  ? 'hover:opacity-90'
+  : VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary
+---
+
+{
+  data.label && (
+    <a
+      href={href}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
+      class={`${baseClasses} ${colorClasses}`}
+      style={style || undefined}
+    >
+      {data.label}
+    </a>
+  )
+}

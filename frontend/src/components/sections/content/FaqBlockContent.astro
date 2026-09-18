@@ -1,0 +1,121 @@
+---
+import {toPlainText} from '@portabletext/toolkit'
+import PortableTextRenderer from '@/components/shared/PortableTextRenderer.astro'
+import type {FaqBlockData} from '@/types/sanity'
+
+interface Props {
+  data: FaqBlockData
+}
+
+const {data} = Astro.props
+
+type FaqItem = FaqBlockData['items'][number]
+
+function buildJsonLd(items: FaqItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items
+      .filter((item) => item.question && item.answer)
+      .map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer ? toPlainText(item.answer) : '',
+        },
+      })),
+  }
+}
+
+const enableSchema = data.enableSchema ?? true
+const allowMultipleOpen = data.allowMultipleOpen ?? true
+const firstOpenByDefault = data.firstOpenByDefault ?? false
+const items = data.items || []
+
+// `name` on <details> makes the group exclusive natively — the browser closes
+// the sibling for us, which is exactly what allowMultipleOpen: false meant.
+const groupName = allowMultipleOpen ? undefined : `faq-${items[0]?._key ?? 'group'}`
+const jsonLd = enableSchema && items.length > 0 ? JSON.stringify(buildJsonLd(items)) : null
+---
+
+{
+  items.length > 0 && (
+    <div>
+      {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+
+      {data.title && (
+        <h2 class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{data.title}</h2>
+      )}
+      {data.subtitle && <p class="mt-2 text-base text-muted">{data.subtitle}</p>}
+
+      <div
+        class={`${data.title || data.subtitle ? 'mt-8' : ''} divide-y divide-border rounded-xl border border-border`}
+      >
+        {items.map((item, index) => (
+          <details
+            class="group"
+            name={groupName}
+            open={firstOpenByDefault && index === 0 ? true : undefined}
+          >
+            <summary class="flex w-full cursor-pointer list-none items-center justify-between px-6 py-5 text-left transition-colors hover:bg-muted/30">
+              <span class="pr-4 font-medium text-foreground">{item.question || 'Untitled'}</span>
+              <span
+                class="flex h-6 w-6 shrink-0 items-center justify-center text-muted transition-transform duration-200 group-open:rotate-45"
+                aria-hidden="true"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M8 3v10M3 8h10"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+            <div class="panel">
+              <div class="overflow-hidden">
+                <div class="px-6 pb-5">
+                  {item.answer && item.answer.length > 0 ? (
+                    <div class="prose prose-slate max-w-none">
+                      <PortableTextRenderer value={item.answer} />
+                    </div>
+                  ) : (
+                    <p class="text-sm text-muted">No answer provided.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.3s ease-in-out,
+      opacity 0.3s ease-in-out;
+  }
+
+  details[open] .panel {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel {
+      transition: none;
+    }
+  }
+</style>

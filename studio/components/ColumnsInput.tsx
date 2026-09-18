@@ -49,11 +49,13 @@ const WIDTH_LABELS: Record<number, string> = {
   12: '100%',
 }
 
+// Built by hand here, so the schema's initialValue doesn't apply; mirror it.
 function createEmptyColumn() {
   return {
     _type: 'gridColumn',
     _key: randomKey(12),
     verticalAlign: 'top',
+    container: {layoutType: 'flex', direction: {desktop: 'column'}},
   }
 }
 
@@ -61,9 +63,21 @@ export function ColumnsInput(props: ArrayOfObjectsInputProps) {
   const {onChange, value, renderDefault} = props
 
   const parentPath = props.path.slice(0, -1)
-  const layout = useFormValue([...parentPath, 'layout']) as string | undefined
+  const container = useFormValue([...parentPath, 'container']) as {layoutType?: string} | undefined
+  const gridLayout = useFormValue([...parentPath, 'layout']) as string | undefined
 
-  const expectedCount = layout ? LAYOUT_COLUMN_COUNT[layout] ?? 0 : 0
+  // Grid presets fix the column count; a flex container takes any number of
+  // items, so it only offers a two-column start when empty.
+  const isFlex = Boolean(container) && container?.layoutType !== 'grid'
+  const layout = isFlex ? undefined : gridLayout
+
+  const expectedCount = isFlex
+    ? (value?.length ?? 0) === 0
+      ? 2
+      : 0
+    : layout
+      ? LAYOUT_COLUMN_COUNT[layout] ?? 0
+      : 0
   const currentCount = value?.length ?? 0
   const widths = layout ? LAYOUT_WIDTHS[layout] ?? [] : []
   const positions = POSITION_LABELS[expectedCount] ?? []

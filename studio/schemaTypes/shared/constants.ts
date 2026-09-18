@@ -12,6 +12,8 @@ export const SPACING_OPTIONS = [
   {title: '56px', value: '56px'},
   {title: '64px', value: '64px'},
   {title: '80px', value: '80px'},
+  {title: '96px', value: '96px'},
+  {title: '128px', value: '128px'},
 ] as const
 
 export const singletonTypes = new Set(['siteSettings', 'homePage'])

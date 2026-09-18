@@ -1,0 +1,64 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage from '@/components/shared/SanityImage.astro'
+import type {LogoRowData} from '@/types/sanity'
+
+interface Props {
+  data: LogoRowData
+}
+
+const {data} = Astro.props
+
+const SIZE_MAP: Record<string, {width: number; height: number; className: string}> = {
+  small: {width: 80, height: 40, className: 'h-8 w-auto'},
+  medium: {width: 120, height: 60, className: 'h-12 w-auto'},
+  large: {width: 160, height: 80, className: 'h-16 w-auto'},
+}
+
+const logos = (data.logos || []).filter((logo) => logo.image?.asset)
+
+// stegaClean before the lookup — an unstripped value never matches a key and
+// would silently fall through to 'medium' whenever stega is enabled.
+const sizeKey = stegaClean(data.size)
+const dimensions = sizeKey && sizeKey in SIZE_MAP ? SIZE_MAP[sizeKey] : SIZE_MAP.medium
+const grayscaleClass = data.grayscale
+  ? 'grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300'
+  : ''
+---
+
+{
+  logos.length > 0 && (
+    <div class="my-6">
+      <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+        {logos.map((logo) =>
+          logo.link ? (
+            <a
+              href={logo.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center"
+            >
+              <SanityImage
+                value={logo.image}
+                alt={stegaClean(logo.alt) || ''}
+                width={dimensions.width}
+                height={dimensions.height}
+                class={`${dimensions.className} object-contain ${grayscaleClass}`}
+              />
+            </a>
+          ) : (
+            <div class="inline-flex items-center">
+              <SanityImage
+                value={logo.image}
+                alt={stegaClean(logo.alt) || ''}
+                width={dimensions.width}
+                height={dimensions.height}
+                class={`${dimensions.className} object-contain ${grayscaleClass}`}
+              />
+            </div>
+          ),
+        )}
+      </div>
+    </div>
+  )
+}

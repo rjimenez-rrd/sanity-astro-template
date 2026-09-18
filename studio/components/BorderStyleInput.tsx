@@ -1,8 +1,8 @@
-import {useCallback, useState, useEffect, useRef} from 'react'
+import {ColorPicker} from './color/ColorPicker'
+import {useCallback} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Card, Flex, Text, Stack} from '@sanity/ui'
 
-const DEBOUNCE_MS = 150
 
 function CompactSelect({
   value,
@@ -44,88 +44,30 @@ function CompactSelect({
   )
 }
 
+/**
+ * The Studio's shared color control: swatch + inline text, with the
+ * Elementor-style picker (saturation, hue, alpha, HEXA/RGBA/HSLA) on click.
+ */
 function ColorInput({
   value,
   onChange,
   placeholder,
+  fallback,
 }: {
   value?: string
   onChange: (v: string) => void
   placeholder?: string
+  /** Swatch shown while the field is empty. Display only — never written to the document. */
+  fallback?: string
 }) {
-  const [local, setLocal] = useState(value ?? '')
-  const timerRef = useRef<ReturnType<typeof setTimeout>>()
-
-  useEffect(() => {
-    setLocal(value ?? '')
-  }, [value])
-
-  const debouncedChange = useCallback(
-    (v: string) => {
-      setLocal(v)
-      clearTimeout(timerRef.current)
-      timerRef.current = setTimeout(() => onChange(v), DEBOUNCE_MS)
-    },
-    [onChange],
-  )
-
-  const commitNow = useCallback(
-    (v: string) => {
-      clearTimeout(timerRef.current)
-      setLocal(v)
-      onChange(v)
-    },
-    [onChange],
-  )
-
   return (
-    <Flex align="center" gap={1} style={{flex: 1}}>
-      <label
-        style={{
-          position: 'relative',
-          width: 28,
-          height: 28,
-          borderRadius: 4,
-          border: '1px solid var(--card-border-color)',
-          backgroundColor: local || '#ffffff',
-          flexShrink: 0,
-          cursor: 'pointer',
-          overflow: 'hidden',
-        }}
-      >
-        <input
-          type="color"
-          value={local || '#ffffff'}
-          onChange={(e) => debouncedChange(e.target.value)}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            opacity: 0,
-            cursor: 'pointer',
-          }}
-        />
-      </label>
-      <input
-        type="text"
-        value={local}
-        placeholder={placeholder ?? '#000000'}
-        onChange={(e) => debouncedChange(e.target.value)}
-        onBlur={(e) => commitNow(e.target.value)}
-        style={{
-          flex: 1,
-          padding: '6px 8px',
-          fontSize: 12,
-          fontFamily: 'inherit',
-          border: '1px solid var(--card-border-color)',
-          borderRadius: 4,
-          backgroundColor: 'var(--card-bg-color)',
-          color: 'var(--card-fg-color)',
-          minWidth: 0,
-        }}
-      />
-    </Flex>
+    <ColorPicker
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      fallback={fallback}
+      showInput
+    />
   )
 }
 

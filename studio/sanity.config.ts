@@ -15,7 +15,7 @@ const dataset = process.env.SANITY_STUDIO_DATASET!
 
 export default defineConfig({
   name: 'default',
-  title: 'Page Builder Studio',
+  title: 'Studio',
 
   projectId,
   dataset,
@@ -24,7 +24,7 @@ export default defineConfig({
     structureTool({structure}),
     presentationTool({
       previewUrl: {
-        origin: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000',
+        origin: process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321',
         previewMode: {
           enable: '/api/draft-mode/enable',
         },

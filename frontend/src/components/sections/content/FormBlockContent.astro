@@ -1,0 +1,155 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import type {FormBlockData} from '@/types/sanity'
+
+interface Props {
+  data: FormBlockData
+}
+
+const {data} = Astro.props
+
+const fields = data.fields || []
+const submitLabel = data.submitLabel || 'Submit'
+const cleanAction = stegaClean(data.submitAction) || 'webhook'
+const successMessage = data.successMessage || 'Thank you! Your submission has been received.'
+const errorMessage = data.errorMessage || 'Something went wrong. Please try again.'
+const endpoint =
+  cleanAction === 'webhook' ? '/api/form-submit' : data.customEndpoint || '/api/form-submit'
+
+const baseClass =
+  'w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary'
+
+const buttonColor = stegaClean(data.buttonColor) || 'var(--primary)'
+---
+
+<div data-form-block>
+  <div data-form-success hidden>
+    <div class="rounded-xl border border-secondary/30 bg-secondary/5 p-6 text-center">
+      <p class="font-medium text-secondary">{successMessage}</p>
+    </div>
+  </div>
+
+  <div data-form-body>
+    {data.formTitle && <h3 class="text-xl font-semibold text-foreground">{data.formTitle}</h3>}
+    {data.formDescription && <p class="mt-1 text-sm text-muted">{data.formDescription}</p>}
+
+    <form
+      class={`${data.formTitle || data.formDescription ? 'mt-6' : ''} space-y-4`}
+      data-form
+      data-endpoint={endpoint}
+      data-action={cleanAction}
+      data-webhook={stegaClean(data.webhookUrl) || undefined}
+    >
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {
+          fields.map((field) => {
+            const fieldType = stegaClean(field.type)
+            const isHalf = stegaClean(field.width) === 'half'
+            return (
+              <div class={isHalf ? '' : 'sm:col-span-2'}>
+                <label class="mb-1.5 block text-sm font-medium text-foreground">
+                  {field.label}
+                  {field.required && <span class="ml-0.5 text-red-500">*</span>}
+                </label>
+                {fieldType === 'textarea' ? (
+                  <textarea
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    required={field.required}
+                    rows={4}
+                    class={`${baseClass} resize-y`}
+                  />
+                ) : fieldType === 'select' ? (
+                  <select name={field.name} required={field.required} class={baseClass}>
+                    <option value="">{field.placeholder || 'Select...'}</option>
+                    {(field.options || []).map((opt) => (
+                      <option value={opt}>{opt}</option>
+                    ))}
+                  </select>
+                ) : fieldType === 'checkbox' ? (
+                  <label class="flex items-center gap-2 text-sm text-foreground">
+                    <input
+                      type="checkbox"
+                      name={field.name}
+                      required={field.required}
+                      class="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                    />
+                    {field.placeholder || field.label}
+                  </label>
+                ) : (
+                  <input
+                    type={fieldType || 'text'}
+                    name={field.name}
+                    placeholder={field.placeholder}
+                    required={field.required}
+                    class={baseClass}
+                  />
+                )}
+              </div>
+            )
+          })
+        }
+      </div>
+
+      <p class="text-sm text-red-500" data-form-error hidden>{errorMessage}</p>
+
+      <button
+        type="submit"
+        class="inline-flex items-center rounded-lg px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90 disabled:opacity-50"
+        style={`background-color:${buttonColor}`}
+        data-form-submit
+        data-label={submitLabel}
+      >
+        {submitLabel}
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-form-block]').forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>('[data-form]')
+    const body = root.querySelector<HTMLElement>('[data-form-body]')
+    const success = root.querySelector<HTMLElement>('[data-form-success]')
+    const error = root.querySelector<HTMLElement>('[data-form-error]')
+    const button = root.querySelector<HTMLButtonElement>('[data-form-submit]')
+    if (!form || !button) return
+
+    const label = button.dataset.label || 'Submit'
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+
+      button.disabled = true
+      button.textContent = 'Sending...'
+      if (error) error.hidden = true
+
+      const payload: Record<string, string> = {}
+      new FormData(form).forEach((value, key) => {
+        payload[key] = value.toString()
+      })
+
+      const endpoint = form.dataset.endpoint || '/api/form-submit'
+      const body_ =
+        form.dataset.action === 'webhook'
+          ? JSON.stringify({webhookUrl: form.dataset.webhook, data: payload})
+          : JSON.stringify(payload)
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: body_,
+        })
+        if (!res.ok) throw new Error('Submit failed')
+
+        if (body) body.hidden = true
+        if (success) success.hidden = false
+      } catch {
+        if (error) error.hidden = false
+        button.disabled = false
+        button.textContent = label
+      }
+    })
+  })
+</script>

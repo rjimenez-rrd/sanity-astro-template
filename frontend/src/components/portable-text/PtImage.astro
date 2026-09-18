@@ -1,0 +1,24 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage, {type SanityImageValue} from '@/components/shared/SanityImage.astro'
+import type {Props as PtProps} from 'astro-portabletext/types'
+
+type Props = PtProps<SanityImageValue & {_type: string}>
+
+const {node} = Astro.props
+const alt = stegaClean(node.alt)
+---
+
+{
+  node?.asset && (
+    <figure class="my-6">
+      <SanityImage
+        value={node}
+        width={1200}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+        class="rounded-lg"
+      />
+      {alt && <figcaption class="mt-2 text-center text-sm text-muted">{alt}</figcaption>}
+    </figure>
+  )
+}

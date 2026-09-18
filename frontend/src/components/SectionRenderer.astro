@@ -1,0 +1,35 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import GridRowSection from './sections/GridRowSection.astro'
+import HeroSection from './sections/HeroSection.astro'
+import type {PageBuilderBlock} from '@/types/sanity'
+
+interface Props {
+  sections?: PageBuilderBlock[] | null
+}
+
+const {sections} = Astro.props
+---
+
+{
+  !sections || sections.length === 0 ? (
+    <div class="flex min-h-[40vh] items-center justify-center text-muted">
+      <p>No sections yet. Open the Studio to start building.</p>
+    </div>
+  ) : (
+    sections.map((section) => {
+      const type = stegaClean(section._type)
+      if (type === 'heroSection') {
+        return <HeroSection data={section as Extract<PageBuilderBlock, {_type: 'heroSection'}>} />
+      }
+      if (type === 'gridRow') {
+        return <GridRowSection data={section as Extract<PageBuilderBlock, {_type: 'gridRow'}>} />
+      }
+      return (
+        <div class="border border-dashed border-border bg-card/50 p-8 text-center text-sm text-muted">
+          Unknown section type: <code>{section._type}</code>
+        </div>
+      )
+    })
+  )
+}

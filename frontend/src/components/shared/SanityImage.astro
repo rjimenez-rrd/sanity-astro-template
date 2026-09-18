@@ -1,0 +1,126 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import {urlFor} from '@/sanity/lib/image'
+
+/** A dereferenced asset, carrying the metadata we use for sizing and LQIP. */
+interface ResolvedAsset {
+  _id?: string
+  url?: string
+  metadata?: {
+    lqip?: string | null
+    dimensions?: {width: number; height: number} | null
+  } | null
+}
+
+/** An un-dereferenced asset. urlFor() builds a URL from the _ref alone, but
+ *  there is no metadata, so dimensions and LQIP fall back to defaults. */
+interface AssetReference {
+  _ref?: string
+  _type?: string
+}
+
+export interface SanityImageValue {
+  asset?: (ResolvedAsset & AssetReference) | null
+  alt?: string | null
+  hotspot?: {x: number; y: number} | null
+  crop?: {top: number; bottom: number; left: number; right: number} | null
+}
+
+interface Props {
+  value?: SanityImageValue | null
+  width?: number
+  height?: number
+  alt?: string
+  class?: string
+  sizes?: string
+  quality?: number
+  /** Eager-loads and raises fetch priority — use for above-the-fold images only. */
+  priority?: boolean
+  /** Absolutely fills the nearest positioned ancestor, like next/image's `fill`. */
+  fill?: boolean
+  densities?: number[]
+}
+
+const {
+  value,
+  width = 1200,
+  height,
+  alt,
+  class: className,
+  sizes,
+  quality = 75,
+  priority = false,
+  fill = false,
+  densities = [1, 2],
+} = Astro.props
+
+const asset = value?.asset
+const dimensions = asset?.metadata?.dimensions
+
+const computedHeight =
+  height ??
+  (dimensions
+    ? Math.round(width * (dimensions.height / dimensions.width))
+    : Math.round(width / 1.5))
+
+// Sanity's CDN does the resizing, so we hand it the exact pixels we want and
+// let the browser pick. No second optimizer in the path means no re-encoding
+// of an already-compressed JPEG.
+function build(w: number, h: number) {
+  return urlFor(value!).width(w).height(h).fit('max').quality(quality).auto('format').url()
+}
+
+const ratio = computedHeight / width
+
+// Everything below touches urlFor(), which throws on a sourceless value, so it
+// stays behind this guard — the template renders nothing in that case anyway.
+let src: string | undefined
+let srcset: string | undefined
+
+if (asset) {
+  // Asking for more pixels than the original has just wastes bytes.
+  const intrinsicWidth = dimensions?.width ?? Number.POSITIVE_INFINITY
+  const candidates = [...new Set(densities.map((d) => Math.round(width * d)))]
+    .filter((w) => w <= intrinsicWidth)
+    .sort((a, b) => a - b)
+
+  if (candidates.length === 0) {
+    candidates.push(Math.min(width, dimensions?.width ?? width))
+  }
+
+  srcset = candidates.map((w) => `${build(w, Math.round(w * ratio))} ${w}w`).join(', ')
+  const largest = candidates[candidates.length - 1]
+  src = build(largest, Math.round(largest * ratio))
+}
+
+const defaultSizes = sizes ?? '(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px'
+
+const lqip = asset?.metadata?.lqip
+const altText = alt ?? stegaClean(value?.alt) ?? ''
+
+const fillClass = fill ? 'absolute inset-0 h-full w-full object-cover' : ''
+const finalClass = [fillClass, className].filter(Boolean).join(' ') || undefined
+---
+
+{
+  asset && (
+    <img
+      src={src}
+      srcset={srcset}
+      sizes={defaultSizes}
+      width={fill ? undefined : width}
+      height={fill ? undefined : computedHeight}
+      alt={altText}
+      class={finalClass}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding={priority ? 'sync' : 'async'}
+      fetchpriority={priority ? 'high' : undefined}
+      style={
+        lqip
+          ? `background-image:url(${lqip});background-size:cover;background-position:center`
+          : undefined
+      }
+      onload={lqip ? "this.style.backgroundImage=''" : undefined}
+    />
+  )
+}

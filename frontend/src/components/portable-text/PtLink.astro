@@ -1,0 +1,19 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import type {MarkProps} from 'astro-portabletext/types'
+
+type Props = MarkProps<{_type: string; href?: string}>
+
+const {node} = Astro.props
+const href = stegaClean(node.markDef?.href) ?? ''
+const isExternal = href.startsWith('http')
+---
+
+<a
+  href={href}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+  class="text-primary underline underline-offset-2 hover:text-primary/80"
+>
+  <slot />
+</a>

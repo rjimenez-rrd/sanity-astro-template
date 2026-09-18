@@ -1,0 +1,38 @@
+---
+import '@/styles/global.css'
+import Animations from '@/components/shared/Animations.astro'
+
+interface Props {
+  title?: string
+  description?: string
+  noIndex?: boolean
+  ogImage?: string
+}
+
+const {
+  title = 'Sanity Page Builder',
+  description = 'The most complete open-source page builder for Sanity + Astro',
+  noIndex = false,
+  ogImage,
+} = Astro.props
+---
+
+<!doctype html>
+<html lang="en" class="h-full antialiased">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <slot name="head" />
+  </head>
+  <body class="min-h-full flex flex-col bg-background text-foreground font-sans">
+    <slot />
+    <Animations />
+  </body>
+</html>

@@ -1,0 +1,40 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import {buildStyles, toStyleString, type BlockStyles} from '@/lib/blockStyles'
+
+import type {HTMLAttributes} from 'astro/types'
+
+interface Props extends HTMLAttributes<'div'> {
+  blockStyles?: BlockStyles | null
+  /** Container hooks for scoped CSS. */
+  'data-pb'?: string
+}
+
+const {blockStyles, class: className, ...attrs} = Astro.props
+
+const clean = blockStyles ? (stegaClean(blockStyles) as BlockStyles) : blockStyles
+const styleString = toStyleString(buildStyles(clean))
+const hasOverlay = Boolean(clean?.background?.overlay && clean?.background?.image?.asset?.url)
+
+// The overlay is absolutely positioned, so the wrapper has to establish the
+// containing block or it escapes to some ancestor further up.
+const wrapperClass = [hasOverlay ? 'relative' : '', className].filter(Boolean).join(' ') || undefined
+---
+
+<div {...attrs} class={wrapperClass} style={styleString}>
+  {
+    hasOverlay ? (
+      <>
+        <div
+          class="pointer-events-none absolute inset-0"
+          style={`background-color:${clean!.background!.overlay!}`}
+        />
+        <div class="relative">
+          <slot />
+        </div>
+      </>
+    ) : (
+      <slot />
+    )
+  }
+</div>

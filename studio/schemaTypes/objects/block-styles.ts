@@ -1,5 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {SPACING_OPTIONS} from '../shared/constants'
+import {motionField} from '../shared/motion'
 import {BlockStylesPreview} from '../../components/BlockStylesPreview'
 import {SpacingInput} from '../../components/SpacingInput'
 import {BorderRadiusInput} from '../../components/BorderRadiusInput'
@@ -22,6 +23,33 @@ function directionField(name: string, title: string) {
   })
 }
 
+/**
+ * Responsive four-side spacing (base = mobile, Md = tablet, Lg = desktop).
+ * Shared with the container Advanced tab so both render through SpacingInput.
+ */
+export function spacingField(name: string, title: string) {
+  return defineField({
+    name,
+    title,
+    type: 'object',
+    components: {input: SpacingInput},
+    fields: [
+      directionField('top', 'Top'),
+      directionField('right', 'Right'),
+      directionField('bottom', 'Bottom'),
+      directionField('left', 'Left'),
+      directionField('topMd', 'Top (md)'),
+      directionField('rightMd', 'Right (md)'),
+      directionField('bottomMd', 'Bottom (md)'),
+      directionField('leftMd', 'Left (md)'),
+      directionField('topLg', 'Top (lg)'),
+      directionField('rightLg', 'Right (lg)'),
+      directionField('bottomLg', 'Bottom (lg)'),
+      directionField('leftLg', 'Left (lg)'),
+    ],
+  })
+}
+
 export const blockStylesType = defineType({
   name: 'blockStyles',
   title: 'Block Styles',
@@ -31,46 +59,8 @@ export const blockStylesType = defineType({
     input: BlockStylesPreview,
   },
   fields: [
-    defineField({
-      name: 'padding',
-      title: 'Padding',
-      type: 'object',
-      components: {input: SpacingInput},
-      fields: [
-        directionField('top', 'Top'),
-        directionField('right', 'Right'),
-        directionField('bottom', 'Bottom'),
-        directionField('left', 'Left'),
-        directionField('topMd', 'Top (md)'),
-        directionField('rightMd', 'Right (md)'),
-        directionField('bottomMd', 'Bottom (md)'),
-        directionField('leftMd', 'Left (md)'),
-        directionField('topLg', 'Top (lg)'),
-        directionField('rightLg', 'Right (lg)'),
-        directionField('bottomLg', 'Bottom (lg)'),
-        directionField('leftLg', 'Left (lg)'),
-      ],
-    }),
-    defineField({
-      name: 'margin',
-      title: 'Margin',
-      type: 'object',
-      components: {input: SpacingInput},
-      fields: [
-        directionField('top', 'Top'),
-        directionField('right', 'Right'),
-        directionField('bottom', 'Bottom'),
-        directionField('left', 'Left'),
-        directionField('topMd', 'Top (md)'),
-        directionField('rightMd', 'Right (md)'),
-        directionField('bottomMd', 'Bottom (md)'),
-        directionField('leftMd', 'Left (md)'),
-        directionField('topLg', 'Top (lg)'),
-        directionField('rightLg', 'Right (lg)'),
-        directionField('bottomLg', 'Bottom (lg)'),
-        directionField('leftLg', 'Left (lg)'),
-      ],
-    }),
+    spacingField('padding', 'Padding'),
+    spacingField('margin', 'Margin'),
     defineField({
       name: 'border',
       title: 'Border',
@@ -156,5 +146,6 @@ export const blockStylesType = defineType({
         defineField({name: 'overflow', title: 'Overflow', type: 'string'}),
       ],
     }),
+    motionField(),
   ],
 })

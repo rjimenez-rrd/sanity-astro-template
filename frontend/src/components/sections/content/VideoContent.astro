@@ -1,0 +1,72 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import type {ExternalVideoData, YoutubeVideoData} from '@/types/sanity'
+
+interface Props {
+  data: ExternalVideoData | YoutubeVideoData
+}
+
+const {data} = Astro.props
+
+function extractYouTubeId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
+    /(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+    /(?:youtube\.com\/v\/)([a-zA-Z0-9_-]{11})/,
+  ]
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern)
+    if (match?.[1]) return match[1]
+  }
+
+  return null
+}
+
+const isYouTube = stegaClean(data._type) === 'youtubeVideo'
+const url = stegaClean(data.url)
+const videoId = isYouTube && url ? extractYouTubeId(url) : null
+const external = data as ExternalVideoData
+---
+
+{
+  isYouTube
+    ? videoId && (
+        <figure>
+          <div
+            class="relative w-full overflow-hidden rounded-xl shadow-lg border-1 border-red-500"
+            style="padding-bottom:56.25%"
+          >
+            <iframe
+              class="absolute inset-0 h-full w-full"
+              src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            />
+          </div>
+          {data.caption && (
+            <figcaption class="mt-3 text-center text-sm text-muted">{data.caption}</figcaption>
+          )}
+        </figure>
+      )
+    : url && (
+        <figure>
+          <video
+            class="w-full rounded-lg"
+            controls
+            autoplay={external.autoplay ?? false}
+            loop={external.loop ?? false}
+            muted={external.muted ?? false}
+            playsinline
+          >
+            <source src={url} />
+            Your browser does not support the video tag.
+          </video>
+          {data.caption && (
+            <figcaption class="mt-3 text-center text-sm text-muted">{data.caption}</figcaption>
+          )}
+        </figure>
+      )
+}
