@@ -1,34 +1,34 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
-import BlockStylesWrapper from '@/components/shared/BlockStylesWrapper.astro'
-import {elementStyle, hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
+import BlockStylesWrapper from '@/components/ui/BlockStylesWrapper.astro'
+import {buildStyles, elementStyle, hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs, type MotionSettings} from '@/lib/animation'
-import RichTextContent from './content/RichTextContent.astro'
-import ImageContent from './content/ImageContent.astro'
-import CallToActionContent from './content/CallToActionContent.astro'
-import VideoContent from './content/VideoContent.astro'
-import TabbedContent from './content/TabbedContent.astro'
-import AccordionContent from './content/AccordionContent.astro'
-import SpacerDividerContent from './content/SpacerDividerContent.astro'
-import CountdownTimerContent from './content/CountdownTimerContent.astro'
-import IconTextContent from './content/IconTextContent.astro'
-import ButtonGroupContent from './content/ButtonGroupContent.astro'
-import StatMetricContent from './content/StatMetricContent.astro'
-import TestimonialQuoteContent from './content/TestimonialQuoteContent.astro'
-import AlertNoticeContent from './content/AlertNoticeContent.astro'
-import PricingCardContent from './content/PricingCardContent.astro'
-import SocialEmbedContent from './content/SocialEmbedContent.astro'
-import LogoRowContent from './content/LogoRowContent.astro'
-import MapEmbedContent from './content/MapEmbedContent.astro'
-import CodeBlockContent from './content/CodeBlockContent.astro'
-import DataTableContent from './content/DataTableContent.astro'
-import LottieAnimationContent from './content/LottieAnimationContent.astro'
-import FormBlockContent from './content/FormBlockContent.astro'
-import FaqBlockContent from './content/FaqBlockContent.astro'
-import FeatureCardGridContent from './content/FeatureCardGridContent.astro'
-import TestimonialCarouselContent from './content/TestimonialCarouselContent.astro'
-import ImageGalleryContent from './content/ImageGalleryContent.astro'
-import TocBlockContent from './content/TocBlockContent.astro'
+import RichText from './blocks/RichText.astro'
+import Image from './blocks/Image.astro'
+import CallToAction from './blocks/CallToAction.astro'
+import Video from './blocks/Video.astro'
+import TabbedContent from './blocks/TabbedContent.astro'
+import Accordion from './blocks/Accordion.astro'
+import SpacerDivider from './blocks/SpacerDivider.astro'
+import CountdownTimer from './blocks/CountdownTimer.astro'
+import IconText from './blocks/IconText.astro'
+import ButtonGroup from './blocks/ButtonGroup.astro'
+import StatMetric from './blocks/StatMetric.astro'
+import TestimonialQuote from './blocks/TestimonialQuote.astro'
+import AlertNotice from './blocks/AlertNotice.astro'
+import PricingCard from './blocks/PricingCard.astro'
+import SocialEmbed from './blocks/SocialEmbed.astro'
+import LogoRow from './blocks/LogoRow.astro'
+import MapEmbed from './blocks/MapEmbed.astro'
+import CodeBlock from './blocks/CodeBlock.astro'
+import DataTable from './blocks/DataTable.astro'
+import LottieAnimation from './blocks/LottieAnimation.astro'
+import FormBlock from './blocks/FormBlock.astro'
+import FaqBlock from './blocks/FaqBlock.astro'
+import FeatureCardGrid from './blocks/FeatureCardGrid.astro'
+import TestimonialCarousel from './blocks/TestimonialCarousel.astro'
+import ImageGallery from './blocks/ImageGallery.astro'
+import TocBlock from './blocks/TocBlock.astro'
 import type {ContentBlock} from '@/types/sanity'
 
 interface Props {
@@ -38,33 +38,33 @@ interface Props {
 const {block} = Astro.props
 
 const CONTENT_MAP: Record<string, any> = {
-  richTextBlock: RichTextContent,
-  imageBlock: ImageContent,
-  callToAction: CallToActionContent,
-  externalVideo: VideoContent,
-  youtubeVideo: VideoContent,
+  richTextBlock: RichText,
+  imageBlock: Image,
+  callToAction: CallToAction,
+  externalVideo: Video,
+  youtubeVideo: Video,
   tabbedContent: TabbedContent,
-  accordion: AccordionContent,
-  spacerDivider: SpacerDividerContent,
-  countdownTimer: CountdownTimerContent,
-  iconText: IconTextContent,
-  buttonGroup: ButtonGroupContent,
-  statMetric: StatMetricContent,
-  testimonialQuote: TestimonialQuoteContent,
-  alertNotice: AlertNoticeContent,
-  pricingCard: PricingCardContent,
-  socialEmbed: SocialEmbedContent,
-  logoRow: LogoRowContent,
-  mapEmbed: MapEmbedContent,
-  codeBlock: CodeBlockContent,
-  dataTable: DataTableContent,
-  lottieAnimation: LottieAnimationContent,
-  formBlock: FormBlockContent,
-  faqBlock: FaqBlockContent,
-  featureCardGrid: FeatureCardGridContent,
-  testimonialCarousel: TestimonialCarouselContent,
-  imageGallery: ImageGalleryContent,
-  tocBlock: TocBlockContent,
+  accordion: Accordion,
+  spacerDivider: SpacerDivider,
+  countdownTimer: CountdownTimer,
+  iconText: IconText,
+  buttonGroup: ButtonGroup,
+  statMetric: StatMetric,
+  testimonialQuote: TestimonialQuote,
+  alertNotice: AlertNotice,
+  pricingCard: PricingCard,
+  socialEmbed: SocialEmbed,
+  logoRow: LogoRow,
+  mapEmbed: MapEmbed,
+  codeBlock: CodeBlock,
+  dataTable: DataTable,
+  lottieAnimation: LottieAnimation,
+  formBlock: FormBlock,
+  faqBlock: FaqBlock,
+  featureCardGrid: FeatureCardGrid,
+  testimonialCarousel: TestimonialCarousel,
+  imageGallery: ImageGallery,
+  tocBlock: TocBlock,
 }
 
 /** Blocks that take `style`/`class` on their own root, so they need no wrapper. */
@@ -78,6 +78,25 @@ const animation = animationAttrs(styles?.motion)
 // A wrapper only exists to carry styles or an animation.
 const needsWrapper = hasBlockStyles(styles) || Object.keys(animation).length > 0
 const own = needsWrapper && SELF_STYLED.has(type) ? elementStyle(styles) : null
+
+/**
+ * Blocks ship their own spacing — AlertNotice p-4, PricingCard p-6, headings
+ * mb-4. Configured spacing replaces that instead of nesting outside it: these
+ * markers let global.css zero the built-in value, and the configured one then
+ * wins as an inline style. Emitted per property and only when an editor set
+ * something, so an untouched block keeps its defaults.
+ */
+// Keyed off what buildStyles actually emitted, not the raw field values: a
+// value the whitelist rejects must not strip the block's default and leave
+// nothing in its place.
+// buildStyles assigns every key up front, leaving undefined ones for
+// toStyleString to filter, so the value has to be checked and not just the key.
+const built = buildStyles(styles)
+const emitted = (re: RegExp) =>
+  Object.entries(built).some(([k, v]) => v !== undefined && v !== '' && re.test(k))
+
+const hasPadding = emitted(/^(padding-|--p[trbl]-(tablet|mobile)$)/)
+const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
 ---
 
 {
@@ -87,10 +106,17 @@ const own = needsWrapper && SELF_STYLED.has(type) ? elementStyle(styles) : null
         data={block}
         style={own.style}
         data-pb-overlay={own.overlay ? '' : undefined}
+        data-pb-pad={hasPadding ? '' : undefined}
+        data-pb-mar={hasMargin ? '' : undefined}
         {...animation}
       />
     ) : needsWrapper ? (
-      <BlockStylesWrapper blockStyles={block.blockStyles} {...animation}>
+      <BlockStylesWrapper
+        blockStyles={block.blockStyles}
+        data-pb-pad={hasPadding ? '' : undefined}
+        data-pb-mar={hasMargin ? '' : undefined}
+        {...animation}
+      >
         <Component data={block} />
       </BlockStylesWrapper>
     ) : (

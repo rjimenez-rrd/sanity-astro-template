@@ -1,9 +1,9 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
-import BlockStylesWrapper from '@/components/shared/BlockStylesWrapper.astro'
-import SanityImage from '@/components/shared/SanityImage.astro'
-import CallToActionContent from './content/CallToActionContent.astro'
-import BadgePill from './BadgePill.astro'
+import BlockStylesWrapper from '@/components/ui/BlockStylesWrapper.astro'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import CallToAction from '../blocks/CallToAction.astro'
+import BadgePill from '@/components/ui/BadgePill.astro'
 import type {HeroSectionData} from '@/types/sanity'
 
 interface Props {
@@ -83,7 +83,7 @@ const isMediaLeft = stegaClean(data.mediaPosition) === 'left'
               {buttons.length > 0 && (
                 <div class="mt-8 flex flex-wrap gap-4">
                   {buttons.map((btn) => (
-                    <CallToActionContent data={btn} />
+                    <CallToAction data={btn} />
                   ))}
                 </div>
               )}
@@ -152,7 +152,7 @@ const isMediaLeft = stegaClean(data.mediaPosition) === 'left'
             {buttons.length > 0 && (
               <div class="mt-8 flex flex-wrap justify-center gap-4">
                 {buttons.map((btn) => (
-                  <CallToActionContent data={btn} />
+                  <CallToAction data={btn} />
                 ))}
               </div>
             )}

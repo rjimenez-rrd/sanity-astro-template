@@ -13,7 +13,7 @@ const isExternal = href.startsWith('http')
   href={href}
   target={isExternal ? '_blank' : undefined}
   rel={isExternal ? 'noopener noreferrer' : undefined}
-  class="text-primary underline underline-offset-2 hover:text-primary/80"
+  class="underline underline-offset-2 hover:text-primary/80"
 >
   <slot />
 </a>

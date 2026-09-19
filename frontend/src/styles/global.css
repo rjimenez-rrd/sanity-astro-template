@@ -104,6 +104,20 @@ h2, h3 {
 }
 
 /*
+ * Configured padding replaces a block's built-in padding instead of nesting
+ * outside it. BlockRenderer only sets data-pb-pad when an editor set padding,
+ * so untouched blocks keep their defaults. Unlayered and !important so it beats
+ * Tailwind's utilities, while the wrapper's own inline padding still wins.
+ */
+[data-pb-pad] > * {
+  padding: 0 !important;
+}
+
+[data-pb-mar] > * {
+  margin: 0 !important;
+}
+
+/*
  * Container name badge, for the Presentation preview. GridRowSection only emits
  * data-pb-label on draft requests, so a published page never matches this rule
  * and never carries the markup.

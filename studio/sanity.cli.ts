@@ -21,7 +21,9 @@ export default defineCliConfig({
     autoUpdates: true,
   },
   typegen: {
-    path: '../frontend-astro/src/**/*.{ts,tsx}',
-    generates: '../frontend-astro/src/sanity/types.ts',
+    // The workspace is named frontend-astro but lives in frontend/; these are
+    // filesystem paths, so they follow the directory.
+    path: '../frontend/src/**/*.{ts,tsx}',
+    generates: '../frontend/src/sanity/types.generated.ts',
   },
 });

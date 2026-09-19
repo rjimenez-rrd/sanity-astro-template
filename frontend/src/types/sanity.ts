@@ -4,7 +4,7 @@ import type {
   BLOG_POSTS_QUERY_RESULT,
   BLOG_POST_QUERY_RESULT,
   SITE_SETTINGS_QUERY_RESULT,
-} from '@/sanity/types'
+} from '@/sanity/types.generated'
 
 // ---------- Settings ----------
 export type SiteSettings = NonNullable<SITE_SETTINGS_QUERY_RESULT>
