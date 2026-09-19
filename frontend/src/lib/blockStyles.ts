@@ -16,7 +16,13 @@ export interface BlockStyles {
   border?: {width?: string | null; style?: string | null; color?: string | null} | null
   borderRadius?: {topLeft?: string | null; topRight?: string | null; bottomRight?: string | null; bottomLeft?: string | null} | null
   background?: {color?: string | null; image?: {asset?: {url?: string | null} | null} | null; size?: string | null; overlay?: string | null} | null
-  typography?: {textAlign?: string | null; fontSize?: string | null; textColor?: string | null} | null
+  typography?: {
+    textAlign?: string | null
+    textAlignTablet?: string | null
+    textAlignMobile?: string | null
+    fontSize?: string | null
+    textColor?: string | null
+  } | null
   effects?: {shadow?: string | null; opacity?: number | null; overflow?: string | null} | null
 }
 
@@ -42,6 +48,14 @@ const len = (raw?: string | null): string | undefined => {
   const v = raw?.trim()
   return v && CSS_LENGTH.test(v) ? v : undefined
 }
+
+const TEXT_ALIGN = new Set(['left', 'center', 'right', 'start', 'end', 'justify'])
+
+const align = (raw?: string | null): string | undefined =>
+  raw && TEXT_ALIGN.has(raw.trim()) ? raw.trim() : undefined
+
+/** Hex, rgb()/rgba() or a bare CSS colour keyword — nothing with punctuation. */
+const CSS_COLOR = /^(#[0-9a-fA-F]{3,8}|rgba?\([\d\s.,%/]+\)|[a-zA-Z]+)$/
 
 const ALIGN_SELF: Record<string, string> = {
   start: 'flex-start',
@@ -138,9 +152,13 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
 
   // Typography
   if (bs.typography) {
-    if (bs.typography.textAlign) styles['text-align'] = bs.typography.textAlign
-    if (bs.typography.fontSize) styles['font-size'] = `${bs.typography.fontSize}px`
-    if (bs.typography.textColor) styles['color'] = bs.typography.textColor
+    styles['text-align'] = align(bs.typography.textAlign)
+    styles['--ta-tablet'] = align(bs.typography.textAlignTablet)
+    styles['--ta-mobile'] = align(bs.typography.textAlignMobile)
+    const fontSize = bs.typography.fontSize?.trim()
+    if (fontSize && /^\d+(\.\d+)?$/.test(fontSize)) styles['font-size'] = `${fontSize}px`
+    const color = bs.typography.textColor?.trim()
+    if (color && CSS_COLOR.test(color)) styles['color'] = color
   }
 
   // Effects

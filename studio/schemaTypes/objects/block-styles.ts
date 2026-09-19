@@ -179,7 +179,11 @@ export const blockStylesType = defineType({
       type: 'object',
       components: {input: TypographyInput},
       fields: [
+        // Desktop-first like spacing: unsuffixed is the base, Tablet overrides
+        // at <=1024px and Mobile at <=767px.
         defineField({name: 'textAlign', title: 'Align', type: 'string'}),
+        defineField({name: 'textAlignTablet', title: 'Align (tablet)', type: 'string'}),
+        defineField({name: 'textAlignMobile', title: 'Align (mobile)', type: 'string'}),
         defineField({name: 'fontSize', title: 'Size', type: 'string'}),
         defineField({name: 'textColor', title: 'Color', type: 'string'}),
       ],

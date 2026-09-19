@@ -86,6 +86,7 @@ h2, h3 {
   [style*='--ml-tablet'] { margin-left: var(--ml-tablet) !important; }
   [style*='--w-tablet'] { width: var(--w-tablet) !important; }
   [style*='--as-tablet'] { align-self: var(--as-tablet) !important; }
+  [style*='--ta-tablet'] { text-align: var(--ta-tablet) !important; }
 }
 
 @media (max-width: 767px) {
@@ -99,6 +100,7 @@ h2, h3 {
   [style*='--ml-mobile'] { margin-left: var(--ml-mobile) !important; }
   [style*='--w-mobile'] { width: var(--w-mobile) !important; }
   [style*='--as-mobile'] { align-self: var(--as-mobile) !important; }
+  [style*='--ta-mobile'] { text-align: var(--ta-mobile) !important; }
 }
 
 /*
