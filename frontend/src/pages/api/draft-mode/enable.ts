@@ -13,9 +13,22 @@ export const GET: APIRoute = async ({request, cookies, redirect, url}) => {
   const token = import.meta.env.SANITY_API_READ_TOKEN
   if (!token) return new Response('Missing SANITY_API_READ_TOKEN', {status: 500})
 
-  const {isValid, redirectTo = '/'} = await validatePreviewUrl(getDraftClient(token), request.url)
+  /**
+   * Only Presentation can mint the one-time secret, so in dev `?dev=1` opts in
+   * without one — that is the only way to preview drafts in an ordinary tab.
+   * import.meta.env.DEV is false in any build, so this cannot ship.
+   */
+  let redirectTo = '/'
 
-  if (!isValid) return new Response('Invalid secret', {status: 401})
+  if (import.meta.env.DEV && url.searchParams.get('dev') === '1') {
+    const to = url.searchParams.get('redirect') ?? '/'
+    // Same-origin paths only; never bounce to another site.
+    redirectTo = to.startsWith('/') && !to.startsWith('//') ? to : '/'
+  } else {
+    const result = await validatePreviewUrl(getDraftClient(token), request.url)
+    if (!result.isValid) return new Response('Invalid secret', {status: 401})
+    redirectTo = result.redirectTo ?? '/'
+  }
 
   // Presentation renders this site in an iframe on the Studio's origin. In
   // production (e.g. *.sanity.studio framing example.com) that is cross-site,

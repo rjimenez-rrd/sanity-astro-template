@@ -55,6 +55,18 @@
   // Astro replaces the document on view transitions; tear the overlay down so
   // it does not observe a detached tree.
   document.addEventListener('astro:before-swap', () => disable())
+
+  /**
+   * Refresh events reach this page over Presentation's channel, which only
+   * exists inside the Studio's iframe. A draft tab opened directly has no such
+   * channel, so in dev it polls instead — reloadWhenChanged only reloads once
+   * the server-rendered HTML actually differs, so an unrelated edit is a no-op.
+   */
+  const STANDALONE_POLL_MS = 3000
+  if (import.meta.env.DEV && window.self === window.top) {
+    const poll = setInterval(() => void reloadWhenChanged(), STANDALONE_POLL_MS)
+    document.addEventListener('astro:before-swap', () => clearInterval(poll))
+  }
 </script>
 
 <a
