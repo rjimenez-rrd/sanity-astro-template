@@ -37,7 +37,10 @@ export default defineConfig({
       projectId: PUBLIC_SANITY_PROJECT_ID,
       dataset: PUBLIC_SANITY_DATASET,
       apiVersion: '2025-03-20',
-      useCdn: true,
+      // The CDN caches for up to a minute, so in dev a publish would not show
+      // up on refresh. Production keeps it: stale reads there are covered by
+      // the ISR bypass token and the on-demand revalidate webhook.
+      useCdn: process.env.NODE_ENV === 'production',
       // Stega encodes Studio edit links into returned strings. It is off for
       // published output — the invisible characters are pure bloat there — and
       // switched on per request by getClient() when rendering drafts.
