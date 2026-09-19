@@ -1,7 +1,9 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {DashboardIcon} from '@sanity/icons'
+import {randomKey} from '@sanity/util/content'
 import {LayoutPickerInput} from '../../components/LayoutPickerInput'
 import {ColumnsInput} from '../../components/ColumnsInput'
+import {COLUMN_CONTAINER_DEFAULTS} from '../../components/container/defaults'
 import {
   CONTAINER_GROUPS,
   advancedField,
@@ -28,6 +30,14 @@ type ContainerParent = {container?: {layoutType?: string}} | undefined
 /** Rows saved before the container settings existed have no `container`. */
 const isLegacyRow = (parent: ContainerParent) => !parent?.container
 
+/** Mirrors createEmptyColumn in ColumnsInput so both entry points agree. */
+const createColumn = () => ({
+  _type: 'gridColumn',
+  _key: randomKey(12),
+  verticalAlign: 'top',
+  container: {...COLUMN_CONTAINER_DEFAULTS},
+})
+
 /** The grid template picker only matters in Grid mode (and for legacy rows). */
 const usesGridTemplate = (parent: ContainerParent) =>
   isLegacyRow(parent) || parent?.container?.layoutType === 'grid'
@@ -52,12 +62,12 @@ export const gridRowType = defineType({
 
     defineField({
       name: 'layout',
-      title: 'Grid Template',
+      title: 'Layout Preset',
       type: 'string',
       group: 'layout',
-      description: 'Column widths for Grid mode. Columns stack on mobile.',
+      description:
+        'Pick a column structure. In Grid mode it sets the grid tracks; in Flexbox it seeds how many columns to add and how wide each one starts.',
       initialValue: '50-50',
-      hidden: ({parent}) => !usesGridTemplate(parent as ContainerParent),
       validation: (rule) =>
         rule.custom((value, context) =>
           usesGridTemplate(context.parent as ContainerParent) && !value
@@ -75,6 +85,9 @@ export const gridRowType = defineType({
       type: 'array',
       group: 'layout',
       description: 'Each item is a column inside this container. Open one to edit its own layout and style.',
+      // A new container starts valid, instead of greeting the editor with a
+      // required-field error before they have done anything.
+      initialValue: () => [createColumn(), createColumn()],
       validation: (rule) => rule.required().min(1),
       components: {
         input: ColumnsInput,

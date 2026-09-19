@@ -72,7 +72,10 @@ export function BlockStylesPreview(props: ObjectInputProps) {
   if (typeof fx.opacity === 'number' && (fx.opacity as number) < 100) tags.push('opacity')
   if (bg.image) tags.push('bg image')
   const basePaddingKeys = ['top', 'right', 'bottom', 'left']
-  const responsivePaddingKeys = ['topMd', 'rightMd', 'bottomMd', 'leftMd', 'topLg', 'rightLg', 'bottomLg', 'leftLg']
+  const responsivePaddingKeys = [
+    'topTablet', 'rightTablet', 'bottomTablet', 'leftTablet',
+    'topMobile', 'rightMobile', 'bottomMobile', 'leftMobile',
+  ]
   const hasBasePadding = basePaddingKeys.some((k) => Boolean(padding[k]))
   const hasResponsivePadding = responsivePaddingKeys.some((k) => Boolean(padding[k]))
   const hasBaseMargin = basePaddingKeys.some((k) => Boolean(margin[k]))

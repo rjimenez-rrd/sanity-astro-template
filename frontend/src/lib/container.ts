@@ -36,8 +36,12 @@ export interface VisibilitySettings {
 
 const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
 
-/** Elementor's default "Content Width" for a boxed container. */
-export const BOXED_DEFAULT_WIDTH = 1140
+/**
+ * Width a boxed container renders at until an editor sets one. The Studio shows
+ * the same number as the Width field's placeholder, in
+ * studio/components/container/ContainerLayoutInput.tsx — keep the two in step.
+ */
+export const BOXED_DEFAULT_WIDTH = 1440
 
 export const MEDIA: Record<Device, string | null> = {
   desktop: null,

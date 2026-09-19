@@ -50,12 +50,21 @@ const WIDTH_LABELS: Record<number, string> = {
 }
 
 // Built by hand here, so the schema's initialValue doesn't apply; mirror it.
-function createEmptyColumn() {
+function createEmptyColumn(span?: number) {
+  const container: Record<string, unknown> = {
+    layoutType: 'flex',
+    direction: {desktop: 'column'},
+  }
+  // A flex column carries its own width; a grid column is sized by its track,
+  // so only the flex path seeds one from the preset.
+  if (span) {
+    container.width = {desktop: {size: Math.round((span / 12) * 10000) / 100, unit: '%'}}
+  }
   return {
     _type: 'gridColumn',
     _key: randomKey(12),
     verticalAlign: 'top',
-    container: {layoutType: 'flex', direction: {desktop: 'column'}},
+    container,
   }
 }
 
@@ -69,16 +78,21 @@ export function ColumnsInput(props: ArrayOfObjectsInputProps) {
   // Grid presets fix the column count; a flex container takes any number of
   // items, so it only offers a two-column start when empty.
   const isFlex = Boolean(container) && container?.layoutType !== 'grid'
-  const layout = isFlex ? undefined : gridLayout
+  // The preset drives flex containers too. It only becomes grid tracks in Grid
+  // mode; in flex it just says how many columns to add and how wide each starts.
+  const layout = gridLayout
 
+  const currentCount = value?.length ?? 0
+  const presetCount = (layout ? LAYOUT_COLUMN_COUNT[layout] : 0) || 2
+  // Flex takes any number of items, so the preset only offers the columns it is
+  // missing, and never flags extras as too many.
   const expectedCount = isFlex
-    ? (value?.length ?? 0) === 0
-      ? 2
+    ? currentCount < presetCount
+      ? presetCount
       : 0
     : layout
       ? LAYOUT_COLUMN_COUNT[layout] ?? 0
       : 0
-  const currentCount = value?.length ?? 0
   const widths = layout ? LAYOUT_WIDTHS[layout] ?? [] : []
   const positions = POSITION_LABELS[expectedCount] ?? []
   const needsColumns = expectedCount > 0 && currentCount < expectedCount
@@ -88,10 +102,12 @@ export function ColumnsInput(props: ArrayOfObjectsInputProps) {
   const handleAddColumns = useCallback(() => {
     if (columnsToAdd <= 0) return
 
-    const items = Array.from({length: columnsToAdd}, () => createEmptyColumn())
+    const items = Array.from({length: columnsToAdd}, (_, i) =>
+      createEmptyColumn(isFlex ? widths[currentCount + i] : undefined),
+    )
 
     onChange([setIfMissing([]), insert(items, 'after', [-1])])
-  }, [columnsToAdd, onChange])
+  }, [columnsToAdd, currentCount, isFlex, widths, onChange])
 
   const showDiagram = layout && currentCount > 0 && widths.length > 0
 

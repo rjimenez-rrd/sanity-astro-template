@@ -65,11 +65,17 @@ const PADDING_Y_MAP: Record<string, string> = {
   xl: 'py-16 md:py-24',
 }
 
+/**
+ * Legacy rows only — a container row sizes itself from contentWidth instead.
+ * `default` is BOXED_DEFAULT_WIDTH so both systems land on the same width, and
+ * `wide` is the 1600px ceiling the Studio's Width field allows. Tailwind scans
+ * for literal class names, so these cannot interpolate the constant.
+ */
 const MAX_WIDTH_MAP: Record<string, string> = {
   none: '',
-  narrow: 'max-w-3xl',
-  default: 'max-w-7xl',
-  wide: 'max-w-[1400px]',
+  narrow: 'max-w-[1280px]',
+  default: 'max-w-[1520px]',
+  wide: 'max-w-[1600px]',
   full: 'max-w-full',
 }
 

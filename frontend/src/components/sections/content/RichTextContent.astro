@@ -1,17 +1,20 @@
 ---
 import PortableTextRenderer from '@/components/shared/PortableTextRenderer.astro'
 import type {RichTextBlockData} from '@/types/sanity'
+import type {HTMLAttributes} from 'astro/types'
 
-interface Props {
+interface Props extends HTMLAttributes<'div'> {
   data: RichTextBlockData
 }
 
-const {data} = Astro.props
+const {data, class: className, ...attrs} = Astro.props
+
+const classes = ['prose prose-slate max-w-none', className].filter(Boolean).join(' ')
 ---
 
 {
   data.content && (
-    <div class="prose prose-slate max-w-none">
+    <div {...attrs} class={classes}>
       <PortableTextRenderer value={data.content} />
     </div>
   )

@@ -13,7 +13,7 @@ const imageFragment = /* groq */ `
 
 const blockStylesFragment = /* groq */ `
   blockStyles {
-    padding, margin, border, borderRadius,
+    padding, margin, size, border, borderRadius,
     background { color, image { ${imageFragment} }, size, overlay },
     typography, effects, motion
   }

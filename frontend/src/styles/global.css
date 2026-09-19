@@ -69,27 +69,36 @@ h2, h3 {
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 
-/* Responsive blockStyles overrides via CSS custom properties */
-@media (min-width: 768px) {
-  [style*='--pt-md'] { padding-top: var(--pt-md) !important; }
-  [style*='--pr-md'] { padding-right: var(--pr-md) !important; }
-  [style*='--pb-md'] { padding-bottom: var(--pb-md) !important; }
-  [style*='--pl-md'] { padding-left: var(--pl-md) !important; }
-  [style*='--mt-md'] { margin-top: var(--mt-md) !important; }
-  [style*='--mr-md'] { margin-right: var(--mr-md) !important; }
-  [style*='--mb-md'] { margin-bottom: var(--mb-md) !important; }
-  [style*='--ml-md'] { margin-left: var(--ml-md) !important; }
+/*
+ * Responsive blockStyles overrides via CSS custom properties. Desktop-first, to
+ * match the container Layout tab: the inline properties are the base, and these
+ * override below each breakpoint. Mobile comes last so it wins under 768px,
+ * where both blocks match.
+ */
+@media (max-width: 1024px) {
+  [style*='--pt-tablet'] { padding-top: var(--pt-tablet) !important; }
+  [style*='--pr-tablet'] { padding-right: var(--pr-tablet) !important; }
+  [style*='--pb-tablet'] { padding-bottom: var(--pb-tablet) !important; }
+  [style*='--pl-tablet'] { padding-left: var(--pl-tablet) !important; }
+  [style*='--mt-tablet'] { margin-top: var(--mt-tablet) !important; }
+  [style*='--mr-tablet'] { margin-right: var(--mr-tablet) !important; }
+  [style*='--mb-tablet'] { margin-bottom: var(--mb-tablet) !important; }
+  [style*='--ml-tablet'] { margin-left: var(--ml-tablet) !important; }
+  [style*='--w-tablet'] { width: var(--w-tablet) !important; }
+  [style*='--as-tablet'] { align-self: var(--as-tablet) !important; }
 }
 
-@media (min-width: 1024px) {
-  [style*='--pt-lg'] { padding-top: var(--pt-lg) !important; }
-  [style*='--pr-lg'] { padding-right: var(--pr-lg) !important; }
-  [style*='--pb-lg'] { padding-bottom: var(--pb-lg) !important; }
-  [style*='--pl-lg'] { padding-left: var(--pl-lg) !important; }
-  [style*='--mt-lg'] { margin-top: var(--mt-lg) !important; }
-  [style*='--mr-lg'] { margin-right: var(--mr-lg) !important; }
-  [style*='--mb-lg'] { margin-bottom: var(--mb-lg) !important; }
-  [style*='--ml-lg'] { margin-left: var(--ml-lg) !important; }
+@media (max-width: 767px) {
+  [style*='--pt-mobile'] { padding-top: var(--pt-mobile) !important; }
+  [style*='--pr-mobile'] { padding-right: var(--pr-mobile) !important; }
+  [style*='--pb-mobile'] { padding-bottom: var(--pb-mobile) !important; }
+  [style*='--pl-mobile'] { padding-left: var(--pl-mobile) !important; }
+  [style*='--mt-mobile'] { margin-top: var(--mt-mobile) !important; }
+  [style*='--mr-mobile'] { margin-right: var(--mr-mobile) !important; }
+  [style*='--mb-mobile'] { margin-bottom: var(--mb-mobile) !important; }
+  [style*='--ml-mobile'] { margin-left: var(--ml-mobile) !important; }
+  [style*='--w-mobile'] { width: var(--w-mobile) !important; }
+  [style*='--as-mobile'] { align-self: var(--as-mobile) !important; }
 }
 
 /*

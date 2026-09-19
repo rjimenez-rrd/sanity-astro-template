@@ -1,13 +1,17 @@
 export interface BlockStyles {
   padding?: {
     top?: string | null; right?: string | null; bottom?: string | null; left?: string | null
-    topMd?: string | null; rightMd?: string | null; bottomMd?: string | null; leftMd?: string | null
-    topLg?: string | null; rightLg?: string | null; bottomLg?: string | null; leftLg?: string | null
+    topTablet?: string | null; rightTablet?: string | null; bottomTablet?: string | null; leftTablet?: string | null
+    topMobile?: string | null; rightMobile?: string | null; bottomMobile?: string | null; leftMobile?: string | null
   } | null
   margin?: {
     top?: string | null; right?: string | null; bottom?: string | null; left?: string | null
-    topMd?: string | null; rightMd?: string | null; bottomMd?: string | null; leftMd?: string | null
-    topLg?: string | null; rightLg?: string | null; bottomLg?: string | null; leftLg?: string | null
+    topTablet?: string | null; rightTablet?: string | null; bottomTablet?: string | null; leftTablet?: string | null
+    topMobile?: string | null; rightMobile?: string | null; bottomMobile?: string | null; leftMobile?: string | null
+  } | null
+  size?: {
+    width?: string | null; widthTablet?: string | null; widthMobile?: string | null
+    align?: string | null; alignTablet?: string | null; alignMobile?: string | null
   } | null
   border?: {width?: string | null; style?: string | null; color?: string | null} | null
   borderRadius?: {topLeft?: string | null; topRight?: string | null; bottomRight?: string | null; bottomLeft?: string | null} | null
@@ -24,6 +28,15 @@ const SHADOW_MAP: Record<string, string> = {
   xl: '0 20px 25px rgba(0,0,0,0.1)',
 }
 
+/** Widths come from editors, so only a bare number plus a known unit reaches CSS. */
+const CSS_SIZE = /^\d+(\.\d+)?(px|%|rem|em|vw)$/
+
+const ALIGN_SELF: Record<string, string> = {
+  start: 'flex-start',
+  center: 'center',
+  end: 'flex-end',
+}
+
 type StyleMap = Record<string, string | number | undefined>
 
 export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
@@ -31,21 +44,21 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
 
   const styles: StyleMap = {}
 
-  // Padding — base as real properties, responsive as custom properties that
-  // the media queries in global.css promote at md/lg.
+  // Padding — the desktop base as real properties, tablet/mobile as custom
+  // properties that the max-width media queries in global.css promote below.
   if (bs.padding) {
     if (bs.padding.top) styles['padding-top'] = bs.padding.top
     if (bs.padding.right) styles['padding-right'] = bs.padding.right
     if (bs.padding.bottom) styles['padding-bottom'] = bs.padding.bottom
     if (bs.padding.left) styles['padding-left'] = bs.padding.left
-    if (bs.padding.topMd) styles['--pt-md'] = bs.padding.topMd
-    if (bs.padding.rightMd) styles['--pr-md'] = bs.padding.rightMd
-    if (bs.padding.bottomMd) styles['--pb-md'] = bs.padding.bottomMd
-    if (bs.padding.leftMd) styles['--pl-md'] = bs.padding.leftMd
-    if (bs.padding.topLg) styles['--pt-lg'] = bs.padding.topLg
-    if (bs.padding.rightLg) styles['--pr-lg'] = bs.padding.rightLg
-    if (bs.padding.bottomLg) styles['--pb-lg'] = bs.padding.bottomLg
-    if (bs.padding.leftLg) styles['--pl-lg'] = bs.padding.leftLg
+    if (bs.padding.topTablet) styles['--pt-tablet'] = bs.padding.topTablet
+    if (bs.padding.rightTablet) styles['--pr-tablet'] = bs.padding.rightTablet
+    if (bs.padding.bottomTablet) styles['--pb-tablet'] = bs.padding.bottomTablet
+    if (bs.padding.leftTablet) styles['--pl-tablet'] = bs.padding.leftTablet
+    if (bs.padding.topMobile) styles['--pt-mobile'] = bs.padding.topMobile
+    if (bs.padding.rightMobile) styles['--pr-mobile'] = bs.padding.rightMobile
+    if (bs.padding.bottomMobile) styles['--pb-mobile'] = bs.padding.bottomMobile
+    if (bs.padding.leftMobile) styles['--pl-mobile'] = bs.padding.leftMobile
   }
 
   // Margin — same pattern
@@ -54,14 +67,38 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
     if (bs.margin.right) styles['margin-right'] = bs.margin.right
     if (bs.margin.bottom) styles['margin-bottom'] = bs.margin.bottom
     if (bs.margin.left) styles['margin-left'] = bs.margin.left
-    if (bs.margin.topMd) styles['--mt-md'] = bs.margin.topMd
-    if (bs.margin.rightMd) styles['--mr-md'] = bs.margin.rightMd
-    if (bs.margin.bottomMd) styles['--mb-md'] = bs.margin.bottomMd
-    if (bs.margin.leftMd) styles['--ml-md'] = bs.margin.leftMd
-    if (bs.margin.topLg) styles['--mt-lg'] = bs.margin.topLg
-    if (bs.margin.rightLg) styles['--mr-lg'] = bs.margin.rightLg
-    if (bs.margin.bottomLg) styles['--mb-lg'] = bs.margin.bottomLg
-    if (bs.margin.leftLg) styles['--ml-lg'] = bs.margin.leftLg
+    if (bs.margin.topTablet) styles['--mt-tablet'] = bs.margin.topTablet
+    if (bs.margin.rightTablet) styles['--mr-tablet'] = bs.margin.rightTablet
+    if (bs.margin.bottomTablet) styles['--mb-tablet'] = bs.margin.bottomTablet
+    if (bs.margin.leftTablet) styles['--ml-tablet'] = bs.margin.leftTablet
+    if (bs.margin.topMobile) styles['--mt-mobile'] = bs.margin.topMobile
+    if (bs.margin.rightMobile) styles['--mr-mobile'] = bs.margin.rightMobile
+    if (bs.margin.bottomMobile) styles['--mb-mobile'] = bs.margin.bottomMobile
+    if (bs.margin.leftMobile) styles['--ml-mobile'] = bs.margin.leftMobile
+  }
+
+  // Size & alignment — a block narrower than its column needs align-self to sit
+  // anywhere but the start of it, since the column stretches items by default.
+  if (bs.size) {
+    const width = (raw?: string | null) => {
+      const v = raw?.trim()
+      return v && CSS_SIZE.test(v) ? v : undefined
+    }
+    const base = width(bs.size.width)
+    const tablet = width(bs.size.widthTablet)
+    const mobile = width(bs.size.widthMobile)
+    if (base) styles['width'] = base
+    if (tablet) styles['--w-tablet'] = tablet
+    if (mobile) styles['--w-mobile'] = mobile
+    if (base || tablet || mobile) styles['max-width'] = '100%'
+
+    const align = (raw?: string | null) => (raw ? ALIGN_SELF[raw] : undefined)
+    const alignBase = align(bs.size.align)
+    const alignTablet = align(bs.size.alignTablet)
+    const alignMobile = align(bs.size.alignMobile)
+    if (alignBase) styles['align-self'] = alignBase
+    if (alignTablet) styles['--as-tablet'] = alignTablet
+    if (alignMobile) styles['--as-mobile'] = alignMobile
   }
 
   // Border

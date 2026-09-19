@@ -3,45 +3,76 @@ import {type ObjectInputProps, set, unset} from 'sanity'
 import {Card, Flex, Text} from '@sanity/ui'
 import {SPACING_OPTIONS} from '../schemaTypes/shared/constants'
 
+// Desktop-first, matching the container Layout tab: the '' key is the base that
+// applies at every width, Tablet/Mobile are max-width overrides below it.
 const BREAKPOINTS = [
-  {key: '', label: 'Mobile', icon: '📱', width: '375px'},
-  {key: 'Md', label: 'Tablet', icon: '📱', width: '768px'},
-  {key: 'Lg', label: 'Desktop', icon: '💻', width: '1024px'},
+  {key: '', label: 'Desktop', icon: '💻', width: '1024px'},
+  {key: 'Tablet', label: 'Tablet', icon: '📱', width: '1024px'},
+  {key: 'Mobile', label: 'Mobile', icon: '📱', width: '767px'},
 ] as const
 
 function SpacingSelect({
   value,
+  inherited,
   onChange,
 }: {
   value?: string
+  inherited?: string
   onChange: (v: string) => void
 }) {
+  // The inherited value is overlaid rather than used as the empty option's
+  // label, so the dropdown still reads "—" for "clear this override".
+  const showInherited = !value && Boolean(inherited)
+
   return (
-    <select
-      value={value ?? ''}
-      onChange={(e) => onChange(e.target.value)}
-      style={{
-        width: 60,
-        padding: '3px 2px',
-        fontSize: 11,
-        fontFamily: 'inherit',
-        border: '1px solid var(--card-border-color)',
-        borderRadius: 4,
-        backgroundColor: 'var(--card-bg-color)',
-        color: value ? 'var(--card-fg-color)' : 'var(--card-muted-fg-color)',
-        textAlign: 'center',
-        cursor: 'pointer',
-        appearance: 'none',
-        WebkitAppearance: 'none',
-      }}
-    >
-      <option value="">—</option>
-      {SPACING_OPTIONS.map((opt) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.title}
-        </option>
-      ))}
-    </select>
+    <div style={{position: 'relative', width: 60}}>
+      <select
+        value={value ?? ''}
+        onChange={(e) => onChange(e.target.value)}
+        style={{
+          width: '100%',
+          padding: '3px 2px',
+          fontSize: 11,
+          fontFamily: 'inherit',
+          border: '1px solid var(--card-border-color)',
+          borderRadius: 4,
+          backgroundColor: 'var(--card-bg-color)',
+          color: value
+            ? 'var(--card-fg-color)'
+            : showInherited
+              ? 'transparent'
+              : 'var(--card-muted-fg-color)',
+          textAlign: 'center',
+          cursor: 'pointer',
+          appearance: 'none',
+          WebkitAppearance: 'none',
+        }}
+      >
+        <option value="">—</option>
+        {SPACING_OPTIONS.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.title}
+          </option>
+        ))}
+      </select>
+      {showInherited && (
+        <span
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 11,
+            fontStyle: 'italic',
+            color: 'var(--card-muted-fg-color)',
+            pointerEvents: 'none',
+          }}
+        >
+          {inherited}
+        </span>
+      )}
+    </div>
   )
 }
 
@@ -51,7 +82,11 @@ export function SpacingInput(props: ObjectInputProps) {
   const title = schemaType.title ?? 'Spacing'
   const isPadding = schemaType.name === 'padding' || title.toLowerCase().includes('padding')
 
-  const [activeBreakpoint, setActiveBreakpoint] = useState(0)
+  // Opens on the base regardless of tab order: values typed here apply at every
+  // width, whereas the Md/Lg tabs only override above their breakpoint.
+  const [activeBreakpoint, setActiveBreakpoint] = useState(
+    BREAKPOINTS.findIndex((b) => b.key === ''),
+  )
   const bp = BREAKPOINTS[activeBreakpoint]
   const suffix = bp.key // '', 'Md', 'Lg'
 
@@ -59,6 +94,20 @@ export function SpacingInput(props: ObjectInputProps) {
   const fieldRight = `right${suffix}`
   const fieldBottom = `bottom${suffix}`
   const fieldLeft = `left${suffix}`
+
+  /**
+   * Desktop-first, mirroring the max-width rules in the frontend's global.css:
+   * an unset Mobile value falls back to Tablet, then to the Desktop base.
+   * Desktop is the base itself, so it inherits nothing.
+   */
+  const inheritedFor = (side: string) => {
+    const chain = suffix === 'Mobile' ? ['Tablet', ''] : suffix === 'Tablet' ? [''] : []
+    for (const from of chain) {
+      const v = vals[`${side}${from}`]
+      if (v) return v
+    }
+    return undefined
+  }
 
   const handleChange = useCallback(
     (side: string, newValue: string) => {
@@ -71,16 +120,15 @@ export function SpacingInput(props: ObjectInputProps) {
     [onChange],
   )
 
-  // Check which breakpoints have values set
-  const hasBaseValues = vals.top || vals.right || vals.bottom || vals.left
-  const hasMdValues = vals.topMd || vals.rightMd || vals.bottomMd || vals.leftMd
-  const hasLgValues = vals.topLg || vals.rightLg || vals.bottomLg || vals.leftLg
-  const dots = [hasBaseValues, hasMdValues, hasLgValues]
+  // Keyed off the breakpoint rather than tab position, so the dot stays correct
+  // regardless of the order BREAKPOINTS are displayed in.
+  const hasValuesFor = (s: string) =>
+    Boolean(vals[`top${s}`] || vals[`right${s}`] || vals[`bottom${s}`] || vals[`left${s}`])
 
   const ALL_FIELDS = [
     'top', 'right', 'bottom', 'left',
-    'topMd', 'rightMd', 'bottomMd', 'leftMd',
-    'topLg', 'rightLg', 'bottomLg', 'leftLg',
+    'topTablet', 'rightTablet', 'bottomTablet', 'leftTablet',
+    'topMobile', 'rightMobile', 'bottomMobile', 'leftMobile',
   ] as const
 
   const hasValues = ALL_FIELDS.some((f) => vals[f])
@@ -142,7 +190,7 @@ export function SpacingInput(props: ObjectInputProps) {
               <span>{bpItem.icon}</span>
               <span>{bpItem.label}</span>
               {/* Dot indicator for set values */}
-              {dots[i] && !isActive && (
+              {hasValuesFor(bpItem.key) && !isActive && (
                 <span
                   style={{
                     width: 5,
@@ -163,7 +211,9 @@ export function SpacingInput(props: ObjectInputProps) {
       {/* Breakpoint info */}
       <Flex justify="center" style={{marginBottom: 4}}>
         <Text size={0} muted style={{fontSize: 10}}>
-          {bp.key === '' ? 'Base styles (all screens)' : `Overrides at ≥${bp.width}`}
+          {bp.key === ''
+            ? 'Base styles (all screens)'
+            : `Overrides at ≤${bp.width} · empty inherits`}
         </Text>
       </Flex>
 
@@ -210,12 +260,20 @@ export function SpacingInput(props: ObjectInputProps) {
 
         {/* Top */}
         <Flex justify="center" style={{paddingTop: 18, paddingBottom: 4}}>
-          <SpacingSelect value={vals[fieldTop]} onChange={(v) => handleChange(fieldTop, v)} />
+          <SpacingSelect
+            value={vals[fieldTop]}
+            inherited={inheritedFor('top')}
+            onChange={(v) => handleChange(fieldTop, v)}
+          />
         </Flex>
 
         {/* Middle: left + content + right */}
         <Flex align="center" justify="center" gap={2}>
-          <SpacingSelect value={vals[fieldLeft]} onChange={(v) => handleChange(fieldLeft, v)} />
+          <SpacingSelect
+            value={vals[fieldLeft]}
+            inherited={inheritedFor('left')}
+            onChange={(v) => handleChange(fieldLeft, v)}
+          />
 
           <div
             style={{
@@ -237,12 +295,20 @@ export function SpacingInput(props: ObjectInputProps) {
             </Text>
           </div>
 
-          <SpacingSelect value={vals[fieldRight]} onChange={(v) => handleChange(fieldRight, v)} />
+          <SpacingSelect
+            value={vals[fieldRight]}
+            inherited={inheritedFor('right')}
+            onChange={(v) => handleChange(fieldRight, v)}
+          />
         </Flex>
 
         {/* Bottom */}
         <Flex justify="center" style={{paddingTop: 4, paddingBottom: 4}}>
-          <SpacingSelect value={vals[fieldBottom]} onChange={(v) => handleChange(fieldBottom, v)} />
+          <SpacingSelect
+            value={vals[fieldBottom]}
+            inherited={inheritedFor('bottom')}
+            onChange={(v) => handleChange(fieldBottom, v)}
+          />
         </Flex>
       </div>
     </Card>

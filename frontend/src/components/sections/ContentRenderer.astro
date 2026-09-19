@@ -1,7 +1,7 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
 import BlockStylesWrapper from '@/components/shared/BlockStylesWrapper.astro'
-import {hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
+import {elementStyle, hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs, type MotionSettings} from '@/lib/animation'
 import RichTextContent from './content/RichTextContent.astro'
 import ImageContent from './content/ImageContent.astro'
@@ -67,17 +67,29 @@ const CONTENT_MAP: Record<string, any> = {
   tocBlock: TocBlockContent,
 }
 
-const Component = CONTENT_MAP[stegaClean(block._type)!]
+/** Blocks that take `style`/`class` on their own root, so they need no wrapper. */
+const SELF_STYLED = new Set(['richTextBlock'])
+
+const type = stegaClean(block._type)!
+const Component = CONTENT_MAP[type]
 
 const styles = stegaClean(block.blockStyles) as (BlockStyles & {motion?: MotionSettings}) | null
 const animation = animationAttrs(styles?.motion)
 // A wrapper only exists to carry styles or an animation.
 const needsWrapper = hasBlockStyles(styles) || Object.keys(animation).length > 0
+const own = needsWrapper && SELF_STYLED.has(type) ? elementStyle(styles) : null
 ---
 
 {
   Component ? (
-    needsWrapper ? (
+    own ? (
+      <Component
+        data={block}
+        style={own.style}
+        data-pb-overlay={own.overlay ? '' : undefined}
+        {...animation}
+      />
+    ) : needsWrapper ? (
       <BlockStylesWrapper blockStyles={block.blockStyles} {...animation}>
         <Component data={block} />
       </BlockStylesWrapper>

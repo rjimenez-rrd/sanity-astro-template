@@ -52,8 +52,12 @@ const WIDTH_UNITS = ['px', '%', 'vw'] as const
 const HEIGHT_UNITS = ['px', 'vh'] as const
 const GAP_UNITS = ['px', 'em', 'rem', '%'] as const
 
-/** Width a Boxed container uses until one is set — Elementor's default. */
-const BOXED_DEFAULT_WIDTH = 1360
+/**
+ * Placeholder for the Width field on a Boxed container. This is display only —
+ * the width that actually renders is BOXED_DEFAULT_WIDTH in
+ * frontend/src/lib/container.ts, so the two must stay equal.
+ */
+const BOXED_DEFAULT_WIDTH = 1440
 
 const MAX_BY_UNIT: Record<string, number> = {px: 1600, '%': 100, vw: 100, vh: 100, em: 10, rem: 10}
 

@@ -3,6 +3,7 @@ import {SPACING_OPTIONS} from '../shared/constants'
 import {motionField} from '../shared/motion'
 import {BlockStylesPreview} from '../../components/BlockStylesPreview'
 import {SpacingInput} from '../../components/SpacingInput'
+import {SizeInput} from '../../components/SizeInput'
 import {BorderRadiusInput} from '../../components/BorderRadiusInput'
 import {BorderStyleInput} from '../../components/BorderStyleInput'
 import {TypographyInput} from '../../components/TypographyInput'
@@ -14,6 +15,35 @@ const spacingList = SPACING_OPTIONS.map((opt) => ({
   value: opt.value,
 }))
 
+const ALIGN_LIST = [
+  {title: 'Start', value: 'start'},
+  {title: 'Center', value: 'center'},
+  {title: 'End', value: 'end'},
+]
+
+function widthField(name: string, title: string) {
+  return defineField({
+    name,
+    title,
+    type: 'string',
+    description: 'A number with a unit, e.g. 320px, 50%, 20rem. Empty fills the container.',
+    validation: (rule) =>
+      rule
+        .regex(/^\d+(\.\d+)?(px|%|rem|em|vw)$/, {name: 'CSS width'})
+        .warning('Use a number with a unit, like 320px or 50%.'),
+  })
+}
+
+function alignField(name: string, title: string) {
+  return defineField({
+    name,
+    title,
+    type: 'string',
+    description: 'Where the block sits when it is narrower than the container.',
+    options: {list: ALIGN_LIST},
+  })
+}
+
 function directionField(name: string, title: string) {
   return defineField({
     name,
@@ -24,7 +54,9 @@ function directionField(name: string, title: string) {
 }
 
 /**
- * Responsive four-side spacing (base = mobile, Md = tablet, Lg = desktop).
+ * Responsive four-side spacing, desktop-first to match the container Layout tab:
+ * the unsuffixed fields are the base that applies everywhere, Tablet overrides
+ * at ≤1024px and Mobile at ≤767px.
  * Shared with the container Advanced tab so both render through SpacingInput.
  */
 export function spacingField(name: string, title: string) {
@@ -38,14 +70,14 @@ export function spacingField(name: string, title: string) {
       directionField('right', 'Right'),
       directionField('bottom', 'Bottom'),
       directionField('left', 'Left'),
-      directionField('topMd', 'Top (md)'),
-      directionField('rightMd', 'Right (md)'),
-      directionField('bottomMd', 'Bottom (md)'),
-      directionField('leftMd', 'Left (md)'),
-      directionField('topLg', 'Top (lg)'),
-      directionField('rightLg', 'Right (lg)'),
-      directionField('bottomLg', 'Bottom (lg)'),
-      directionField('leftLg', 'Left (lg)'),
+      directionField('topTablet', 'Top (tablet)'),
+      directionField('rightTablet', 'Right (tablet)'),
+      directionField('bottomTablet', 'Bottom (tablet)'),
+      directionField('leftTablet', 'Left (tablet)'),
+      directionField('topMobile', 'Top (mobile)'),
+      directionField('rightMobile', 'Right (mobile)'),
+      directionField('bottomMobile', 'Bottom (mobile)'),
+      directionField('leftMobile', 'Left (mobile)'),
     ],
   })
 }
@@ -61,6 +93,23 @@ export const blockStylesType = defineType({
   fields: [
     spacingField('padding', 'Padding'),
     spacingField('margin', 'Margin'),
+    defineField({
+      name: 'size',
+      title: 'Size & Alignment',
+      type: 'object',
+      options: {collapsible: true, collapsed: true},
+      components: {input: SizeInput},
+      // Desktop-first like the spacing fields: unsuffixed is the base, Tablet
+      // overrides at <=1024px and Mobile at <=767px.
+      fields: [
+        widthField('width', 'Width'),
+        widthField('widthTablet', 'Width (tablet)'),
+        widthField('widthMobile', 'Width (mobile)'),
+        alignField('align', 'Align'),
+        alignField('alignTablet', 'Align (tablet)'),
+        alignField('alignMobile', 'Align (mobile)'),
+      ],
+    }),
     defineField({
       name: 'border',
       title: 'Border',
