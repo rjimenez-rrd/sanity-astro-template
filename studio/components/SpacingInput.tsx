@@ -1,162 +1,161 @@
 import {useCallback, useState} from 'react'
-import {type ObjectInputProps, set, unset} from 'sanity'
-import {Card, Flex, Text} from '@sanity/ui'
-import {SPACING_OPTIONS} from '../schemaTypes/shared/constants'
+import {type FormPatch, type ObjectInputProps, set, unset} from 'sanity'
+import {Card, Flex, Text, TextInput} from '@sanity/ui'
+import {LinkIcon, UnlinkIcon} from '@sanity/icons'
 
-// Desktop-first, matching the container Layout tab: the '' key is the base that
-// applies at every width, Tablet/Mobile are max-width overrides below it.
+const UNITS = ['px', '%', 'em', 'rem', 'vh', 'vw'] as const
+const DEFAULT_UNIT = 'px'
+
+// Desktop-first, matching the max-width rules in the frontend's global.css:
+// '' is the base, Tablet/Mobile override below their breakpoint.
 const BREAKPOINTS = [
   {key: '', label: 'Desktop', icon: '💻', width: '1024px'},
   {key: 'Tablet', label: 'Tablet', icon: '📱', width: '1024px'},
   {key: 'Mobile', label: 'Mobile', icon: '📱', width: '767px'},
 ] as const
 
-function SpacingSelect({
+const SIDES = ['top', 'right', 'bottom', 'left'] as const
+
+const VALUE_RE = /^(-?\d+(?:\.\d+)?)(px|%|em|rem|vh|vw)$/
+
+function parseValue(raw?: string): {num: number; unit: string} | undefined {
+  const match = VALUE_RE.exec(raw?.trim() ?? '')
+  return match ? {num: Number(match[1]), unit: match[2]} : undefined
+}
+
+/**
+ * Module scope on purpose. Defined inside SpacingInput this would be a new
+ * component type on every render, so React would remount the input on each
+ * keystroke and the field would lose focus mid-edit.
+ */
+function SideInput({
+  label,
   value,
-  inherited,
+  placeholder,
   onChange,
 }: {
-  value?: string
-  inherited?: string
-  onChange: (v: string) => void
+  label: string
+  value: string
+  placeholder: string
+  onChange: (raw: string) => void
 }) {
-  // The inherited value is overlaid rather than used as the empty option's
-  // label, so the dropdown still reads "—" for "clear this override".
-  const showInherited = !value && Boolean(inherited)
-
   return (
-    <div style={{position: 'relative', width: 60}}>
-      <select
-        value={value ?? ''}
-        onChange={(e) => onChange(e.target.value)}
-        style={{
-          width: '100%',
-          padding: '3px 2px',
-          fontSize: 11,
-          fontFamily: 'inherit',
-          border: '1px solid var(--card-border-color)',
-          borderRadius: 4,
-          backgroundColor: 'var(--card-bg-color)',
-          color: value
-            ? 'var(--card-fg-color)'
-            : showInherited
-              ? 'transparent'
-              : 'var(--card-muted-fg-color)',
-          textAlign: 'center',
-          cursor: 'pointer',
-          appearance: 'none',
-          WebkitAppearance: 'none',
-        }}
-      >
-        <option value="">—</option>
-        {SPACING_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.title}
-          </option>
-        ))}
-      </select>
-      {showInherited && (
-        <span
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 11,
-            fontStyle: 'italic',
-            color: 'var(--card-muted-fg-color)',
-            pointerEvents: 'none',
-          }}
-        >
-          {inherited}
-        </span>
-      )}
+    <div style={{width: 62}}>
+      <TextInput
+        type="number"
+        fontSize={1}
+        padding={2}
+        radius={2}
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.currentTarget.value)}
+        aria-label={label}
+        style={{textAlign: 'center'}}
+      />
     </div>
   )
 }
 
 export function SpacingInput(props: ObjectInputProps) {
   const {onChange, value, schemaType} = props
-  const vals = (value ?? {}) as Record<string, string | undefined>
+  const vals = (value ?? {}) as Record<string, string | boolean | undefined>
   const title = schemaType.title ?? 'Spacing'
   const isPadding = schemaType.name === 'padding' || title.toLowerCase().includes('padding')
 
-  // Opens on the base regardless of tab order: values typed here apply at every
-  // width, whereas the Md/Lg tabs only override above their breakpoint.
-  const [activeBreakpoint, setActiveBreakpoint] = useState(
-    BREAKPOINTS.findIndex((b) => b.key === ''),
-  )
+  const [activeBreakpoint, setActiveBreakpoint] = useState(0)
   const bp = BREAKPOINTS[activeBreakpoint]
-  const suffix = bp.key // '', 'Md', 'Lg'
+  const suffix = bp.key
+  // Linked unless explicitly turned off, so the common case of one value on all
+  // four sides needs no extra click. Unset means linked, not unlinked.
+  const linked = vals.linked !== false
 
-  const fieldTop = `top${suffix}`
-  const fieldRight = `right${suffix}`
-  const fieldBottom = `bottom${suffix}`
-  const fieldLeft = `left${suffix}`
+  const str = (key: string) => (typeof vals[key] === 'string' ? (vals[key] as string) : undefined)
+
+  const ALL_FIELDS = BREAKPOINTS.flatMap((b) => SIDES.map((s) => `${s}${b.key}`))
 
   /**
-   * Desktop-first, mirroring the max-width rules in the frontend's global.css:
-   * an unset Mobile value falls back to Tablet, then to the Desktop base.
-   * Desktop is the base itself, so it inherits nothing.
+   * Desktop-first: an unset Mobile value falls back to Tablet, then to the
+   * Desktop base. Desktop is the base itself, so it inherits nothing.
    */
   const inheritedFor = (side: string) => {
     const chain = suffix === 'Mobile' ? ['Tablet', ''] : suffix === 'Tablet' ? [''] : []
     for (const from of chain) {
-      const v = vals[`${side}${from}`]
+      const v = str(`${side}${from}`)
       if (v) return v
     }
     return undefined
   }
 
-  const handleChange = useCallback(
-    (side: string, newValue: string) => {
-      if (newValue === '') {
-        onChange(unset([side]))
-      } else {
-        onChange(set(newValue, [side]))
+  // The unit shown is whichever the current values already use.
+  const unit =
+    SIDES.map((s) => parseValue(str(`${s}${suffix}`))?.unit).find(Boolean) ??
+    SIDES.map((s) => parseValue(inheritedFor(s))?.unit).find(Boolean) ??
+    DEFAULT_UNIT
+
+  const write = useCallback(
+    (side: string, raw: string, nextUnit: string) => {
+      const trimmed = raw.trim()
+      const targets = linked ? SIDES.map((s) => `${s}${suffix}`) : [`${side}${suffix}`]
+      if (trimmed === '' || trimmed === '-') {
+        onChange(targets.map((t) => unset([t])) as FormPatch[])
+        return
       }
+      const n = Number(trimmed)
+      if (!Number.isFinite(n)) return
+      onChange(targets.map((t) => set(`${n}${nextUnit}`, [t])) as FormPatch[])
     },
-    [onChange],
+    [onChange, linked, suffix],
   )
 
-  // Keyed off the breakpoint rather than tab position, so the dot stays correct
-  // regardless of the order BREAKPOINTS are displayed in.
-  const hasValuesFor = (s: string) =>
-    Boolean(vals[`top${s}`] || vals[`right${s}`] || vals[`bottom${s}`] || vals[`left${s}`])
+  const changeUnit = useCallback(
+    (nextUnit: string) => {
+      const ops: FormPatch[] = []
+      for (const side of SIDES) {
+        const key = `${side}${suffix}`
+        const parsed = parseValue(str(key))
+        if (parsed) ops.push(set(`${parsed.num}${nextUnit}`, [key]))
+      }
+      if (ops.length > 0) onChange(ops)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [onChange, suffix, vals],
+  )
 
-  const ALL_FIELDS = [
-    'top', 'right', 'bottom', 'left',
-    'topTablet', 'rightTablet', 'bottomTablet', 'leftTablet',
-    'topMobile', 'rightMobile', 'bottomMobile', 'leftMobile',
-  ] as const
+  const toggleLink = useCallback(() => {
+    onChange(set(!linked, ['linked']))
+  }, [onChange, linked])
 
-  const hasValues = ALL_FIELDS.some((f) => vals[f])
-
-  const handleClear = useCallback(() => {
-    onChange(ALL_FIELDS.map((f) => unset([f])))
+  const clear = useCallback(() => {
+    onChange(ALL_FIELDS.map((f) => unset([f])) as FormPatch[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onChange])
 
-  const outerColor = isPadding
-    ? 'rgba(124, 179, 66, 0.12)'
-    : 'rgba(255, 167, 38, 0.12)'
+  const hasValues = ALL_FIELDS.some((f) => str(f))
+  const hasValuesFor = (s: string) => SIDES.some((side) => str(`${side}${s}`))
 
-  const labelColor = isPadding
-    ? 'rgba(124, 179, 66, 0.7)'
-    : 'rgba(255, 167, 38, 0.7)'
+  const outerColor = isPadding ? 'rgba(124, 179, 66, 0.12)' : 'rgba(255, 167, 38, 0.12)'
+  const labelColor = isPadding ? 'rgba(124, 179, 66, 0.7)' : 'rgba(255, 167, 38, 0.7)'
+
+  const sideProps = (side: string) => {
+    const own = parseValue(str(`${side}${suffix}`))
+    const inherited = parseValue(inheritedFor(side))
+    return {
+      label: `${title} ${side}`,
+      value: own ? String(own.num) : '',
+      placeholder: inherited ? String(inherited.num) : '—',
+      onChange: (raw: string) => write(side, raw, unit),
+    }
+  }
 
   return (
     <Card padding={2} radius={2} border tone="transparent">
       {/* Breakpoint toggle */}
-      <Flex
-        gap={0}
-        style={{marginBottom: 6}}
-      >
-        {BREAKPOINTS.map((bpItem, i) => {
+      <Flex gap={0} style={{marginBottom: 6}}>
+        {BREAKPOINTS.map((item, i) => {
           const isActive = i === activeBreakpoint
           return (
             <button
-              key={bpItem.key}
+              key={item.key}
               type="button"
               onClick={() => setActiveBreakpoint(i)}
               style={{
@@ -167,30 +166,22 @@ export function SpacingInput(props: ObjectInputProps) {
                 border: '1px solid var(--card-border-color)',
                 borderLeft: i > 0 ? 'none' : undefined,
                 borderRadius:
-                  i === 0
-                    ? '4px 0 0 4px'
-                    : i === BREAKPOINTS.length - 1
-                      ? '0 4px 4px 0'
-                      : '0',
+                  i === 0 ? '4px 0 0 4px' : i === BREAKPOINTS.length - 1 ? '0 4px 4px 0' : '0',
                 backgroundColor: isActive
                   ? 'var(--card-badge-primary-bg-color)'
                   : 'var(--card-bg-color)',
-                color: isActive
-                  ? 'var(--card-badge-primary-fg-color)'
-                  : 'var(--card-fg-color)',
+                color: isActive ? 'var(--card-badge-primary-fg-color)' : 'var(--card-fg-color)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 4,
                 position: 'relative',
-                transition: 'all 0.15s ease',
               }}
             >
-              <span>{bpItem.icon}</span>
-              <span>{bpItem.label}</span>
-              {/* Dot indicator for set values */}
-              {hasValuesFor(bpItem.key) && !isActive && (
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+              {hasValuesFor(item.key) && !isActive && (
                 <span
                   style={{
                     width: 5,
@@ -208,26 +199,21 @@ export function SpacingInput(props: ObjectInputProps) {
         })}
       </Flex>
 
-      {/* Breakpoint info */}
       <Flex justify="center" style={{marginBottom: 4}}>
         <Text size={0} muted style={{fontSize: 10}}>
-          {bp.key === ''
+          {suffix === ''
             ? 'Base styles (all screens)'
             : `Overrides at ≤${bp.width} · empty inherits`}
         </Text>
       </Flex>
 
       {/* Box model */}
-      <div
-        style={{
-          position: 'relative',
-          backgroundColor: outerColor,
-          borderRadius: 6,
-          padding: 4,
-        }}
-      >
-        {/* Title label */}
-        <Flex align="center" justify="space-between" style={{position: 'absolute', top: 4, left: 8, right: 8}}>
+      <div style={{position: 'relative', backgroundColor: outerColor, borderRadius: 6, padding: 4}}>
+        <Flex
+          align="center"
+          justify="space-between"
+          style={{position: 'absolute', top: 4, left: 8, right: 8}}
+        >
           <Text
             size={0}
             style={{
@@ -240,45 +226,77 @@ export function SpacingInput(props: ObjectInputProps) {
           >
             {title}
           </Text>
-          {hasValues && (
+          <Flex align="center" gap={2}>
+            <select
+              value={unit}
+              onChange={(e) => changeUnit(e.target.value)}
+              style={{
+                fontSize: 10,
+                fontFamily: 'inherit',
+                padding: '1px 2px',
+                borderRadius: 3,
+                border: '1px solid var(--card-border-color)',
+                backgroundColor: 'var(--card-bg-color)',
+                color: 'var(--card-fg-color)',
+                cursor: 'pointer',
+              }}
+              aria-label="Unit"
+            >
+              {UNITS.map((u) => (
+                <option key={u} value={u}>
+                  {u}
+                </option>
+              ))}
+            </select>
             <button
               type="button"
-              onClick={handleClear}
+              onClick={toggleLink}
+              title={linked ? 'Sides linked — click to edit each separately' : 'Link all four sides'}
+              aria-pressed={linked}
               style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--card-muted-fg-color)',
-                fontSize: 10,
-                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
                 padding: '2px 4px',
+                borderRadius: 3,
+                border: '1px solid var(--card-border-color)',
+                backgroundColor: linked
+                  ? 'var(--card-badge-primary-bg-color)'
+                  : 'var(--card-bg-color)',
+                color: linked ? 'var(--card-badge-primary-fg-color)' : 'var(--card-muted-fg-color)',
+                cursor: 'pointer',
               }}
             >
-              Clear
+              {linked ? <LinkIcon /> : <UnlinkIcon />}
             </button>
-          )}
+            {hasValues && (
+              <button
+                type="button"
+                onClick={clear}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--card-muted-fg-color)',
+                  fontSize: 10,
+                  cursor: 'pointer',
+                  padding: '2px 4px',
+                }}
+              >
+                Clear
+              </button>
+            )}
+          </Flex>
         </Flex>
 
-        {/* Top */}
-        <Flex justify="center" style={{paddingTop: 18, paddingBottom: 4}}>
-          <SpacingSelect
-            value={vals[fieldTop]}
-            inherited={inheritedFor('top')}
-            onChange={(v) => handleChange(fieldTop, v)}
-          />
+        <Flex justify="center" style={{paddingTop: 20, paddingBottom: 4}}>
+          <SideInput {...sideProps('top')} />
         </Flex>
 
-        {/* Middle: left + content + right */}
         <Flex align="center" justify="center" gap={2}>
-          <SpacingSelect
-            value={vals[fieldLeft]}
-            inherited={inheritedFor('left')}
-            onChange={(v) => handleChange(fieldLeft, v)}
-          />
-
+          <SideInput {...sideProps('left')} />
           <div
             style={{
               flex: 1,
-              maxWidth: 140,
+              maxWidth: 130,
               height: 36,
               display: 'flex',
               alignItems: 'center',
@@ -294,21 +312,11 @@ export function SpacingInput(props: ObjectInputProps) {
               {isPadding ? 'content' : 'padding'}
             </Text>
           </div>
-
-          <SpacingSelect
-            value={vals[fieldRight]}
-            inherited={inheritedFor('right')}
-            onChange={(v) => handleChange(fieldRight, v)}
-          />
+          <SideInput {...sideProps('right')} />
         </Flex>
 
-        {/* Bottom */}
         <Flex justify="center" style={{paddingTop: 4, paddingBottom: 4}}>
-          <SpacingSelect
-            value={vals[fieldBottom]}
-            inherited={inheritedFor('bottom')}
-            onChange={(v) => handleChange(fieldBottom, v)}
-          />
+          <SideInput {...sideProps('bottom')} />
         </Flex>
       </div>
     </Card>

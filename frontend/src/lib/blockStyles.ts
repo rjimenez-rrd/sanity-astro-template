@@ -31,6 +31,18 @@ const SHADOW_MAP: Record<string, string> = {
 /** Widths come from editors, so only a bare number plus a known unit reaches CSS. */
 const CSS_SIZE = /^\d+(\.\d+)?(px|%|rem|em|vw)$/
 
+/**
+ * Spacing is free-form editor input, so only a signed number plus a known unit
+ * reaches CSS. Negatives are allowed for margins; the browser ignores a negative
+ * padding, which is how Elementor behaves too.
+ */
+const CSS_LENGTH = /^-?\d+(\.\d+)?(px|%|em|rem|vh|vw)$/
+
+const len = (raw?: string | null): string | undefined => {
+  const v = raw?.trim()
+  return v && CSS_LENGTH.test(v) ? v : undefined
+}
+
 const ALIGN_SELF: Record<string, string> = {
   start: 'flex-start',
   center: 'center',
@@ -47,34 +59,34 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
   // Padding — the desktop base as real properties, tablet/mobile as custom
   // properties that the max-width media queries in global.css promote below.
   if (bs.padding) {
-    if (bs.padding.top) styles['padding-top'] = bs.padding.top
-    if (bs.padding.right) styles['padding-right'] = bs.padding.right
-    if (bs.padding.bottom) styles['padding-bottom'] = bs.padding.bottom
-    if (bs.padding.left) styles['padding-left'] = bs.padding.left
-    if (bs.padding.topTablet) styles['--pt-tablet'] = bs.padding.topTablet
-    if (bs.padding.rightTablet) styles['--pr-tablet'] = bs.padding.rightTablet
-    if (bs.padding.bottomTablet) styles['--pb-tablet'] = bs.padding.bottomTablet
-    if (bs.padding.leftTablet) styles['--pl-tablet'] = bs.padding.leftTablet
-    if (bs.padding.topMobile) styles['--pt-mobile'] = bs.padding.topMobile
-    if (bs.padding.rightMobile) styles['--pr-mobile'] = bs.padding.rightMobile
-    if (bs.padding.bottomMobile) styles['--pb-mobile'] = bs.padding.bottomMobile
-    if (bs.padding.leftMobile) styles['--pl-mobile'] = bs.padding.leftMobile
+    styles['padding-top'] = len(bs.padding.top)
+    styles['padding-right'] = len(bs.padding.right)
+    styles['padding-bottom'] = len(bs.padding.bottom)
+    styles['padding-left'] = len(bs.padding.left)
+    styles['--pt-tablet'] = len(bs.padding.topTablet)
+    styles['--pr-tablet'] = len(bs.padding.rightTablet)
+    styles['--pb-tablet'] = len(bs.padding.bottomTablet)
+    styles['--pl-tablet'] = len(bs.padding.leftTablet)
+    styles['--pt-mobile'] = len(bs.padding.topMobile)
+    styles['--pr-mobile'] = len(bs.padding.rightMobile)
+    styles['--pb-mobile'] = len(bs.padding.bottomMobile)
+    styles['--pl-mobile'] = len(bs.padding.leftMobile)
   }
 
   // Margin — same pattern
   if (bs.margin) {
-    if (bs.margin.top) styles['margin-top'] = bs.margin.top
-    if (bs.margin.right) styles['margin-right'] = bs.margin.right
-    if (bs.margin.bottom) styles['margin-bottom'] = bs.margin.bottom
-    if (bs.margin.left) styles['margin-left'] = bs.margin.left
-    if (bs.margin.topTablet) styles['--mt-tablet'] = bs.margin.topTablet
-    if (bs.margin.rightTablet) styles['--mr-tablet'] = bs.margin.rightTablet
-    if (bs.margin.bottomTablet) styles['--mb-tablet'] = bs.margin.bottomTablet
-    if (bs.margin.leftTablet) styles['--ml-tablet'] = bs.margin.leftTablet
-    if (bs.margin.topMobile) styles['--mt-mobile'] = bs.margin.topMobile
-    if (bs.margin.rightMobile) styles['--mr-mobile'] = bs.margin.rightMobile
-    if (bs.margin.bottomMobile) styles['--mb-mobile'] = bs.margin.bottomMobile
-    if (bs.margin.leftMobile) styles['--ml-mobile'] = bs.margin.leftMobile
+    styles['margin-top'] = len(bs.margin.top)
+    styles['margin-right'] = len(bs.margin.right)
+    styles['margin-bottom'] = len(bs.margin.bottom)
+    styles['margin-left'] = len(bs.margin.left)
+    styles['--mt-tablet'] = len(bs.margin.topTablet)
+    styles['--mr-tablet'] = len(bs.margin.rightTablet)
+    styles['--mb-tablet'] = len(bs.margin.bottomTablet)
+    styles['--ml-tablet'] = len(bs.margin.leftTablet)
+    styles['--mt-mobile'] = len(bs.margin.topMobile)
+    styles['--mr-mobile'] = len(bs.margin.rightMobile)
+    styles['--mb-mobile'] = len(bs.margin.bottomMobile)
+    styles['--ml-mobile'] = len(bs.margin.leftMobile)
   }
 
   // Size & alignment — a block narrower than its column needs align-self to sit

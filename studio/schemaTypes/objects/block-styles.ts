@@ -1,5 +1,4 @@
 import {defineType, defineField} from 'sanity'
-import {SPACING_OPTIONS} from '../shared/constants'
 import {motionField} from '../shared/motion'
 import {BlockStylesPreview} from '../../components/BlockStylesPreview'
 import {SpacingInput} from '../../components/SpacingInput'
@@ -9,11 +8,6 @@ import {BorderStyleInput} from '../../components/BorderStyleInput'
 import {TypographyInput} from '../../components/TypographyInput'
 import {EffectsInput} from '../../components/EffectsInput'
 import {BackgroundInput} from '../../components/BackgroundInput'
-
-const spacingList = SPACING_OPTIONS.map((opt) => ({
-  title: opt.title,
-  value: opt.value,
-}))
 
 const ALIGN_LIST = [
   {title: 'Start', value: 'start'},
@@ -44,12 +38,15 @@ function alignField(name: string, title: string) {
   })
 }
 
+/**
+ * One side of a spacing box. SpacingInput writes `${number}${unit}`, negatives
+ * included — free-form rather than a preset list, so it stays a plain string.
+ */
 function directionField(name: string, title: string) {
   return defineField({
     name,
     title,
     type: 'string',
-    options: {list: spacingList, layout: 'dropdown'},
   })
 }
 
@@ -78,6 +75,9 @@ export function spacingField(name: string, title: string) {
       directionField('rightMobile', 'Right (mobile)'),
       directionField('bottomMobile', 'Bottom (mobile)'),
       directionField('leftMobile', 'Left (mobile)'),
+      // Editing preference, not a style: when on, the four sides move together.
+      // SpacingInput treats unset as linked, so only an explicit false unlinks.
+      defineField({name: 'linked', title: 'Link sides', type: 'boolean'}),
     ],
   })
 }
