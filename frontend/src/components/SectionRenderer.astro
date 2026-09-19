@@ -6,9 +6,12 @@ import type {PageBuilderBlock} from '@/types/sanity'
 
 interface Props {
   sections?: PageBuilderBlock[] | null
+  /** Document coordinates, so a section can be selected in Presentation. */
+  documentId?: string | null
+  documentType?: string | null
 }
 
-const {sections} = Astro.props
+const {sections, documentId, documentType} = Astro.props
 ---
 
 {
@@ -23,7 +26,13 @@ const {sections} = Astro.props
         return <HeroSection data={section as Extract<PageBuilderBlock, {_type: 'heroSection'}>} />
       }
       if (type === 'gridRow') {
-        return <GridRowSection data={section as Extract<PageBuilderBlock, {_type: 'gridRow'}>} />
+        return (
+          <GridRowSection
+            data={section as Extract<PageBuilderBlock, {_type: 'gridRow'}>}
+            documentId={documentId}
+            documentType={documentType}
+          />
+        )
       }
       return (
         <div class="border border-dashed border-border bg-card/50 p-8 text-center text-sm text-muted">

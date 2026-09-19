@@ -82,6 +82,7 @@ const pageBuilderFragment = /* groq */ `
 
 export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
   *[_id == "homePage"][0] {
+    _id, _type,
     ${seoFragment},
     ${pageBuilderFragment}
   }
@@ -89,7 +90,7 @@ export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
 
 export const PAGE_QUERY = defineQuery(/* groq */ `
   *[_type == "page" && slug.current == $slug][0] {
-    _id, title, slug,
+    _id, _type, title, slug,
     ${seoFragment},
     ${pageBuilderFragment}
   }

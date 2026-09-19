@@ -102,6 +102,58 @@ h2, h3 {
 }
 
 /*
+ * Container name badge, for the Presentation preview. GridRowSection only emits
+ * data-pb-label on draft requests, so a published page never matches this rule
+ * and never carries the markup.
+ */
+[data-pb-label] {
+  position: relative;
+}
+
+/*
+ * ::after, not ::before — a container with a background overlay already uses
+ * its ::before, and an element has only one of each. Sharing it would let the
+ * overlay's `content: ''` win and silently blank the badge.
+ */
+[data-pb-label]::after {
+  content: attr(data-pb-label);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  padding: 2px 8px;
+  border-bottom-right-radius: 4px;
+  background-color: rgba(37, 99, 235, 0.9);
+  color: #fff;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/*
+ * Columns, in the preview only. Hovering outlines the column and reveals its
+ * name — showing every name permanently would bury the page it annotates.
+ * outline, not border, so the dashes never shift the layout being previewed.
+ */
+[data-pb-col]:hover {
+  outline: 1px dashed rgba(109, 40, 217, 0.85);
+  outline-offset: -1px;
+}
+
+[data-pb-col][data-pb-label]::after {
+  opacity: 0;
+  transition: opacity 0.12s ease-out;
+  background-color: rgba(109, 40, 217, 0.9);
+}
+
+[data-pb-col][data-pb-label]:hover::after {
+  opacity: 1;
+}
+
+/*
  * Background overlay for containers, drawn by the element itself. isolation
  * makes a local stacking context so the z-index:-1 layer sits above the
  * element's own background image but below its content.

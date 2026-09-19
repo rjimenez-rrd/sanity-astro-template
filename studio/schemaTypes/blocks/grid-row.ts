@@ -58,6 +58,13 @@ export const gridRowType = defineType({
   ],
   fields: [
     // --- Layout tab ---
+    defineField({
+      name: 'label',
+      title: 'Name',
+      type: 'string',
+      group: 'layout',
+      description: 'Shown in the Page Builder list, so you can tell containers apart.',
+    }),
     containerField('row'),
 
     defineField({
@@ -99,6 +106,13 @@ export const gridRowType = defineType({
           title: 'Column',
           groups: CONTAINER_GROUPS,
           fields: [
+            defineField({
+              name: 'label',
+              title: 'Name',
+              type: 'string',
+              group: 'layout',
+              description: 'Shown in the item list, so you can tell columns apart.',
+            }),
             containerField('column'),
             defineField({
               name: 'content',
@@ -168,18 +182,20 @@ export const gridRowType = defineType({
             visibilityField(),
           ],
           preview: {
-            select: {content: 'content', width: 'container.width.desktop'},
+            select: {label: 'label', content: 'content', width: 'container.width.desktop'},
             prepare({
+              label,
               content,
               width,
             }: {
+              label?: string
               content?: Array<unknown>
               width?: {size?: number; unit?: string}
             }) {
               const blockCount = content?.length ?? 0
               const widthLabel = width?.size !== undefined ? ` · ${width.size}${width.unit ?? ''}` : ''
               return {
-                title: 'Column',
+                title: label?.trim() || 'Column',
                 subtitle: `${blockCount} block${blockCount !== 1 ? 's' : ''}${widthLabel}`,
               }
             },
@@ -258,12 +274,19 @@ export const gridRowType = defineType({
     visibilityField(),
   ],
   preview: {
-    select: {layout: 'layout', columns: 'columns', layoutType: 'container.layoutType'},
+    select: {
+      label: 'label',
+      layout: 'layout',
+      columns: 'columns',
+      layoutType: 'container.layoutType',
+    },
     prepare({
+      label,
       layout,
       columns,
       layoutType,
     }: {
+      label?: string
       layout?: string
       columns?: Array<unknown>
       layoutType?: string
@@ -273,9 +296,13 @@ export const gridRowType = defineType({
         layoutType === 'flex'
           ? 'Flexbox'
           : `Grid ${LAYOUT_OPTIONS.find((o) => o.value === layout)?.title ?? layout ?? ''}`.trim()
+      const items = `${colCount} item${colCount !== 1 ? 's' : ''}`
+      const named = label?.trim()
+      // A name replaces the title, so the mode moves into the subtitle rather
+      // than being lost.
       return {
-        title: `Container — ${mode}`,
-        subtitle: `${colCount} item${colCount !== 1 ? 's' : ''}`,
+        title: named || `Container — ${mode}`,
+        subtitle: named ? `${mode} · ${items}` : items,
         media: DashboardIcon,
       }
     },

@@ -19,5 +19,9 @@ const seo = buildSeo(page?.seo, {title: settings?.siteName || 'Home'})
 ---
 
 <Site settings={settings} {...seo}>
-  <SectionRenderer sections={page?.pageBuilder} />
+  <SectionRenderer
+    sections={page?.pageBuilder}
+    documentId={page?._id}
+    documentType={page?._type}
+  />
 </Site>

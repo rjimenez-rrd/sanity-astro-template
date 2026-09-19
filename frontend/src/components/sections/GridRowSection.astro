@@ -1,5 +1,8 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
+import {getPublishedId} from '@sanity/client/csm'
+import {createDataAttribute} from '@sanity/visual-editing/create-data-attribute'
+import {projectId, dataset} from '@/sanity/lib/env'
 import ContentRenderer from './ContentRenderer.astro'
 import {
   CssBuilder,
@@ -18,9 +21,12 @@ import type {GridRowData} from '@/types/sanity'
 
 interface Props {
   data: GridRowData
+  /** Document coordinates, so Presentation can select a container on click. */
+  documentId?: string | null
+  documentType?: string | null
 }
 
-const {data} = Astro.props
+const {data, documentId, documentType} = Astro.props
 
 type Advanced = {
   padding?: BlockStyles['padding']
@@ -32,6 +38,7 @@ type Advanced = {
 } | null
 
 type Column = GridRowData['columns'][number] & {
+  label?: string | null
   design?: DesignSettings | null
   container?: ContainerSettings | null
   advanced?: Advanced
@@ -39,6 +46,7 @@ type Column = GridRowData['columns'][number] & {
 }
 
 type Row = GridRowData & {
+  label?: string | null
   design?: DesignSettings | null
   container?: ContainerSettings | null
   advanced?: Advanced
@@ -114,6 +122,26 @@ const reverseClass = data.reverseOnMobile ? 'flex-col-reverse md:grid' : ''
 
 const clean = <T,>(value: T): T => (value ? (stegaClean(value) as T) : value)
 
+/**
+ * Draft requests are the Presentation preview. Container names and the empty
+ * placeholder are editing aids, so they are rendered only here — a published
+ * page never gets the markup at all.
+ */
+const editing = Astro.locals.isDraft === true
+const rowLabel = editing ? stegaClean(row.label)?.trim() || undefined : undefined
+
+/**
+ * Tells Presentation which field a clicked element maps to, so tapping a
+ * container selects it. Draft-only: a published page carries no such markup.
+ * Keys are validated by safeKey before reaching the path.
+ */
+const docId = documentId ? getPublishedId(stegaClean(documentId)) : undefined
+const docType = stegaClean(documentType ?? '') || undefined
+const sanityAttr = (path: string): string | undefined =>
+  editing && docId && docType
+    ? createDataAttribute({projectId, dataset, id: docId, type: docType, path}).toString()
+    : undefined
+
 const rowContainer = clean(row.container) ?? undefined
 const rowKey = safeKey(stegaClean(row._key))
 const isContainer = Boolean(rowContainer && rowKey)
@@ -154,6 +182,11 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
     design,
     column,
     key,
+    label: editing ? stegaClean(column.label)?.trim() || undefined : undefined,
+    sanity:
+      key && rowKey
+        ? sanityAttr(`pageBuilder[_key=="${rowKey}"].columns[_key=="${key}"]`)
+        : undefined,
     container: clean(column.container) ?? undefined,
     ...elementStyle(mergeStyles(column.blockStyles, advanced ?? null, design)),
     id: safeCssId(advanced?.cssId),
@@ -243,6 +276,8 @@ const alignSelf = (value: string | null | undefined) =>
   id={isContainer ? safeCssId(rowAdvanced?.cssId) : undefined}
   class={isContainer ? safeCssClasses(rowAdvanced?.cssClasses) : undefined}
   style={rowStyle.style}
+  data-sanity={rowKey ? sanityAttr(`pageBuilder[_key=="${rowKey}"]`) : undefined}
+  data-pb-label={rowLabel}
   data-pb-overlay={rowStyle.overlay ? '' : undefined}
   {...(isContainer ? animationAttrs(rowAdvanced?.motion) : {})}
 >
@@ -263,6 +298,9 @@ const alignSelf = (value: string | null | undefined) =>
             class={[alignSelf(col.column.verticalAlign), col.classes].filter(Boolean).join(' ') || undefined}
             id={col.id}
             data-pb={col.key}
+            data-sanity={col.sanity}
+            data-pb-label={col.label}
+            data-pb-col={editing ? '' : undefined}
             data-pb-inner={col.container ? col.key : undefined}
             data-pb-overlay={col.overlay ? '' : undefined}
             style={col.style}
@@ -271,7 +309,7 @@ const alignSelf = (value: string | null | undefined) =>
             {content.map((block) => (
               <ContentRenderer block={block} />
             ))}
-            {content.length === 0 && (
+            {editing && content.length === 0 && (
               <div class="flex min-h-[100px] items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted">
                 Empty column
               </div>
