@@ -17,6 +17,7 @@ import {
 import {elementStyle, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs, type MotionSettings} from '@/lib/animation'
 import {buildDesignCss, designOverrides, type DesignSettings} from '@/lib/design'
+import {scopeCustomCss} from '@/lib/customCss'
 import type {GridRowData} from '@/types/sanity'
 
 interface Props {
@@ -34,6 +35,7 @@ type Advanced = {
   zIndex?: number | null
   cssId?: string | null
   cssClasses?: string | null
+  customCss?: string | null
   motion?: MotionSettings | null
 } | null
 
@@ -185,7 +187,19 @@ if (rowContainer?.layoutType === 'grid') {
   )
 }
 
-const cssText = css.toString()
+/**
+ * Custom CSS from the Advanced tab, scoped to the element it was written for.
+ * Appended after the generated rules so an editor's override wins at equal
+ * specificity, and joined into the same style tag the container CSS uses.
+ */
+const customCssRules = [
+  rowKey ? scopeCustomCss(rowAdvanced?.customCss, `[data-pb="${rowKey}"]`) : undefined,
+  ...columns.map((col) =>
+    col.key ? scopeCustomCss(clean(col.column.advanced)?.customCss, `[data-pb="${col.key}"]`) : undefined,
+  ),
+].filter(Boolean)
+
+const cssText = css.toString() + customCssRules.join('')
 
 const rowStyle = elementStyle(
   mergeStyles(row.blockStyles, rowAdvanced ?? null, rowDesign),

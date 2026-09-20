@@ -15,7 +15,8 @@ const blockStylesFragment = /* groq */ `
   blockStyles {
     padding, margin, size, border, borderRadius,
     background { color, image { ${imageFragment} }, size, overlay },
-    typography, effects, motion
+    typography, effects, motion,
+    cssId, cssClasses, customCss
   }
 `
 
@@ -45,7 +46,12 @@ const contentFragment = /* groq */ `
       ${blockStylesFragment}
     },
     _type == "richTextBlock" => {
-      content[] { ... },
+      // Inline images need their asset dereferenced, or SanityImage has no
+      // dimensions and falls back to a default aspect ratio.
+      content[] {
+        ...,
+        _type == "image" => { ${imageFragment} }
+      },
       ${blockStylesFragment}
     },
     _type == "logoRow" => {
@@ -114,7 +120,10 @@ export const BLOG_POST_QUERY = defineQuery(/* groq */ `
   *[_type == "blogPost" && slug.current == $slug][0] {
     _id, title, slug, excerpt, publishedAt, author,
     coverImage { ${imageFragment} },
-    body[] { ... },
+    body[] {
+      ...,
+      _type == "image" => { ${imageFragment} }
+    },
     ${seoFragment}
   }
 `)

@@ -66,6 +66,14 @@ export const blockContentType = defineType({
           title: 'Alt Text',
         }),
       ],
+      // Without this an inline image shows as an empty "Untitled" box in the
+      // editor, with no indication of which image it is.
+      preview: {
+        select: {media: 'asset', alt: 'alt'},
+        prepare({media, alt}: {media?: unknown; alt?: string}) {
+          return {title: alt?.trim() || 'Image', subtitle: 'Inline image', media}
+        },
+      },
     }),
   ],
 })
