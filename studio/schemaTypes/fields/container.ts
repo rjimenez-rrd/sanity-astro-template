@@ -1,4 +1,4 @@
-import {defineField} from 'sanity'
+import {defineField, type FieldProps} from 'sanity'
 import {CogIcon, ColorWheelIcon, EyeOpenIcon, ThLargeIcon} from '@sanity/icons'
 import {ContainerLayoutInput, type ContainerVariant} from '../../components/container/ContainerLayoutInput'
 import {ContainerStyleInput} from '../../components/container/ContainerStyleInput'
@@ -65,7 +65,12 @@ export function containerField(variant: ContainerVariant) {
     type: 'object',
     group: 'layout',
     options: {variant} as Record<string, unknown>,
-    components: {input: ContainerLayoutInput},
+    components: {
+      input: ContainerLayoutInput,
+      // ContainerLayoutInput draws its own collapsible "Container" header, so
+      // the default field wrapper would stack a second identical label above it.
+      field: (props: FieldProps) => props.children,
+    },
     initialValue: variant === 'row' ? ROW_CONTAINER_DEFAULTS : COLUMN_CONTAINER_DEFAULTS,
     fields: [
       defineField({

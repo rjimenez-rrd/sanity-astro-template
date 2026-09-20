@@ -73,6 +73,10 @@ Four style objects attach at **every** level — row, column and block:
 > independent levels. A gap you cannot remove is usually set one level up from
 > where you are looking.
 
+The container block carries most of the page builder's complexity — see
+[docs/grid-row.md](docs/grid-row.md) for its fields, the legacy split, and the two
+layout modes.
+
 ---
 
 ## 3. Render chain
