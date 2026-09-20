@@ -74,8 +74,7 @@ Four style objects attach at **every** level — row, column and block:
 > where you are looking.
 
 The container block carries most of the page builder's complexity — see
-[docs/grid-row.md](docs/grid-row.md) for its fields, the legacy split, and the two
-layout modes.
+[docs/grid-row.md](docs/grid-row.md) for its fields and the two layout modes.
 
 ---
 
@@ -178,10 +177,6 @@ Miss the third and it renders as nothing. `callToAction` is the worked example.
 **Two files are named for Sanity types.** `types/sanity.ts` is hand-written and
 imported by ~35 files. `sanity/types.generated.ts` is produced by `npm run typegen`
 — never edit it.
-
-**Legacy rows behave differently.** Rows created before the container feature have
-no `container` object. `isLegacyRow` gates several fields on this, so an old row
-shows the grid-template picker while a new one does not.
 
 **Configured spacing replaces built-in spacing.** When an editor sets padding or
 margin on a block, `BlockRenderer` marks the wrapper and `global.css` zeroes the

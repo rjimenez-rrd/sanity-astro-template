@@ -67,7 +67,7 @@ const ALIGN = new Set(['flex-start', 'center', 'flex-end', 'stretch'])
 const WRAP = new Set(['nowrap', 'wrap'])
 const SIZE_UNITS = new Set(['px', '%', 'vw', 'vh', 'em', 'rem'])
 
-/** Legacy grid presets, reused as the Grid-mode template for rows. */
+/** Column presets, used as the Grid-mode template for rows. */
 const GRID_TEMPLATES: Record<string, string> = {
   full: 'minmax(0, 1fr)',
   '50-50': 'repeat(2, minmax(0, 1fr))',
@@ -164,7 +164,7 @@ export interface ContainerCssInput {
   key: string
   variant: 'row' | 'column'
   container: ContainerSettings
-  /** Legacy grid preset, used as the template when a row is in Grid mode. */
+  /** Column preset, used as the template when a row is in Grid mode. */
   gridTemplate?: string | null
   zIndex?: number | null
   visibility?: VisibilitySettings | null
@@ -229,7 +229,7 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
       // --- Grid ---
       let template: string | undefined
       if (variant === 'row') {
-        // Presets collapse to one column on mobile, as the legacy grid did.
+        // Presets collapse to one column on mobile.
         if (device === 'desktop') template = GRID_TEMPLATES[gridTemplate ?? ''] ?? GRID_TEMPLATES['50-50']
         if (device === 'mobile') template = 'minmax(0, 1fr)'
       } else {
@@ -309,7 +309,7 @@ const GRID_WIDTH_MEDIA: Record<Device, string | null> = {
 
 /**
  * In a grid row, a column's Width replaces its track in the template, so the
- * setting works whether the row is Flexbox, Grid, or a legacy grid row.
+ * setting works in both Flexbox and Grid mode.
  * Columns without a width share the rest. Mobile keeps the stacked single
  * column unless a column sets its own mobile width.
  */

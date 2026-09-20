@@ -63,7 +63,6 @@ function createEmptyColumn(span?: number) {
   return {
     _type: 'gridColumn',
     _key: randomKey(12),
-    verticalAlign: 'top',
     container,
   }
 }

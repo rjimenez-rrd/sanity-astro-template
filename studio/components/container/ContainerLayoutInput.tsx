@@ -112,7 +112,6 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
     (schemaType.options as {variant?: ContainerVariant} | undefined)?.variant ?? 'row'
 
   const v = (value ?? {}) as ContainerValue
-  const isLegacy = value === undefined && variant === 'row'
 
 
   const [device, setDevice] = useState<Device>('desktop')
@@ -135,7 +134,7 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
     [onChange, variant],
   )
 
-  const layoutType = v.layoutType ?? (isLegacy ? 'grid' : 'flex')
+  const layoutType = v.layoutType ?? 'flex'
   const isFlex = layoutType === 'flex'
   const contentWidth = v.contentWidth ?? 'full'
 
@@ -168,15 +167,6 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
       {open && (
         <Box paddingX={3} paddingBottom={4} paddingTop={2}>
           <Stack space={4}>
-            {isLegacy && (
-              <Card padding={3} radius={2} tone="caution" border>
-                <Text size={1}>
-                  This row still uses the older layout settings. Changing anything here switches it to
-                  these container settings.
-                </Text>
-              </Card>
-            )}
-
             <ControlRow label="Container Layout">
               <Select
                 fontSize={1}

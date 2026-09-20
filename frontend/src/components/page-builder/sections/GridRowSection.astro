@@ -55,68 +55,7 @@ type Row = GridRowData & {
 
 const row = data as Row
 
-// --- Legacy row layout (rows saved before the container settings) ---
 
-const GAP_MAP: Record<string, string> = {
-  none: 'gap-0',
-  sm: 'gap-2 md:gap-4',
-  md: 'gap-4 md:gap-6',
-  lg: 'gap-6 md:gap-8',
-  xl: 'gap-8 md:gap-12',
-}
-
-const PADDING_Y_MAP: Record<string, string> = {
-  none: '',
-  sm: 'py-4 md:py-6',
-  md: 'py-8 md:py-12',
-  lg: 'py-12 md:py-16',
-  xl: 'py-16 md:py-24',
-}
-
-/**
- * Legacy rows only — a container row sizes itself from contentWidth instead.
- * `default` is BOXED_DEFAULT_WIDTH so both systems land on the same width, and
- * `wide` is the 1600px ceiling the Studio's Width field allows. Tailwind scans
- * for literal class names, so these cannot interpolate the constant.
- */
-const MAX_WIDTH_MAP: Record<string, string> = {
-  none: '',
-  narrow: 'max-w-[1280px]',
-  default: 'max-w-[1520px]',
-  wide: 'max-w-[1600px]',
-  full: 'max-w-full',
-}
-
-const LAYOUT_GRID: Record<string, string> = {
-  full: 'grid-cols-1',
-  '50-50': 'grid-cols-1 md:grid-cols-2',
-  '33-66': 'grid-cols-1 md:grid-cols-[1fr_2fr]',
-  '66-33': 'grid-cols-1 md:grid-cols-[2fr_1fr]',
-  '25-75': 'grid-cols-1 md:grid-cols-[1fr_3fr]',
-  '75-25': 'grid-cols-1 md:grid-cols-[3fr_1fr]',
-  '33-33-33': 'grid-cols-1 md:grid-cols-3',
-  '25-50-25': 'grid-cols-1 md:grid-cols-[1fr_2fr_1fr]',
-  '25-25-25-25': 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
-}
-
-const VALIGN_MAP: Record<string, string> = {
-  top: 'self-start',
-  center: 'self-center',
-  bottom: 'self-end',
-}
-
-
-const layout = stegaClean(data.layout) || 'full'
-const gridClass = LAYOUT_GRID[layout] || 'grid-cols-1'
-const gapClass = GAP_MAP[stegaClean(data.gap) || 'md'] || ''
-// Unset means no container styling at all; spacing and width are left to the
-// page's own styles unless an editor explicitly picks a value.
-const paddingClass = PADDING_Y_MAP[stegaClean(data.paddingY) || 'none'] ?? ''
-const maxWidthClass = MAX_WIDTH_MAP[stegaClean(data.maxWidth) || 'none'] ?? ''
-const containerClass = [maxWidthClass && `mx-auto ${maxWidthClass}`, paddingClass]
-  .filter(Boolean)
-  .join(' ')
-const reverseClass = data.reverseOnMobile ? 'flex-col-reverse md:grid' : ''
 
 // --- Container settings (Elementor-style Layout / Style / Advanced / Visibility) ---
 
@@ -144,7 +83,6 @@ const sanityAttr = (path: string): string | undefined =>
 
 const rowContainer = clean(row.container) ?? undefined
 const rowKey = safeKey(stegaClean(row._key))
-const isContainer = Boolean(rowContainer && rowKey)
 
 /**
  * Inline styles for a container: the older block styles, minus whatever the
@@ -200,7 +138,7 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
 const css = new CssBuilder()
 const rowAdvanced = clean(row.advanced)
 
-if (isContainer) {
+if (rowKey) {
   buildContainerCss(
     {
       key: rowKey!,
@@ -225,7 +163,7 @@ for (const col of columns) {
       zIndex: col.zIndex,
       visibility: col.visibility,
       // Widths only apply inside a flex container row.
-      parent: isContainer ? rowContainer : undefined,
+      parent: rowContainer,
     },
     css,
   )
@@ -236,14 +174,11 @@ const rowDesign = clean(row.design)
 if (rowKey) buildDesignCss(rowKey, rowDesign, css)
 for (const col of columns) if (col.key) buildDesignCss(col.key, col.design, css)
 
-// Column widths on a grid row (legacy, or Flexbox's Grid mode) set its tracks.
-if (!isContainer || rowContainer?.layoutType === 'grid') {
+// In Grid mode the preset defines the row's tracks.
+if (rowContainer?.layoutType === 'grid') {
   buildGridWidthCss(
     {
-      // Doubled attribute outranks the legacy grid's responsive Tailwind class.
-      selector: isContainer
-        ? `[data-pb-inner="${rowKey}"]`
-        : `[data-pb-grid="${rowKey}"][data-pb-grid]`,
+      selector: `[data-pb-inner="${rowKey}"]`,
       columns: columns.map((col) => ({key: col.key, width: col.container?.width})),
     },
     css,
@@ -253,16 +188,9 @@ if (!isContainer || rowContainer?.layoutType === 'grid') {
 const cssText = css.toString()
 
 const rowStyle = elementStyle(
-  mergeStyles(row.blockStyles, isContainer ? (rowAdvanced ?? null) : null, rowDesign),
+  mergeStyles(row.blockStyles, rowAdvanced ?? null, rowDesign),
 )
 
-/**
- * In a container, columns always stretch to the tallest one, as in Elementor;
- * each column's Justify Content positions its blocks within that height.
- * Align Self only applies to rows saved before the container settings.
- */
-const alignSelf = (value: string | null | undefined) =>
-  isContainer ? undefined : VALIGN_MAP[stegaClean(value) || 'top']
 ---
 
 {cssText && <Fragment set:html={`<style>${cssText}</style>`} />}
@@ -273,29 +201,21 @@ const alignSelf = (value: string | null | undefined) =>
 */}
 <section
   data-pb={rowKey}
-  id={isContainer ? safeCssId(rowAdvanced?.cssId) : undefined}
-  class={isContainer ? safeCssClasses(rowAdvanced?.cssClasses) : undefined}
+  id={safeCssId(rowAdvanced?.cssId)}
+  class={safeCssClasses(rowAdvanced?.cssClasses)}
   style={rowStyle.style}
   data-sanity={rowKey ? sanityAttr(`pageBuilder[_key=="${rowKey}"]`) : undefined}
   data-pb-label={rowLabel}
   data-pb-overlay={rowStyle.overlay ? '' : undefined}
-  {...(isContainer ? animationAttrs(rowAdvanced?.motion) : {})}
+  {...animationAttrs(rowAdvanced?.motion)}
 >
-  <div
-    data-pb-inner={isContainer ? rowKey : undefined}
-    data-pb-grid={isContainer ? undefined : rowKey}
-    class={
-      isContainer
-        ? undefined
-        : [containerClass, 'grid', gridClass, gapClass, reverseClass].filter(Boolean).join(' ')
-    }
-  >
+  <div data-pb-inner={rowKey}>
     {
       columns.map((col) => {
         const content = col.column.content ?? []
         return (
           <div
-            class={[alignSelf(col.column.verticalAlign), col.classes].filter(Boolean).join(' ') || undefined}
+            class={col.classes}
             id={col.id}
             data-pb={col.key}
             data-sanity={col.sanity}

@@ -27,20 +27,16 @@ const LAYOUT_OPTIONS = [
 
 type ContainerParent = {container?: {layoutType?: string}} | undefined
 
-/** Rows saved before the container settings existed have no `container`. */
-const isLegacyRow = (parent: ContainerParent) => !parent?.container
-
 /** Mirrors createEmptyColumn in ColumnsInput so both entry points agree. */
 const createColumn = () => ({
   _type: 'gridColumn',
   _key: randomKey(12),
-  verticalAlign: 'top',
   container: {...COLUMN_CONTAINER_DEFAULTS},
 })
 
-/** The grid template picker only matters in Grid mode (and for legacy rows). */
+/** The grid template picker defines real tracks only in Grid mode. */
 const usesGridTemplate = (parent: ContainerParent) =>
-  isLegacyRow(parent) || parent?.container?.layoutType === 'grid'
+  parent?.container?.layoutType === 'grid'
 
 export const gridRowType = defineType({
   name: 'gridRow',
@@ -48,14 +44,6 @@ export const gridRowType = defineType({
   type: 'object',
   icon: DashboardIcon,
   groups: CONTAINER_GROUPS,
-  fieldsets: [
-    {
-      name: 'legacy',
-      title: 'Legacy layout',
-      description: 'Used by rows created before the container settings. Saved container settings replace these.',
-      options: {collapsible: true, collapsed: true},
-    },
-  ],
   fields: [
     // --- Layout tab ---
     defineField({
@@ -160,22 +148,6 @@ export const gridRowType = defineType({
                 },
               },
             }),
-            defineField({
-              name: 'verticalAlign',
-              title: 'Align Self (older rows only)',
-              type: 'string',
-              group: 'advanced',
-              description:
-                'Only used when the row has no container settings. In a container, columns always match the tallest column — use Justify Content on the Layout tab to position the content.',
-              initialValue: 'top',
-              options: {
-                list: [
-                  {title: 'Top', value: 'top'},
-                  {title: 'Center', value: 'center'},
-                  {title: 'Bottom', value: 'bottom'},
-                ],
-              },
-            }),
             designField(),
             styleField(),
             advancedField(),
@@ -204,68 +176,6 @@ export const gridRowType = defineType({
       ],
     }),
 
-    // --- Legacy fields: only shown on rows without container settings ---
-    defineField({
-      name: 'gap',
-      title: 'Column Gap',
-      type: 'string',
-      group: 'layout',
-      fieldset: 'legacy',
-      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
-      options: {
-        list: [
-          {title: 'None', value: 'none'},
-          {title: 'Small', value: 'sm'},
-          {title: 'Medium', value: 'md'},
-          {title: 'Large', value: 'lg'},
-          {title: 'Extra Large', value: 'xl'},
-        ],
-        layout: 'radio',
-      },
-    }),
-    defineField({
-      name: 'reverseOnMobile',
-      title: 'Reverse order on mobile',
-      type: 'boolean',
-      group: 'layout',
-      fieldset: 'legacy',
-      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
-    }),
-    defineField({
-      name: 'paddingY',
-      title: 'Vertical Padding',
-      type: 'string',
-      group: 'layout',
-      fieldset: 'legacy',
-      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
-      options: {
-        list: [
-          {title: 'None', value: 'none'},
-          {title: 'Small', value: 'sm'},
-          {title: 'Medium', value: 'md'},
-          {title: 'Large', value: 'lg'},
-          {title: 'Extra Large', value: 'xl'},
-        ],
-        layout: 'radio',
-      },
-    }),
-    defineField({
-      name: 'maxWidth',
-      title: 'Max Width',
-      type: 'string',
-      group: 'layout',
-      fieldset: 'legacy',
-      hidden: ({parent}) => !isLegacyRow(parent as ContainerParent),
-      options: {
-        list: [
-          {title: 'None', value: 'none'},
-          {title: 'Narrow (768px)', value: 'narrow'},
-          {title: 'Default (1200px)', value: 'default'},
-          {title: 'Wide (1400px)', value: 'wide'},
-          {title: 'Full Width', value: 'full'},
-        ],
-      },
-    }),
 
     // --- Style / Advanced / Visibility tabs ---
     designField(),
