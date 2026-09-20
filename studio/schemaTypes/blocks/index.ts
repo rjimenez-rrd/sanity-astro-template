@@ -16,6 +16,7 @@ import {socialEmbedType} from './social-embed'
 import {logoRowType} from './logo-row'
 import {mapEmbedType} from './map-embed'
 import {codeBlockType} from './code-block'
+import {htmlBlockType} from './html-block'
 import {dataTableType} from './data-table'
 import {lottieAnimationType} from './lottie-animation'
 import {heroSectionType} from './hero-section'
@@ -48,6 +49,7 @@ export {
   logoRowType,
   mapEmbedType,
   codeBlockType,
+  htmlBlockType,
   dataTableType,
   lottieAnimationType,
   heroSectionType,
@@ -79,6 +81,7 @@ export const blockTypes = [
   logoRowType,
   mapEmbedType,
   codeBlockType,
+  htmlBlockType,
   dataTableType,
   lottieAnimationType,
   heroSectionType,

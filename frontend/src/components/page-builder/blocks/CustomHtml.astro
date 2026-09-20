@@ -1,0 +1,22 @@
+---
+/**
+ * Renders the Custom HTML block's markup as written.
+ *
+ * stegaClean matters here: in draft mode Sanity embeds invisible characters in
+ * every string, and those would land inside tag names and attributes.
+ *
+ * A Fragment rather than a wrapper element, so the editor's markup is exactly
+ * what reaches the page. Block Styles still apply — BlockRenderer wraps this
+ * when any are set.
+ */
+import {stegaClean} from '@sanity/client/stega'
+
+interface Props {
+  data: {html?: string | null}
+}
+
+const {data} = Astro.props
+const html = stegaClean(data.html)?.trim()
+---
+
+{html && <Fragment set:html={html} />}

@@ -8,6 +8,20 @@ import {BorderStyleInput} from '../../components/inputs/BorderStyleInput'
 import {TypographyInput} from '../../components/inputs/TypographyInput'
 import {EffectsInput} from '../../components/inputs/EffectsInput'
 import {BackgroundInput} from '../../components/inputs/BackgroundInput'
+import {CustomCssInput} from '../../components/inputs/CustomCssInput'
+
+/**
+ * Free-form CSS, scoped to this element when it renders. Declarations with no
+ * selector apply to the element itself; `&` stands for it inside a nested rule.
+ */
+export function customCssField() {
+  return defineField({
+    name: 'customCss',
+    title: 'Custom CSS',
+    type: 'text',
+    components: {input: CustomCssInput},
+  })
+}
 
 const ALIGN_LIST = [
   {title: 'Start', value: 'start'},
@@ -199,6 +213,21 @@ export const blockStylesType = defineType({
         defineField({name: 'overflow', title: 'Overflow', type: 'string'}),
       ],
     }),
+    defineField({
+      name: 'cssId',
+      title: 'CSS ID',
+      type: 'string',
+      description: 'Letters, numbers, hyphens and underscores. Must start with a letter.',
+      validation: (rule) =>
+        rule.regex(/^[A-Za-z][A-Za-z0-9_-]*$/, {name: 'CSS identifier'}).warning(),
+    }),
+    defineField({
+      name: 'cssClasses',
+      title: 'CSS Classes',
+      type: 'string',
+      description: 'Space-separated, without the dot. For hooking in the page\u2019s own styles.',
+    }),
+    customCssField(),
     motionField(),
   ],
 })

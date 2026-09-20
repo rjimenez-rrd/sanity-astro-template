@@ -2,7 +2,7 @@ import {defineField, type FieldProps} from 'sanity'
 import {CogIcon, ColorWheelIcon, EyeOpenIcon, ThLargeIcon} from '@sanity/icons'
 import {ContainerLayoutInput, type ContainerVariant} from '../../components/container/ContainerLayoutInput'
 import {ContainerStyleInput} from '../../components/container/ContainerStyleInput'
-import {spacingField} from '../objects/block-styles'
+import {spacingField, customCssField} from '../objects/block-styles'
 import {motionField} from './motion'
 import {
   COLUMN_CONTAINER_DEFAULTS,
@@ -167,6 +167,7 @@ export function advancedField() {
         type: 'string',
         description: 'Space-separated, without the dot. For hooking in the page’s own styles.',
       }),
+      customCssField(),
       motionField(),
     ],
   })

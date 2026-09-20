@@ -9,6 +9,9 @@ export interface BlockStyles {
     topTablet?: string | null; rightTablet?: string | null; bottomTablet?: string | null; leftTablet?: string | null
     topMobile?: string | null; rightMobile?: string | null; bottomMobile?: string | null; leftMobile?: string | null
   } | null
+  cssId?: string | null
+  cssClasses?: string | null
+  customCss?: string | null
   size?: {
     width?: string | null; widthTablet?: string | null; widthMobile?: string | null
     align?: string | null; alignTablet?: string | null; alignMobile?: string | null

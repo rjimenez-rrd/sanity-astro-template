@@ -131,6 +131,7 @@ export const gridRowType = defineType({
                 defineArrayMember({type: 'logoRow'}),
                 defineArrayMember({type: 'mapEmbed'}),
                 defineArrayMember({type: 'codeBlock'}),
+                defineArrayMember({type: 'htmlBlock'}),
                 defineArrayMember({type: 'dataTable'}),
                 defineArrayMember({type: 'lottieAnimation'}),
                 // Forms & FAQ

@@ -3,6 +3,8 @@ import {stegaClean} from '@sanity/client/stega'
 import BlockStylesWrapper from '@/components/ui/BlockStylesWrapper.astro'
 import {buildStyles, elementStyle, hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs, type MotionSettings} from '@/lib/animation'
+import {safeCssId, safeCssClasses, safeKey} from '@/lib/container'
+import {scopeCustomCss} from '@/lib/customCss'
 import RichText from './blocks/RichText.astro'
 import Image from './blocks/Image.astro'
 import CallToAction from './blocks/CallToAction.astro'
@@ -21,6 +23,7 @@ import SocialEmbed from './blocks/SocialEmbed.astro'
 import LogoRow from './blocks/LogoRow.astro'
 import MapEmbed from './blocks/MapEmbed.astro'
 import CodeBlock from './blocks/CodeBlock.astro'
+import CustomHtml from './blocks/CustomHtml.astro'
 import DataTable from './blocks/DataTable.astro'
 import LottieAnimation from './blocks/LottieAnimation.astro'
 import FormBlock from './blocks/FormBlock.astro'
@@ -57,6 +60,7 @@ const CONTENT_MAP: Record<string, any> = {
   logoRow: LogoRow,
   mapEmbed: MapEmbed,
   codeBlock: CodeBlock,
+  htmlBlock: CustomHtml,
   dataTable: DataTable,
   lottieAnimation: LottieAnimation,
   formBlock: FormBlock,
@@ -75,8 +79,17 @@ const Component = CONTENT_MAP[type]
 
 const styles = stegaClean(block.blockStyles) as (BlockStyles & {motion?: MotionSettings}) | null
 const animation = animationAttrs(styles?.motion)
-// A wrapper only exists to carry styles or an animation.
-const needsWrapper = hasBlockStyles(styles) || Object.keys(animation).length > 0
+// Class hooks and Custom CSS. Scoped to this block's own key, so a rule an
+// editor writes can only reach this element and its descendants.
+const blockKey = safeKey(stegaClean(block._key))
+const cssId = safeCssId(styles?.cssId)
+const cssClasses = safeCssClasses(styles?.cssClasses)
+const customCss = blockKey ? scopeCustomCss(styles?.customCss, `[data-pb="${blockKey}"]`) : undefined
+const needsHook = Boolean(cssId || cssClasses || customCss)
+
+// A wrapper only exists to carry styles, an animation or a class hook.
+const needsWrapper =
+  hasBlockStyles(styles) || Object.keys(animation).length > 0 || needsHook
 const own = needsWrapper && SELF_STYLED.has(type) ? elementStyle(styles) : null
 
 /**
@@ -97,13 +110,19 @@ const emitted = (re: RegExp) =>
 
 const hasPadding = emitted(/^(padding-|--p[trbl]-(tablet|mobile)$)/)
 const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
+
 ---
+
+{customCss && <Fragment set:html={`<style>${customCss}</style>`} />}
 
 {
   Component ? (
     own ? (
       <Component
         data={block}
+        data-pb={blockKey}
+        id={cssId}
+        class={cssClasses}
         style={own.style}
         data-pb-overlay={own.overlay ? '' : undefined}
         data-pb-pad={hasPadding ? '' : undefined}
@@ -113,6 +132,9 @@ const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
     ) : needsWrapper ? (
       <BlockStylesWrapper
         blockStyles={block.blockStyles}
+        data-pb={blockKey}
+        id={cssId}
+        class={cssClasses}
         data-pb-pad={hasPadding ? '' : undefined}
         data-pb-mar={hasMargin ? '' : undefined}
         {...animation}

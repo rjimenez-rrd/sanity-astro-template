@@ -19,21 +19,17 @@
     "@sanity/client": "^8.6.2",
     "@sanity/image-url": "^2.0.3",
     "@sanity/preview-url-secret": "^4.1.5",
-    "@sanity/ui": "^4.2.1",
     "@sanity/visual-editing": "^6.1.2",
     "@sanity/webhook": "^4.0.4",
     "astro": "^7.3.3",
     "astro-portabletext": "^1.0.1",
-    "groq": "^6.15.0",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "react-is": "19.2.4",
-    "styled-components": "^6.1.19"
+    "groq": "^6.15.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@tailwindcss/vite": "^4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^8.3.0"
   }
 }
