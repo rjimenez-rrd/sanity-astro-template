@@ -8,6 +8,7 @@ import PtBlockquote from '@/components/portable-text/PtBlockquote.astro'
 import PtList from '@/components/portable-text/PtList.astro'
 import PtLink from '@/components/portable-text/PtLink.astro'
 import PtImage from '@/components/portable-text/PtImage.astro'
+import PtCallToAction from '@/components/portable-text/PtCallToAction.astro'
 
 interface Props {
   value?: PortableTextBlock[] | Array<Record<string, unknown>> | null
@@ -16,8 +17,10 @@ interface Props {
 const {value} = Astro.props
 
 const components: SomePortableTextComponents = {
+  // Each key must match a type added to blockContent's `of[]` in the Studio.
   type: {
     image: PtImage,
+    callToAction: PtCallToAction,
   },
   mark: {
     link: PtLink,

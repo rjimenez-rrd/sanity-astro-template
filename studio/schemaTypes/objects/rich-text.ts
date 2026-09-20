@@ -52,6 +52,10 @@ export const blockContentType = defineType({
         ],
       },
     }),
+    // Blocks embedded mid-article. Each one also needs an adapter in
+    // frontend components/portable-text/ and an entry in PortableTextRenderer's
+    // `type` map, or it saves here and renders as nothing.
+    defineArrayMember({type: 'callToAction'}),
     defineArrayMember({
       type: 'image',
       options: {hotspot: true},

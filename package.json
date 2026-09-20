@@ -20,6 +20,7 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:studio": "cd studio && npm run dev",
+    "stop": "lsof -ti tcp:4321,3333 -sTCP:LISTEN | xargs kill 2>/dev/null; exit 0",
     "build": "npm-run-all build:*",
     "build:frontend": "cd frontend && npm run build",
     "build:studio": "cd studio && npm run build",

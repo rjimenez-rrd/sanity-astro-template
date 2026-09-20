@@ -59,13 +59,25 @@
   /**
    * Refresh events reach this page over Presentation's channel, which only
    * exists inside the Studio's iframe. A draft tab opened directly has no such
-   * channel, so in dev it polls instead — reloadWhenChanged only reloads once
-   * the server-rendered HTML actually differs, so an unrelated edit is a no-op.
+   * channel, so in dev it listens to /api/draft-events instead, which pings
+   * only when a document is actually saved.
    */
-  const STANDALONE_POLL_MS = 3000
   if (import.meta.env.DEV && window.self === window.top) {
-    const poll = setInterval(() => void reloadWhenChanged(), STANDALONE_POLL_MS)
-    document.addEventListener('astro:before-swap', () => clearInterval(poll))
+    const events = new EventSource('/api/draft-events')
+
+    events.addEventListener('message', (event) => {
+      // reloadWhenChanged is right here: driven by a real save, its short
+      // retry covers the gap before the edit is readable from the API.
+      if ((event as MessageEvent).data === 'changed') void reloadWhenChanged()
+    })
+
+    events.addEventListener('error', () => {
+      if (events.readyState === EventSource.CLOSED) {
+        console.info('[draft] change feed closed; reload the page to resume live updates.')
+      }
+    })
+
+    document.addEventListener('astro:before-swap', () => events.close())
   }
 </script>
 

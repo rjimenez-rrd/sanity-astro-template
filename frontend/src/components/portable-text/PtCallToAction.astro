@@ -1,0 +1,21 @@
+---
+/**
+ * Bridges a Call To Action embedded in rich text to the page-builder block.
+ * Portable Text hands components a `node`; the block expects `data`.
+ */
+import CallToAction from '@/components/page-builder/blocks/CallToAction.astro'
+import type {Props as PtProps} from 'astro-portabletext/types'
+import type {CallToActionData} from '@/types/sanity'
+
+type Props = PtProps<CallToActionData & {_type: string}>
+
+const {node} = Astro.props
+---
+
+{
+  node && (
+    <div class="my-6">
+      <CallToAction data={node} />
+    </div>
+  )
+}
