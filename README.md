@@ -1,73 +1,108 @@
-# Sanity Page Builder
+# Sanity Astro Page Builder
 
-The most complete open-source page builder template for **Sanity + Next.js**.
+An Elementor-style visual page builder for **Sanity + Astro**.
 
-26 content blocks, 16 custom studio inputs, drag-and-drop grid layout, full visual editing.
+26 content blocks, nested flex/grid containers with per-breakpoint control,
+custom Studio inputs, and full visual editing through Sanity's Presentation tool.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fogi988%2Fsanity-page-builder&env=NEXT_PUBLIC_SANITY_PROJECT_ID,NEXT_PUBLIC_SANITY_DATASET,SANITY_API_READ_TOKEN&envDescription=Sanity%20project%20credentials&envLink=https%3A%2F%2Fgithub.com%2Fogi988%2Fsanity-page-builder%2Fblob%2Fmain%2Ffrontend%2F.env.example&root-directory=frontend)
-
-![Sanity Page Builder](sanity-page-builder.png)
-
-### Custom Studio Inputs
-
-Visual layout picker, spacing controls, color pickers, and live previews — all built as custom Sanity inputs.
-
-![Studio Layout Picker](docs/studio-layout-picker.png)
-![Studio Block Styles](docs/studio-block-styles.png)
+The Studio ships custom inputs for the whole editing surface: a visual layout
+picker, responsive spacing controls with link/unlink, colour pickers and live
+block previews.
 
 ## Structure
 
 ```
-├── studio/       Sanity Studio (standalone, port 3333)
-├── frontend/     Next.js app (port 3000)
-└── package.json  root workspace orchestrator
+├── studio/       Sanity Studio (port 3333)
+├── frontend/     Astro SSR app (port 4321)
+└── package.json  npm workspace root
 ```
 
-## Getting Started
+Both packages are npm workspaces of the repo root, so `npm install` at the top
+level installs everything.
 
-### 1. Install dependencies
+For how the pieces fit together — request path, content model, render chain and
+the preview loops — see **[ARCHITECTURE.md](ARCHITECTURE.md)**.
+
+## Getting started
+
+### 1. Install
 
 ```bash
 npm install
 ```
 
-### 2. Set up environment variables
+### 2. Environment variables
 
 ```bash
 cp studio/.env.example studio/.env
 cp frontend/.env.example frontend/.env
 ```
 
-Fill in your Sanity project ID and dataset in both `.env` files.
+Fill in your Sanity project ID and dataset in both files.
 
-### 3. Seed demo data (optional)
+| Package | Variable | Purpose |
+| --- | --- | --- |
+| studio | `SANITY_STUDIO_PROJECT_ID` | Sanity project |
+| studio | `SANITY_STUDIO_DATASET` | usually `production` |
+| studio | `SANITY_STUDIO_PREVIEW_URL` | where Presentation points, defaults to `http://localhost:4321` |
+| frontend | `PUBLIC_SANITY_PROJECT_ID` | same project |
+| frontend | `PUBLIC_SANITY_DATASET` | same dataset |
+| frontend | `SANITY_API_READ_TOKEN` | **required** for draft mode and visual editing |
+| frontend | `SANITY_REVALIDATE_SECRET` | on-demand revalidation webhook |
+
+Create the read token in [Sanity Manage](https://sanity.io/manage) → API → Tokens,
+with **Viewer** permissions.
+
+### 3. Seed demo content (optional)
 
 ```bash
 npm run seed
 ```
 
-### 4. Start development
+### 4. Run
 
 ```bash
-npm run dev
+npm run dev     # both packages
+npm run stop    # frees ports 4321 and 3333
 ```
 
-- **Frontend:** [http://localhost:3000](http://localhost:3000)
+- **Site:** [http://localhost:4321](http://localhost:4321)
 - **Studio:** [http://localhost:3333](http://localhost:3333)
 
-## Content Blocks
+## Editing and preview
 
-Hero Section, Grid Row, Call to Action, Rich Text, Image, Image Gallery, FAQ, Form, Feature Card Grid, Testimonial Carousel, Testimonial Quote, Accordion, Tabbed Content, Button Group, Icon Text, Stat Metric, Pricing Card, Alert Notice, Code Block, Data Table, Social Embed, Logo Row, Map Embed, Countdown Timer, Lottie Animation, Spacer/Divider, Table of Contents.
+Open any page or post in the Studio and use **Open in Presentation** to see it
+live, side by side with the form. Clicking an element in the preview selects it in
+the Studio; edits appear without a manual refresh.
 
-## Type Safety
+To preview drafts in an ordinary browser tab during development, visit
+`/api/draft-mode/enable?dev=1`. The **Exit Preview** button, or
+`/api/draft-mode/disable`, turns it back off.
 
-GROQ query results are fully typed via [Sanity TypeGen](https://www.sanity.io/docs/sanity-typegen). Regenerate after schema changes:
+## Content blocks
+
+Hero Section, Container (grid/flex row), Call to Action, Rich Text, Image, Image
+Gallery, FAQ, Form, Feature Card Grid, Testimonial Carousel, Testimonial Quote,
+Accordion, Tabbed Content, Button Group, Icon Text, Stat Metric, Pricing Card,
+Alert Notice, Code Block, Data Table, Social Embed, Logo Row, Map Embed, Countdown
+Timer, Lottie Animation, Spacer/Divider, Table of Contents.
+
+Containers nest: a row holds columns, a column holds blocks, and layout, style,
+spacing and visibility are all set per breakpoint — **desktop-first**, with Tablet
+overriding at ≤1024px and Mobile at ≤767px.
+
+## Type safety
+
+GROQ results are typed via [Sanity TypeGen](https://www.sanity.io/docs/sanity-typegen).
+Regenerate after schema changes:
 
 ```bash
 npm run typegen
 ```
 
-Types are generated to `frontend/src/sanity/types.ts` with aliases in `frontend/src/types/sanity.ts`.
+Output lands in `frontend/src/sanity/types.generated.ts` — never edit it by hand.
+Hand-written aliases live alongside it in `frontend/src/types/sanity.ts`, which is
+what application code imports.
 
 ## Deployment
 
@@ -77,40 +112,43 @@ Types are generated to `frontend/src/sanity/types.ts` with aliases in `frontend/
 npm run deploy:studio
 ```
 
-### Frontend
+### Site
 
-Deploy the `frontend/` directory to Vercel, Netlify, or any Node.js host.
+Deploy the `frontend/` directory to Vercel. Set the **Root Directory** to
+`frontend` in your hosting provider.
 
-Set the **Root Directory** to `frontend` in your hosting provider.
+The Astro config uses `@astrojs/vercel` with ISR (24-hour expiry). Draft requests
+bypass the cache via the `__prerender_bypass` cookie, so previews are never served
+stale.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fogi988%2Fsanity-page-builder&env=NEXT_PUBLIC_SANITY_PROJECT_ID,NEXT_PUBLIC_SANITY_DATASET,SANITY_API_READ_TOKEN&envDescription=Sanity%20project%20credentials&envLink=https%3A%2F%2Fgithub.com%2Fogi988%2Fsanity-page-builder%2Fblob%2Fmain%2Ffrontend%2F.env.example&root-directory=frontend)
+Remember to add your deployed site's origin to the project's **CORS origins** in
+[Sanity Manage](https://sanity.io/manage) → API, or live updates will silently
+fail on the published site.
 
-### Validate Template
+### Validate the template
 
 ```bash
 npm run validate
 ```
 
-Ensures the Sanity CLI can properly read your template configuration.
+## Instant updates on publish
 
-## Content Revalidation
-
-Pages use ISR with a 24-hour revalidation window. For instant updates when editors publish in Sanity, set up the on-demand webhook:
+Pages are cached by ISR. For updates to appear within seconds of an editor
+publishing, set up the webhook:
 
 1. Generate a secret: `openssl rand -hex 32`
-2. Add `SANITY_REVALIDATE_SECRET` to your hosting env vars with the generated secret
+2. Add `SANITY_REVALIDATE_SECRET` to your hosting env vars
 3. In [Sanity Manage](https://sanity.io/manage) → API → Webhooks, create a webhook:
    - **URL:** `https://your-domain.com/api/revalidate`
-   - **Secret:** same secret from step 1
+   - **Secret:** the secret from step 1
    - **Filter:** `_type in ["homePage", "page", "blogPost", "siteSettings"]`
    - **Projection:** `{_type, slug}`
 
-Published changes will reflect on the site within seconds.
+## More info
 
-## More Info
-
+- [Astro docs](https://docs.astro.build)
+- [Sanity Presentation tool](https://www.sanity.io/docs/presentation)
 - [Create your own Sanity template](https://www.sanity.io/docs/create-your-own-sanity-template)
-- [Template validator](https://github.com/sanity-io/template-validator)
 - [#template-creators on Sanity Slack](https://slack.sanity.io)
 
 ## License
