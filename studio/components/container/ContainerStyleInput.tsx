@@ -1,5 +1,5 @@
 import {type ObjectInputProps} from 'sanity'
-import {BlockStylesPreview} from '../BlockStylesPreview'
+import {BlockStylesPreview} from '../previews/BlockStylesPreview'
 
 /** Spacing and motion live on the Advanced tab for containers, as in Elementor. */
 const MOVED_TO_ADVANCED = new Set(['padding', 'margin', 'motion'])

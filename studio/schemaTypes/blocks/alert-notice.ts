@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {InfoOutlineIcon} from '@sanity/icons'
-import {AlertNoticePreview} from '../../components/AlertNoticePreview'
+import {AlertNoticePreview} from '../../components/previews/AlertNoticePreview'
 
 export const alertNoticeType = defineType({
   name: 'alertNotice',

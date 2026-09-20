@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Box, Card, Flex, Stack, Text} from '@sanity/ui'
-import {SliderInput} from './container/controls'
+import {SliderInput} from '../container/controls'
 
 const UNITS = ['px', '%', 'rem', 'em', 'vw'] as const
 

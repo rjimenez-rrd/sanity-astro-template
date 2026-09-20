@@ -1,8 +1,8 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {DashboardIcon} from '@sanity/icons'
 import {randomKey} from '@sanity/util/content'
-import {LayoutPickerInput} from '../../components/LayoutPickerInput'
-import {ColumnsInput} from '../../components/ColumnsInput'
+import {LayoutPickerInput} from '../../components/inputs/LayoutPickerInput'
+import {ColumnsInput} from '../../components/inputs/ColumnsInput'
 import {COLUMN_CONTAINER_DEFAULTS} from '../../components/container/defaults'
 import {
   CONTAINER_GROUPS,
@@ -10,8 +10,8 @@ import {
   containerField,
   styleField,
   visibilityField,
-} from '../shared/container'
-import {designField} from '../shared/design'
+} from '../fields/container'
+import {designField} from '../fields/design'
 
 const LAYOUT_OPTIONS = [
   {title: 'Full Width', value: 'full'},

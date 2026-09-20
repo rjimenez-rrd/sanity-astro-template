@@ -1,7 +1,7 @@
 import {defineType, defineField} from 'sanity'
 import {LaunchIcon} from '@sanity/icons'
-import {linkField} from '../shared/fields'
-import {ColorStringInput} from '../../components/ColorStringInput'
+import {linkField} from '../fields/fields'
+import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 
 export const callToActionType = defineType({
   name: 'callToAction',

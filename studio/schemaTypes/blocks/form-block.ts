@@ -1,6 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {EnvelopeIcon} from '@sanity/icons'
-import {ColorStringInput} from '../../components/ColorStringInput'
+import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 
 const FIELD_TYPES = [
   {title: 'Text', value: 'text'},

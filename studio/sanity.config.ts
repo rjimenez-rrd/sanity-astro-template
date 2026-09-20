@@ -9,7 +9,7 @@ import {media} from 'sanity-plugin-media'
 import {schemaTypes} from './schemaTypes'
 import {structure} from './structure'
 import {openInPresentation} from './actions/openInPresentation'
-import {singletonTypes, singletonActions} from './schemaTypes/shared/constants'
+import {singletonTypes, singletonActions} from './schemaTypes/constants'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID!
 const dataset = process.env.SANITY_STUDIO_DATASET!

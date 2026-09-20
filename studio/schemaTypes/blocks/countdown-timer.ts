@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {ClockIcon} from '@sanity/icons'
-import {ColorStringInput} from '../../components/ColorStringInput'
+import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 
 const TIMEZONE_OPTIONS = [
   {title: 'US Pacific (Los Angeles)', value: 'America/Los_Angeles'},

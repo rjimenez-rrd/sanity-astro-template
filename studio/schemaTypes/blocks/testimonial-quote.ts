@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {CommentIcon} from '@sanity/icons'
-import {TestimonialPreview} from '../../components/TestimonialPreview'
+import {TestimonialPreview} from '../../components/previews/TestimonialPreview'
 
 export const testimonialQuoteType = defineType({
   name: 'testimonialQuote',

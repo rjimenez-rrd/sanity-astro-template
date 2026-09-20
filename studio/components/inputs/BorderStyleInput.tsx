@@ -1,4 +1,4 @@
-import {ColorPicker} from './color/ColorPicker'
+import {ColorPicker} from '../color/ColorPicker'
 import {useCallback} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Card, Flex, Text, Stack} from '@sanity/ui'

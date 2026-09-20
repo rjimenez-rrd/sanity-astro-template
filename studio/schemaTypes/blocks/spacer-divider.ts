@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {RemoveIcon} from '@sanity/icons'
-import {ColorStringInput} from '../../components/ColorStringInput'
+import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 
 export const spacerDividerType = defineType({
   name: 'spacerDivider',

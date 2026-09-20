@@ -1,13 +1,13 @@
 import {defineType, defineField} from 'sanity'
-import {motionField} from '../shared/motion'
-import {BlockStylesPreview} from '../../components/BlockStylesPreview'
-import {SpacingInput} from '../../components/SpacingInput'
-import {SizeInput} from '../../components/SizeInput'
-import {BorderRadiusInput} from '../../components/BorderRadiusInput'
-import {BorderStyleInput} from '../../components/BorderStyleInput'
-import {TypographyInput} from '../../components/TypographyInput'
-import {EffectsInput} from '../../components/EffectsInput'
-import {BackgroundInput} from '../../components/BackgroundInput'
+import {motionField} from '../fields/motion'
+import {BlockStylesPreview} from '../../components/previews/BlockStylesPreview'
+import {SpacingInput} from '../../components/inputs/SpacingInput'
+import {SizeInput} from '../../components/inputs/SizeInput'
+import {BorderRadiusInput} from '../../components/inputs/BorderRadiusInput'
+import {BorderStyleInput} from '../../components/inputs/BorderStyleInput'
+import {TypographyInput} from '../../components/inputs/TypographyInput'
+import {EffectsInput} from '../../components/inputs/EffectsInput'
+import {BackgroundInput} from '../../components/inputs/BackgroundInput'
 
 const ALIGN_LIST = [
   {title: 'Start', value: 'start'},

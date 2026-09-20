@@ -1,6 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {CogIcon} from '@sanity/icons'
-import {ColorStringInput} from '../../components/ColorStringInput'
+import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 
 export const siteSettingsType = defineType({
   name: 'siteSettings',

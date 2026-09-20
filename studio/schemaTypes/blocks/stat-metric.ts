@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {BarChartIcon} from '@sanity/icons'
-import {StatMetricPreview} from '../../components/StatMetricPreview'
+import {StatMetricPreview} from '../../components/previews/StatMetricPreview'
 
 export const statMetricType = defineType({
   name: 'statMetric',

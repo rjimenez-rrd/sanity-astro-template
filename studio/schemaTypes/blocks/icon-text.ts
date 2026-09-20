@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {BulbOutlineIcon} from '@sanity/icons'
-import {IconTextAlignmentInput} from '../../components/IconTextAlignmentInput'
+import {IconTextAlignmentInput} from '../../components/inputs/IconTextAlignmentInput'
 
 export const iconTextType = defineType({
   name: 'iconText',

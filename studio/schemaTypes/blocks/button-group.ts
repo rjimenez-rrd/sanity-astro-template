@@ -1,6 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {InlineElementIcon} from '@sanity/icons'
-import {ButtonGroupInput} from '../../components/ButtonGroupInput'
+import {ButtonGroupInput} from '../../components/inputs/ButtonGroupInput'
 
 export const buttonGroupType = defineType({
   name: 'buttonGroup',

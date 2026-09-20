@@ -1,6 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {CreditCardIcon} from '@sanity/icons'
-import {PricingCardPreview} from '../../components/PricingCardPreview'
+import {PricingCardPreview} from '../../components/previews/PricingCardPreview'
 
 export const pricingCardType = defineType({
   name: 'pricingCard',

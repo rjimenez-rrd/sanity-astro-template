@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {CodeIcon} from '@sanity/icons'
-import {CodeBlockPreview} from '../../components/CodeBlockPreview'
+import {CodeBlockPreview} from '../../components/previews/CodeBlockPreview'
 
 export const codeBlockType = defineType({
   name: 'codeBlock',
