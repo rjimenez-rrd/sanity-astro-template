@@ -1,0 +1,36 @@
+---
+export const prerender = false
+
+import Site from '@/layouts/Site.astro'
+import PracticeAreaCard from '@/components/practice-areas/PracticeAreaCard.astro'
+import {getClient} from '@/sanity/lib/client'
+import {sanityFetch} from '@/sanity/lib/live'
+import {PRACTICE_AREAS_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
+import {getMaxWidthClass} from '@/lib/maxWidth'
+
+const client = getClient(Astro.locals.isDraft)
+
+const [areas, settings] = await Promise.all([
+  sanityFetch(client, Astro.locals, PRACTICE_AREAS_QUERY),
+  sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
+])
+
+const maxWidthClass = getMaxWidthClass()
+---
+
+<Site settings={settings} title="Practice Areas">
+  <section class={`mx-auto ${maxWidthClass} px-4 py-16 md:px-8`}>
+    <h1 class="font-display text-4xl font-bold text-foreground md:text-5xl">Practice Areas</h1>
+    {
+      areas.length > 0 ? (
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {areas.map((area) => (
+            <PracticeAreaCard area={area} />
+          ))}
+        </div>
+      ) : (
+        <p class="mt-10 text-muted">No practice areas yet.</p>
+      )
+    }
+  </section>
+</Site>

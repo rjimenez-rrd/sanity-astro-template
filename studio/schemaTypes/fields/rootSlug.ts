@@ -4,7 +4,7 @@ import {defineField, type SlugValidationContext} from 'sanity'
 export const ROOT_SLUG_TYPES = ['page', 'practiceArea']
 
 /** Paths the frontend already serves itself, which a document would be hidden behind. */
-const RESERVED = ['api', '404']
+const RESERVED = ['practice-areas', 'api', '404']
 
 async function isUniqueAtRoot(slug: string, context: SlugValidationContext) {
   if (RESERVED.includes(slug)) return false

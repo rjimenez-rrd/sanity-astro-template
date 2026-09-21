@@ -78,15 +78,13 @@ let src: string | undefined
 let srcset: string | undefined
 
 if (asset) {
-  // Asking for more pixels than the original has just wastes bytes.
+  // Asking for more pixels than the original has just wastes bytes, so a
+  // density the original can't fill is capped at its full width rather than
+  // dropped — a 700px logo shown at 355px still gets its 700px copy on retina.
   const intrinsicWidth = dimensions?.width ?? Number.POSITIVE_INFINITY
-  const candidates = [...new Set(densities.map((d) => Math.round(width * d)))]
-    .filter((w) => w <= intrinsicWidth)
-    .sort((a, b) => a - b)
-
-  if (candidates.length === 0) {
-    candidates.push(Math.min(width, dimensions?.width ?? width))
-  }
+  const candidates = [
+    ...new Set(densities.map((d) => Math.min(Math.round(width * d), intrinsicWidth))),
+  ].sort((a, b) => a - b)
 
   srcset = candidates.map((w) => `${build(w, Math.round(w * ratio))} ${w}w`).join(', ')
   const largest = candidates[candidates.length - 1]

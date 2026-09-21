@@ -18,6 +18,7 @@
   --surface: #fafafa;
   --ring: #18181b;
   --header-banner: #0a108c;
+  --practice-card: #3f8bee;
 }
 
 @theme inline {
@@ -36,6 +37,7 @@
   --font-sans: var(--font-inter);
   --font-display: var(--font-montserrat);
   --color-header-banner: var(--header-banner);
+  --color-practice-card: var(--practice-card);
 }
 
 body {

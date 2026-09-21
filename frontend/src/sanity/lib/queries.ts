@@ -122,6 +122,13 @@ export const PAGE_SLUGS_QUERY = defineQuery(/* groq */ `
   }
 `)
 
+export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
+  *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {
+    _id, title, slug,
+    coverImage { ${imageFragment} }
+  }
+`)
+
 export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
   *[_id == "siteSettings"][0] {
     siteName, tagline,

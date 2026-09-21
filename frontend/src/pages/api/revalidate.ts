@@ -42,11 +42,13 @@ export const POST: APIRoute = async ({request, url}) => {
       break
     case 'practiceArea':
       if (body.slug?.current) paths.add(`/${body.slug.current}`)
+      paths.add('/practice-areas')
       break
     case 'siteSettings':
       // Header, footer and nav are on every page. There is no wildcard purge,
       // so refresh the fixed entry points and let the rest expire normally.
       paths.add('/')
+      paths.add('/practice-areas')
       break
     default:
       paths.add('/')

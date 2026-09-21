@@ -1,6 +1,7 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {CogIcon} from '@sanity/icons'
 import {ColorStringInput} from '../../components/inputs/ColorStringInput'
+import {LogoInput} from '../../components/inputs/LogoInput'
 
 export const siteSettingsType = defineType({
   name: 'siteSettings',
@@ -33,6 +34,7 @@ export const siteSettingsType = defineType({
       type: 'image',
       group: 'branding',
       options: {hotspot: true},
+      components: {input: LogoInput},
       fields: [
         defineField({name: 'alt', type: 'string', title: 'Alt Text'}),
       ],

@@ -1,0 +1,34 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import type {PracticeAreaListItem} from '@/types/sanity'
+
+interface Props {
+  area: PracticeAreaListItem
+}
+
+const {area} = Astro.props
+const slug = stegaClean(area.slug?.current)
+---
+
+{
+  slug && (
+    <a href={`/${slug}`} class="group block overflow-hidden">
+      <div class="aspect-[11/10] overflow-hidden bg-foreground/10">
+        {area.coverImage?.asset && (
+          <SanityImage
+            value={area.coverImage}
+            alt={stegaClean(area.coverImage.alt) || ''}
+            width={480}
+            height={436}
+            sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            class="h-full w-full object-cover grayscale transition-[filter] duration-500 group-hover:grayscale-0 group-focus-visible:grayscale-0"
+          />
+        )}
+      </div>
+      <h2 class="bg-practice-card px-6 py-3 font-display text-2xl font-semibold text-white">
+        {area.title}
+      </h2>
+    </a>
+  )
+}

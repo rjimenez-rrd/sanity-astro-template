@@ -195,6 +195,7 @@ const siteSettings = {
     {_key: k(), _type: 'navLink', label: 'Features', href: '/showcase', isButton: false},
     {_key: k(), _type: 'navDropdown', label: 'Resources', items: [
       {_key: k(), label: 'Documentation', href: '/about', description: 'Learn how to use the page builder'},
+      {_key: k(), label: 'Practice Areas', href: '/practice-areas', description: 'What we can help you with'},
       {_key: k(), label: 'Changelog', href: '/about', description: 'What\'s new in each release'},
     ]},
     {_key: k(), _type: 'navLink', label: 'About', href: '/about', isButton: false},
@@ -209,6 +210,7 @@ const siteSettings = {
       title: 'Product',
       links: [
         {_key: k(), _type: 'footerLink', label: 'Features', href: '/showcase'},
+        {_key: k(), _type: 'footerLink', label: 'Practice Areas', href: '/practice-areas'},
         {_key: k(), _type: 'footerLink', label: 'Changelog', href: '/about'},
       ],
     },

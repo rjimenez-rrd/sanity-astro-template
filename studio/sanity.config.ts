@@ -49,7 +49,10 @@ export default defineConfig({
             select: {title: 'title', slug: 'slug.current'},
             resolve: (doc) => ({
               locations: doc?.slug
-                ? [{title: doc.title || 'Untitled practice area', href: `/${doc.slug}`}]
+                ? [
+                    {title: doc.title || 'Untitled practice area', href: `/${doc.slug}`},
+                    {title: 'Practice Areas', href: '/practice-areas'},
+                  ]
                 : [],
             }),
           }),
