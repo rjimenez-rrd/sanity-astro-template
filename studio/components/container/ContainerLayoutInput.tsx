@@ -57,7 +57,7 @@ const GAP_UNITS = ['px', 'em', 'rem', '%'] as const
  * the width that actually renders is BOXED_DEFAULT_WIDTH in
  * frontend/src/lib/container.ts, so the two must stay equal.
  */
-const BOXED_DEFAULT_WIDTH = 1440
+const BOXED_DEFAULT_WIDTH = 1360
 
 const MAX_BY_UNIT: Record<string, number> = {px: 1600, '%': 100, vw: 100, vh: 100, em: 10, rem: 10}
 

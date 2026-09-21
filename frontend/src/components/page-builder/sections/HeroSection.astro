@@ -5,18 +5,13 @@ import SanityImage from '@/components/sanity/SanityImage.astro'
 import CallToAction from '../blocks/CallToAction.astro'
 import BadgePill from '@/components/ui/BadgePill.astro'
 import type {HeroSectionData} from '@/types/sanity'
+import {getMaxWidthClass} from '@/lib/maxWidth'
 
 interface Props {
   data: HeroSectionData
 }
 
 const {data} = Astro.props
-
-const MAX_WIDTH_MAP: Record<string, string> = {
-  narrow: 'max-w-3xl',
-  default: 'max-w-7xl',
-  wide: 'max-w-[1400px]',
-}
 
 const ALIGN_MAP: Record<string, string> = {
   left: 'text-left items-start',
@@ -47,7 +42,7 @@ function buildBackground(hero: HeroSectionData): string | undefined {
 
 const isSplit = stegaClean(data.layout) === 'split'
 const backgroundStyle = buildBackground(data)
-const maxWidthClass = MAX_WIDTH_MAP[stegaClean(data.maxWidth) || 'default']
+const maxWidthClass = getMaxWidthClass(data.maxWidth)
 const buttons = data.buttons ?? []
 
 // Full-width variant
@@ -64,7 +59,7 @@ const isMediaLeft = stegaClean(data.mediaPosition) === 'left'
   {
     isSplit ? (
       <section style={backgroundStyle}>
-        <div class={`mx-auto px-4 py-16 sm:px-6 lg:px-8 ${1500}`}>
+        <div class={`mx-auto px-4 py-16 sm:px-6 lg:px-8 ${maxWidthClass}`}>
           <div class="grid items-center gap-8 md:grid-cols-2 lg:gap-16">
             {/* Text column */}
             <div class={isMediaLeft ? 'order-2' : 'order-1 md:order-1'}>

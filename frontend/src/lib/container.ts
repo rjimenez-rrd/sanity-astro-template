@@ -41,7 +41,7 @@ const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
  * the same number as the Width field's placeholder, in
  * studio/components/container/ContainerLayoutInput.tsx — keep the two in step.
  */
-export const BOXED_DEFAULT_WIDTH = 1440
+export const BOXED_DEFAULT_WIDTH = 1360
 
 export const MEDIA: Record<Device, string | null> = {
   desktop: null,
