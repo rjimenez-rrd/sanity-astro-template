@@ -4,7 +4,7 @@ import type {SchemaTypeDefinition} from 'sanity'
 import {blockStylesType} from './objects/block-styles'
 import {blockContentType} from './objects/rich-text'
 import {linkInternalType, linkExternalType, pageSlugType} from './objects/link'
-import {youtubeVideoType, externalVideoType} from './objects/video'
+import {youtubeVideoType, externalVideoType} from './blocks/video'
 import {seoType} from './objects/seo'
 
 // Blocks (page builder)
