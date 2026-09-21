@@ -1,6 +1,5 @@
 ---
-import {stegaClean} from '@sanity/client/stega'
-import type {LinkItem} from '@/lib/links'
+import {resolveHref, type LinkItem} from '@/lib/links'
 import type {PricingCardData} from '@/types/sanity'
 
 interface Props {
@@ -10,15 +9,8 @@ interface Props {
 const {data} = Astro.props
 
 function resolveCtaHref(cta: NonNullable<PricingCardData['cta']>): string | null {
-  const item = cta.link?.[0] as LinkItem | undefined
-  if (!item) return null
-  const type = stegaClean(item._type)
-  if (type === 'linkExternal') return (item as Extract<LinkItem, {_type: 'linkExternal'}>).url || null
-  if (type === 'pageSlug') {
-    const slug = (item as Extract<LinkItem, {_type: 'pageSlug'}>).slug
-    return slug ? `/${slug}` : null
-  }
-  return null
+  const {href} = resolveHref((cta.link || []) as unknown as LinkItem[])
+  return href === '#' ? null : href
 }
 
 const features = data.features || []

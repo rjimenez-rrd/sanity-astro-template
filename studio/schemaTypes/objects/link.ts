@@ -16,7 +16,7 @@ export const linkInternalType = defineType({
       name: 'reference',
       title: 'Page',
       type: 'reference',
-      to: [{type: 'page'}],
+      to: [{type: 'page'}, {type: 'practiceArea'}],
       validation: (rule) => rule.required(),
     }),
   ],

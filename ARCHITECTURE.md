@@ -26,7 +26,7 @@ or unpublished content. Nothing downstream re-checks it.
 ```mermaid
 flowchart LR
   B[Browser<br/>GET /slug] --> M[middleware.ts<br/>reads __sanity_draft]
-  M -->|isDraft| R[page route<br/>index · slug · blog/slug]
+  M -->|isDraft| R[page route<br/>index · slug (page or practice area)]
   R -->|false| P[published client<br/>CDN in production]
   R -.->|true| D[draft client<br/>read token · no CDN<br/>drafts + stega]
   P --> S[(Sanity API<br/>GROQ)]
@@ -54,7 +54,7 @@ blocks.
 
 ```mermaid
 flowchart TD
-  DOC[document<br/>homePage · page] -->|pageBuilder| ROW["gridRow<br/>(Container)"]
+  DOC[document<br/>homePage · page · practiceArea] -->|pageBuilder| ROW["gridRow<br/>(Container)"]
   DOC -->|pageBuilder| HERO[heroSection]
   ROW -->|columns| COL[gridColumn]
   COL -->|content| BLK[content blocks<br/>richTextBlock · imageBlock<br/>callToAction · accordion<br/>28 types total]
@@ -137,7 +137,7 @@ Three mechanisms answer "something changed". The layout mounts exactly one.
 
 | Path | Holds |
 | --- | --- |
-| `schemaTypes/documents/` | `page`, `blogPost`, `homePage`, `siteSettings` |
+| `schemaTypes/documents/` | `page`, `practiceArea`, `homePage`, `siteSettings` |
 | `schemaTypes/blocks/` | The 28 page-builder blocks, plus `gridRow` and `heroSection` |
 | `schemaTypes/objects/` | `blockStyles`, `link`, `rich-text`, `seo`, `video` |
 | `schemaTypes/fields/` | Reusable field builders: `container`, `design`, `motion` |

@@ -27,10 +27,18 @@ const seoFragment = /* groq */ `
   }
 `
 
+// Internal links store a bare reference; the href needs the target's slug.
+const linkFragment = /* groq */ `
+  link[] {
+    ...,
+    _type == "linkInternal" => { "reference": reference->{ slug } }
+  }
+`
+
 const heroFragment = /* groq */ `
   _type == "heroSection" => {
     ...,
-    buttons[] { _key, _type, ..., ${blockStylesFragment} },
+    buttons[] { _key, _type, ..., ${linkFragment}, ${blockStylesFragment} },
     mediaImage { ${imageFragment} },
     backgroundImage { ${imageFragment} },
     ${blockStylesFragment}
@@ -50,10 +58,14 @@ const contentFragment = /* groq */ `
       // dimensions and falls back to a default aspect ratio.
       content[] {
         ...,
-        _type == "image" => { ${imageFragment} }
+        _type == "image" => { ${imageFragment} },
+        _type == "callToAction" => { ${linkFragment} }
       },
       ${blockStylesFragment}
     },
+    _type == "callToAction" => { ${linkFragment} },
+    _type == "buttonGroup" => { buttons[] { ..., ${linkFragment} } },
+    _type == "pricingCard" => { cta { ..., ${linkFragment} } },
     _type == "logoRow" => {
       logos[] { image { ${imageFragment} }, alt, link },
       grayscale, size,
@@ -94,8 +106,10 @@ export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
   }
 `)
 
+// Pages and practice areas share the root (/<slug>); the Studio keeps their
+// slugs unique across both types.
 export const PAGE_QUERY = defineQuery(/* groq */ `
-  *[_type == "page" && slug.current == $slug][0] {
+  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {
     _id, _type, title, slug,
     ${seoFragment},
     ${pageBuilderFragment}
@@ -103,33 +117,7 @@ export const PAGE_QUERY = defineQuery(/* groq */ `
 `)
 
 export const PAGE_SLUGS_QUERY = defineQuery(/* groq */ `
-  *[_type == "page" && defined(slug.current)] {
-    "slug": slug.current
-  }
-`)
-
-export const BLOG_POSTS_QUERY = defineQuery(/* groq */ `
-  *[_type == "blogPost"] | order(publishedAt desc) {
-    _id, title, slug, excerpt, publishedAt, author,
-    coverImage { ${imageFragment} },
-    ${seoFragment}
-  }
-`)
-
-export const BLOG_POST_QUERY = defineQuery(/* groq */ `
-  *[_type == "blogPost" && slug.current == $slug][0] {
-    _id, title, slug, excerpt, publishedAt, author,
-    coverImage { ${imageFragment} },
-    body[] {
-      ...,
-      _type == "image" => { ${imageFragment} }
-    },
-    ${seoFragment}
-  }
-`)
-
-export const BLOG_SLUGS_QUERY = defineQuery(/* groq */ `
-  *[_type == "blogPost" && defined(slug.current)] {
+  *[_type in ["page", "practiceArea"] && defined(slug.current)] {
     "slug": slug.current
   }
 `)

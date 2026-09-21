@@ -1,8 +1,6 @@
 import type {
   HOME_PAGE_QUERY_RESULT,
   PAGE_QUERY_RESULT,
-  BLOG_POSTS_QUERY_RESULT,
-  BLOG_POST_QUERY_RESULT,
   SITE_SETTINGS_QUERY_RESULT,
 } from '@/sanity/types.generated'
 
@@ -19,10 +17,6 @@ export type SocialLink = NonNullable<SiteSettings['socialLinks']>[number]
 // ---------- Pages ----------
 export type HomePage = HOME_PAGE_QUERY_RESULT
 export type PageData = NonNullable<PAGE_QUERY_RESULT>
-
-// ---------- Blog ----------
-export type BlogPostData = NonNullable<BLOG_POST_QUERY_RESULT>
-export type BlogPostListItem = BLOG_POSTS_QUERY_RESULT[number]
 
 // ---------- Page Builder ----------
 // PAGE_QUERY_RESULT has pageBuilder as a non-null array on its type, so use it directly

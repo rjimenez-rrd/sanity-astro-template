@@ -141,7 +141,7 @@ publishing, set up the webhook:
 3. In [Sanity Manage](https://sanity.io/manage) → API → Webhooks, create a webhook:
    - **URL:** `https://your-domain.com/api/revalidate`
    - **Secret:** the secret from step 1
-   - **Filter:** `_type in ["homePage", "page", "blogPost", "siteSettings"]`
+   - **Filter:** `_type in ["homePage", "page", "practiceArea", "siteSettings"]`
    - **Projection:** `{_type, slug}`
 
 ## More info

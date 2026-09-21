@@ -195,7 +195,6 @@ const siteSettings = {
     {_key: k(), _type: 'navLink', label: 'Features', href: '/showcase', isButton: false},
     {_key: k(), _type: 'navDropdown', label: 'Resources', items: [
       {_key: k(), label: 'Documentation', href: '/about', description: 'Learn how to use the page builder'},
-      {_key: k(), label: 'Blog', href: '/blog', description: 'Latest articles and updates'},
       {_key: k(), label: 'Changelog', href: '/about', description: 'What\'s new in each release'},
     ]},
     {_key: k(), _type: 'navLink', label: 'About', href: '/about', isButton: false},
@@ -210,7 +209,6 @@ const siteSettings = {
       title: 'Product',
       links: [
         {_key: k(), _type: 'footerLink', label: 'Features', href: '/showcase'},
-        {_key: k(), _type: 'footerLink', label: 'Blog', href: '/blog'},
         {_key: k(), _type: 'footerLink', label: 'Changelog', href: '/about'},
       ],
     },
@@ -296,7 +294,7 @@ const homePage = {
               {_key: k(), title: 'Visual Style Controls', description: 'Spacing, borders, backgrounds, typography, and effects at three levels — row, column, and block. No CSS required.'},
               {_key: k(), title: 'Hero Sections', description: 'Full-width or split layout heroes with gradient backgrounds, video support, badges, and dual CTA buttons.'},
               {_key: k(), title: 'Forms & FAQ', description: 'Contact forms with webhook integration and FAQ blocks with JSON-LD structured data for SEO.'},
-              {_key: k(), title: 'Blog System', description: 'Full blog with listing page, individual posts, SEO fields, and rich text content powered by Portable Text.'},
+              {_key: k(), title: 'Practice Areas', description: 'A page-builder layout for every practice area at its own URL, with SEO fields.'},
               {_key: k(), title: 'SEO Built-in', description: 'Meta titles, descriptions, OG images, and noindex controls on every page. Structured data for FAQ blocks.'},
             ],
             blockStyles: blockStyles({pt: '16px', pb: '16px'}),
@@ -341,7 +339,7 @@ const homePage = {
               {_key: k(), question: 'Is it free to use?', answer: [textBlock('Yes — MIT licensed. Use it for personal or commercial projects without any restrictions.')]},
               {_key: k(), question: 'How do I customize the design?', answer: [textBlock('Every section has blockStyles for padding, margin, backgrounds, borders, typography and effects. You can also modify the Tailwind theme in globals.css.')]},
               {_key: k(), question: 'Can I add my own content types?', answer: [textBlock('Absolutely. Follow the pattern in src/sanity/schemaTypes/blocks/ for the schema and src/components/sections/content/ for the renderer. Register in blocks/index.ts and ContentRenderer.tsx.')]},
-              {_key: k(), question: 'Does it support SEO?', answer: [textBlock('Yes. Every page and blog post has SEO fields (meta title, description, OG image, noindex). FAQ blocks output JSON-LD structured data.')]},
+              {_key: k(), question: 'Does it support SEO?', answer: [textBlock('Yes. Every page and practice area has SEO fields (meta title, description, OG image, noindex). FAQ blocks output JSON-LD structured data.')]},
             ],
             blockStyles: blockStyles({pt: '8px', pb: '8px'}),
           },
@@ -676,7 +674,7 @@ export const pageType = defineType({
           cards: [
             {_key: k(), title: 'Grid System', description: '9 layout presets from full-width to 4-column. Control gap, padding, and alignment per row.'},
             {_key: k(), title: 'Visual Controls', description: 'Spacing, borders, backgrounds, typography, and effects at three levels — row, column, and block.'},
-            {_key: k(), title: 'Blog System', description: 'Full blog with listing page, individual posts, SEO fields, and rich text content.'},
+            {_key: k(), title: 'Practice Areas', description: 'A page-builder layout for every practice area at its own URL, with SEO fields.'},
             {_key: k(), title: 'Forms & FAQ', description: 'Contact forms with webhook integration and FAQ blocks with JSON-LD structured data.'},
             {_key: k(), title: 'SEO Built-in', description: 'Meta titles, descriptions, OG images, and noindex on every page. FAQ blocks output JSON-LD.'},
             {_key: k(), title: '16 Custom Inputs', description: 'Visual Studio inputs for spacing, borders, backgrounds, typography, layouts, and more.'},
@@ -727,7 +725,7 @@ export const pageType = defineType({
             {_key: k(), question: 'Is it free to use?', answer: [textBlock('Yes — MIT licensed. Use it for personal or commercial projects without any restrictions.')]},
             {_key: k(), question: 'How do I customize the design?', answer: [textBlock('Every section has blockStyles for padding, margin, backgrounds, borders, typography and effects. You can also modify the Tailwind theme in globals.css.')]},
             {_key: k(), question: 'Can I add my own content types?', answer: [textBlock('Absolutely. Follow the pattern in schemaTypes/blocks/ for the schema and components/sections/content/ for the renderer. Register in blocks/index.ts and ContentRenderer.tsx.')]},
-            {_key: k(), question: 'Does it support SEO?', answer: [textBlock('Yes. Every page and blog post has SEO fields (meta title, description, OG image, noindex). FAQ blocks output JSON-LD structured data for Google.')]},
+            {_key: k(), question: 'Does it support SEO?', answer: [textBlock('Yes. Every page and practice area has SEO fields (meta title, description, OG image, noindex). FAQ blocks output JSON-LD structured data for Google.')]},
           ],
           blockStyles: blockStyles({pt: '8px', pb: '8px'}),
         }],
@@ -896,30 +894,39 @@ const aboutPage = {
 }
 
 // ---------------------------------------------------------------------------
-// Blog Post
+// Practice Area
 // ---------------------------------------------------------------------------
-const blogPost = {
-  _id: 'blog-getting-started',
-  _type: 'blogPost',
+const practiceArea = {
+  _id: 'practice-area-getting-started',
+  _type: 'practiceArea',
   title: 'Getting Started with PageCraft',
   slug: {_type: 'slug', current: 'getting-started'},
-  excerpt: 'Learn how to set up and customize the most complete open-source page builder for Sanity + Astro.',
-  publishedAt: new Date().toISOString(),
-  author: 'PageCraft Team',
-  body: [
-    textBlock('Getting Started', 'h2'),
-    textBlock('PageCraft is built on top of Sanity and Astro. To get started, clone the repo, install dependencies, and run the development server.'),
-    textBlock('Prerequisites', 'h3'),
-    textBlock('You\'ll need Node.js 18+, a Sanity account, and basic familiarity with React and TypeScript.'),
-    textBlock('How the Page Builder Works', 'h2'),
-    textBlock('Every page is composed of sections. Each section is either a Hero Section (full-width, at the top of a page) or a Grid Row (flexible column layout). Grid Rows support 9 layout presets from full-width to 4-column.'),
-    textBlock('Content Types', 'h3'),
-    textBlock('Each grid column can contain any of 28 content types: rich text, images, CTAs, forms, FAQs, pricing cards, testimonials, feature grids, galleries, code blocks, and more.'),
-    textBlock('Visual Style Controls', 'h2'),
-    textBlock('The blockStyles system gives you padding, margin, border, background, typography, and effects controls at three levels: the grid row, the column, and the individual block.'),
-    textBlock('This means content editors can adjust spacing and visual appearance without touching code — just expand the Block Styles section in the Studio.'),
-    textBlock('Next Steps', 'h2'),
-    textBlock('Open the Studio at /studio and start building. Check the showcase page at /showcase to see all content types in action.'),
+  pageBuilder: [
+    gridRow('full', [
+      {
+        content: [
+          {
+            _key: k(),
+            _type: 'richTextBlock',
+            content: [
+              textBlock('Getting Started', 'h2'),
+              textBlock('PageCraft is built on top of Sanity and Astro. To get started, clone the repo, install dependencies, and run the development server.'),
+              textBlock('Prerequisites', 'h3'),
+              textBlock('You\'ll need Node.js 18+, a Sanity account, and basic familiarity with React and TypeScript.'),
+              textBlock('How the Page Builder Works', 'h2'),
+              textBlock('Every page is composed of sections. Each section is either a Hero Section (full-width, at the top of a page) or a Grid Row (flexible column layout). Grid Rows support 9 layout presets from full-width to 4-column.'),
+              textBlock('Content Types', 'h3'),
+              textBlock('Each grid column can contain any of 28 content types: rich text, images, CTAs, forms, FAQs, pricing cards, testimonials, feature grids, galleries, code blocks, and more.'),
+              textBlock('Visual Style Controls', 'h2'),
+              textBlock('The blockStyles system gives you padding, margin, border, background, typography, and effects controls at three levels: the grid row, the column, and the individual block.'),
+              textBlock('This means content editors can adjust spacing and visual appearance without touching code — just expand the Block Styles section in the Studio.'),
+              textBlock('Next Steps', 'h2'),
+              textBlock('Open the Studio at /studio and start building. Check the showcase page at /showcase to see all content types in action.'),
+            ],
+          },
+        ],
+      },
+    ], {paddingY: 'lg', maxWidth: 'narrow'}),
   ],
   seo: {
     metaTitle: 'Getting Started with PageCraft',
@@ -938,7 +945,7 @@ async function seed() {
   transaction.createOrReplace(homePage)
   transaction.createOrReplace(showcasePage)
   transaction.createOrReplace(aboutPage)
-  transaction.createOrReplace(blogPost)
+  transaction.createOrReplace(practiceArea)
 
   const result = await transaction.commit()
   console.log(`Done! Created ${result.documentIds.length} documents:`)

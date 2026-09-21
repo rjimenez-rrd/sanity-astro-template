@@ -4,14 +4,13 @@
  */
 const PATHS: Record<string, (doc: Record<string, any> | null) => string | undefined> = {
   homePage: () => '/',
-  page: (doc) => {
-    const slug = doc?.slug?.current
-    return slug ? `/${slug}` : undefined
-  },
-  blogPost: (doc) => {
-    const slug = doc?.slug?.current
-    return slug ? `/blog/${slug}` : undefined
-  },
+  page: (doc) => rootPath(doc),
+  practiceArea: (doc) => rootPath(doc),
+}
+
+function rootPath(doc: Record<string, any> | null): string | undefined {
+  const slug = doc?.slug?.current
+  return slug ? `/${slug}` : undefined
 }
 
 /** `undefined` when the type has no page, `null` when it needs a slug first. */

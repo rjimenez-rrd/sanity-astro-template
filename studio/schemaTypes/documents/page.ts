@@ -1,5 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
+import {rootSlugField} from '../fields/rootSlug'
 
 export const pageType = defineType({
   name: 'page',
@@ -13,13 +14,7 @@ export const pageType = defineType({
       type: 'string',
       validation: (rule) => rule.required(),
     }),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {source: 'title'},
-      validation: (rule) => rule.required(),
-    }),
+    rootSlugField(),
     defineField({
       name: 'pageBuilder',
       title: 'Page Builder',

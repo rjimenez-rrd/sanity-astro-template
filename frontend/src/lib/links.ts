@@ -2,7 +2,7 @@ import {stegaClean} from '@sanity/client/stega'
 
 interface LinkInternal {
   _type: 'linkInternal'
-  reference?: {slug?: {current?: string}}
+  reference?: {slug?: {current?: string}} | null
 }
 
 interface LinkExternal {
@@ -17,6 +17,7 @@ interface PageSlugLink {
 }
 
 export type LinkItem = LinkInternal | LinkExternal | PageSlugLink
+
 
 /**
  * Resolves the Studio's polymorphic link array into an href.
@@ -37,7 +38,8 @@ export function resolveHref(linkItems: LinkItem[]): {href: string; isExternal: b
     }
     case 'pageSlug': {
       const slug = item as PageSlugLink
-      return {href: `/${slug.slug || ''}`, isExternal: false}
+      // Editors type it either way ("about" or "/about"), per the field's hint.
+      return {href: `/${(slug.slug || '').replace(/^\/+/, '')}`, isExternal: false}
     }
     default:
       return {href: '#', isExternal: false}

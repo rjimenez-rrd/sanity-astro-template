@@ -45,22 +45,18 @@ export default defineConfig({
                 : [],
             }),
           }),
-          blogPost: defineLocations({
+          practiceArea: defineLocations({
             select: {title: 'title', slug: 'slug.current'},
             resolve: (doc) => ({
               locations: doc?.slug
-                ? [
-                    {title: doc.title || 'Untitled post', href: `/blog/${doc.slug}`},
-                    {title: 'Blog index', href: '/blog'},
-                  ]
+                ? [{title: doc.title || 'Untitled practice area', href: `/${doc.slug}`}]
                 : [],
             }),
           }),
         },
         mainDocuments: defineDocuments([
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
-          {route: '/blog/:slug', filter: '_type == "blogPost" && slug.current == $slug'},
-          {route: '/:slug', filter: '_type == "page" && slug.current == $slug'},
+          {route: '/:slug', filter: '_type in ["page", "practiceArea"] && slug.current == $slug'},
         ]),
       },
       previewUrl: {

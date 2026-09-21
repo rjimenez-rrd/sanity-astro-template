@@ -1,5 +1,5 @@
 import type {StructureResolver} from 'sanity/structure'
-import {CogIcon, HomeIcon, DocumentTextIcon} from '@sanity/icons'
+import {CaseIcon, CogIcon, HomeIcon} from '@sanity/icons'
 
 const SINGLETONS = ['siteSettings', 'homePage']
 
@@ -33,14 +33,14 @@ export const structure: StructureResolver = (S) =>
       // Pages
       S.documentTypeListItem('page').title('Pages'),
 
-      // Blog
+      // Practice areas
       S.listItem()
-        .title('Blog')
-        .icon(DocumentTextIcon)
-        .child(S.documentTypeList('blogPost').title('Blog Posts')),
+        .title('Practice Areas')
+        .icon(CaseIcon)
+        .child(S.documentTypeList('practiceArea').title('Practice Areas')),
 
       // Filter out singletons from auto-generated list
       ...S.documentTypeListItems().filter(
-        (listItem) => !['page', 'blogPost',  ...SINGLETONS].includes(listItem.getId() as string),
+        (listItem) => !['page', 'practiceArea', ...SINGLETONS].includes(listItem.getId() as string),
       ),
     ])

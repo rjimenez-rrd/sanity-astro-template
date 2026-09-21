@@ -2662,10 +2662,17 @@ export type PageReference = {
   [internalGroqTypeReferenceTo]?: "page";
 };
 
+export type PracticeAreaReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "practiceArea";
+};
+
 export type LinkInternal = {
   _type: "linkInternal";
   title?: string;
-  reference: PageReference;
+  reference: PageReference | PracticeAreaReference;
 };
 
 export type BlockContent = Array<
@@ -2718,43 +2725,16 @@ export type BlockStyles = {
   motion?: Motion;
 };
 
-export type BlogPost = {
+export type PracticeArea = {
   _id: string;
-  _type: "blogPost";
+  _type: "practiceArea";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title: string;
   slug: Slug;
-  excerpt?: string;
-  coverImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  publishedAt: string;
-  author?: string;
-  body?: BlockContent;
+  pageBuilder?: PageBuilder;
   seo?: Seo;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
 };
 
 export type Slug = {
@@ -2836,6 +2816,22 @@ export type SiteSettings = {
     _type: "footerColumn";
     _key: string;
   }>;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
 };
 
 export type HomePage = {
@@ -3260,14 +3256,15 @@ export type AllSanitySchemaTypes =
   | PageSlug
   | LinkExternal
   | PageReference
+  | PracticeAreaReference
   | LinkInternal
   | BlockContent
   | BlockStyles
-  | BlogPost
-  | SanityImageCrop
-  | SanityImageHotspot
+  | PracticeArea
   | Slug
   | SiteSettings
+  | SanityImageCrop
+  | SanityImageHotspot
   | HomePage
   | Page
   | Table
@@ -3288,24 +3285,8 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type HOME_PAGE_QUERY_RESULT =
-  | {
-      _id: "homePage";
-      _type: "blogPost";
-      seo: {
-        metaTitle: string | null;
-        metaDescription: string | null;
-        noIndex: boolean | null;
-        ogImage: {
-          asset: {
-            _id: string;
-            url: string;
-          } | null;
-        } | null;
-      } | null;
-      pageBuilder: null;
-    }
   | {
       _id: "homePage";
       _type: "homePage";
@@ -3433,11 +3414,38 @@ export type HOME_PAGE_QUERY_RESULT =
                 | {
                     _key: string;
                     _type: "buttonGroup";
-                    buttons: Array<
-                      {
-                        _key: string;
-                      } & CallToAction
-                    >;
+                    buttons: Array<{
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    }>;
                     alignment?: "center" | "left" | "right";
                     direction?: string;
                     gap?: "large" | "medium" | "small";
@@ -3485,15 +3493,27 @@ export type HOME_PAGE_QUERY_RESULT =
                     hoverColor?: string;
                     variant?: "ghost" | "outline" | "primary" | "secondary";
                     link: Array<
-                      | ({
+                      | {
                           _key: string;
-                        } & LinkExternal)
-                      | ({
+                          _type: "linkExternal";
+                          title: string;
+                          url: string;
+                          openInNewTab?: boolean;
+                        }
+                      | {
                           _key: string;
-                        } & LinkInternal)
-                      | ({
+                          _type: "linkInternal";
+                          title?: string;
+                          reference: {
+                            slug: Slug;
+                          };
+                        }
+                      | {
                           _key: string;
-                        } & PageSlug)
+                          _type: "pageSlug";
+                          title: string;
+                          slug: string;
+                        }
                     >;
                     blockStyles: null;
                   }
@@ -4200,7 +4220,37 @@ export type HOME_PAGE_QUERY_RESULT =
                       _type: "pricingFeature";
                       _key: string;
                     }>;
-                    cta?: CallToAction;
+                    cta: {
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    } | null;
                     isHighlighted?: boolean;
                     blockStyles: {
                       padding: Padding | null;
@@ -4271,15 +4321,27 @@ export type HOME_PAGE_QUERY_RESULT =
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
-                            | ({
+                            | {
                                 _key: string;
-                              } & LinkExternal)
-                            | ({
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
                                 _key: string;
-                              } & LinkInternal)
-                            | ({
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
                                 _key: string;
-                              } & PageSlug)
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
                           >;
                         }
                       | {
@@ -4818,15 +4880,27 @@ export type HOME_PAGE_QUERY_RESULT =
               hoverColor?: string;
               variant?: "ghost" | "outline" | "primary" | "secondary";
               link: Array<
-                | ({
+                | {
                     _key: string;
-                  } & LinkExternal)
-                | ({
+                    _type: "linkExternal";
+                    title: string;
+                    url: string;
+                    openInNewTab?: boolean;
+                  }
+                | {
                     _key: string;
-                  } & LinkInternal)
-                | ({
+                    _type: "linkInternal";
+                    title?: string;
+                    reference: {
+                      slug: Slug;
+                    };
+                  }
+                | {
                     _key: string;
-                  } & PageSlug)
+                    _type: "pageSlug";
+                    title: string;
+                    slug: string;
+                  }
               >;
               blockStyles: null;
             }> | null;
@@ -5045,11 +5119,38 @@ export type HOME_PAGE_QUERY_RESULT =
                 | {
                     _key: string;
                     _type: "buttonGroup";
-                    buttons: Array<
-                      {
-                        _key: string;
-                      } & CallToAction
-                    >;
+                    buttons: Array<{
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    }>;
                     alignment?: "center" | "left" | "right";
                     direction?: string;
                     gap?: "large" | "medium" | "small";
@@ -5097,15 +5198,27 @@ export type HOME_PAGE_QUERY_RESULT =
                     hoverColor?: string;
                     variant?: "ghost" | "outline" | "primary" | "secondary";
                     link: Array<
-                      | ({
+                      | {
                           _key: string;
-                        } & LinkExternal)
-                      | ({
+                          _type: "linkExternal";
+                          title: string;
+                          url: string;
+                          openInNewTab?: boolean;
+                        }
+                      | {
                           _key: string;
-                        } & LinkInternal)
-                      | ({
+                          _type: "linkInternal";
+                          title?: string;
+                          reference: {
+                            slug: Slug;
+                          };
+                        }
+                      | {
                           _key: string;
-                        } & PageSlug)
+                          _type: "pageSlug";
+                          title: string;
+                          slug: string;
+                        }
                     >;
                     blockStyles: null;
                   }
@@ -5812,7 +5925,37 @@ export type HOME_PAGE_QUERY_RESULT =
                       _type: "pricingFeature";
                       _key: string;
                     }>;
-                    cta?: CallToAction;
+                    cta: {
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    } | null;
                     isHighlighted?: boolean;
                     blockStyles: {
                       padding: Padding | null;
@@ -5883,15 +6026,27 @@ export type HOME_PAGE_QUERY_RESULT =
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
-                            | ({
+                            | {
                                 _key: string;
-                              } & LinkExternal)
-                            | ({
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
                                 _key: string;
-                              } & LinkInternal)
-                            | ({
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
                                 _key: string;
-                              } & PageSlug)
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
                           >;
                         }
                       | {
@@ -6430,15 +6585,1726 @@ export type HOME_PAGE_QUERY_RESULT =
               hoverColor?: string;
               variant?: "ghost" | "outline" | "primary" | "secondary";
               link: Array<
-                | ({
+                | {
                     _key: string;
-                  } & LinkExternal)
-                | ({
+                    _type: "linkExternal";
+                    title: string;
+                    url: string;
+                    openInNewTab?: boolean;
+                  }
+                | {
                     _key: string;
-                  } & LinkInternal)
-                | ({
+                    _type: "linkInternal";
+                    title?: string;
+                    reference: {
+                      slug: Slug;
+                    };
+                  }
+                | {
                     _key: string;
-                  } & PageSlug)
+                    _type: "pageSlug";
+                    title: string;
+                    slug: string;
+                  }
+              >;
+              blockStyles: null;
+            }> | null;
+            mediaImage: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: string | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            mediaPosition?: "left" | "right";
+            backgroundType?: "color" | "gradient" | "image" | "video";
+            backgroundColor?: string;
+            gradientFrom?: string;
+            gradientTo?: string;
+            gradientDirection?:
+              "to bottom right" | "to bottom" | "to right" | "to top right";
+            backgroundImage: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            backgroundVideo?: string;
+            overlay?: number;
+            minHeight?: "100vh" | "50vh" | "75vh" | "auto";
+            textColor?: string;
+            maxWidth?: "default" | "narrow" | "wide";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            columns: null;
+          }
+      > | null;
+    }
+  | {
+      _id: "homePage";
+      _type: "practiceArea";
+      seo: {
+        metaTitle: string | null;
+        metaDescription: string | null;
+        noIndex: boolean | null;
+        ogImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+        } | null;
+      } | null;
+      pageBuilder: Array<
+        | {
+            _key: string;
+            _type: "gridRow";
+            label?: string;
+            container?: Container;
+            layout?: string;
+            columns: Array<{
+              _key: string;
+              label?: string;
+              container?: GridColumnContainer;
+              content: Array<
+                | {
+                    _key: string;
+                    _type: "accordion";
+                    title?: string;
+                    subtitle?: string;
+                    panels: Array<{
+                      title: string;
+                      icon?: AccordionPanelIcon;
+                      content: BlockContent;
+                      _type: "accordionPanel";
+                      _key: string;
+                    }>;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "alertNotice";
+                    type: "error" | "info" | "success" | "tip" | "warning";
+                    title?: string;
+                    message: string;
+                    dismissible?: boolean;
+                    icon?: {
+                      asset?: SanityImageAssetReference;
+                      media?: unknown;
+                      hotspot?: SanityImageHotspot;
+                      crop?: SanityImageCrop;
+                      _type: "image";
+                    };
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "buttonGroup";
+                    buttons: Array<{
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    }>;
+                    alignment?: "center" | "left" | "right";
+                    direction?: string;
+                    gap?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "callToAction";
+                    label: string;
+                    color?: string;
+                    textColor?: string;
+                    hoverColor?: string;
+                    variant?: "ghost" | "outline" | "primary" | "secondary";
+                    link: Array<
+                      | {
+                          _key: string;
+                          _type: "linkExternal";
+                          title: string;
+                          url: string;
+                          openInNewTab?: boolean;
+                        }
+                      | {
+                          _key: string;
+                          _type: "linkInternal";
+                          title?: string;
+                          reference: {
+                            slug: Slug;
+                          };
+                        }
+                      | {
+                          _key: string;
+                          _type: "pageSlug";
+                          title: string;
+                          slug: string;
+                        }
+                    >;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "codeBlock";
+                    language?:
+                      | "bash"
+                      | "css"
+                      | "html"
+                      | "javascript"
+                      | "json"
+                      | "other"
+                      | "python"
+                      | "typescript";
+                    filename?: string;
+                    code: string;
+                    showLineNumbers?: boolean;
+                    highlightLines?: string;
+                    caption?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "countdownTimer";
+                    title?: string;
+                    subtitle?: string;
+                    targetDate: string;
+                    timezone?:
+                      | "America/Chicago"
+                      | "America/Denver"
+                      | "America/Los_Angeles"
+                      | "America/New_York"
+                      | "Australia/Melbourne"
+                      | "Australia/Sydney"
+                      | "Europe/London";
+                    expiredMessage?: string;
+                    hideWhenExpired?: boolean;
+                    cta?: CallToAction;
+                    style?: "compact" | "inline" | "large";
+                    backgroundColor?: string;
+                    textColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "dataTable";
+                    caption?: string;
+                    headers: Array<{
+                      text: string;
+                      _type: "tableHeader";
+                      _key: string;
+                    }>;
+                    rows: Array<{
+                      cells: Array<{
+                        text: string;
+                        _type: "tableCell";
+                        _key: string;
+                      }>;
+                      _type: "dataTableRow";
+                      _key: string;
+                    }>;
+                    striped?: boolean;
+                    compact?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "externalVideo";
+                    url: string;
+                    caption?: string;
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    muted?: boolean;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "faqBlock";
+                    title?: string;
+                    subtitle?: string;
+                    items: Array<{
+                      question: string;
+                      answer?: BlockContent;
+                      _type: "faqItem";
+                      _key: string;
+                    }>;
+                    enableSchema?: boolean;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "featureCardGrid";
+                    title?: string;
+                    subtitle?: string;
+                    cards: Array<{
+                      icon?: FeatureCardIcon;
+                      title: string;
+                      description?: string;
+                      cta?: Cta;
+                      _type: "featureCard";
+                      _key: string;
+                    }>;
+                    columns?: "2" | "3" | "4";
+                    style?: "bordered" | "highlighted" | "shadow" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "formBlock";
+                    formTitle?: string;
+                    formDescription?: string;
+                    fields: Array<{
+                      label: string;
+                      name: string;
+                      type:
+                        | "checkbox"
+                        | "email"
+                        | "number"
+                        | "select"
+                        | "tel"
+                        | "text"
+                        | "textarea";
+                      placeholder?: string;
+                      required?: boolean;
+                      options?: Array<string>;
+                      width?: "full" | "half";
+                      _type: "formField";
+                      _key: string;
+                    }>;
+                    submitLabel?: string;
+                    submitAction?: "custom" | "webhook";
+                    webhookUrl?: string;
+                    customEndpoint?: string;
+                    successMessage?: string;
+                    errorMessage?: string;
+                    buttonColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "htmlBlock";
+                    html: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "iconText";
+                    icon: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    iconSize?: "large" | "medium" | "small" | "xl";
+                    title: string;
+                    description?: string;
+                    alignment?: string;
+                    link?: CallToAction;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageBlock";
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: string | null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    };
+                    caption: string | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageGallery";
+                    title?: string;
+                    images: Array<{
+                      image: GalleryImageImage;
+                      alt?: string;
+                      caption?: string;
+                      _type: "galleryImage";
+                      _key: string;
+                    }>;
+                    layout?: "grid" | "masonry";
+                    columns?: "2" | "3" | "4";
+                    enableLightbox?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "logoRow";
+                    logos: Array<{
+                      image: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                      alt: string | null;
+                      link: string | null;
+                    }>;
+                    grayscale: boolean | null;
+                    size: "large" | "medium" | "small" | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "lottieAnimation";
+                    source: "file" | "url";
+                    url?: string;
+                    file?: {
+                      asset?: SanityFileAssetReference;
+                      media?: unknown;
+                      _type: "file";
+                    };
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    speed?: number;
+                    trigger?: "auto" | "hover" | "scroll";
+                    alt?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "mapEmbed";
+                    embedUrl: string;
+                    height?: "large" | "medium" | "small" | "xl";
+                    caption?: string;
+                    style?: "borderless" | "default" | "rounded";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "pricingCard";
+                    badge?: string;
+                    title: string;
+                    price: string;
+                    priceSubtext?: string;
+                    features?: Array<{
+                      text: string;
+                      included?: boolean;
+                      _type: "pricingFeature";
+                      _key: string;
+                    }>;
+                    cta: {
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    } | null;
+                    isHighlighted?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "richTextBlock";
+                    content: Array<
+                      | {
+                          children?: Array<{
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }>;
+                          style?:
+                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                          listItem?: "bullet" | "number";
+                          markDefs?: Array<{
+                            href?: string;
+                            openInNewTab?: boolean;
+                            _type: "link";
+                            _key: string;
+                          }>;
+                          level?: number;
+                          _type: "block";
+                          _key: string;
+                        }
+                      | {
+                          _key: string;
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | {
+                                _key: string;
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
+                                _key: string;
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
+                                _key: string;
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
+                          >;
+                        }
+                      | {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          media?: unknown;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                          alt: string | null;
+                          _type: "image";
+                          _key: string;
+                        }
+                    >;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "socialEmbed";
+                    platform:
+                      "facebook" | "instagram" | "other" | "tiktok" | "twitter";
+                    embedUrl: string;
+                    caption?: string;
+                    aspectRatio?: "auto" | "landscape" | "portrait" | "square";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "spacerDivider";
+                    height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                    showDivider?: boolean;
+                    dividerStyle?: "dashed" | "dotted" | "solid";
+                    dividerColor?: string;
+                    maxWidth?: "default" | "full" | "narrow" | "wide";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "statMetric";
+                    value: string;
+                    label: string;
+                    prefix?: string;
+                    suffix?: string;
+                    size?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tabbedContent";
+                    title?: string;
+                    subtitle?: string;
+                    tabs: Array<{
+                      label: string;
+                      icon?: Icon;
+                      content: Array<
+                        | ({
+                            _key: string;
+                          } & AlertNotice)
+                        | ({
+                            _key: string;
+                          } & BlockContent)
+                        | ({
+                            _key: string;
+                          } & ButtonGroup)
+                        | ({
+                            _key: string;
+                          } & CallToAction)
+                        | ({
+                            _key: string;
+                          } & CodeBlock)
+                        | ({
+                            _key: string;
+                          } & DataTable)
+                        | ({
+                            _key: string;
+                          } & ExternalVideo)
+                        | ({
+                            _key: string;
+                          } & IconText)
+                        | ({
+                            _key: string;
+                          } & LogoRow)
+                        | ({
+                            _key: string;
+                          } & LottieAnimation)
+                        | ({
+                            _key: string;
+                          } & MapEmbed)
+                        | ({
+                            _key: string;
+                          } & PricingCard)
+                        | ({
+                            _key: string;
+                          } & SocialEmbed)
+                        | ({
+                            _key: string;
+                          } & StatMetric)
+                        | ({
+                            _key: string;
+                          } & TestimonialQuote)
+                        | ({
+                            _key: string;
+                          } & YoutubeVideo)
+                        | {
+                            image: TabImageImage;
+                            alt?: string;
+                            _type: "tabImage";
+                            _key: string;
+                          }
+                      >;
+                      _type: "tab";
+                      _key: string;
+                    }>;
+                    tabStyle?: "boxed" | "pills" | "underline";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialCarousel";
+                    title?: string;
+                    testimonials: Array<
+                      {
+                        _key: string;
+                      } & TestimonialQuote
+                    >;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    showDots?: boolean;
+                    showArrows?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialQuote";
+                    quote: string;
+                    avatar: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    name: string;
+                    title?: string;
+                    rating?: number;
+                    style?: "card" | "large" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tocBlock";
+                    title?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "youtubeVideo";
+                    url: string;
+                    caption?: string;
+                    blockStyles: null;
+                  }
+              > | null;
+              design?: GridColumnDesign;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
+              advanced?: GridColumnAdvanced;
+              visibility?: GridColumnVisibility;
+              _type: "gridColumn";
+            }>;
+            design?: Design;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            advanced?: Advanced;
+            visibility?: Visibility;
+          }
+        | {
+            _key: string;
+            _type: "heroSection";
+            layout?: "fullWidth" | "split";
+            badge?: string;
+            badgeLink?: string;
+            heading: string;
+            subtitle?: string;
+            alignment?: "center" | "left" | "right";
+            buttons: Array<{
+              _key: string;
+              _type: "callToAction";
+              label: string;
+              color?: string;
+              textColor?: string;
+              hoverColor?: string;
+              variant?: "ghost" | "outline" | "primary" | "secondary";
+              link: Array<
+                | {
+                    _key: string;
+                    _type: "linkExternal";
+                    title: string;
+                    url: string;
+                    openInNewTab?: boolean;
+                  }
+                | {
+                    _key: string;
+                    _type: "linkInternal";
+                    title?: string;
+                    reference: {
+                      slug: Slug;
+                    };
+                  }
+                | {
+                    _key: string;
+                    _type: "pageSlug";
+                    title: string;
+                    slug: string;
+                  }
               >;
               blockStyles: null;
             }> | null;
@@ -6546,608 +8412,619 @@ export type HOME_PAGE_QUERY_RESULT =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
-export type PAGE_QUERY_RESULT = {
-  _id: string;
-  _type: "page";
-  title: string;
-  slug: Slug;
-  seo: {
-    metaTitle: string | null;
-    metaDescription: string | null;
-    noIndex: boolean | null;
-    ogImage: {
-      asset: {
-        _id: string;
-        url: string;
+// Query: *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+export type PAGE_QUERY_RESULT =
+  | {
+      _id: string;
+      _type: "page";
+      title: string;
+      slug: Slug;
+      seo: {
+        metaTitle: string | null;
+        metaDescription: string | null;
+        noIndex: boolean | null;
+        ogImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+        } | null;
       } | null;
-    } | null;
-  } | null;
-  pageBuilder: Array<
-    | {
-        _key: string;
-        _type: "gridRow";
-        label?: string;
-        container?: Container;
-        layout?: string;
-        columns: Array<{
-          _key: string;
-          label?: string;
-          container?: GridColumnContainer;
-          content: Array<
-            | {
-                _key: string;
-                _type: "accordion";
-                title?: string;
-                subtitle?: string;
-                panels: Array<{
-                  title: string;
-                  icon?: AccordionPanelIcon;
-                  content: BlockContent;
-                  _type: "accordionPanel";
-                  _key: string;
-                }>;
-                allowMultipleOpen?: boolean;
-                firstOpenByDefault?: boolean;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "alertNotice";
-                type: "error" | "info" | "success" | "tip" | "warning";
-                title?: string;
-                message: string;
-                dismissible?: boolean;
-                icon?: {
-                  asset?: SanityImageAssetReference;
-                  media?: unknown;
-                  hotspot?: SanityImageHotspot;
-                  crop?: SanityImageCrop;
-                  _type: "image";
-                };
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "buttonGroup";
-                buttons: Array<
-                  {
+      pageBuilder: Array<
+        | {
+            _key: string;
+            _type: "gridRow";
+            label?: string;
+            container?: Container;
+            layout?: string;
+            columns: Array<{
+              _key: string;
+              label?: string;
+              container?: GridColumnContainer;
+              content: Array<
+                | {
                     _key: string;
-                  } & CallToAction
-                >;
-                alignment?: "center" | "left" | "right";
-                direction?: string;
-                gap?: "large" | "medium" | "small";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "callToAction";
-                label: string;
-                color?: string;
-                textColor?: string;
-                hoverColor?: string;
-                variant?: "ghost" | "outline" | "primary" | "secondary";
-                link: Array<
-                  | ({
+                    _type: "accordion";
+                    title?: string;
+                    subtitle?: string;
+                    panels: Array<{
+                      title: string;
+                      icon?: AccordionPanelIcon;
+                      content: BlockContent;
+                      _type: "accordionPanel";
                       _key: string;
-                    } & LinkExternal)
-                  | ({
-                      _key: string;
-                    } & LinkInternal)
-                  | ({
-                      _key: string;
-                    } & PageSlug)
-                >;
-                blockStyles: null;
-              }
-            | {
-                _key: string;
-                _type: "codeBlock";
-                language?:
-                  | "bash"
-                  | "css"
-                  | "html"
-                  | "javascript"
-                  | "json"
-                  | "other"
-                  | "python"
-                  | "typescript";
-                filename?: string;
-                code: string;
-                showLineNumbers?: boolean;
-                highlightLines?: string;
-                caption?: string;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
+                    }>;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
                           } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
                         } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
                       } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "countdownTimer";
-                title?: string;
-                subtitle?: string;
-                targetDate: string;
-                timezone?:
-                  | "America/Chicago"
-                  | "America/Denver"
-                  | "America/Los_Angeles"
-                  | "America/New_York"
-                  | "Australia/Melbourne"
-                  | "Australia/Sydney"
-                  | "Europe/London";
-                expiredMessage?: string;
-                hideWhenExpired?: boolean;
-                cta?: CallToAction;
-                style?: "compact" | "inline" | "large";
-                backgroundColor?: string;
-                textColor?: string;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "dataTable";
-                caption?: string;
-                headers: Array<{
-                  text: string;
-                  _type: "tableHeader";
-                  _key: string;
-                }>;
-                rows: Array<{
-                  cells: Array<{
-                    text: string;
-                    _type: "tableCell";
+                  }
+                | {
                     _key: string;
-                  }>;
-                  _type: "dataTableRow";
-                  _key: string;
-                }>;
-                striped?: boolean;
-                compact?: boolean;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
+                    _type: "alertNotice";
+                    type: "error" | "info" | "success" | "tip" | "warning";
+                    title?: string;
+                    message: string;
+                    dismissible?: boolean;
+                    icon?: {
+                      asset?: SanityImageAssetReference;
+                      media?: unknown;
+                      hotspot?: SanityImageHotspot;
+                      crop?: SanityImageCrop;
+                      _type: "image";
+                    };
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
                           } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
                         } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
                       } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "externalVideo";
-                url: string;
-                caption?: string;
-                autoplay?: boolean;
-                loop?: boolean;
-                muted?: boolean;
-                blockStyles: null;
-              }
-            | {
-                _key: string;
-                _type: "faqBlock";
-                title?: string;
-                subtitle?: string;
-                items: Array<{
-                  question: string;
-                  answer?: BlockContent;
-                  _type: "faqItem";
-                  _key: string;
-                }>;
-                enableSchema?: boolean;
-                allowMultipleOpen?: boolean;
-                firstOpenByDefault?: boolean;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
+                  }
+                | {
+                    _key: string;
+                    _type: "buttonGroup";
+                    buttons: Array<{
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    }>;
+                    alignment?: "center" | "left" | "right";
+                    direction?: string;
+                    gap?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
                           } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
                         } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
                       } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "featureCardGrid";
-                title?: string;
-                subtitle?: string;
-                cards: Array<{
-                  icon?: FeatureCardIcon;
-                  title: string;
-                  description?: string;
-                  cta?: Cta;
-                  _type: "featureCard";
-                  _key: string;
-                }>;
-                columns?: "2" | "3" | "4";
-                style?: "bordered" | "highlighted" | "shadow" | "simple";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
+                  }
+                | {
+                    _key: string;
+                    _type: "callToAction";
+                    label: string;
+                    color?: string;
+                    textColor?: string;
+                    hoverColor?: string;
+                    variant?: "ghost" | "outline" | "primary" | "secondary";
+                    link: Array<
+                      | {
+                          _key: string;
+                          _type: "linkExternal";
+                          title: string;
+                          url: string;
+                          openInNewTab?: boolean;
+                        }
+                      | {
+                          _key: string;
+                          _type: "linkInternal";
+                          title?: string;
+                          reference: {
+                            slug: Slug;
+                          };
+                        }
+                      | {
+                          _key: string;
+                          _type: "pageSlug";
+                          title: string;
+                          slug: string;
+                        }
+                    >;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "codeBlock";
+                    language?:
+                      | "bash"
+                      | "css"
+                      | "html"
+                      | "javascript"
+                      | "json"
+                      | "other"
+                      | "python"
+                      | "typescript";
+                    filename?: string;
+                    code: string;
+                    showLineNumbers?: boolean;
+                    highlightLines?: string;
+                    caption?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
                           } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
                         } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
                       } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "formBlock";
-                formTitle?: string;
-                formDescription?: string;
-                fields: Array<{
-                  label: string;
-                  name: string;
-                  type:
-                    | "checkbox"
-                    | "email"
-                    | "number"
-                    | "select"
-                    | "tel"
-                    | "text"
-                    | "textarea";
-                  placeholder?: string;
-                  required?: boolean;
-                  options?: Array<string>;
-                  width?: "full" | "half";
-                  _type: "formField";
-                  _key: string;
-                }>;
-                submitLabel?: string;
-                submitAction?: "custom" | "webhook";
-                webhookUrl?: string;
-                customEndpoint?: string;
-                successMessage?: string;
-                errorMessage?: string;
-                buttonColor?: string;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
+                  }
+                | {
+                    _key: string;
+                    _type: "countdownTimer";
+                    title?: string;
+                    subtitle?: string;
+                    targetDate: string;
+                    timezone?:
+                      | "America/Chicago"
+                      | "America/Denver"
+                      | "America/Los_Angeles"
+                      | "America/New_York"
+                      | "Australia/Melbourne"
+                      | "Australia/Sydney"
+                      | "Europe/London";
+                    expiredMessage?: string;
+                    hideWhenExpired?: boolean;
+                    cta?: CallToAction;
+                    style?: "compact" | "inline" | "large";
+                    backgroundColor?: string;
+                    textColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
                           } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
                         } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
                       } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "htmlBlock";
-                html: string;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
+                  }
+                | {
+                    _key: string;
+                    _type: "dataTable";
+                    caption?: string;
+                    headers: Array<{
+                      text: string;
+                      _type: "tableHeader";
+                      _key: string;
+                    }>;
+                    rows: Array<{
+                      cells: Array<{
+                        text: string;
+                        _type: "tableCell";
+                        _key: string;
+                      }>;
+                      _type: "dataTableRow";
+                      _key: string;
+                    }>;
+                    striped?: boolean;
+                    compact?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
                           } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
                         } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
                       } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "iconText";
-                icon: {
-                  asset: {
-                    _id: string;
+                  }
+                | {
+                    _key: string;
+                    _type: "externalVideo";
                     url: string;
-                    metadata: {
-                      lqip: string | null;
-                      dimensions: {
-                        width: number;
-                        height: number;
+                    caption?: string;
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    muted?: boolean;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "faqBlock";
+                    title?: string;
+                    subtitle?: string;
+                    items: Array<{
+                      question: string;
+                      answer?: BlockContent;
+                      _type: "faqItem";
+                      _key: string;
+                    }>;
+                    enableSchema?: boolean;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
                       } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
-                  } | null;
-                  alt: null;
-                  hotspot: SanityImageHotspot | null;
-                  crop: SanityImageCrop | null;
-                } | null;
-                iconSize?: "large" | "medium" | "small" | "xl";
-                title: string;
-                description?: string;
-                alignment?: string;
-                link?: CallToAction;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
+                  }
+                | {
+                    _key: string;
+                    _type: "featureCardGrid";
+                    title?: string;
+                    subtitle?: string;
+                    cards: Array<{
+                      icon?: FeatureCardIcon;
+                      title: string;
+                      description?: string;
+                      cta?: Cta;
+                      _type: "featureCard";
+                      _key: string;
+                    }>;
+                    columns?: "2" | "3" | "4";
+                    style?: "bordered" | "highlighted" | "shadow" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "formBlock";
+                    formTitle?: string;
+                    formDescription?: string;
+                    fields: Array<{
+                      label: string;
+                      name: string;
+                      type:
+                        | "checkbox"
+                        | "email"
+                        | "number"
+                        | "select"
+                        | "tel"
+                        | "text"
+                        | "textarea";
+                      placeholder?: string;
+                      required?: boolean;
+                      options?: Array<string>;
+                      width?: "full" | "half";
+                      _type: "formField";
+                      _key: string;
+                    }>;
+                    submitLabel?: string;
+                    submitAction?: "custom" | "webhook";
+                    webhookUrl?: string;
+                    customEndpoint?: string;
+                    successMessage?: string;
+                    errorMessage?: string;
+                    buttonColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "htmlBlock";
+                    html: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "iconText";
+                    icon: {
                       asset: {
                         _id: string;
                         url: string;
@@ -7163,125 +9040,889 @@ export type PAGE_QUERY_RESULT = {
                       hotspot: SanityImageHotspot | null;
                       crop: SanityImageCrop | null;
                     } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "imageBlock";
-                image: {
-                  asset: {
-                    _id: string;
+                    iconSize?: "large" | "medium" | "small" | "xl";
+                    title: string;
+                    description?: string;
+                    alignment?: string;
+                    link?: CallToAction;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageBlock";
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: string | null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    };
+                    caption: string | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageGallery";
+                    title?: string;
+                    images: Array<{
+                      image: GalleryImageImage;
+                      alt?: string;
+                      caption?: string;
+                      _type: "galleryImage";
+                      _key: string;
+                    }>;
+                    layout?: "grid" | "masonry";
+                    columns?: "2" | "3" | "4";
+                    enableLightbox?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "logoRow";
+                    logos: Array<{
+                      image: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                      alt: string | null;
+                      link: string | null;
+                    }>;
+                    grayscale: boolean | null;
+                    size: "large" | "medium" | "small" | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "lottieAnimation";
+                    source: "file" | "url";
+                    url?: string;
+                    file?: {
+                      asset?: SanityFileAssetReference;
+                      media?: unknown;
+                      _type: "file";
+                    };
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    speed?: number;
+                    trigger?: "auto" | "hover" | "scroll";
+                    alt?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "mapEmbed";
+                    embedUrl: string;
+                    height?: "large" | "medium" | "small" | "xl";
+                    caption?: string;
+                    style?: "borderless" | "default" | "rounded";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "pricingCard";
+                    badge?: string;
+                    title: string;
+                    price: string;
+                    priceSubtext?: string;
+                    features?: Array<{
+                      text: string;
+                      included?: boolean;
+                      _type: "pricingFeature";
+                      _key: string;
+                    }>;
+                    cta: {
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    } | null;
+                    isHighlighted?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "richTextBlock";
+                    content: Array<
+                      | {
+                          children?: Array<{
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }>;
+                          style?:
+                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                          listItem?: "bullet" | "number";
+                          markDefs?: Array<{
+                            href?: string;
+                            openInNewTab?: boolean;
+                            _type: "link";
+                            _key: string;
+                          }>;
+                          level?: number;
+                          _type: "block";
+                          _key: string;
+                        }
+                      | {
+                          _key: string;
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | {
+                                _key: string;
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
+                                _key: string;
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
+                                _key: string;
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
+                          >;
+                        }
+                      | {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          media?: unknown;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                          alt: string | null;
+                          _type: "image";
+                          _key: string;
+                        }
+                    >;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "socialEmbed";
+                    platform:
+                      "facebook" | "instagram" | "other" | "tiktok" | "twitter";
+                    embedUrl: string;
+                    caption?: string;
+                    aspectRatio?: "auto" | "landscape" | "portrait" | "square";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "spacerDivider";
+                    height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                    showDivider?: boolean;
+                    dividerStyle?: "dashed" | "dotted" | "solid";
+                    dividerColor?: string;
+                    maxWidth?: "default" | "full" | "narrow" | "wide";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "statMetric";
+                    value: string;
+                    label: string;
+                    prefix?: string;
+                    suffix?: string;
+                    size?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tabbedContent";
+                    title?: string;
+                    subtitle?: string;
+                    tabs: Array<{
+                      label: string;
+                      icon?: Icon;
+                      content: Array<
+                        | ({
+                            _key: string;
+                          } & AlertNotice)
+                        | ({
+                            _key: string;
+                          } & BlockContent)
+                        | ({
+                            _key: string;
+                          } & ButtonGroup)
+                        | ({
+                            _key: string;
+                          } & CallToAction)
+                        | ({
+                            _key: string;
+                          } & CodeBlock)
+                        | ({
+                            _key: string;
+                          } & DataTable)
+                        | ({
+                            _key: string;
+                          } & ExternalVideo)
+                        | ({
+                            _key: string;
+                          } & IconText)
+                        | ({
+                            _key: string;
+                          } & LogoRow)
+                        | ({
+                            _key: string;
+                          } & LottieAnimation)
+                        | ({
+                            _key: string;
+                          } & MapEmbed)
+                        | ({
+                            _key: string;
+                          } & PricingCard)
+                        | ({
+                            _key: string;
+                          } & SocialEmbed)
+                        | ({
+                            _key: string;
+                          } & StatMetric)
+                        | ({
+                            _key: string;
+                          } & TestimonialQuote)
+                        | ({
+                            _key: string;
+                          } & YoutubeVideo)
+                        | {
+                            image: TabImageImage;
+                            alt?: string;
+                            _type: "tabImage";
+                            _key: string;
+                          }
+                      >;
+                      _type: "tab";
+                      _key: string;
+                    }>;
+                    tabStyle?: "boxed" | "pills" | "underline";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialCarousel";
+                    title?: string;
+                    testimonials: Array<
+                      {
+                        _key: string;
+                      } & TestimonialQuote
+                    >;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    showDots?: boolean;
+                    showArrows?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialQuote";
+                    quote: string;
+                    avatar: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    name: string;
+                    title?: string;
+                    rating?: number;
+                    style?: "card" | "large" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tocBlock";
+                    title?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "youtubeVideo";
                     url: string;
-                    metadata: {
-                      lqip: string | null;
-                      dimensions: {
-                        width: number;
-                        height: number;
-                      } | null;
-                    } | null;
-                  } | null;
-                  alt: string | null;
-                  hotspot: SanityImageHotspot | null;
-                  crop: SanityImageCrop | null;
-                };
-                caption: string | null;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "imageGallery";
-                title?: string;
-                images: Array<{
-                  image: GalleryImageImage;
-                  alt?: string;
-                  caption?: string;
-                  _type: "galleryImage";
-                  _key: string;
-                }>;
-                layout?: "grid" | "masonry";
-                columns?: "2" | "3" | "4";
-                enableLightbox?: boolean;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "logoRow";
-                logos: Array<{
+                    caption?: string;
+                    blockStyles: null;
+                  }
+              > | null;
+              design?: GridColumnDesign;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
                   image: {
                     asset: {
                       _id: string;
@@ -7297,573 +9938,31 @@ export type PAGE_QUERY_RESULT = {
                     alt: null;
                     hotspot: SanityImageHotspot | null;
                     crop: SanityImageCrop | null;
-                  };
-                  alt: string | null;
-                  link: string | null;
-                }>;
-                grayscale: boolean | null;
-                size: "large" | "medium" | "small" | null;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
                   } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
                 } | null;
-              }
-            | {
-                _key: string;
-                _type: "lottieAnimation";
-                source: "file" | "url";
-                url?: string;
-                file?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                autoplay?: boolean;
-                loop?: boolean;
-                speed?: number;
-                trigger?: "auto" | "hover" | "scroll";
-                alt?: string;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "mapEmbed";
-                embedUrl: string;
-                height?: "large" | "medium" | "small" | "xl";
-                caption?: string;
-                style?: "borderless" | "default" | "rounded";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "pricingCard";
-                badge?: string;
-                title: string;
-                price: string;
-                priceSubtext?: string;
-                features?: Array<{
-                  text: string;
-                  included?: boolean;
-                  _type: "pricingFeature";
-                  _key: string;
-                }>;
-                cta?: CallToAction;
-                isHighlighted?: boolean;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "richTextBlock";
-                content: Array<
-                  | {
-                      children?: Array<{
-                        marks?: Array<string>;
-                        text?: string;
-                        _type: "span";
-                        _key: string;
-                      }>;
-                      style?:
-                        "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-                      listItem?: "bullet" | "number";
-                      markDefs?: Array<{
-                        href?: string;
-                        openInNewTab?: boolean;
-                        _type: "link";
-                        _key: string;
-                      }>;
-                      level?: number;
-                      _type: "block";
-                      _key: string;
-                    }
-                  | {
-                      _key: string;
-                      _type: "callToAction";
-                      label: string;
-                      color?: string;
-                      textColor?: string;
-                      hoverColor?: string;
-                      variant?: "ghost" | "outline" | "primary" | "secondary";
-                      link: Array<
-                        | ({
-                            _key: string;
-                          } & LinkExternal)
-                        | ({
-                            _key: string;
-                          } & LinkInternal)
-                        | ({
-                            _key: string;
-                          } & PageSlug)
-                      >;
-                    }
-                  | {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      media?: unknown;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                      alt: string | null;
-                      _type: "image";
-                      _key: string;
-                    }
-                >;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "socialEmbed";
-                platform:
-                  "facebook" | "instagram" | "other" | "tiktok" | "twitter";
-                embedUrl: string;
-                caption?: string;
-                aspectRatio?: "auto" | "landscape" | "portrait" | "square";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "spacerDivider";
-                height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
-                showDivider?: boolean;
-                dividerStyle?: "dashed" | "dotted" | "solid";
-                dividerColor?: string;
-                maxWidth?: "default" | "full" | "narrow" | "wide";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "statMetric";
-                value: string;
-                label: string;
-                prefix?: string;
-                suffix?: string;
-                size?: "large" | "medium" | "small";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "tabbedContent";
-                title?: string;
-                subtitle?: string;
-                tabs: Array<{
-                  label: string;
-                  icon?: Icon;
-                  content: Array<
-                    | ({
-                        _key: string;
-                      } & AlertNotice)
-                    | ({
-                        _key: string;
-                      } & BlockContent)
-                    | ({
-                        _key: string;
-                      } & ButtonGroup)
-                    | ({
-                        _key: string;
-                      } & CallToAction)
-                    | ({
-                        _key: string;
-                      } & CodeBlock)
-                    | ({
-                        _key: string;
-                      } & DataTable)
-                    | ({
-                        _key: string;
-                      } & ExternalVideo)
-                    | ({
-                        _key: string;
-                      } & IconText)
-                    | ({
-                        _key: string;
-                      } & LogoRow)
-                    | ({
-                        _key: string;
-                      } & LottieAnimation)
-                    | ({
-                        _key: string;
-                      } & MapEmbed)
-                    | ({
-                        _key: string;
-                      } & PricingCard)
-                    | ({
-                        _key: string;
-                      } & SocialEmbed)
-                    | ({
-                        _key: string;
-                      } & StatMetric)
-                    | ({
-                        _key: string;
-                      } & TestimonialQuote)
-                    | ({
-                        _key: string;
-                      } & YoutubeVideo)
-                    | {
-                        image: TabImageImage;
-                        alt?: string;
-                        _type: "tabImage";
-                        _key: string;
-                      }
-                  >;
-                  _type: "tab";
-                  _key: string;
-                }>;
-                tabStyle?: "boxed" | "pills" | "underline";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "testimonialCarousel";
-                title?: string;
-                testimonials: Array<
-                  {
-                    _key: string;
-                  } & TestimonialQuote
-                >;
-                autoPlay?: boolean;
-                autoPlayInterval?: number;
-                showDots?: boolean;
-                showArrows?: boolean;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "testimonialQuote";
-                quote: string;
-                avatar: {
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
+              advanced?: GridColumnAdvanced;
+              visibility?: GridColumnVisibility;
+              _type: "gridColumn";
+            }>;
+            design?: Design;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
                   asset: {
                     _id: string;
                     url: string;
@@ -7879,141 +9978,85 @@ export type PAGE_QUERY_RESULT = {
                   hotspot: SanityImageHotspot | null;
                   crop: SanityImageCrop | null;
                 } | null;
-                name: string;
-                title?: string;
-                rating?: number;
-                style?: "card" | "large" | "simple";
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "tocBlock";
-                title?: string;
-                blockStyles: {
-                  padding: Padding | null;
-                  margin: Margin | null;
-                  size: Size | null;
-                  border: Border | null;
-                  borderRadius: BorderRadius | null;
-                  background: {
-                    color: string | null;
-                    image: {
-                      asset: {
-                        _id: string;
-                        url: string;
-                        metadata: {
-                          lqip: string | null;
-                          dimensions: {
-                            width: number;
-                            height: number;
-                          } | null;
-                        } | null;
-                      } | null;
-                      alt: null;
-                      hotspot: SanityImageHotspot | null;
-                      crop: SanityImageCrop | null;
-                    } | null;
-                    size: "auto" | "contain" | "cover" | null;
-                    overlay: string | null;
-                  } | null;
-                  typography: Typography | null;
-                  effects: Effects | null;
-                  motion: Motion | null;
-                  cssId: string | null;
-                  cssClasses: string | null;
-                  customCss: string | null;
-                } | null;
-              }
-            | {
-                _key: string;
-                _type: "youtubeVideo";
-                url: string;
-                caption?: string;
-                blockStyles: null;
-              }
-          > | null;
-          design?: GridColumnDesign;
-          blockStyles: {
-            padding: Padding | null;
-            margin: Margin | null;
-            size: Size | null;
-            border: Border | null;
-            borderRadius: BorderRadius | null;
-            background: {
-              color: string | null;
-              image: {
-                asset: {
-                  _id: string;
-                  url: string;
-                  metadata: {
-                    lqip: string | null;
-                    dimensions: {
-                      width: number;
-                      height: number;
-                    } | null;
-                  } | null;
-                } | null;
-                alt: null;
-                hotspot: SanityImageHotspot | null;
-                crop: SanityImageCrop | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
               } | null;
-              size: "auto" | "contain" | "cover" | null;
-              overlay: string | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
             } | null;
-            typography: Typography | null;
-            effects: Effects | null;
-            motion: Motion | null;
-            cssId: string | null;
-            cssClasses: string | null;
-            customCss: string | null;
-          } | null;
-          advanced?: GridColumnAdvanced;
-          visibility?: GridColumnVisibility;
-          _type: "gridColumn";
-        }>;
-        design?: Design;
-        blockStyles: {
-          padding: Padding | null;
-          margin: Margin | null;
-          size: Size | null;
-          border: Border | null;
-          borderRadius: BorderRadius | null;
-          background: {
-            color: string | null;
-            image: {
+            advanced?: Advanced;
+            visibility?: Visibility;
+          }
+        | {
+            _key: string;
+            _type: "heroSection";
+            layout?: "fullWidth" | "split";
+            badge?: string;
+            badgeLink?: string;
+            heading: string;
+            subtitle?: string;
+            alignment?: "center" | "left" | "right";
+            buttons: Array<{
+              _key: string;
+              _type: "callToAction";
+              label: string;
+              color?: string;
+              textColor?: string;
+              hoverColor?: string;
+              variant?: "ghost" | "outline" | "primary" | "secondary";
+              link: Array<
+                | {
+                    _key: string;
+                    _type: "linkExternal";
+                    title: string;
+                    url: string;
+                    openInNewTab?: boolean;
+                  }
+                | {
+                    _key: string;
+                    _type: "linkInternal";
+                    title?: string;
+                    reference: {
+                      slug: Slug;
+                    };
+                  }
+                | {
+                    _key: string;
+                    _type: "pageSlug";
+                    title: string;
+                    slug: string;
+                  }
+              >;
+              blockStyles: null;
+            }> | null;
+            mediaImage: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: string | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            mediaPosition?: "left" | "right";
+            backgroundType?: "color" | "gradient" | "image" | "video";
+            backgroundColor?: string;
+            gradientFrom?: string;
+            gradientTo?: string;
+            gradientDirection?:
+              "to bottom right" | "to bottom" | "to right" | "to top right";
+            backgroundImage: {
               asset: {
                 _id: string;
                 url: string;
@@ -8029,102 +10072,1692 @@ export type PAGE_QUERY_RESULT = {
               hotspot: SanityImageHotspot | null;
               crop: SanityImageCrop | null;
             } | null;
-            size: "auto" | "contain" | "cover" | null;
-            overlay: string | null;
-          } | null;
-          typography: Typography | null;
-          effects: Effects | null;
-          motion: Motion | null;
-          cssId: string | null;
-          cssClasses: string | null;
-          customCss: string | null;
-        } | null;
-        advanced?: Advanced;
-        visibility?: Visibility;
-      }
-    | {
-        _key: string;
-        _type: "heroSection";
-        layout?: "fullWidth" | "split";
-        badge?: string;
-        badgeLink?: string;
-        heading: string;
-        subtitle?: string;
-        alignment?: "center" | "left" | "right";
-        buttons: Array<{
-          _key: string;
-          _type: "callToAction";
-          label: string;
-          color?: string;
-          textColor?: string;
-          hoverColor?: string;
-          variant?: "ghost" | "outline" | "primary" | "secondary";
-          link: Array<
-            | ({
-                _key: string;
-              } & LinkExternal)
-            | ({
-                _key: string;
-              } & LinkInternal)
-            | ({
-                _key: string;
-              } & PageSlug)
-          >;
-          blockStyles: null;
-        }> | null;
-        mediaImage: {
+            backgroundVideo?: string;
+            overlay?: number;
+            minHeight?: "100vh" | "50vh" | "75vh" | "auto";
+            textColor?: string;
+            maxWidth?: "default" | "narrow" | "wide";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            columns: null;
+          }
+      > | null;
+    }
+  | {
+      _id: string;
+      _type: "practiceArea";
+      title: string;
+      slug: Slug;
+      seo: {
+        metaTitle: string | null;
+        metaDescription: string | null;
+        noIndex: boolean | null;
+        ogImage: {
           asset: {
             _id: string;
             url: string;
-            metadata: {
-              lqip: string | null;
-              dimensions: {
-                width: number;
-                height: number;
-              } | null;
-            } | null;
           } | null;
-          alt: string | null;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
         } | null;
-        mediaPosition?: "left" | "right";
-        backgroundType?: "color" | "gradient" | "image" | "video";
-        backgroundColor?: string;
-        gradientFrom?: string;
-        gradientTo?: string;
-        gradientDirection?:
-          "to bottom right" | "to bottom" | "to right" | "to top right";
-        backgroundImage: {
-          asset: {
-            _id: string;
-            url: string;
-            metadata: {
-              lqip: string | null;
-              dimensions: {
-                width: number;
-                height: number;
+      } | null;
+      pageBuilder: Array<
+        | {
+            _key: string;
+            _type: "gridRow";
+            label?: string;
+            container?: Container;
+            layout?: string;
+            columns: Array<{
+              _key: string;
+              label?: string;
+              container?: GridColumnContainer;
+              content: Array<
+                | {
+                    _key: string;
+                    _type: "accordion";
+                    title?: string;
+                    subtitle?: string;
+                    panels: Array<{
+                      title: string;
+                      icon?: AccordionPanelIcon;
+                      content: BlockContent;
+                      _type: "accordionPanel";
+                      _key: string;
+                    }>;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "alertNotice";
+                    type: "error" | "info" | "success" | "tip" | "warning";
+                    title?: string;
+                    message: string;
+                    dismissible?: boolean;
+                    icon?: {
+                      asset?: SanityImageAssetReference;
+                      media?: unknown;
+                      hotspot?: SanityImageHotspot;
+                      crop?: SanityImageCrop;
+                      _type: "image";
+                    };
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "buttonGroup";
+                    buttons: Array<{
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    }>;
+                    alignment?: "center" | "left" | "right";
+                    direction?: string;
+                    gap?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "callToAction";
+                    label: string;
+                    color?: string;
+                    textColor?: string;
+                    hoverColor?: string;
+                    variant?: "ghost" | "outline" | "primary" | "secondary";
+                    link: Array<
+                      | {
+                          _key: string;
+                          _type: "linkExternal";
+                          title: string;
+                          url: string;
+                          openInNewTab?: boolean;
+                        }
+                      | {
+                          _key: string;
+                          _type: "linkInternal";
+                          title?: string;
+                          reference: {
+                            slug: Slug;
+                          };
+                        }
+                      | {
+                          _key: string;
+                          _type: "pageSlug";
+                          title: string;
+                          slug: string;
+                        }
+                    >;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "codeBlock";
+                    language?:
+                      | "bash"
+                      | "css"
+                      | "html"
+                      | "javascript"
+                      | "json"
+                      | "other"
+                      | "python"
+                      | "typescript";
+                    filename?: string;
+                    code: string;
+                    showLineNumbers?: boolean;
+                    highlightLines?: string;
+                    caption?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "countdownTimer";
+                    title?: string;
+                    subtitle?: string;
+                    targetDate: string;
+                    timezone?:
+                      | "America/Chicago"
+                      | "America/Denver"
+                      | "America/Los_Angeles"
+                      | "America/New_York"
+                      | "Australia/Melbourne"
+                      | "Australia/Sydney"
+                      | "Europe/London";
+                    expiredMessage?: string;
+                    hideWhenExpired?: boolean;
+                    cta?: CallToAction;
+                    style?: "compact" | "inline" | "large";
+                    backgroundColor?: string;
+                    textColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "dataTable";
+                    caption?: string;
+                    headers: Array<{
+                      text: string;
+                      _type: "tableHeader";
+                      _key: string;
+                    }>;
+                    rows: Array<{
+                      cells: Array<{
+                        text: string;
+                        _type: "tableCell";
+                        _key: string;
+                      }>;
+                      _type: "dataTableRow";
+                      _key: string;
+                    }>;
+                    striped?: boolean;
+                    compact?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "externalVideo";
+                    url: string;
+                    caption?: string;
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    muted?: boolean;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "faqBlock";
+                    title?: string;
+                    subtitle?: string;
+                    items: Array<{
+                      question: string;
+                      answer?: BlockContent;
+                      _type: "faqItem";
+                      _key: string;
+                    }>;
+                    enableSchema?: boolean;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "featureCardGrid";
+                    title?: string;
+                    subtitle?: string;
+                    cards: Array<{
+                      icon?: FeatureCardIcon;
+                      title: string;
+                      description?: string;
+                      cta?: Cta;
+                      _type: "featureCard";
+                      _key: string;
+                    }>;
+                    columns?: "2" | "3" | "4";
+                    style?: "bordered" | "highlighted" | "shadow" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "formBlock";
+                    formTitle?: string;
+                    formDescription?: string;
+                    fields: Array<{
+                      label: string;
+                      name: string;
+                      type:
+                        | "checkbox"
+                        | "email"
+                        | "number"
+                        | "select"
+                        | "tel"
+                        | "text"
+                        | "textarea";
+                      placeholder?: string;
+                      required?: boolean;
+                      options?: Array<string>;
+                      width?: "full" | "half";
+                      _type: "formField";
+                      _key: string;
+                    }>;
+                    submitLabel?: string;
+                    submitAction?: "custom" | "webhook";
+                    webhookUrl?: string;
+                    customEndpoint?: string;
+                    successMessage?: string;
+                    errorMessage?: string;
+                    buttonColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "htmlBlock";
+                    html: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "iconText";
+                    icon: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    iconSize?: "large" | "medium" | "small" | "xl";
+                    title: string;
+                    description?: string;
+                    alignment?: string;
+                    link?: CallToAction;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageBlock";
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: string | null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    };
+                    caption: string | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageGallery";
+                    title?: string;
+                    images: Array<{
+                      image: GalleryImageImage;
+                      alt?: string;
+                      caption?: string;
+                      _type: "galleryImage";
+                      _key: string;
+                    }>;
+                    layout?: "grid" | "masonry";
+                    columns?: "2" | "3" | "4";
+                    enableLightbox?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "logoRow";
+                    logos: Array<{
+                      image: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                      alt: string | null;
+                      link: string | null;
+                    }>;
+                    grayscale: boolean | null;
+                    size: "large" | "medium" | "small" | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "lottieAnimation";
+                    source: "file" | "url";
+                    url?: string;
+                    file?: {
+                      asset?: SanityFileAssetReference;
+                      media?: unknown;
+                      _type: "file";
+                    };
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    speed?: number;
+                    trigger?: "auto" | "hover" | "scroll";
+                    alt?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "mapEmbed";
+                    embedUrl: string;
+                    height?: "large" | "medium" | "small" | "xl";
+                    caption?: string;
+                    style?: "borderless" | "default" | "rounded";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "pricingCard";
+                    badge?: string;
+                    title: string;
+                    price: string;
+                    priceSubtext?: string;
+                    features?: Array<{
+                      text: string;
+                      included?: boolean;
+                      _type: "pricingFeature";
+                      _key: string;
+                    }>;
+                    cta: {
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                    } | null;
+                    isHighlighted?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "richTextBlock";
+                    content: Array<
+                      | {
+                          children?: Array<{
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }>;
+                          style?:
+                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                          listItem?: "bullet" | "number";
+                          markDefs?: Array<{
+                            href?: string;
+                            openInNewTab?: boolean;
+                            _type: "link";
+                            _key: string;
+                          }>;
+                          level?: number;
+                          _type: "block";
+                          _key: string;
+                        }
+                      | {
+                          _key: string;
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | {
+                                _key: string;
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
+                                _key: string;
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
+                                _key: string;
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
+                          >;
+                        }
+                      | {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          media?: unknown;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                          alt: string | null;
+                          _type: "image";
+                          _key: string;
+                        }
+                    >;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "socialEmbed";
+                    platform:
+                      "facebook" | "instagram" | "other" | "tiktok" | "twitter";
+                    embedUrl: string;
+                    caption?: string;
+                    aspectRatio?: "auto" | "landscape" | "portrait" | "square";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "spacerDivider";
+                    height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                    showDivider?: boolean;
+                    dividerStyle?: "dashed" | "dotted" | "solid";
+                    dividerColor?: string;
+                    maxWidth?: "default" | "full" | "narrow" | "wide";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "statMetric";
+                    value: string;
+                    label: string;
+                    prefix?: string;
+                    suffix?: string;
+                    size?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tabbedContent";
+                    title?: string;
+                    subtitle?: string;
+                    tabs: Array<{
+                      label: string;
+                      icon?: Icon;
+                      content: Array<
+                        | ({
+                            _key: string;
+                          } & AlertNotice)
+                        | ({
+                            _key: string;
+                          } & BlockContent)
+                        | ({
+                            _key: string;
+                          } & ButtonGroup)
+                        | ({
+                            _key: string;
+                          } & CallToAction)
+                        | ({
+                            _key: string;
+                          } & CodeBlock)
+                        | ({
+                            _key: string;
+                          } & DataTable)
+                        | ({
+                            _key: string;
+                          } & ExternalVideo)
+                        | ({
+                            _key: string;
+                          } & IconText)
+                        | ({
+                            _key: string;
+                          } & LogoRow)
+                        | ({
+                            _key: string;
+                          } & LottieAnimation)
+                        | ({
+                            _key: string;
+                          } & MapEmbed)
+                        | ({
+                            _key: string;
+                          } & PricingCard)
+                        | ({
+                            _key: string;
+                          } & SocialEmbed)
+                        | ({
+                            _key: string;
+                          } & StatMetric)
+                        | ({
+                            _key: string;
+                          } & TestimonialQuote)
+                        | ({
+                            _key: string;
+                          } & YoutubeVideo)
+                        | {
+                            image: TabImageImage;
+                            alt?: string;
+                            _type: "tabImage";
+                            _key: string;
+                          }
+                      >;
+                      _type: "tab";
+                      _key: string;
+                    }>;
+                    tabStyle?: "boxed" | "pills" | "underline";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialCarousel";
+                    title?: string;
+                    testimonials: Array<
+                      {
+                        _key: string;
+                      } & TestimonialQuote
+                    >;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    showDots?: boolean;
+                    showArrows?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialQuote";
+                    quote: string;
+                    avatar: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    name: string;
+                    title?: string;
+                    rating?: number;
+                    style?: "card" | "large" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tocBlock";
+                    title?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "youtubeVideo";
+                    url: string;
+                    caption?: string;
+                    blockStyles: null;
+                  }
+              > | null;
+              design?: GridColumnDesign;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
               } | null;
+              advanced?: GridColumnAdvanced;
+              visibility?: GridColumnVisibility;
+              _type: "gridColumn";
+            }>;
+            design?: Design;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
             } | null;
-          } | null;
-          alt: null;
-          hotspot: SanityImageHotspot | null;
-          crop: SanityImageCrop | null;
-        } | null;
-        backgroundVideo?: string;
-        overlay?: number;
-        minHeight?: "100vh" | "50vh" | "75vh" | "auto";
-        textColor?: string;
-        maxWidth?: "default" | "narrow" | "wide";
-        blockStyles: {
-          padding: Padding | null;
-          margin: Margin | null;
-          size: Size | null;
-          border: Border | null;
-          borderRadius: BorderRadius | null;
-          background: {
-            color: string | null;
-            image: {
+            advanced?: Advanced;
+            visibility?: Visibility;
+          }
+        | {
+            _key: string;
+            _type: "heroSection";
+            layout?: "fullWidth" | "split";
+            badge?: string;
+            badgeLink?: string;
+            heading: string;
+            subtitle?: string;
+            alignment?: "center" | "left" | "right";
+            buttons: Array<{
+              _key: string;
+              _type: "callToAction";
+              label: string;
+              color?: string;
+              textColor?: string;
+              hoverColor?: string;
+              variant?: "ghost" | "outline" | "primary" | "secondary";
+              link: Array<
+                | {
+                    _key: string;
+                    _type: "linkExternal";
+                    title: string;
+                    url: string;
+                    openInNewTab?: boolean;
+                  }
+                | {
+                    _key: string;
+                    _type: "linkInternal";
+                    title?: string;
+                    reference: {
+                      slug: Slug;
+                    };
+                  }
+                | {
+                    _key: string;
+                    _type: "pageSlug";
+                    title: string;
+                    slug: string;
+                  }
+              >;
+              blockStyles: null;
+            }> | null;
+            mediaImage: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: string | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            mediaPosition?: "left" | "right";
+            backgroundType?: "color" | "gradient" | "image" | "video";
+            backgroundColor?: string;
+            gradientFrom?: string;
+            gradientTo?: string;
+            gradientDirection?:
+              "to bottom right" | "to bottom" | "to right" | "to top right";
+            backgroundImage: {
               asset: {
                 _id: string;
                 url: string;
@@ -8140,170 +11773,55 @@ export type PAGE_QUERY_RESULT = {
               hotspot: SanityImageHotspot | null;
               crop: SanityImageCrop | null;
             } | null;
-            size: "auto" | "contain" | "cover" | null;
-            overlay: string | null;
-          } | null;
-          typography: Typography | null;
-          effects: Effects | null;
-          motion: Motion | null;
-          cssId: string | null;
-          cssClasses: string | null;
-          customCss: string | null;
-        } | null;
-        columns: null;
-      }
-  > | null;
-} | null;
+            backgroundVideo?: string;
+            overlay?: number;
+            minHeight?: "100vh" | "50vh" | "75vh" | "auto";
+            textColor?: string;
+            maxWidth?: "default" | "narrow" | "wide";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            columns: null;
+          }
+      > | null;
+    }
+  | null;
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: PAGE_SLUGS_QUERY
-// Query: *[_type == "page" && defined(slug.current)] {    "slug": slug.current  }
+// Query: *[_type in ["page", "practiceArea"] && defined(slug.current)] {    "slug": slug.current  }
 export type PAGE_SLUGS_QUERY_RESULT = Array<{
-  slug: string;
-}>;
-
-// Source: ../frontend/src/sanity/lib/queries.ts
-// Variable: BLOG_POSTS_QUERY
-// Query: *[_type == "blogPost"] | order(publishedAt desc) {    _id, title, slug, excerpt, publishedAt, author,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  }  }
-export type BLOG_POSTS_QUERY_RESULT = Array<{
-  _id: string;
-  title: string;
-  slug: Slug;
-  excerpt: string | null;
-  publishedAt: string;
-  author: string | null;
-  coverImage: {
-    asset: {
-      _id: string;
-      url: string;
-      metadata: {
-        lqip: string | null;
-        dimensions: {
-          width: number;
-          height: number;
-        } | null;
-      } | null;
-    } | null;
-    alt: string | null;
-    hotspot: SanityImageHotspot | null;
-    crop: SanityImageCrop | null;
-  } | null;
-  seo: {
-    metaTitle: string | null;
-    metaDescription: string | null;
-    noIndex: boolean | null;
-    ogImage: {
-      asset: {
-        _id: string;
-        url: string;
-      } | null;
-    } | null;
-  } | null;
-}>;
-
-// Source: ../frontend/src/sanity/lib/queries.ts
-// Variable: BLOG_POST_QUERY
-// Query: *[_type == "blogPost" && slug.current == $slug][0] {    _id, title, slug, excerpt, publishedAt, author,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    body[] {      ...,      _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }    },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  }  }
-export type BLOG_POST_QUERY_RESULT = {
-  _id: string;
-  title: string;
-  slug: Slug;
-  excerpt: string | null;
-  publishedAt: string;
-  author: string | null;
-  coverImage: {
-    asset: {
-      _id: string;
-      url: string;
-      metadata: {
-        lqip: string | null;
-        dimensions: {
-          width: number;
-          height: number;
-        } | null;
-      } | null;
-    } | null;
-    alt: string | null;
-    hotspot: SanityImageHotspot | null;
-    crop: SanityImageCrop | null;
-  } | null;
-  body: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          openInNewTab?: boolean;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        _key: string;
-        _type: "callToAction";
-        label: string;
-        color?: string;
-        textColor?: string;
-        hoverColor?: string;
-        variant?: "ghost" | "outline" | "primary" | "secondary";
-        link: Array<
-          | ({
-              _key: string;
-            } & LinkExternal)
-          | ({
-              _key: string;
-            } & LinkInternal)
-          | ({
-              _key: string;
-            } & PageSlug)
-        >;
-      }
-    | {
-        asset: {
-          _id: string;
-          url: string;
-          metadata: {
-            lqip: string | null;
-            dimensions: {
-              width: number;
-              height: number;
-            } | null;
-          } | null;
-        } | null;
-        media?: unknown;
-        hotspot: SanityImageHotspot | null;
-        crop: SanityImageCrop | null;
-        alt: string | null;
-        _type: "image";
-        _key: string;
-      }
-  > | null;
-  seo: {
-    metaTitle: string | null;
-    metaDescription: string | null;
-    noIndex: boolean | null;
-    ogImage: {
-      asset: {
-        _id: string;
-        url: string;
-      } | null;
-    } | null;
-  } | null;
-} | null;
-
-// Source: ../frontend/src/sanity/lib/queries.ts
-// Variable: BLOG_SLUGS_QUERY
-// Query: *[_type == "blogPost" && defined(slug.current)] {    "slug": slug.current  }
-export type BLOG_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
@@ -8414,12 +11932,9 @@ export type SITE_SETTINGS_QUERY_RESULT =
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
-    '\n  *[_type == "page" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "blogPost"] | order(publishedAt desc) {\n    _id, title, slug, excerpt, publishedAt, author,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n\n  }\n': BLOG_POSTS_QUERY_RESULT;
-    '\n  *[_type == "blogPost" && slug.current == $slug][0] {\n    _id, title, slug, excerpt, publishedAt, author,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    body[] {\n      ...,\n      _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n    },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n\n  }\n': BLOG_POST_QUERY_RESULT;
-    '\n  *[_type == "blogPost" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': BLOG_SLUGS_QUERY_RESULT;
+    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_type in ["page", "practiceArea"] && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    primaryColor, secondaryColor,\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    footerStyle,\n    footerDescription,\n    footerColumns[] {\n      _key, title,\n      links[] { _key, label, href }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }
 }
