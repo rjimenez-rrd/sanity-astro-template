@@ -11,10 +11,6 @@ node_modules/
 # testing
 coverage/
 
-# next.js
-.next/
-out/
-
 # sanity
 dist/
 .sanity/
@@ -43,7 +39,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # generated
 schema.json

@@ -8,7 +8,7 @@ Two packages, one npm workspace:
 | Package | Directory | Runs on |
 | --- | --- | --- |
 | `studio` | `studio/` | Sanity Studio, port 3333 |
-| `frontend-astro` | `frontend/` | Astro SSR + Vercel ISR, port 4321 |
+| `frontend` | `frontend/` | Astro SSR + Vercel ISR, port 4321 |
 
 ```
 npm run dev     # both
@@ -54,10 +54,10 @@ blocks.
 
 ```mermaid
 flowchart TD
-  DOC[document<br/>homePage · page] -->|pageBuilder| ROW[gridRow<br/>&quot;Container&quot;]
+  DOC[document<br/>homePage · page] -->|pageBuilder| ROW["gridRow<br/>(Container)"]
   DOC -->|pageBuilder| HERO[heroSection]
   ROW -->|columns| COL[gridColumn]
-  COL -->|content| BLK[content blocks<br/>richTextBlock · imageBlock<br/>callToAction · accordion<br/>26 types total]
+  COL -->|content| BLK[content blocks<br/>richTextBlock · imageBlock<br/>callToAction · accordion<br/>28 types total]
 ```
 
 Four style objects attach at **every** level — row, column and block:
@@ -97,7 +97,8 @@ Styling arrives by two separate routes:
   real CSS property; tablet/mobile become custom properties (`--pt-tablet`,
   `--w-mobile`, `--ta-mobile`).
 - **`lib/container.ts`** — per-container scoped CSS, emitted into a `<style>` tag
-  on the section, keyed on `[data-pb-inner="<_key>"]`.
+  on the section, keyed on `[data-pb="<_key>"]` for the element itself and
+  `[data-pb-inner="<_key>"]` for the box that lays its children out.
 
 `styles/global.css` promotes the custom properties inside `max-width` media
 queries. **Everything is desktop-first**: the unsuffixed value applies at all
@@ -137,7 +138,7 @@ Three mechanisms answer "something changed". The layout mounts exactly one.
 | Path | Holds |
 | --- | --- |
 | `schemaTypes/documents/` | `page`, `blogPost`, `homePage`, `siteSettings` |
-| `schemaTypes/blocks/` | The 26 page-builder blocks, plus `gridRow` and `heroSection` |
+| `schemaTypes/blocks/` | The 28 page-builder blocks, plus `gridRow` and `heroSection` |
 | `schemaTypes/objects/` | `blockStyles`, `link`, `rich-text`, `seo`, `video` |
 | `schemaTypes/fields/` | Reusable field builders: `container`, `design`, `motion` |
 | `schemaTypes/constants.ts` | Singleton types and allowed singleton actions |

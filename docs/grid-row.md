@@ -20,7 +20,7 @@ gridRow
 ├── columns[]          → gridColumn
 │   ├── label
 │   ├── container      each column has its own layout settings
-│   ├── content[]      the 26 block types
+│   ├── content[]      the 28 block types
 │   └── design · style · advanced · visibility
 └── design · style · advanced · visibility
 ```

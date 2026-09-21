@@ -1,21 +1,17 @@
 {
   "name": "sanity-page-builder",
-  "description": "The most complete open-source page builder template for Sanity + Next.js \u2014 26 content blocks, 16 custom studio inputs, drag-and-drop grid layout, visual editing.",
+  "description": "Page builder for Sanity + Astro \u2014 Elementor-style containers with responsive layout, style and visibility settings, 28 content blocks and visual editing.",
   "license": "MIT",
   "keywords": [
     "sanity",
     "sanity-template",
-    "next.js",
+    "astro",
     "page-builder",
     "cms",
     "headless-cms",
     "visual-editing",
     "content-blocks"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ogi988/sanity-page-builder.git"
-  },
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
     "dev:frontend": "cd frontend && npm run dev",
@@ -27,9 +23,7 @@
     "deploy:studio": "cd studio && sanity deploy",
     "validate": "sanity-template-validate",
     "seed": "cd frontend && npm run seed",
-    "typegen": "cd studio && npx sanity schema extract --enforce-required-fields && npx sanity typegen generate",
-    "legacy:dev": "cd frontend && npm run dev",
-    "legacy:build": "cd frontend && npm run build"
+    "typegen": "cd studio && npx sanity schema extract --enforce-required-fields && npx sanity typegen generate"
   },
   "workspaces": [
     "frontend",

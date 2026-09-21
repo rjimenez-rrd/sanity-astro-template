@@ -2,7 +2,7 @@
 
 An Elementor-style visual page builder for **Sanity + Astro**.
 
-26 content blocks, nested flex/grid containers with per-breakpoint control,
+28 content blocks, nested flex/grid containers with per-breakpoint control,
 custom Studio inputs, and full visual editing through Sanity's Presentation tool.
 
 The Studio ships custom inputs for the whole editing surface: a visual layout

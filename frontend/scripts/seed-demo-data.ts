@@ -2,7 +2,7 @@
  * Seed script — creates demo content showcasing all content types.
  *
  * Usage:
- *   NEXT_PUBLIC_SANITY_PROJECT_ID=xxx NEXT_PUBLIC_SANITY_DATASET=production SANITY_API_WRITE_TOKEN=xxx npx tsx scripts/seed-demo-data.ts
+ *   PUBLIC_SANITY_PROJECT_ID=xxx PUBLIC_SANITY_DATASET=production SANITY_API_WRITE_TOKEN=xxx npx tsx scripts/seed-demo-data.ts
  *
  * Note: Content types that require image uploads (imageBlock, iconText, logoRow,
  * testimonialQuote avatar, socialEmbed, mapEmbed, lottieAnimation) are not seeded
@@ -11,12 +11,12 @@
 
 import {createClient} from '@sanity/client'
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+const projectId = process.env.PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.PUBLIC_SANITY_DATASET || 'production'
 const token = process.env.SANITY_API_WRITE_TOKEN
 
 if (!projectId || !token) {
-  console.error('Missing NEXT_PUBLIC_SANITY_PROJECT_ID or SANITY_API_WRITE_TOKEN')
+  console.error('Missing PUBLIC_SANITY_PROJECT_ID or SANITY_API_WRITE_TOKEN')
   process.exit(1)
 }
 
@@ -182,7 +182,7 @@ const siteSettings = {
   _id: 'siteSettings',
   _type: 'siteSettings',
   siteName: 'PageCraft',
-  tagline: 'Open-source page builder for Sanity + Next.js',
+  tagline: 'Open-source page builder for Sanity + Astro',
   primaryColor: '#09090b',
   secondaryColor: '#18181b',
   footerStyle: 'dark',
@@ -202,7 +202,7 @@ const siteSettings = {
     {_key: k(), _type: 'navLink', label: 'Get Started', href: '/showcase', isButton: true},
   ],
   footerDescription:
-    'The most complete open-source page builder for Sanity + Next.js. Build any layout with 28+ content types and flexible grid rows.',
+    'The most complete open-source page builder for Sanity + Astro. Build any layout with 28+ content types and flexible grid rows.',
   footerColumns: [
     {
       _key: k(),
@@ -221,7 +221,7 @@ const siteSettings = {
       links: [
         {_key: k(), _type: 'footerLink', label: 'GitHub', href: 'https://github.com'},
         {_key: k(), _type: 'footerLink', label: 'Sanity', href: 'https://sanity.io'},
-        {_key: k(), _type: 'footerLink', label: 'Next.js', href: 'https://nextjs.org'},
+        {_key: k(), _type: 'footerLink', label: 'Astro', href: 'https://astro.build'},
       ],
     },
   ],
@@ -234,7 +234,7 @@ const homePage = {
   _id: 'homePage',
   _type: 'homePage',
   seo: {
-    metaTitle: 'PageCraft — Open-source Page Builder for Sanity + Next.js',
+    metaTitle: 'PageCraft — Open-source Page Builder for Sanity + Astro',
     metaDescription: 'Build any page with 28+ content types, flexible grid layouts, and visual style controls. The most complete open-source page builder for Sanity.',
   },
   pageBuilder: [
@@ -337,7 +337,7 @@ const homePage = {
             allowMultipleOpen: true,
             firstOpenByDefault: true,
             items: [
-              {_key: k(), question: 'What is this template?', answer: [textBlock('An open-source Sanity + Next.js page builder with 28 content types, 9 layouts, and visual style controls. Everything you need to build production websites.')]},
+              {_key: k(), question: 'What is this template?', answer: [textBlock('An open-source Sanity + Astro page builder with 28 content types, 9 layouts, and visual style controls. Everything you need to build production websites.')]},
               {_key: k(), question: 'Is it free to use?', answer: [textBlock('Yes — MIT licensed. Use it for personal or commercial projects without any restrictions.')]},
               {_key: k(), question: 'How do I customize the design?', answer: [textBlock('Every section has blockStyles for padding, margin, backgrounds, borders, typography and effects. You can also modify the Tailwind theme in globals.css.')]},
               {_key: k(), question: 'Can I add my own content types?', answer: [textBlock('Absolutely. Follow the pattern in src/sanity/schemaTypes/blocks/ for the schema and src/components/sections/content/ for the renderer. Register in blocks/index.ts and ContentRenderer.tsx.')]},
@@ -413,7 +413,7 @@ const showcasePage = {
             _type: 'accordion',
             title: 'Accordion',
             panels: [
-              {_key: k(), title: 'What is this template?', content: [textBlock('An open-source Sanity + Next.js page builder starter with 28 content types and flexible grid layouts.')]},
+              {_key: k(), title: 'What is this template?', content: [textBlock('An open-source Sanity + Astro page builder starter with 28 content types and flexible grid layouts.')]},
               {_key: k(), title: 'Is it free to use?', content: [textBlock('Yes! MIT licensed. Use it for personal or commercial projects.')]},
               {_key: k(), title: 'How do I customize it?', content: [textBlock('Add your own content types, modify existing ones, or adjust the Tailwind theme.')]},
             ],
@@ -427,7 +427,7 @@ const showcasePage = {
             _key: k(),
             _type: 'tabbedContent',
             tabs: [
-              {_key: k(), label: 'React', content: [textBlock('Built with React 19 and Next.js 16 for maximum performance.')]},
+              {_key: k(), label: 'Astro', content: [textBlock('Built with Astro 7, shipping zero JavaScript by default.')]},
               {_key: k(), label: 'Sanity', content: [textBlock('Sanity Studio v5 with 16 custom visual input components.')]},
               {_key: k(), label: 'Tailwind', content: [textBlock('Tailwind CSS v4 with dark mode and custom tokens.')]},
             ],
@@ -723,7 +723,7 @@ export const pageType = defineType({
           allowMultipleOpen: true,
           firstOpenByDefault: true,
           items: [
-            {_key: k(), question: 'What is PageCraft?', answer: [textBlock('An open-source Sanity + Next.js page builder with 28 content types, 9 layouts, and visual style controls. Everything you need to build production websites.')]},
+            {_key: k(), question: 'What is PageCraft?', answer: [textBlock('An open-source Sanity + Astro page builder with 28 content types, 9 layouts, and visual style controls. Everything you need to build production websites.')]},
             {_key: k(), question: 'Is it free to use?', answer: [textBlock('Yes — MIT licensed. Use it for personal or commercial projects without any restrictions.')]},
             {_key: k(), question: 'How do I customize the design?', answer: [textBlock('Every section has blockStyles for padding, margin, backgrounds, borders, typography and effects. You can also modify the Tailwind theme in globals.css.')]},
             {_key: k(), question: 'Can I add my own content types?', answer: [textBlock('Absolutely. Follow the pattern in schemaTypes/blocks/ for the schema and components/sections/content/ for the renderer. Register in blocks/index.ts and ContentRenderer.tsx.')]},
@@ -846,12 +846,12 @@ const aboutPage = {
   slug: {_type: 'slug', current: 'about'},
   seo: {
     metaTitle: 'About — PageCraft',
-    metaDescription: 'Learn about the most complete open-source page builder for Sanity + Next.js.',
+    metaDescription: 'Learn about the most complete open-source page builder for Sanity + Astro.',
   },
   pageBuilder: [
     heroSection({
       heading: 'About PageCraft',
-      subtitle: 'An open-source page builder that gives you the most complete set of content types and layout controls for Sanity + Next.js.',
+      subtitle: 'An open-source page builder that gives you the most complete set of content types and layout controls for Sanity + Astro.',
       alignment: 'center',
       backgroundType: 'color',
       backgroundColor: '#fafafa',
@@ -878,7 +878,7 @@ const aboutPage = {
       },
       {
         content: [
-          {_key: k(), _type: 'alertNotice', type: 'info', title: 'Tech Stack', message: 'Next.js 16 • React 19 • Sanity v5 • Tailwind CSS v4 • TypeScript'},
+          {_key: k(), _type: 'alertNotice', type: 'info', title: 'Tech Stack', message: 'Astro 7 • Sanity v5 • Tailwind CSS v4 • TypeScript'},
           {
             _key: k(),
             _type: 'testimonialQuote',
@@ -903,12 +903,12 @@ const blogPost = {
   _type: 'blogPost',
   title: 'Getting Started with PageCraft',
   slug: {_type: 'slug', current: 'getting-started'},
-  excerpt: 'Learn how to set up and customize the most complete open-source page builder for Sanity + Next.js.',
+  excerpt: 'Learn how to set up and customize the most complete open-source page builder for Sanity + Astro.',
   publishedAt: new Date().toISOString(),
   author: 'PageCraft Team',
   body: [
     textBlock('Getting Started', 'h2'),
-    textBlock('PageCraft is built on top of Sanity and Next.js. To get started, clone the repo, install dependencies, and run the development server.'),
+    textBlock('PageCraft is built on top of Sanity and Astro. To get started, clone the repo, install dependencies, and run the development server.'),
     textBlock('Prerequisites', 'h3'),
     textBlock('You\'ll need Node.js 18+, a Sanity account, and basic familiarity with React and TypeScript.'),
     textBlock('How the Page Builder Works', 'h2'),
@@ -923,7 +923,7 @@ const blogPost = {
   ],
   seo: {
     metaTitle: 'Getting Started with PageCraft',
-    metaDescription: 'Learn how to set up and customize the most complete open-source page builder for Sanity + Next.js.',
+    metaDescription: 'Learn how to set up and customize the most complete open-source page builder for Sanity + Astro.',
   },
 }
 
