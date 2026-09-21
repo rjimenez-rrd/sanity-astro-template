@@ -22,8 +22,6 @@ const objectTypes: SchemaTypeDefinition[] = [
   linkInternalType,
   linkExternalType,
   pageSlugType,
-  youtubeVideoType,
-  externalVideoType,
   seoType,
 ]
 

@@ -27,6 +27,7 @@ import {tocBlockType} from './toc-block'
 import {testimonialCarouselType} from './testimonial-carousel'
 import {imageGalleryType} from './image-gallery'
 import {pageBuilderType} from './page-builder'
+import { youtubeVideoType, externalVideoType } from './video'
 
 // Grid Row (the page builder section)
 import {gridRowType} from './grid-row'
@@ -60,6 +61,8 @@ export {
   imageGalleryType,
   tocBlockType,
   gridRowType,
+  youtubeVideoType,
+  externalVideoType,
 }
 
 /** All block types for schema registration */
@@ -93,4 +96,6 @@ export const blockTypes = [
   tocBlockType,
   gridRowType,
   pageBuilderType,
+  youtubeVideoType,
+  externalVideoType,
 ]
