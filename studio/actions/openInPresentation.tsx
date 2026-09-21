@@ -1,24 +1,10 @@
 import {EyeOpenIcon} from '@sanity/icons'
 import type {DocumentActionComponent, DocumentActionProps} from 'sanity'
-
-/** Same document -> URL map as presentationTool's `resolve.locations`. */
-const PATHS: Record<string, (doc: Record<string, any> | null) => string | undefined> = {
-  homePage: () => '/',
-  page: (doc) => {
-    const slug = doc?.slug?.current
-    return slug ? `/${slug}` : undefined
-  },
-  blogPost: (doc) => {
-    const slug = doc?.slug?.current
-    return slug ? `/blog/${slug}` : undefined
-  },
-}
+import {documentPath} from './documentPath'
 
 export const openInPresentation: DocumentActionComponent = (props: DocumentActionProps) => {
-  const build = PATHS[props.type]
-  if (!build) return null
-
-  const path = build((props.draft ?? props.published) as Record<string, any> | null)
+  const path = documentPath(props.type, (props.draft ?? props.published) as Record<string, any> | null)
+  if (path === undefined) return null
 
   return {
     label: 'Open in Presentation',

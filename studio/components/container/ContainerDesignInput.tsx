@@ -23,6 +23,8 @@ type BackgroundState = {
   type?: 'classic' | 'gradient'
   color?: string
   image?: {asset?: unknown}
+  imageTablet?: {asset?: unknown}
+  imageMobile?: {asset?: unknown}
   imageResolution?: string
   position?: Responsive<string>
   attachment?: string
@@ -192,6 +194,9 @@ function Section({
   )
 }
 
+/** Which background-image field holds each device's image. */
+const IMAGE_FIELD = {desktop: 'image', tablet: 'imageTablet', mobile: 'imageMobile'} as const
+
 const Divider = () => <Box style={{borderTop: '1px solid var(--card-border-color)'}} />
 
 export function ContainerDesignInput(props: ObjectInputProps) {
@@ -304,11 +309,21 @@ export function ContainerDesignInput(props: ObjectInputProps) {
               <ColorPicker value={bg.color} onChange={(c) => patch([...base, 'color'], c)} />
             </ControlRow>
 
-            <ControlRow label="Image" stacked>
-              <FormInput {...props} relativePath={[...base, 'image']} />
+            <ControlRow
+              label="Image"
+              responsive={responsive}
+              stacked
+              hint={
+                device !== 'desktop' && !bg[IMAGE_FIELD[device]]?.asset
+                  ? `Empty: uses the ${device === 'mobile' && bg.imageTablet?.asset ? 'Tablet' : 'Desktop'} image. Add one to replace it on ${device}.`
+                  : undefined
+              }
+            >
+              {/* One uploader per device; key forces a fresh input when the device changes. */}
+              <FormInput key={device} {...props} relativePath={[...base, IMAGE_FIELD[device]]} />
             </ControlRow>
 
-            {Boolean(bg.image?.asset) && (
+            {Boolean(bg.image?.asset || bg.imageTablet?.asset || bg.imageMobile?.asset) && (
               <>
                 <ControlRow
                   label="Image Resolution"

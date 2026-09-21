@@ -12,6 +12,8 @@ export interface BackgroundState {
   type?: string | null
   color?: string | null
   image?: {asset?: {_ref?: string} | null} | null
+  imageTablet?: {asset?: {_ref?: string} | null} | null
+  imageMobile?: {asset?: {_ref?: string} | null} | null
   imageResolution?: string | null
   position?: Responsive<string>
   attachment?: string | null
@@ -97,11 +99,11 @@ function pick(value: string | null | undefined, allowed: Set<string>): string | 
   return value && allowed.has(value) ? value : undefined
 }
 
-function imageUrl(bg: BackgroundState): string | undefined {
-  if (!bg.image?.asset?._ref) return undefined
-  const width = RESOLUTION_WIDTH[bg.imageResolution ?? 'full'] ?? RESOLUTION_WIDTH.full
+function imageUrl(image: BackgroundState['image'], resolution: string | null | undefined): string | undefined {
+  if (!image?.asset?._ref) return undefined
+  const width = RESOLUTION_WIDTH[resolution ?? 'full'] ?? RESOLUTION_WIDTH.full
   try {
-    const url = urlFor(bg.image as never).width(width).fit('max').auto('format').url()
+    const url = urlFor(image as never).width(width).fit('max').auto('format').url()
     return /^https:\/\/cdn\.sanity\.io\/[^"'()\s\\]+$/.test(url) ? `url("${url}")` : undefined
   } catch {
     return undefined
@@ -165,13 +167,22 @@ function addBackground(css: CssBuilder, selector: string, bg: BackgroundState | 
   }
   if (bg.type !== 'classic') return
 
-  const image = imageUrl(bg)
+  // Desktop is the base; a tablet or mobile image replaces it from that
+  // breakpoint down. The max-width media queries cascade, so mobile inherits a
+  // tablet image unless it has its own.
+  const desktop = imageUrl(bg.image, bg.imageResolution)
+  const tablet = imageUrl(bg.imageTablet, bg.imageResolution)
+  const mobile = imageUrl(bg.imageMobile, bg.imageResolution)
+  const hasImage = Boolean(desktop || tablet || mobile)
+
   css.add(null, selector, {
     'background-color': color(bg.color),
-    'background-image': image,
-    'background-attachment': image && bg.attachment === 'fixed' ? 'fixed' : undefined,
+    'background-image': desktop,
+    'background-attachment': hasImage && bg.attachment === 'fixed' ? 'fixed' : undefined,
   })
-  if (!image) return
+  if (tablet) css.add(MEDIA.tablet, selector, {'background-image': tablet})
+  if (mobile) css.add(MEDIA.mobile, selector, {'background-image': mobile})
+  if (!hasImage) return
   for (const device of DEVICES) {
     const position = resolve(bg.position, device)
     const repeat = resolve(bg.repeat, device)

@@ -84,6 +84,9 @@ function backgroundState(
       defineField({name: 'type', type: 'string', options: {list: ['classic', 'gradient']}}),
       defineField({name: 'color', type: 'string'}),
       defineField({name: 'image', title: 'Image', type: 'image'}),
+      // Optional per-device images; empty falls back to the next larger size.
+      defineField({name: 'imageTablet', title: 'Image (tablet)', type: 'image'}),
+      defineField({name: 'imageMobile', title: 'Image (mobile)', type: 'image'}),
       defineField({name: 'imageResolution', type: 'string', options: {list: IMAGE_RESOLUTIONS}}),
       responsiveString('position', BG_POSITIONS),
       defineField({name: 'attachment', type: 'string', options: {list: BG_ATTACHMENTS}}),

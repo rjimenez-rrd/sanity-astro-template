@@ -16,393 +16,44 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
 export type Padding = {
-  top?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  right?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottom?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  left?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
 };
 
 export type Margin = {
-  top?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  right?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottom?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  left?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type Size = {
+  width?: string;
+  widthTablet?: string;
+  widthMobile?: string;
+  align?: "start" | "center" | "end";
+  alignTablet?: "start" | "center" | "end";
+  alignMobile?: "start" | "center" | "end";
 };
 
 export type Border = {
@@ -427,6 +78,8 @@ export type Background = {
 
 export type Typography = {
   textAlign?: string;
+  textAlignTablet?: string;
+  textAlignMobile?: string;
   fontSize?: string;
   textColor?: string;
 };
@@ -476,6 +129,7 @@ export type Advanced = {
   zIndex?: number;
   cssId?: string;
   cssClasses?: string;
+  customCss?: string;
   motion?: GridRowAdvancedMotion;
 };
 
@@ -824,17 +478,35 @@ export type Normal = {
   type?: "classic" | "gradient";
   color?: string;
   image?: NormalImage;
+  imageTablet?: ImageTablet;
+  imageMobile?: ImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: Position;
   attachment?: "scroll" | "fixed";
   repeat?: Repeat;
-  size?: Size;
+  size?: NormalSize;
   gradient?: Gradient;
 };
 
 export type NormalImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type ImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type ImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -879,7 +551,7 @@ export type Repeat = {
   mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
 };
 
-export type Size = {
+export type NormalSize = {
   desktop?: "auto" | "cover" | "contain";
   tablet?: "auto" | "cover" | "contain";
   mobile?: "auto" | "cover" | "contain";
@@ -926,6 +598,8 @@ export type Hover = {
   type?: "classic" | "gradient";
   color?: string;
   image?: HoverImage;
+  imageTablet?: HoverImageTablet;
+  imageMobile?: HoverImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: HoverPosition;
   attachment?: "scroll" | "fixed";
@@ -938,6 +612,22 @@ export type Hover = {
 export type HoverImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type HoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type HoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "hover.imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -1034,11 +724,13 @@ export type OverlayNormal = {
   type?: "classic" | "gradient";
   color?: string;
   image?: OverlayNormalImage;
+  imageTablet?: NormalImageTablet;
+  imageMobile?: NormalImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: NormalPosition;
   attachment?: "scroll" | "fixed";
   repeat?: NormalRepeat;
-  size?: NormalSize;
+  size?: OverlayNormalSize;
   gradient?: NormalGradient;
   opacity?: Opacity;
   filters?: Filters;
@@ -1061,6 +753,22 @@ export type OverlayNormal = {
 export type OverlayNormalImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "overlay.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type NormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type NormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "normal.imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -1105,7 +813,7 @@ export type NormalRepeat = {
   mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
 };
 
-export type NormalSize = {
+export type OverlayNormalSize = {
   desktop?: "auto" | "cover" | "contain";
   tablet?: "auto" | "cover" | "contain";
   mobile?: "auto" | "cover" | "contain";
@@ -1166,6 +874,8 @@ export type OverlayHover = {
   type?: "classic" | "gradient";
   color?: string;
   image?: OverlayHoverImage;
+  imageTablet?: OverlayHoverImageTablet;
+  imageMobile?: OverlayHoverImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: OverlayHoverPosition;
   attachment?: "scroll" | "fixed";
@@ -1194,6 +904,22 @@ export type OverlayHover = {
 export type OverlayHoverImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "overlay.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type OverlayHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "overlay.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type OverlayHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "overlay.hover.imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -1465,397 +1191,40 @@ export type GridColumnAdvanced = {
   zIndex?: number;
   cssId?: string;
   cssClasses?: string;
+  customCss?: string;
   motion?: AdvancedMotion;
 };
 
 export type AdvancedMargin = {
-  top?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  right?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottom?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  left?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
 };
 
 export type AdvancedPadding = {
-  top?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  right?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottom?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  left?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
 };
 
 export type AdvancedMotion = {
@@ -1886,6 +1255,8 @@ export type BackgroundNormal = {
   type?: "classic" | "gradient";
   color?: string;
   image?: BackgroundNormalImage;
+  imageTablet?: BackgroundNormalImageTablet;
+  imageMobile?: BackgroundNormalImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: BackgroundNormalPosition;
   attachment?: "scroll" | "fixed";
@@ -1897,6 +1268,22 @@ export type BackgroundNormal = {
 export type BackgroundNormalImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "background.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type BackgroundNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "background.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type BackgroundNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "background.normal.imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -1988,6 +1375,8 @@ export type BackgroundHover = {
   type?: "classic" | "gradient";
   color?: string;
   image?: BackgroundHoverImage;
+  imageTablet?: BackgroundHoverImageTablet;
+  imageMobile?: BackgroundHoverImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: BackgroundHoverPosition;
   attachment?: "scroll" | "fixed";
@@ -2000,6 +1389,22 @@ export type BackgroundHover = {
 export type BackgroundHoverImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "background.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type BackgroundHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "background.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type BackgroundHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "background.hover.imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -2096,11 +1501,13 @@ export type DesignOverlayNormal = {
   type?: "classic" | "gradient";
   color?: string;
   image?: DesignOverlayNormalImage;
+  imageTablet?: OverlayNormalImageTablet;
+  imageMobile?: OverlayNormalImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: OverlayNormalPosition;
   attachment?: "scroll" | "fixed";
   repeat?: OverlayNormalRepeat;
-  size?: OverlayNormalSize;
+  size?: DesignOverlayNormalSize;
   gradient?: OverlayNormalGradient;
   opacity?: NormalOpacity;
   filters?: NormalFilters;
@@ -2123,6 +1530,22 @@ export type DesignOverlayNormal = {
 export type DesignOverlayNormalImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "design.overlay.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type OverlayNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "overlay.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type OverlayNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "overlay.normal.imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -2167,7 +1590,7 @@ export type OverlayNormalRepeat = {
   mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
 };
 
-export type OverlayNormalSize = {
+export type DesignOverlayNormalSize = {
   desktop?: "auto" | "cover" | "contain";
   tablet?: "auto" | "cover" | "contain";
   mobile?: "auto" | "cover" | "contain";
@@ -2228,6 +1651,8 @@ export type DesignOverlayHover = {
   type?: "classic" | "gradient";
   color?: string;
   image?: DesignOverlayHoverImage;
+  imageTablet?: DesignOverlayHoverImageTablet;
+  imageMobile?: DesignOverlayHoverImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: DesignOverlayHoverPosition;
   attachment?: "scroll" | "fixed";
@@ -2256,6 +1681,22 @@ export type DesignOverlayHover = {
 export type DesignOverlayHoverImage = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "design.overlay.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignOverlayHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.overlay.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignOverlayHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.overlay.hover.imageMobile.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -2522,393 +1963,35 @@ export type BorderHoverShadow = {
 };
 
 export type GridRowAdvancedMargin = {
-  top?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  right?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottom?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  left?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
 };
 
 export type GridRowAdvancedPadding = {
-  top?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  right?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottom?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  left?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftMd?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  topLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  rightLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  bottomLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
-  leftLg?:
-    | "0"
-    | "4px"
-    | "8px"
-    | "12px"
-    | "16px"
-    | "20px"
-    | "24px"
-    | "32px"
-    | "40px"
-    | "48px"
-    | "56px"
-    | "64px"
-    | "80px"
-    | "96px"
-    | "128px";
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
 };
 
 export type GridRowAdvancedMotion = {
@@ -2924,6 +2007,21 @@ export type GridRowAdvancedMotion = {
   delay?: number;
 };
 
+export type ExternalVideo = {
+  _type: "externalVideo";
+  url: string;
+  caption?: string;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+};
+
+export type YoutubeVideo = {
+  _type: "youtubeVideo";
+  url: string;
+  caption?: string;
+};
+
 export type PageBuilder = Array<
   | ({
       _key: string;
@@ -2935,9 +2033,11 @@ export type PageBuilder = Array<
 
 export type GridRow = {
   _type: "gridRow";
+  label?: string;
   container?: Container;
   layout?: string;
   columns: Array<{
+    label?: string;
     container?: GridColumnContainer;
     content?: Array<
       | ({
@@ -2999,6 +2099,9 @@ export type GridRow = {
         } & CodeBlock)
       | ({
           _key: string;
+        } & HtmlBlock)
+      | ({
+          _key: string;
         } & DataTable)
       | ({
           _key: string;
@@ -3022,7 +2125,6 @@ export type GridRow = {
           _key: string;
         } & TocBlock)
     >;
-    verticalAlign?: "top" | "center" | "bottom";
     design?: GridColumnDesign;
     blockStyles?: BlockStyles;
     advanced?: GridColumnAdvanced;
@@ -3030,10 +2132,6 @@ export type GridRow = {
     _type: "gridColumn";
     _key: string;
   }>;
-  gap?: "none" | "sm" | "md" | "lg" | "xl";
-  reverseOnMobile?: boolean;
-  paddingY?: "none" | "sm" | "md" | "lg" | "xl";
-  maxWidth?: "none" | "narrow" | "default" | "wide" | "full";
   design?: Design;
   blockStyles?: BlockStyles;
   advanced?: Advanced;
@@ -3222,6 +2320,12 @@ export type DataTable = {
   }>;
   striped?: boolean;
   compact?: boolean;
+  blockStyles?: BlockStyles;
+};
+
+export type HtmlBlock = {
+  _type: "htmlBlock";
+  html: string;
   blockStyles?: BlockStyles;
 };
 
@@ -3538,21 +2642,6 @@ export type Seo = {
   noIndex?: boolean;
 };
 
-export type ExternalVideo = {
-  _type: "externalVideo";
-  url: string;
-  caption?: string;
-  autoplay?: boolean;
-  loop?: boolean;
-  muted?: boolean;
-};
-
-export type YoutubeVideo = {
-  _type: "youtubeVideo";
-  url: string;
-  caption?: string;
-};
-
 export type PageSlug = {
   _type: "pageSlug";
   title: string;
@@ -3599,6 +2688,9 @@ export type BlockContent = Array<
       _type: "block";
       _key: string;
     }
+  | ({
+      _key: string;
+    } & CallToAction)
   | {
       asset?: SanityImageAssetReference;
       media?: unknown;
@@ -3614,11 +2706,15 @@ export type BlockStyles = {
   _type: "blockStyles";
   padding?: Padding;
   margin?: Margin;
+  size?: Size;
   border?: Border;
   borderRadius?: BorderRadius;
   background?: Background;
   typography?: Typography;
   effects?: Effects;
+  cssId?: string;
+  cssClasses?: string;
+  customCss?: string;
   motion?: Motion;
 };
 
@@ -3920,6 +3016,7 @@ export type Geopoint = {
 export type AllSanitySchemaTypes =
   | Padding
   | Margin
+  | Size
   | Border
   | BorderRadius
   | Background
@@ -3980,15 +3077,19 @@ export type AllSanitySchemaTypes =
   | DesignBackground
   | Normal
   | NormalImage
+  | ImageTablet
+  | ImageMobile
   | Position
   | Repeat
-  | Size
+  | NormalSize
   | Gradient
   | Location
   | SecondLocation
   | Angle
   | Hover
   | HoverImage
+  | HoverImageTablet
+  | HoverImageMobile
   | HoverPosition
   | HoverRepeat
   | HoverSize
@@ -3999,9 +3100,11 @@ export type AllSanitySchemaTypes =
   | Overlay
   | OverlayNormal
   | OverlayNormalImage
+  | NormalImageTablet
+  | NormalImageMobile
   | NormalPosition
   | NormalRepeat
-  | NormalSize
+  | OverlayNormalSize
   | NormalGradient
   | NormalGradientLocation
   | NormalGradientSecondLocation
@@ -4010,6 +3113,8 @@ export type AllSanitySchemaTypes =
   | Filters
   | OverlayHover
   | OverlayHoverImage
+  | OverlayHoverImageTablet
+  | OverlayHoverImageMobile
   | OverlayHoverPosition
   | OverlayHoverRepeat
   | OverlayHoverSize
@@ -4048,6 +3153,8 @@ export type AllSanitySchemaTypes =
   | GridRowDesignBackground
   | BackgroundNormal
   | BackgroundNormalImage
+  | BackgroundNormalImageTablet
+  | BackgroundNormalImageMobile
   | BackgroundNormalPosition
   | BackgroundNormalRepeat
   | BackgroundNormalSize
@@ -4057,6 +3164,8 @@ export type AllSanitySchemaTypes =
   | BackgroundNormalGradientAngle
   | BackgroundHover
   | BackgroundHoverImage
+  | BackgroundHoverImageTablet
+  | BackgroundHoverImageMobile
   | BackgroundHoverPosition
   | BackgroundHoverRepeat
   | BackgroundHoverSize
@@ -4067,9 +3176,11 @@ export type AllSanitySchemaTypes =
   | DesignOverlay
   | DesignOverlayNormal
   | DesignOverlayNormalImage
+  | OverlayNormalImageTablet
+  | OverlayNormalImageMobile
   | OverlayNormalPosition
   | OverlayNormalRepeat
-  | OverlayNormalSize
+  | DesignOverlayNormalSize
   | OverlayNormalGradient
   | OverlayNormalGradientLocation
   | OverlayNormalGradientSecondLocation
@@ -4078,6 +3189,8 @@ export type AllSanitySchemaTypes =
   | NormalFilters
   | DesignOverlayHover
   | DesignOverlayHoverImage
+  | DesignOverlayHoverImageTablet
+  | DesignOverlayHoverImageMobile
   | DesignOverlayHoverPosition
   | DesignOverlayHoverRepeat
   | DesignOverlayHoverSize
@@ -4111,6 +3224,8 @@ export type AllSanitySchemaTypes =
   | GridRowAdvancedMargin
   | GridRowAdvancedPadding
   | GridRowAdvancedMotion
+  | ExternalVideo
+  | YoutubeVideo
   | PageBuilder
   | GridRow
   | TocBlock
@@ -4123,6 +3238,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAssetReference
   | LottieAnimation
   | DataTable
+  | HtmlBlock
   | CodeBlock
   | MapEmbed
   | LogoRow
@@ -4141,8 +3257,6 @@ export type AllSanitySchemaTypes =
   | RichTextBlock
   | CallToAction
   | Seo
-  | ExternalVideo
-  | YoutubeVideo
   | PageSlug
   | LinkExternal
   | PageReference
@@ -4172,15 +3286,13 @@ export type AllSanitySchemaTypes =
   | SanityImageAsset
   | Geopoint;
 
-// Source: ../frontend-astro/src/sanity/lib/queries.ts
+// Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homePage"][0] {      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "richTextBlock" => {      content[] { ... },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  }  }
+// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type HOME_PAGE_QUERY_RESULT =
   | {
-      seo: null;
-      pageBuilder: null;
-    }
-  | {
+      _id: "homePage";
+      _type: "blogPost";
       seo: {
         metaTitle: string | null;
         metaDescription: string | null;
@@ -4195,6 +3307,8 @@ export type HOME_PAGE_QUERY_RESULT =
       pageBuilder: null;
     }
   | {
+      _id: "homePage";
+      _type: "homePage";
       seo: {
         metaTitle: string | null;
         metaDescription: string | null;
@@ -4210,10 +3324,12 @@ export type HOME_PAGE_QUERY_RESULT =
         | {
             _key: string;
             _type: "gridRow";
+            label?: string;
             container?: Container;
             layout?: string;
             columns: Array<{
               _key: string;
+              label?: string;
               container?: GridColumnContainer;
               content: Array<
                 | {
@@ -4233,6 +3349,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4259,6 +3376,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4278,6 +3398,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4304,6 +3425,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4320,6 +3444,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4346,6 +3471,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4389,6 +3517,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4415,6 +3544,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4440,6 +3572,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4466,6 +3599,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4491,6 +3627,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4517,6 +3654,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4546,6 +3686,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4572,6 +3713,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4592,6 +3736,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4618,6 +3763,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4653,6 +3801,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4679,6 +3828,48 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "htmlBlock";
+                    html: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4708,6 +3899,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4734,6 +3926,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4759,6 +3954,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4785,6 +3981,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4804,6 +4003,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4830,6 +4030,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4860,6 +4063,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4886,6 +4090,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4906,6 +4113,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4932,6 +4140,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4944,6 +4155,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -4970,6 +4182,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -4990,6 +4205,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5016,6 +4232,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5043,11 +4262,42 @@ export type HOME_PAGE_QUERY_RESULT =
                           _key: string;
                         }
                       | {
-                          asset?: SanityImageAssetReference;
+                          _key: string;
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | ({
+                                _key: string;
+                              } & LinkExternal)
+                            | ({
+                                _key: string;
+                              } & LinkInternal)
+                            | ({
+                                _key: string;
+                              } & PageSlug)
+                          >;
+                        }
+                      | {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
                           media?: unknown;
-                          hotspot?: SanityImageHotspot;
-                          crop?: SanityImageCrop;
-                          alt?: string;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                          alt: string | null;
                           _type: "image";
                           _key: string;
                         }
@@ -5055,6 +4305,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5081,6 +4332,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5094,6 +4348,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5120,6 +4375,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5133,6 +4391,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5159,6 +4418,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5172,6 +4434,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5198,6 +4461,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5271,6 +4537,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5297,6 +4564,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5315,6 +4585,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5341,6 +4612,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5370,6 +4644,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5396,6 +4671,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5405,6 +4683,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
+                      size: Size | null;
                       border: Border | null;
                       borderRadius: BorderRadius | null;
                       background: {
@@ -5431,6 +4710,9 @@ export type HOME_PAGE_QUERY_RESULT =
                       typography: Typography | null;
                       effects: Effects | null;
                       motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
                     } | null;
                   }
                 | {
@@ -5441,11 +4723,11 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: null;
                   }
               > | null;
-              verticalAlign?: "bottom" | "center" | "top";
               design?: GridColumnDesign;
               blockStyles: {
                 padding: Padding | null;
                 margin: Margin | null;
+                size: Size | null;
                 border: Border | null;
                 borderRadius: BorderRadius | null;
                 background: {
@@ -5472,19 +4754,19 @@ export type HOME_PAGE_QUERY_RESULT =
                 typography: Typography | null;
                 effects: Effects | null;
                 motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
               } | null;
               advanced?: GridColumnAdvanced;
               visibility?: GridColumnVisibility;
               _type: "gridColumn";
             }>;
-            gap?: "lg" | "md" | "none" | "sm" | "xl";
-            reverseOnMobile?: boolean;
-            paddingY?: "lg" | "md" | "none" | "sm" | "xl";
-            maxWidth?: "default" | "full" | "narrow" | "none" | "wide";
             design?: Design;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
+              size: Size | null;
               border: Border | null;
               borderRadius: BorderRadius | null;
               background: {
@@ -5511,6 +4793,9 @@ export type HOME_PAGE_QUERY_RESULT =
               typography: Typography | null;
               effects: Effects | null;
               motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
             } | null;
             advanced?: Advanced;
             visibility?: Visibility;
@@ -5592,6 +4877,7 @@ export type HOME_PAGE_QUERY_RESULT =
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
+              size: Size | null;
               border: Border | null;
               borderRadius: BorderRadius | null;
               background: {
@@ -5618,18 +4904,1652 @@ export type HOME_PAGE_QUERY_RESULT =
               typography: Typography | null;
               effects: Effects | null;
               motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
             } | null;
             columns: null;
           }
       > | null;
     }
+  | {
+      _id: "homePage";
+      _type: "media.tag";
+      seo: null;
+      pageBuilder: null;
+    }
+  | {
+      _id: "homePage";
+      _type: "page";
+      seo: {
+        metaTitle: string | null;
+        metaDescription: string | null;
+        noIndex: boolean | null;
+        ogImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+        } | null;
+      } | null;
+      pageBuilder: Array<
+        | {
+            _key: string;
+            _type: "gridRow";
+            label?: string;
+            container?: Container;
+            layout?: string;
+            columns: Array<{
+              _key: string;
+              label?: string;
+              container?: GridColumnContainer;
+              content: Array<
+                | {
+                    _key: string;
+                    _type: "accordion";
+                    title?: string;
+                    subtitle?: string;
+                    panels: Array<{
+                      title: string;
+                      icon?: AccordionPanelIcon;
+                      content: BlockContent;
+                      _type: "accordionPanel";
+                      _key: string;
+                    }>;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "alertNotice";
+                    type: "error" | "info" | "success" | "tip" | "warning";
+                    title?: string;
+                    message: string;
+                    dismissible?: boolean;
+                    icon?: {
+                      asset?: SanityImageAssetReference;
+                      media?: unknown;
+                      hotspot?: SanityImageHotspot;
+                      crop?: SanityImageCrop;
+                      _type: "image";
+                    };
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "buttonGroup";
+                    buttons: Array<
+                      {
+                        _key: string;
+                      } & CallToAction
+                    >;
+                    alignment?: "center" | "left" | "right";
+                    direction?: string;
+                    gap?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "callToAction";
+                    label: string;
+                    color?: string;
+                    textColor?: string;
+                    hoverColor?: string;
+                    variant?: "ghost" | "outline" | "primary" | "secondary";
+                    link: Array<
+                      | ({
+                          _key: string;
+                        } & LinkExternal)
+                      | ({
+                          _key: string;
+                        } & LinkInternal)
+                      | ({
+                          _key: string;
+                        } & PageSlug)
+                    >;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "codeBlock";
+                    language?:
+                      | "bash"
+                      | "css"
+                      | "html"
+                      | "javascript"
+                      | "json"
+                      | "other"
+                      | "python"
+                      | "typescript";
+                    filename?: string;
+                    code: string;
+                    showLineNumbers?: boolean;
+                    highlightLines?: string;
+                    caption?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "countdownTimer";
+                    title?: string;
+                    subtitle?: string;
+                    targetDate: string;
+                    timezone?:
+                      | "America/Chicago"
+                      | "America/Denver"
+                      | "America/Los_Angeles"
+                      | "America/New_York"
+                      | "Australia/Melbourne"
+                      | "Australia/Sydney"
+                      | "Europe/London";
+                    expiredMessage?: string;
+                    hideWhenExpired?: boolean;
+                    cta?: CallToAction;
+                    style?: "compact" | "inline" | "large";
+                    backgroundColor?: string;
+                    textColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "dataTable";
+                    caption?: string;
+                    headers: Array<{
+                      text: string;
+                      _type: "tableHeader";
+                      _key: string;
+                    }>;
+                    rows: Array<{
+                      cells: Array<{
+                        text: string;
+                        _type: "tableCell";
+                        _key: string;
+                      }>;
+                      _type: "dataTableRow";
+                      _key: string;
+                    }>;
+                    striped?: boolean;
+                    compact?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "externalVideo";
+                    url: string;
+                    caption?: string;
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    muted?: boolean;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "faqBlock";
+                    title?: string;
+                    subtitle?: string;
+                    items: Array<{
+                      question: string;
+                      answer?: BlockContent;
+                      _type: "faqItem";
+                      _key: string;
+                    }>;
+                    enableSchema?: boolean;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "featureCardGrid";
+                    title?: string;
+                    subtitle?: string;
+                    cards: Array<{
+                      icon?: FeatureCardIcon;
+                      title: string;
+                      description?: string;
+                      cta?: Cta;
+                      _type: "featureCard";
+                      _key: string;
+                    }>;
+                    columns?: "2" | "3" | "4";
+                    style?: "bordered" | "highlighted" | "shadow" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "formBlock";
+                    formTitle?: string;
+                    formDescription?: string;
+                    fields: Array<{
+                      label: string;
+                      name: string;
+                      type:
+                        | "checkbox"
+                        | "email"
+                        | "number"
+                        | "select"
+                        | "tel"
+                        | "text"
+                        | "textarea";
+                      placeholder?: string;
+                      required?: boolean;
+                      options?: Array<string>;
+                      width?: "full" | "half";
+                      _type: "formField";
+                      _key: string;
+                    }>;
+                    submitLabel?: string;
+                    submitAction?: "custom" | "webhook";
+                    webhookUrl?: string;
+                    customEndpoint?: string;
+                    successMessage?: string;
+                    errorMessage?: string;
+                    buttonColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "htmlBlock";
+                    html: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "iconText";
+                    icon: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    iconSize?: "large" | "medium" | "small" | "xl";
+                    title: string;
+                    description?: string;
+                    alignment?: string;
+                    link?: CallToAction;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageBlock";
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: string | null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    };
+                    caption: string | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageGallery";
+                    title?: string;
+                    images: Array<{
+                      image: GalleryImageImage;
+                      alt?: string;
+                      caption?: string;
+                      _type: "galleryImage";
+                      _key: string;
+                    }>;
+                    layout?: "grid" | "masonry";
+                    columns?: "2" | "3" | "4";
+                    enableLightbox?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "logoRow";
+                    logos: Array<{
+                      image: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                      alt: string | null;
+                      link: string | null;
+                    }>;
+                    grayscale: boolean | null;
+                    size: "large" | "medium" | "small" | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "lottieAnimation";
+                    source: "file" | "url";
+                    url?: string;
+                    file?: {
+                      asset?: SanityFileAssetReference;
+                      media?: unknown;
+                      _type: "file";
+                    };
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    speed?: number;
+                    trigger?: "auto" | "hover" | "scroll";
+                    alt?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "mapEmbed";
+                    embedUrl: string;
+                    height?: "large" | "medium" | "small" | "xl";
+                    caption?: string;
+                    style?: "borderless" | "default" | "rounded";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "pricingCard";
+                    badge?: string;
+                    title: string;
+                    price: string;
+                    priceSubtext?: string;
+                    features?: Array<{
+                      text: string;
+                      included?: boolean;
+                      _type: "pricingFeature";
+                      _key: string;
+                    }>;
+                    cta?: CallToAction;
+                    isHighlighted?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "richTextBlock";
+                    content: Array<
+                      | {
+                          children?: Array<{
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }>;
+                          style?:
+                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                          listItem?: "bullet" | "number";
+                          markDefs?: Array<{
+                            href?: string;
+                            openInNewTab?: boolean;
+                            _type: "link";
+                            _key: string;
+                          }>;
+                          level?: number;
+                          _type: "block";
+                          _key: string;
+                        }
+                      | {
+                          _key: string;
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | ({
+                                _key: string;
+                              } & LinkExternal)
+                            | ({
+                                _key: string;
+                              } & LinkInternal)
+                            | ({
+                                _key: string;
+                              } & PageSlug)
+                          >;
+                        }
+                      | {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          media?: unknown;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                          alt: string | null;
+                          _type: "image";
+                          _key: string;
+                        }
+                    >;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "socialEmbed";
+                    platform:
+                      "facebook" | "instagram" | "other" | "tiktok" | "twitter";
+                    embedUrl: string;
+                    caption?: string;
+                    aspectRatio?: "auto" | "landscape" | "portrait" | "square";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "spacerDivider";
+                    height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                    showDivider?: boolean;
+                    dividerStyle?: "dashed" | "dotted" | "solid";
+                    dividerColor?: string;
+                    maxWidth?: "default" | "full" | "narrow" | "wide";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "statMetric";
+                    value: string;
+                    label: string;
+                    prefix?: string;
+                    suffix?: string;
+                    size?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tabbedContent";
+                    title?: string;
+                    subtitle?: string;
+                    tabs: Array<{
+                      label: string;
+                      icon?: Icon;
+                      content: Array<
+                        | ({
+                            _key: string;
+                          } & AlertNotice)
+                        | ({
+                            _key: string;
+                          } & BlockContent)
+                        | ({
+                            _key: string;
+                          } & ButtonGroup)
+                        | ({
+                            _key: string;
+                          } & CallToAction)
+                        | ({
+                            _key: string;
+                          } & CodeBlock)
+                        | ({
+                            _key: string;
+                          } & DataTable)
+                        | ({
+                            _key: string;
+                          } & ExternalVideo)
+                        | ({
+                            _key: string;
+                          } & IconText)
+                        | ({
+                            _key: string;
+                          } & LogoRow)
+                        | ({
+                            _key: string;
+                          } & LottieAnimation)
+                        | ({
+                            _key: string;
+                          } & MapEmbed)
+                        | ({
+                            _key: string;
+                          } & PricingCard)
+                        | ({
+                            _key: string;
+                          } & SocialEmbed)
+                        | ({
+                            _key: string;
+                          } & StatMetric)
+                        | ({
+                            _key: string;
+                          } & TestimonialQuote)
+                        | ({
+                            _key: string;
+                          } & YoutubeVideo)
+                        | {
+                            image: TabImageImage;
+                            alt?: string;
+                            _type: "tabImage";
+                            _key: string;
+                          }
+                      >;
+                      _type: "tab";
+                      _key: string;
+                    }>;
+                    tabStyle?: "boxed" | "pills" | "underline";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialCarousel";
+                    title?: string;
+                    testimonials: Array<
+                      {
+                        _key: string;
+                      } & TestimonialQuote
+                    >;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    showDots?: boolean;
+                    showArrows?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialQuote";
+                    quote: string;
+                    avatar: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    name: string;
+                    title?: string;
+                    rating?: number;
+                    style?: "card" | "large" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tocBlock";
+                    title?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "youtubeVideo";
+                    url: string;
+                    caption?: string;
+                    blockStyles: null;
+                  }
+              > | null;
+              design?: GridColumnDesign;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
+              advanced?: GridColumnAdvanced;
+              visibility?: GridColumnVisibility;
+              _type: "gridColumn";
+            }>;
+            design?: Design;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            advanced?: Advanced;
+            visibility?: Visibility;
+          }
+        | {
+            _key: string;
+            _type: "heroSection";
+            layout?: "fullWidth" | "split";
+            badge?: string;
+            badgeLink?: string;
+            heading: string;
+            subtitle?: string;
+            alignment?: "center" | "left" | "right";
+            buttons: Array<{
+              _key: string;
+              _type: "callToAction";
+              label: string;
+              color?: string;
+              textColor?: string;
+              hoverColor?: string;
+              variant?: "ghost" | "outline" | "primary" | "secondary";
+              link: Array<
+                | ({
+                    _key: string;
+                  } & LinkExternal)
+                | ({
+                    _key: string;
+                  } & LinkInternal)
+                | ({
+                    _key: string;
+                  } & PageSlug)
+              >;
+              blockStyles: null;
+            }> | null;
+            mediaImage: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: string | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            mediaPosition?: "left" | "right";
+            backgroundType?: "color" | "gradient" | "image" | "video";
+            backgroundColor?: string;
+            gradientFrom?: string;
+            gradientTo?: string;
+            gradientDirection?:
+              "to bottom right" | "to bottom" | "to right" | "to top right";
+            backgroundImage: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            backgroundVideo?: string;
+            overlay?: number;
+            minHeight?: "100vh" | "50vh" | "75vh" | "auto";
+            textColor?: string;
+            maxWidth?: "default" | "narrow" | "wide";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            columns: null;
+          }
+      > | null;
+    }
+  | {
+      _id: "homePage";
+      _type: "sanity.fileAsset";
+      seo: null;
+      pageBuilder: null;
+    }
+  | {
+      _id: "homePage";
+      _type: "sanity.imageAsset";
+      seo: null;
+      pageBuilder: null;
+    }
+  | {
+      _id: "homePage";
+      _type: "siteSettings";
+      seo: null;
+      pageBuilder: null;
+    }
   | null;
 
-// Source: ../frontend-astro/src/sanity/lib/queries.ts
+// Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0] {    _id, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "richTextBlock" => {      content[] { ... },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  },        blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }    },      blockStyles {    padding, margin, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion  }  }  }
+// Query: *[_type == "page" && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type PAGE_QUERY_RESULT = {
   _id: string;
+  _type: "page";
   title: string;
   slug: Slug;
   seo: {
@@ -5647,10 +6567,12 @@ export type PAGE_QUERY_RESULT = {
     | {
         _key: string;
         _type: "gridRow";
+        label?: string;
         container?: Container;
         layout?: string;
         columns: Array<{
           _key: string;
+          label?: string;
           container?: GridColumnContainer;
           content: Array<
             | {
@@ -5670,6 +6592,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -5696,6 +6619,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -5715,6 +6641,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -5741,6 +6668,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -5757,6 +6687,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -5783,6 +6714,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -5826,6 +6760,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -5852,6 +6787,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -5877,6 +6815,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -5903,6 +6842,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -5928,6 +6870,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -5954,6 +6897,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -5983,6 +6929,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6009,6 +6956,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6029,6 +6979,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6055,6 +7006,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6090,6 +7044,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6116,6 +7071,48 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "htmlBlock";
+                html: string;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6145,6 +7142,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6171,6 +7169,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6196,6 +7197,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6222,6 +7224,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6241,6 +7246,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6267,6 +7273,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6297,6 +7306,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6323,6 +7333,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6343,6 +7356,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6369,6 +7383,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6381,6 +7398,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6407,6 +7425,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6427,6 +7448,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6453,6 +7475,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6480,11 +7505,41 @@ export type PAGE_QUERY_RESULT = {
                       _key: string;
                     }
                   | {
-                      asset?: SanityImageAssetReference;
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | ({
+                            _key: string;
+                          } & LinkExternal)
+                        | ({
+                            _key: string;
+                          } & LinkInternal)
+                        | ({
+                            _key: string;
+                          } & PageSlug)
+                      >;
+                    }
+                  | {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
                       media?: unknown;
-                      hotspot?: SanityImageHotspot;
-                      crop?: SanityImageCrop;
-                      alt?: string;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                      alt: string | null;
                       _type: "image";
                       _key: string;
                     }
@@ -6492,6 +7547,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6518,6 +7574,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6531,6 +7590,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6557,6 +7617,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6570,6 +7633,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6596,6 +7660,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6609,6 +7676,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6635,6 +7703,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6708,6 +7779,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6734,6 +7806,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6752,6 +7827,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6778,6 +7854,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6807,6 +7886,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6833,6 +7913,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6842,6 +7925,7 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
+                  size: Size | null;
                   border: Border | null;
                   borderRadius: BorderRadius | null;
                   background: {
@@ -6868,6 +7952,9 @@ export type PAGE_QUERY_RESULT = {
                   typography: Typography | null;
                   effects: Effects | null;
                   motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
                 } | null;
               }
             | {
@@ -6878,11 +7965,11 @@ export type PAGE_QUERY_RESULT = {
                 blockStyles: null;
               }
           > | null;
-          verticalAlign?: "bottom" | "center" | "top";
           design?: GridColumnDesign;
           blockStyles: {
             padding: Padding | null;
             margin: Margin | null;
+            size: Size | null;
             border: Border | null;
             borderRadius: BorderRadius | null;
             background: {
@@ -6909,19 +7996,19 @@ export type PAGE_QUERY_RESULT = {
             typography: Typography | null;
             effects: Effects | null;
             motion: Motion | null;
+            cssId: string | null;
+            cssClasses: string | null;
+            customCss: string | null;
           } | null;
           advanced?: GridColumnAdvanced;
           visibility?: GridColumnVisibility;
           _type: "gridColumn";
         }>;
-        gap?: "lg" | "md" | "none" | "sm" | "xl";
-        reverseOnMobile?: boolean;
-        paddingY?: "lg" | "md" | "none" | "sm" | "xl";
-        maxWidth?: "default" | "full" | "narrow" | "none" | "wide";
         design?: Design;
         blockStyles: {
           padding: Padding | null;
           margin: Margin | null;
+          size: Size | null;
           border: Border | null;
           borderRadius: BorderRadius | null;
           background: {
@@ -6948,6 +8035,9 @@ export type PAGE_QUERY_RESULT = {
           typography: Typography | null;
           effects: Effects | null;
           motion: Motion | null;
+          cssId: string | null;
+          cssClasses: string | null;
+          customCss: string | null;
         } | null;
         advanced?: Advanced;
         visibility?: Visibility;
@@ -7029,6 +8119,7 @@ export type PAGE_QUERY_RESULT = {
         blockStyles: {
           padding: Padding | null;
           margin: Margin | null;
+          size: Size | null;
           border: Border | null;
           borderRadius: BorderRadius | null;
           background: {
@@ -7055,20 +8146,23 @@ export type PAGE_QUERY_RESULT = {
           typography: Typography | null;
           effects: Effects | null;
           motion: Motion | null;
+          cssId: string | null;
+          cssClasses: string | null;
+          customCss: string | null;
         } | null;
         columns: null;
       }
   > | null;
 } | null;
 
-// Source: ../frontend-astro/src/sanity/lib/queries.ts
+// Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: PAGE_SLUGS_QUERY
 // Query: *[_type == "page" && defined(slug.current)] {    "slug": slug.current  }
 export type PAGE_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
-// Source: ../frontend-astro/src/sanity/lib/queries.ts
+// Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: BLOG_POSTS_QUERY
 // Query: *[_type == "blogPost"] | order(publishedAt desc) {    _id, title, slug, excerpt, publishedAt, author,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  }  }
 export type BLOG_POSTS_QUERY_RESULT = Array<{
@@ -7107,9 +8201,9 @@ export type BLOG_POSTS_QUERY_RESULT = Array<{
   } | null;
 }>;
 
-// Source: ../frontend-astro/src/sanity/lib/queries.ts
+// Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: BLOG_POST_QUERY
-// Query: *[_type == "blogPost" && slug.current == $slug][0] {    _id, title, slug, excerpt, publishedAt, author,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    body[] { ... },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  }  }
+// Query: *[_type == "blogPost" && slug.current == $slug][0] {    _id, title, slug, excerpt, publishedAt, author,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    body[] {      ...,      _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }    },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  }  }
 export type BLOG_POST_QUERY_RESULT = {
   _id: string;
   title: string;
@@ -7154,11 +8248,41 @@ export type BLOG_POST_QUERY_RESULT = {
         _key: string;
       }
     | {
-        asset?: SanityImageAssetReference;
+        _key: string;
+        _type: "callToAction";
+        label: string;
+        color?: string;
+        textColor?: string;
+        hoverColor?: string;
+        variant?: "ghost" | "outline" | "primary" | "secondary";
+        link: Array<
+          | ({
+              _key: string;
+            } & LinkExternal)
+          | ({
+              _key: string;
+            } & LinkInternal)
+          | ({
+              _key: string;
+            } & PageSlug)
+        >;
+      }
+    | {
+        asset: {
+          _id: string;
+          url: string;
+          metadata: {
+            lqip: string | null;
+            dimensions: {
+              width: number;
+              height: number;
+            } | null;
+          } | null;
+        } | null;
         media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
+        hotspot: SanityImageHotspot | null;
+        crop: SanityImageCrop | null;
+        alt: string | null;
         _type: "image";
         _key: string;
       }
@@ -7176,14 +8300,14 @@ export type BLOG_POST_QUERY_RESULT = {
   } | null;
 } | null;
 
-// Source: ../frontend-astro/src/sanity/lib/queries.ts
+// Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: BLOG_SLUGS_QUERY
 // Query: *[_type == "blogPost" && defined(slug.current)] {    "slug": slug.current  }
 export type BLOG_SLUGS_QUERY_RESULT = Array<{
   slug: string;
 }>;
 
-// Source: ../frontend-astro/src/sanity/lib/queries.ts
+// Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
 // Query: *[_id == "siteSettings"][0] {    siteName, tagline,    logo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    phone,    primaryColor, secondaryColor,    socialLinks[] { _key, platform, url },    mainNav[] {      _key, _type, label, href, isButton,      _type == "navDropdown" => {        items[] { _key, label, href, description, icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      }    },    footerStyle,    footerDescription,    footerColumns[] {      _key, title,      links[] { _key, label, href }    }  }
 export type SITE_SETTINGS_QUERY_RESULT =
@@ -7290,11 +8414,11 @@ export type SITE_SETTINGS_QUERY_RESULT =
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_id == "homePage"][0] {\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "richTextBlock" => {\n      content[] { ... },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "richTextBlock" => {\n      content[] { ... },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type == "page" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "blogPost"] | order(publishedAt desc) {\n    _id, title, slug, excerpt, publishedAt, author,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n\n  }\n': BLOG_POSTS_QUERY_RESULT;
-    '\n  *[_type == "blogPost" && slug.current == $slug][0] {\n    _id, title, slug, excerpt, publishedAt, author,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    body[] { ... },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n\n  }\n': BLOG_POST_QUERY_RESULT;
+    '\n  *[_type == "blogPost" && slug.current == $slug][0] {\n    _id, title, slug, excerpt, publishedAt, author,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    body[] {\n      ...,\n      _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n    },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n\n  }\n': BLOG_POST_QUERY_RESULT;
     '\n  *[_type == "blogPost" && defined(slug.current)] {\n    "slug": slug.current\n  }\n': BLOG_SLUGS_QUERY_RESULT;
     '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    primaryColor, secondaryColor,\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    footerStyle,\n    footerDescription,\n    footerColumns[] {\n      _key, title,\n      links[] { _key, label, href }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
   }

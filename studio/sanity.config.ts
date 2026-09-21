@@ -9,6 +9,7 @@ import {media} from 'sanity-plugin-media'
 import {schemaTypes} from './schemaTypes'
 import {structure} from './structure'
 import {openInPresentation} from './actions/openInPresentation'
+import {openInBrowser} from './actions/openInBrowser'
 import {singletonTypes, singletonActions} from './schemaTypes/constants'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID!
@@ -87,7 +88,7 @@ export default defineConfig({
         ? input.filter(({action}) => action && singletonActions.has(action))
         : input
       // Appended after the filter so singletons keep it too.
-      return [...actions, openInPresentation]
+      return [...actions, openInPresentation, openInBrowser]
     },
     newDocumentOptions: (prev) =>
       prev.filter((item) => !singletonTypes.has(item.templateId)),
