@@ -17,6 +17,7 @@
   --accent: #7c3aed;
   --surface: #fafafa;
   --ring: #18181b;
+  --header-banner: #0a108c;
 }
 
 @theme inline {
@@ -34,6 +35,7 @@
   --color-ring: var(--ring);
   --font-sans: var(--font-inter);
   --font-display: var(--font-montserrat);
+  --color-header-banner: var(--header-banner);
 }
 
 body {
