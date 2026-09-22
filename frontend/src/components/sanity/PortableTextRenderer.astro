@@ -9,6 +9,7 @@ import PtList from '@/components/portable-text/PtList.astro'
 import PtLink from '@/components/portable-text/PtLink.astro'
 import PtImage from '@/components/portable-text/PtImage.astro'
 import PtCallToAction from '@/components/portable-text/PtCallToAction.astro'
+import PtParagraph from '@/components/portable-text/PtParagraph.astro'
 
 interface Props {
   value?: PortableTextBlock[] | Array<Record<string, unknown>> | null
@@ -26,6 +27,7 @@ const components: SomePortableTextComponents = {
     link: PtLink,
   },
   block: {
+    paragraph: PtParagraph,
     h1: PtHeading,
     h2: PtHeading,
     h3: PtHeading,

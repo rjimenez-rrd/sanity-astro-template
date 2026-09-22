@@ -25,6 +25,8 @@ export interface BlockStyles {
     textAlignTablet?: string | null
     textAlignMobile?: string | null
     fontSize?: string | null
+    fontSizeTablet?: string | null
+    fontSizeMobile?: string | null
     textColor?: string | null
   } | null
   effects?: {shadow?: string | null; opacity?: number | null; overflow?: string | null} | null
@@ -188,8 +190,19 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
     styles['text-align'] = align(bs.typography.textAlign)
     styles['--ta-tablet'] = align(bs.typography.textAlignTablet)
     styles['--ta-mobile'] = align(bs.typography.textAlignMobile)
-    const fontSize = bs.typography.fontSize?.trim()
-    if (fontSize && /^\d+(\.\d+)?$/.test(fontSize)) styles['font-size'] = `${fontSize}px`
+
+    // Desktop-first like everything else here: the base is a real property,
+    // Tablet/Mobile are custom properties the max-width rules in global.css
+    // promote below their breakpoint.
+    const fontSize = (raw?: string | null) => {
+      const v = raw?.trim()
+      return v && /^\d+(\.\d+)?$/.test(v) ? `${v}px` : undefined
+    }
+    const fsBase = fontSize(bs.typography.fontSize)
+    if (fsBase) styles['font-size'] = fsBase
+    styles['--fs-tablet'] = fontSize(bs.typography.fontSizeTablet)
+    styles['--fs-mobile'] = fontSize(bs.typography.fontSizeMobile)
+
     const color = bs.typography.textColor?.trim()
     if (color && CSS_COLOR.test(color)) styles['color'] = color
   }

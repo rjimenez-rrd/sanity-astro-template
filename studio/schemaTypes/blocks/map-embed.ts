@@ -16,8 +16,10 @@ export const mapEmbedType = defineType({
     }),
     defineField({
       name: 'height',
-      title: 'Height',
+      title: 'Height (preset)',
       type: 'string',
+      description:
+        'Default height. To match the column height, or set an exact height and width, use Block Styles → Size & Alignment below — it overrides this preset.',
       initialValue: 'medium',
       options: {
         list: [
@@ -53,7 +55,10 @@ export const mapEmbedType = defineType({
       name: 'blockStyles',
       title: 'Block Styles',
       type: 'blockStyles',
-      options: {collapsible: true, collapsed: true},
+      // Open by default here (unlike other blocks): Size & Alignment inside it
+      // is where "fill column height" and an exact height/width live, and a
+      // map is the block most likely to need them right away.
+      options: {collapsible: true, collapsed: false},
     }),
   ],
   preview: {

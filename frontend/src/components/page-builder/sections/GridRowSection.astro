@@ -241,7 +241,7 @@ const rowStyle = elementStyle(
             {...col.animation}
           >
             {content.map((block) => (
-              <BlockRenderer block={block} />
+              <BlockRenderer block={block} columnCount={columns.length} />
             ))}
             {editing && content.length === 0 && (
               <div class="flex min-h-[100px] items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted">

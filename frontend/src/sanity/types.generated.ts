@@ -84,6 +84,8 @@ export type Typography = {
   textAlignTablet?: string;
   textAlignMobile?: string;
   fontSize?: string;
+  fontSizeTablet?: string;
+  fontSizeMobile?: string;
   textColor?: string;
 };
 
@@ -151,7 +153,7 @@ export type SanityImageAssetReference = {
 
 export type BackgroundImage = {
   asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "image.media" in schema
+  media?: unknown; // Unable to locate the referenced type "media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -2631,6 +2633,7 @@ export type CallToAction = {
         _key: string;
       } & PageSlug)
   >;
+  blockStyles?: BlockStyles;
 };
 
 export type Seo = {
@@ -2688,7 +2691,7 @@ export type BlockContent = Array<
         _type: "span";
         _key: string;
       }>;
-      style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+      style?: "normal" | "paragraph" | "h1" | "h2" | "h3" | "h4" | "blockquote";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
         href?: string;
@@ -3471,6 +3474,7 @@ export type HOME_PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
                     direction?: string;
@@ -3541,7 +3545,40 @@ export type HOME_PAGE_QUERY_RESULT =
                           slug: string;
                         }
                     >;
-                    blockStyles: null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
                   }
                 | {
                     _key: string;
@@ -4276,6 +4313,7 @@ export type HOME_PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
                     blockStyles: {
@@ -4325,7 +4363,13 @@ export type HOME_PAGE_QUERY_RESULT =
                             _key: string;
                           }>;
                           style?:
-                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                            | "blockquote"
+                            | "h1"
+                            | "h2"
+                            | "h3"
+                            | "h4"
+                            | "normal"
+                            | "paragraph";
                           listItem?: "bullet" | "number";
                           markDefs?: Array<{
                             href?: string;
@@ -4369,6 +4413,7 @@ export type HOME_PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
+                          blockStyles?: BlockStyles;
                         }
                       | {
                           asset: {
@@ -4930,7 +4975,40 @@ export type HOME_PAGE_QUERY_RESULT =
                     slug: string;
                   }
               >;
-              blockStyles: null;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
             }> | null;
             mediaImage: {
               asset: {
@@ -5178,6 +5256,7 @@ export type HOME_PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
                     direction?: string;
@@ -5248,7 +5327,40 @@ export type HOME_PAGE_QUERY_RESULT =
                           slug: string;
                         }
                     >;
-                    blockStyles: null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
                   }
                 | {
                     _key: string;
@@ -5983,6 +6095,7 @@ export type HOME_PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
                     blockStyles: {
@@ -6032,7 +6145,13 @@ export type HOME_PAGE_QUERY_RESULT =
                             _key: string;
                           }>;
                           style?:
-                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                            | "blockquote"
+                            | "h1"
+                            | "h2"
+                            | "h3"
+                            | "h4"
+                            | "normal"
+                            | "paragraph";
                           listItem?: "bullet" | "number";
                           markDefs?: Array<{
                             href?: string;
@@ -6076,6 +6195,7 @@ export type HOME_PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
+                          blockStyles?: BlockStyles;
                         }
                       | {
                           asset: {
@@ -6637,7 +6757,40 @@ export type HOME_PAGE_QUERY_RESULT =
                     slug: string;
                   }
               >;
-              blockStyles: null;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
             }> | null;
             mediaImage: {
               asset: {
@@ -6879,6 +7032,7 @@ export type HOME_PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
                     direction?: string;
@@ -6949,7 +7103,40 @@ export type HOME_PAGE_QUERY_RESULT =
                           slug: string;
                         }
                     >;
-                    blockStyles: null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
                   }
                 | {
                     _key: string;
@@ -7684,6 +7871,7 @@ export type HOME_PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
                     blockStyles: {
@@ -7733,7 +7921,13 @@ export type HOME_PAGE_QUERY_RESULT =
                             _key: string;
                           }>;
                           style?:
-                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                            | "blockquote"
+                            | "h1"
+                            | "h2"
+                            | "h3"
+                            | "h4"
+                            | "normal"
+                            | "paragraph";
                           listItem?: "bullet" | "number";
                           markDefs?: Array<{
                             href?: string;
@@ -7777,6 +7971,7 @@ export type HOME_PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
+                          blockStyles?: BlockStyles;
                         }
                       | {
                           asset: {
@@ -8338,7 +8533,40 @@ export type HOME_PAGE_QUERY_RESULT =
                     slug: string;
                   }
               >;
-              blockStyles: null;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
             }> | null;
             mediaImage: {
               asset: {
@@ -8612,6 +8840,7 @@ export type PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
                     direction?: string;
@@ -8682,7 +8911,40 @@ export type PAGE_QUERY_RESULT =
                           slug: string;
                         }
                     >;
-                    blockStyles: null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
                   }
                 | {
                     _key: string;
@@ -9417,6 +9679,7 @@ export type PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
                     blockStyles: {
@@ -9466,7 +9729,13 @@ export type PAGE_QUERY_RESULT =
                             _key: string;
                           }>;
                           style?:
-                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                            | "blockquote"
+                            | "h1"
+                            | "h2"
+                            | "h3"
+                            | "h4"
+                            | "normal"
+                            | "paragraph";
                           listItem?: "bullet" | "number";
                           markDefs?: Array<{
                             href?: string;
@@ -9510,6 +9779,7 @@ export type PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
+                          blockStyles?: BlockStyles;
                         }
                       | {
                           asset: {
@@ -10071,7 +10341,40 @@ export type PAGE_QUERY_RESULT =
                     slug: string;
                   }
               >;
-              blockStyles: null;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
             }> | null;
             mediaImage: {
               asset: {
@@ -10315,6 +10618,7 @@ export type PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
                     direction?: string;
@@ -10385,7 +10689,40 @@ export type PAGE_QUERY_RESULT =
                           slug: string;
                         }
                     >;
-                    blockStyles: null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
                   }
                 | {
                     _key: string;
@@ -11120,6 +11457,7 @@ export type PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
+                      blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
                     blockStyles: {
@@ -11169,7 +11507,13 @@ export type PAGE_QUERY_RESULT =
                             _key: string;
                           }>;
                           style?:
-                            "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+                            | "blockquote"
+                            | "h1"
+                            | "h2"
+                            | "h3"
+                            | "h4"
+                            | "normal"
+                            | "paragraph";
                           listItem?: "bullet" | "number";
                           markDefs?: Array<{
                             href?: string;
@@ -11213,6 +11557,7 @@ export type PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
+                          blockStyles?: BlockStyles;
                         }
                       | {
                           asset: {
@@ -11774,7 +12119,40 @@ export type PAGE_QUERY_RESULT =
                     slug: string;
                   }
               >;
-              blockStyles: null;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
             }> | null;
             mediaImage: {
               asset: {

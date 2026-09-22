@@ -44,22 +44,60 @@ export function TypographyInput(props: ObjectInputProps) {
   const [activeBreakpoint, setActiveBreakpoint] = useState(0)
   const suffix = BREAKPOINTS[activeBreakpoint].key
   const alignKey = `textAlign${suffix}`
+  const fontSizeKey = `fontSize${suffix}`
+  const ownFontSize = vals[fontSizeKey]
 
   /** Desktop-first: Mobile falls back to Tablet, then to the Desktop base. */
-  const inheritedAlign = (() => {
-    const chain = suffix === 'Mobile' ? ['Tablet', ''] : suffix === 'Tablet' ? [''] : []
-    for (const from of chain) {
-      const v = vals[`textAlign${from}`]
-      if (v) return v
-    }
-    return undefined
-  })()
+  const inheritedFor = useCallback(
+    (field: 'textAlign' | 'fontSize') => {
+      const chain = suffix === 'Mobile' ? ['Tablet', ''] : suffix === 'Tablet' ? [''] : []
+      for (const from of chain) {
+        const v = vals[`${field}${from}`]
+        if (v) return v
+      }
+      return undefined
+    },
+    [suffix, vals],
+  )
+  const inheritedAlign = inheritedFor('textAlign')
+  const inheritedFontSize = inheritedFor('fontSize')
+
+  // Custom is sticky once picked, so typing a value doesn't bounce the field
+  // back to the dropdown between keystrokes; a value already on the document
+  // that isn't one of the presets (e.g. from before this existed) opens in
+  // Custom the same way, with no click needed. Keyed off this breakpoint's own
+  // value, not the inherited one — a Tablet override only ever writes to
+  // fontSizeTablet, never the Desktop base it's shown next to.
+  const isPreset = FONT_SIZES.some((f) => f.value === ownFontSize)
+  const [forceCustom, setForceCustom] = useState(false)
+  const showCustomSize = forceCustom || (!!ownFontSize && !isPreset)
+
+  const handleFontSizeMode = useCallback(
+    (mode: string) => {
+      if (mode === 'custom') {
+        setForceCustom(true)
+        return
+      }
+      setForceCustom(false)
+      handleChange(fontSizeKey, mode)
+    },
+    [handleChange, fontSizeKey],
+  )
 
   const ALIGN_FIELDS = BREAKPOINTS.map((b) => `textAlign${b.key}`)
-  const hasValues = !!(ALIGN_FIELDS.some((f) => vals[f]) || vals.fontSize || vals.textColor)
+  const FONT_SIZE_FIELDS = BREAKPOINTS.map((b) => `fontSize${b.key}`)
+  const hasValues = !!(
+    ALIGN_FIELDS.some((f) => vals[f]) ||
+    FONT_SIZE_FIELDS.some((f) => vals[f]) ||
+    vals.textColor
+  )
 
   const handleClear = useCallback(() => {
-    onChange([...ALIGN_FIELDS.map((f) => unset([f])), unset(['fontSize']), unset(['textColor'])])
+    onChange([
+      ...ALIGN_FIELDS.map((f) => unset([f])),
+      ...FONT_SIZE_FIELDS.map((f) => unset([f])),
+      unset(['textColor']),
+    ])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onChange])
 
@@ -93,7 +131,7 @@ export function TypographyInput(props: ObjectInputProps) {
           )}
         </Flex>
 
-        {/* Which breakpoint the align buttons below write to. */}
+        {/* Which breakpoint the align buttons and size below write to. */}
         <Flex gap={0}>
           {BREAKPOINTS.map((item, i) => {
             const isActive = i === activeBreakpoint
@@ -101,7 +139,13 @@ export function TypographyInput(props: ObjectInputProps) {
               <button
                 key={item.key}
                 type="button"
-                onClick={() => setActiveBreakpoint(i)}
+                onClick={() => {
+                  setActiveBreakpoint(i)
+                  // Custom mode is per-breakpoint only in effect, not in state —
+                  // leaving it on would show the number input on a tab whose own
+                  // value doesn't actually need it.
+                  setForceCustom(false)
+                }}
                 style={{
                   flex: 1,
                   padding: '4px',
@@ -120,7 +164,7 @@ export function TypographyInput(props: ObjectInputProps) {
                 }}
               >
                 {item.label}
-                {vals[`textAlign${item.key}`] && !isActive && (
+                {(vals[`textAlign${item.key}`] || vals[`fontSize${item.key}`]) && !isActive && (
                   <span
                     style={{
                       width: 4,
@@ -180,13 +224,41 @@ export function TypographyInput(props: ObjectInputProps) {
             })}
           </Flex>
 
-          <CompactSelect
-            value={vals.fontSize}
-            placeholder="Size"
-            width={80}
-            options={FONT_SIZES}
-            onChange={(v) => handleChange('fontSize', v)}
-          />
+          <Flex align="center" gap={1}>
+            <CompactSelect
+              value={showCustomSize ? 'custom' : (ownFontSize ?? '')}
+              placeholder={inheritedFontSize ? `${inheritedFontSize}px` : 'Size'}
+              width={showCustomSize ? 90 : 80}
+              options={[...FONT_SIZES, {title: 'Custom…', value: 'custom'}]}
+              onChange={handleFontSizeMode}
+            />
+            {showCustomSize && (
+              <>
+                <input
+                  type="number"
+                  min={1}
+                  autoFocus={forceCustom}
+                  value={ownFontSize ?? ''}
+                  placeholder={inheritedFontSize ?? 'Size'}
+                  onChange={(e) => handleChange(fontSizeKey, e.target.value)}
+                  style={{
+                    width: 56,
+                    padding: '6px 8px',
+                    fontSize: 12,
+                    fontFamily: 'inherit',
+                    border: '1px solid var(--card-border-color)',
+                    borderRadius: 4,
+                    backgroundColor: 'var(--card-bg-color)',
+                    color: 'var(--card-fg-color)',
+                    textAlign: 'center',
+                  }}
+                />
+                <Text size={0} muted>
+                  px
+                </Text>
+              </>
+            )}
+          </Flex>
 
           <ColorInput
             value={vals.textColor}

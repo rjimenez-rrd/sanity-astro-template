@@ -220,6 +220,8 @@ export const blockStylesType = defineType({
         defineField({name: 'textAlignTablet', title: 'Align (tablet)', type: 'string'}),
         defineField({name: 'textAlignMobile', title: 'Align (mobile)', type: 'string'}),
         defineField({name: 'fontSize', title: 'Size', type: 'string'}),
+        defineField({name: 'fontSizeTablet', title: 'Size (tablet)', type: 'string'}),
+        defineField({name: 'fontSizeMobile', title: 'Size (mobile)', type: 'string'}),
         defineField({name: 'textColor', title: 'Color', type: 'string'}),
       ],
     }),

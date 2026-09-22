@@ -55,6 +55,12 @@ export const callToActionType = defineType({
       required: true,
       types: ['linkInternal', 'linkExternal', 'pageSlug'],
     }),
+    defineField({
+      name: 'blockStyles',
+      title: 'Block Styles',
+      type: 'blockStyles',
+      options: {collapsible: true, collapsed: true},
+    }),
   ],
   preview: {
     select: {

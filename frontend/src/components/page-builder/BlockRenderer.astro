@@ -36,9 +36,11 @@ import type {ContentBlock} from '@/types/sanity'
 
 interface Props {
   block: ContentBlock
+  /** How many columns share this block's row — see DEFAULT_FILL_TYPES below. */
+  columnCount?: number
 }
 
-const {block} = Astro.props
+const {block, columnCount} = Astro.props
 
 const CONTENT_MAP: Record<string, any> = {
   richTextBlock: RichText,
@@ -77,7 +79,24 @@ const SELF_STYLED = new Set(['richTextBlock'])
 const type = stegaClean(block._type)!
 const Component = CONTENT_MAP[type]
 
-const styles = stegaClean(block.blockStyles) as (BlockStyles & {motion?: MotionSettings}) | null
+const rawStyles = stegaClean(block.blockStyles) as (BlockStyles & {motion?: MotionSettings}) | null
+
+/**
+ * These types default to matching the tallest column in their row instead of
+ * their own natural/preset height — a map (or similar embed) sitting beside an
+ * image or text column should fill it without an editor opening Size &
+ * Alignment and picking "Fill column" every time. An explicit height, on
+ * either the block itself or here, always wins over this default.
+ * Gated on having a sibling column: with only one column in the row, "fill"
+ * has no taller sibling to measure against and the block collapses to zero
+ * height (the same reason global.css reverts it on mobile — see there).
+ */
+const DEFAULT_FILL_TYPES = new Set(['mapEmbed'])
+const autoFillsHeight =
+  DEFAULT_FILL_TYPES.has(type) && (columnCount ?? 1) > 1 && !rawStyles?.size?.height
+const styles = autoFillsHeight
+  ? {...rawStyles, size: {...rawStyles?.size, height: 'fill'}}
+  : rawStyles
 const animation = animationAttrs(styles?.motion)
 // Class hooks and Custom CSS. Scoped to this block's own key, so a rule an
 // editor writes can only reach this element and its descendants.
@@ -145,7 +164,7 @@ const heightMode = built['flex'] === '1 1 auto' ? 'fill' : ''
       />
     ) : needsWrapper ? (
       <BlockStylesWrapper
-        blockStyles={block.blockStyles}
+        blockStyles={styles}
         data-pb={blockKey}
         id={cssId}
         class={cssClasses}

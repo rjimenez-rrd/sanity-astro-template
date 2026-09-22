@@ -10,7 +10,7 @@ interface Props {
 const {data} = Astro.props
 
 const VARIANT_CLASSES: Record<string, string> = {
-  primary: 'bg-foreground text-background hover:bg-foreground/90',
+  primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
   secondary: 'bg-white/15 ring-1 ring-foreground/10 text-foreground hover:bg-foreground/5',
   outline: 'border border-foreground/20 text-foreground hover:bg-foreground/5',
   ghost: 'text-foreground hover:bg-foreground/5',
@@ -24,6 +24,15 @@ const cleanTextColor = stegaClean(data.textColor)
 const cleanHoverColor = stegaClean(data.hoverColor)
 const cleanVariant = stegaClean(data.variant) || 'primary'
 
+/**
+ * Width comes from Block Styles -> Size & Alignment, same as every other
+ * block, but a plain inline-block link ignores a wrapper's configured width —
+ * it stays sized to its label regardless of how wide the wrapper is. Filling
+ * the wrapper is opt-in, keyed off a width actually being set, so a CTA with
+ * no configured width keeps hugging its label like it always has.
+ */
+const hasWidth = Boolean(stegaClean(data.blockStyles?.size?.width))
+
 const style = hasCustomColors
   ? [
       cleanColor && `background-color:${cleanColor}`,
@@ -34,8 +43,7 @@ const style = hasCustomColors
       .join(';')
   : undefined
 
-const baseClasses =
-  'inline-block rounded-full px-6 py-3 font-medium transition-colors duration-200 text-center text-sm'
+const baseClasses = `${hasWidth ? 'block w-full' : 'inline-block'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
 const colorClasses = hasCustomColors
   ? 'hover:opacity-90'
   : VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary

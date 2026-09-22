@@ -6,10 +6,10 @@
   --font-inter: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-montserrat: 'Montserrat Variable', ui-sans-serif, system-ui, sans-serif;
   --background: #ffffff;
-  --foreground: #09090b;
+  --foreground: #07083d;
   --muted: #71717a;
   --border: #e4e4e7;
-  --primary: #09090b;
+  --primary: #0a108c;
   --primary-foreground: #fafafa;
   --secondary: #18181b;
   --card: #ffffff;
@@ -91,6 +91,7 @@ h2, h3 {
   [style*='--w-tablet'] { width: var(--w-tablet) !important; }
   [style*='--as-tablet'] { align-self: var(--as-tablet) !important; }
   [style*='--ta-tablet'] { text-align: var(--ta-tablet) !important; }
+  [style*='--fs-tablet'] { font-size: var(--fs-tablet) !important; }
   [style*='--h-tablet'] { height: var(--h-tablet) !important; flex: 0 0 auto !important; }
   [style*='--fill-tablet'] { flex: var(--fill-tablet) !important; height: auto !important; min-height: 0 !important; }
 }
@@ -107,6 +108,7 @@ h2, h3 {
   [style*='--w-mobile'] { width: var(--w-mobile) !important; }
   [style*='--as-mobile'] { align-self: var(--as-mobile) !important; }
   [style*='--ta-mobile'] { text-align: var(--ta-mobile) !important; }
+  [style*='--fs-mobile'] { font-size: var(--fs-mobile) !important; }
   [style*='--h-mobile'] { height: var(--h-mobile) !important; flex: 0 0 auto !important; }
   [style*='--fill-mobile'] { flex: var(--fill-mobile) !important; height: auto !important; min-height: 0 !important; }
 }
