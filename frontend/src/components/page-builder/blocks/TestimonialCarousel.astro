@@ -12,6 +12,45 @@ const testimonials = data.testimonials || []
 const autoPlayInterval = data.autoPlayInterval || 5
 const showDots = data.showDots !== false
 const showArrows = data.showArrows !== false
+
+/**
+ * Card width per breakpoint, emitted as scoped CSS rather than Tailwind
+ * arbitrary values: `w-[calc(...)]` needs an escaped selector that has to match
+ * the attribute exactly, and the widths are dynamic anyway.
+ *
+ * Each width subtracts the card's share of the 1.5rem gap-6, or the cards
+ * overflow the track. Breakpoints match the rest of the project — desktop is
+ * the base, tablet is <=1024px, mobile <=767px and always one card.
+ */
+const CARD_WIDTH: Record<number, string> = {
+  1: '100%',
+  2: 'calc(50% - 0.75rem)',
+  3: 'calc(33.333% - 1rem)',
+  4: 'calc(25% - 1.125rem)',
+}
+
+const perViewDesktop = data.perViewDesktop ?? 3
+const perViewTablet = data.perViewTablet ?? 2
+
+// Inline custom properties, promoted to real widths by the rules in
+// global.css. Same mechanism as the responsive spacing values, so it needs no
+// generated class names and no scoped style tag.
+const cardStyle = [
+  `--card-w:${CARD_WIDTH[perViewDesktop] ?? CARD_WIDTH[3]}`,
+  `--card-w-tablet:${CARD_WIDTH[perViewTablet] ?? CARD_WIDTH[2]}`,
+].join(';')
+
+/**
+ * Looping needs more cards in the track than are on screen, so the set is
+ * repeated. Two passes is enough whenever there are at least as many
+ * testimonials as visible slots; below that it takes three to avoid a gap
+ * appearing at the wrap. A single testimonial never loops.
+ */
+const loops =
+  testimonials.length < 2 ? 1 : testimonials.length >= perViewDesktop ? 2 : 3
+
+const loopedTestimonials = Array.from({length: loops}, () => testimonials).flat()
+
 const STAR_PATH =
   'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'
 const PREV_PATH = 'M15 19l-7-7 7-7'
@@ -24,6 +63,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       data-carousel
       data-autoplay={data.autoPlay ? 'true' : 'false'}
       data-interval={String(autoPlayInterval)}
+      data-count={String(testimonials.length)}
     >
       {data.title && (
         <h2 class="mb-8 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
@@ -37,8 +77,13 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
           class="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           data-carousel-track
         >
-          {testimonials.map((t) => (
-            <div class="w-full flex-shrink-0 snap-start rounded-xl border border-border bg-card p-6 sm:p-8">
+          {loopedTestimonials.map((t, i) => (
+            <div
+              data-carousel-card
+              style={cardStyle}
+              class="flex-shrink-0 snap-start rounded-xl border border-border bg-card p-6 sm:p-8"
+              aria-hidden={i >= testimonials.length ? 'true' : undefined}
+            >
               {t.rating && (
                 <div class="mb-4 flex gap-0.5">
                   {Array.from({length: 5}, (_, i) => (
@@ -127,20 +172,66 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
     const dots = root.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]')
     if (slides.length === 0) return
 
+    // Slides are repeated in the DOM so the track can always scroll forward.
+    // `count` is how many real testimonials there are; anything past that is a
+    // clone we scroll into and then rewind out of.
+    const count = Number(root.dataset.count) || slides.length
+    const canLoop = slides.length > count
+
     let current = 0
 
-    function goTo(index: number) {
-      current = ((index % slides.length) + slides.length) % slides.length
-      const child = slides[current]
-      track!.scrollTo({left: child.offsetLeft - track!.offsetLeft, behavior: 'smooth'})
+    const offsetOf = (index: number) => slides[index]!.offsetLeft - track!.offsetLeft
 
+    function paintDots(index: number) {
       dots.forEach((dot, i) => {
-        const active = i === current
+        const active = i === index % count
         dot.classList.toggle('w-6', active)
         dot.classList.toggle('bg-primary', active)
         dot.classList.toggle('w-2', !active)
         dot.classList.toggle('bg-border', !active)
       })
+    }
+
+    /**
+     * Rewinds from a clone to the identical real slide once the smooth scroll
+     * has settled. The jump is instant and lands on the same-looking card, so
+     * it is invisible — that is what makes the loop seamless.
+     */
+    function rewind() {
+      if (!canLoop || current < count) return
+      const settled = () => {
+        current -= count
+        track!.scrollTo({left: offsetOf(current), behavior: 'auto'})
+      }
+      if ('onscrollend' in window) {
+        track!.addEventListener('scrollend', settled, {once: true})
+      } else {
+        setTimeout(settled, 500)
+      }
+    }
+
+    function goTo(index: number) {
+      if (canLoop) {
+        // Walk forward into the clones; rewind brings it back into range.
+        current = index < 0 ? index + count : index
+        if (current >= slides.length) current -= count
+      } else {
+        current = ((index % slides.length) + slides.length) % slides.length
+      }
+
+      // Going back from the first slide has no clone to its left, so hop to the
+      // matching clone instantly first and animate from there.
+      if (canLoop && index < 0) {
+        track!.scrollTo({left: offsetOf(current + count), behavior: 'auto'})
+        requestAnimationFrame(() => {
+          track!.scrollTo({left: offsetOf(current), behavior: 'smooth'})
+        })
+      } else {
+        track!.scrollTo({left: offsetOf(current), behavior: 'smooth'})
+        rewind()
+      }
+
+      paintDots(current)
     }
 
     root.querySelector('[data-carousel-prev]')?.addEventListener('click', () => goTo(current - 1))

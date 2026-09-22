@@ -2168,6 +2168,8 @@ export type TestimonialCarousel = {
       _key: string;
     } & TestimonialQuote
   >;
+  perViewDesktop?: 1 | 2 | 3 | 4;
+  perViewTablet?: 1 | 2;
   autoPlay?: boolean;
   autoPlayInterval?: number;
   showDots?: boolean;
@@ -2725,6 +2727,18 @@ export type BlockStyles = {
   motion?: Motion;
 };
 
+export type Review = {
+  _id: string;
+  _type: "review";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  clientName: string;
+  title?: string;
+  reviewText: string;
+  rating: number;
+};
+
 export type PracticeArea = {
   _id: string;
   _type: "practiceArea";
@@ -3268,6 +3282,7 @@ export type AllSanitySchemaTypes =
   | LinkInternal
   | BlockContent
   | BlockStyles
+  | Review
   | PracticeArea
   | SanityImageCrop
   | SanityImageHotspot
@@ -4648,6 +4663,8 @@ export type HOME_PAGE_QUERY_RESULT =
                         _key: string;
                       } & TestimonialQuote
                     >;
+                    perViewDesktop?: 1 | 2 | 3 | 4;
+                    perViewTablet?: 1 | 2;
                     autoPlay?: boolean;
                     autoPlayInterval?: number;
                     showDots?: boolean;
@@ -6353,6 +6370,8 @@ export type HOME_PAGE_QUERY_RESULT =
                         _key: string;
                       } & TestimonialQuote
                     >;
+                    perViewDesktop?: 1 | 2 | 3 | 4;
+                    perViewTablet?: 1 | 2;
                     autoPlay?: boolean;
                     autoPlayInterval?: number;
                     showDots?: boolean;
@@ -8052,6 +8071,8 @@ export type HOME_PAGE_QUERY_RESULT =
                         _key: string;
                       } & TestimonialQuote
                     >;
+                    perViewDesktop?: 1 | 2 | 3 | 4;
+                    perViewTablet?: 1 | 2;
                     autoPlay?: boolean;
                     autoPlayInterval?: number;
                     showDots?: boolean;
@@ -8397,6 +8418,12 @@ export type HOME_PAGE_QUERY_RESULT =
             columns: null;
           }
       > | null;
+    }
+  | {
+      _id: "homePage";
+      _type: "review";
+      seo: null;
+      pageBuilder: null;
     }
   | {
       _id: "homePage";
@@ -9777,6 +9804,8 @@ export type PAGE_QUERY_RESULT =
                         _key: string;
                       } & TestimonialQuote
                     >;
+                    perViewDesktop?: 1 | 2 | 3 | 4;
+                    perViewTablet?: 1 | 2;
                     autoPlay?: boolean;
                     autoPlayInterval?: number;
                     showDots?: boolean;
@@ -11478,6 +11507,8 @@ export type PAGE_QUERY_RESULT =
                         _key: string;
                       } & TestimonialQuote
                     >;
+                    perViewDesktop?: 1 | 2 | 3 | 4;
+                    perViewTablet?: 1 | 2;
                     autoPlay?: boolean;
                     autoPlayInterval?: number;
                     showDots?: boolean;

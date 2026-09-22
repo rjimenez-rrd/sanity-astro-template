@@ -20,7 +20,9 @@ const {isDraft} = Astro.locals
 
 <Base {...seo}>
   <Header settings={settings} />
-  <main class="flex-1">
+  {/* min-w-0: as a flex item main defaults to min-width:auto, so wide content
+      (a carousel track) would push it past the viewport instead of scrolling. */}
+  <main class="min-w-0 flex-1">
     <slot />
   </main>
   <Footer settings={settings} />

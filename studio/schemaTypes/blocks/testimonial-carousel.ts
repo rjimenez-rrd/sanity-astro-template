@@ -19,6 +19,38 @@ export const testimonialCarouselType = defineType({
       validation: (rule) => rule.required().min(1),
       of: [defineArrayMember({type: 'testimonialQuote'})],
     }),
+    // Mobile is always one card — anything narrower is unreadable on a phone.
+    defineField({
+      name: 'perViewDesktop',
+      title: 'Cards per view (desktop)',
+      type: 'number',
+      initialValue: 3,
+      options: {
+        list: [
+          {title: '1', value: 1},
+          {title: '2', value: 2},
+          {title: '3', value: 3},
+          {title: '4', value: 4},
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+    }),
+    defineField({
+      name: 'perViewTablet',
+      title: 'Cards per view (tablet)',
+      type: 'number',
+      description: 'Applies at 1024px and below. Mobile always shows one.',
+      initialValue: 2,
+      options: {
+        list: [
+          {title: '1', value: 1},
+          {title: '2', value: 2},
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+    }),
     defineField({
       name: 'autoPlay',
       title: 'Auto Play',

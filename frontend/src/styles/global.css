@@ -108,6 +108,24 @@ h2, h3 {
 }
 
 /*
+ * Testimonial carousel card widths. The component writes --card-w and
+ * --card-w-tablet inline; these promote them, so the widths can be any value
+ * the Studio allows without Tailwind needing to have seen a class name.
+ * Mobile is always one card.
+ */
+[style*='--card-w'] {
+  width: var(--card-w);
+}
+
+@media (max-width: 1024px) {
+  [style*='--card-w-tablet'] { width: var(--card-w-tablet) !important; }
+}
+
+@media (max-width: 767px) {
+  [style*='--card-w'] { width: 100% !important; }
+}
+
+/*
  * Configured padding replaces a block's built-in padding instead of nesting
  * outside it. BlockRenderer only sets data-pb-pad when an editor set padding,
  * so untouched blocks keep their defaults. Unlayered and !important so it beats

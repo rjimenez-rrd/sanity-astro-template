@@ -1,0 +1,63 @@
+---
+/**
+ * Design preview for the Testimonial Carousel block, with hardcoded content so
+ * it can be worked on without editing a real page.
+ *
+ * Base rather than Site: it pulls in global.css and the animation runtime but
+ * leaves out the header and footer, so the block is the only thing on screen.
+ */
+import Base from '@/layouts/Base.astro'
+import TestimonialCarousel from '@/components/page-builder/blocks/TestimonialCarousel.astro'
+import type {TestimonialCarouselData} from '@/types/sanity'
+
+// Shaped like what GROQ returns for a testimonialCarousel. No avatars: those are
+// Sanity image refs, and the component already omits the image when absent.
+const data = {
+  _type: 'testimonialCarousel',
+  title: 'What our clients say',
+  perViewDesktop: 3,
+  perViewTablet: 2,
+  autoPlay: true,
+  autoPlayInterval: 5,
+  showDots: true,
+  showArrows: true,
+  testimonials: [
+    {
+      _key: 'preview-1',
+      _type: 'testimonialQuote',
+      quote:
+        'They took my case when two other firms would not return my calls. The settlement covered my surgery and the time I could not work.',
+      name: 'Maria Delgado',
+      title: 'Queens, NY',
+      rating: 5,
+    },
+    {
+      _key: 'preview-2',
+      _type: 'testimonialQuote',
+      quote:
+        'I was kept informed at every stage. No jargon, no chasing for updates — I always knew where things stood.',
+      name: 'James Okafor',
+      title: 'Brooklyn, NY',
+      rating: 5,
+    },
+    {
+      _key: 'preview-3',
+      _type: 'testimonialQuote',
+      quote:
+        'The insurer offered a fraction of what my injuries were worth. Sanders pushed back and we settled for eleven times that.',
+      name: 'Rachel Kim',
+      title: 'Manhattan, NY',
+      rating: 4,
+    },
+  ],
+} as unknown as TestimonialCarouselData
+---
+
+<Base title="Testimonial Carousel — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-5xl px-4 py-16 sm:px-6">
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · testimonialCarousel
+    </p>
+    <TestimonialCarousel data={data} />
+  </main>
+</Base>
