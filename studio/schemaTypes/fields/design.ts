@@ -27,6 +27,7 @@ export const IMAGE_RESOLUTIONS = ['full', 'large', 'medium_large', 'medium', 'th
 export const BORDER_TYPES = ['none', 'solid', 'double', 'dotted', 'dashed', 'groove']
 export const BLEND_MODES = [
   'normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge',
+  'color-burn', 'hard-light', 'soft-light',
   'saturation', 'color', 'difference', 'exclusion', 'hue', 'luminosity',
 ]
 

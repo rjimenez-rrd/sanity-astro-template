@@ -29,8 +29,8 @@ import {imageGalleryType} from './image-gallery'
 import {pageBuilderType} from './page-builder'
 import { youtubeVideoType, externalVideoType } from './video'
 
-// Grid Row (the page builder section)
-import {gridRowType} from './grid-row'
+// Grid Row (the page builder section), and the one that goes inside a column
+import {gridRowType, nestedContainerType} from './grid-row'
 
 export {
   callToActionType,
@@ -61,6 +61,7 @@ export {
   imageGalleryType,
   tocBlockType,
   gridRowType,
+  nestedContainerType,
   youtubeVideoType,
   externalVideoType,
 }
@@ -95,6 +96,7 @@ export const blockTypes = [
   imageGalleryType,
   tocBlockType,
   gridRowType,
+  nestedContainerType,
   pageBuilderType,
   youtubeVideoType,
   externalVideoType,

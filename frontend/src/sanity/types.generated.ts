@@ -111,6 +111,42 @@ export type Motion = {
 export type Container = {
   layoutType?: "flex" | "grid";
   contentWidth?: "boxed" | "full";
+  width?: NestedContainerContainerWidth;
+  minHeight?: NestedContainerContainerMinHeight;
+  gridColumns?: NestedContainerContainerGridColumns;
+  direction?: NestedContainerContainerDirection;
+  justifyContent?: NestedContainerContainerJustifyContent;
+  alignItems?: NestedContainerContainerAlignItems;
+  justifyItems?: NestedContainerContainerJustifyItems;
+  gap?: NestedContainerContainerGap;
+  wrap?: NestedContainerContainerWrap;
+};
+
+export type Design = {
+  background?: NestedContainerDesignBackground;
+  overlay?: DesignOverlay;
+  border?: NestedContainerDesignBorder;
+};
+
+export type Advanced = {
+  margin?: NestedContainerAdvancedMargin;
+  padding?: NestedContainerAdvancedPadding;
+  zIndex?: number;
+  cssId?: string;
+  cssClasses?: string;
+  customCss?: string;
+  motion?: NestedContainerAdvancedMotion;
+};
+
+export type Visibility = {
+  hideOnDesktop?: boolean;
+  hideOnTablet?: boolean;
+  hideOnMobile?: boolean;
+};
+
+export type GridRowContainer = {
+  layoutType?: "flex" | "grid";
+  contentWidth?: "boxed" | "full";
   width?: Width;
   minHeight?: MinHeight;
   gridColumns?: GridColumns;
@@ -122,13 +158,13 @@ export type Container = {
   wrap?: Wrap;
 };
 
-export type Design = {
+export type GridRowDesign = {
   background?: GridRowDesignBackground;
-  overlay?: DesignOverlay;
+  overlay?: GridRowDesignOverlay;
   border?: GridRowDesignBorder;
 };
 
-export type Advanced = {
+export type GridRowAdvanced = {
   margin?: GridRowAdvancedMargin;
   padding?: GridRowAdvancedPadding;
   zIndex?: number;
@@ -138,7 +174,7 @@ export type Advanced = {
   motion?: GridRowAdvancedMotion;
 };
 
-export type Visibility = {
+export type GridRowVisibility = {
   hideOnDesktop?: boolean;
   hideOnTablet?: boolean;
   hideOnMobile?: boolean;
@@ -468,6 +504,262 @@ export type GalleryImageImage = {
   _type: "image";
 };
 
+export type NestedContainerContainerWidth = {
+  desktop?: ContainerWidthDesktop;
+  tablet?: ContainerWidthTablet;
+  mobile?: ContainerWidthMobile;
+};
+
+export type ContainerWidthDesktop = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type ContainerWidthTablet = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type ContainerWidthMobile = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type NestedContainerContainerMinHeight = {
+  desktop?: NestedContainerContainerMinHeightDesktop;
+  tablet?: NestedContainerContainerMinHeightTablet;
+  mobile?: NestedContainerContainerMinHeightMobile;
+};
+
+export type NestedContainerContainerMinHeightDesktop = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type NestedContainerContainerMinHeightTablet = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type NestedContainerContainerMinHeightMobile = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type NestedContainerContainerGridColumns = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type NestedContainerContainerDirection = {
+  desktop?: "row" | "column" | "row-reverse" | "column-reverse";
+  tablet?: "row" | "column" | "row-reverse" | "column-reverse";
+  mobile?: "row" | "column" | "row-reverse" | "column-reverse";
+};
+
+export type NestedContainerContainerJustifyContent = {
+  desktop?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  tablet?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  mobile?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+};
+
+export type NestedContainerContainerAlignItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type NestedContainerContainerJustifyItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type NestedContainerContainerGap = {
+  linked?: boolean;
+  desktop?: NestedContainerContainerGapDesktop;
+  tablet?: NestedContainerContainerGapTablet;
+  mobile?: NestedContainerContainerGapMobile;
+};
+
+export type NestedContainerContainerGapDesktop = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type NestedContainerContainerGapTablet = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type NestedContainerContainerGapMobile = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type NestedContainerContainerWrap = {
+  desktop?: "nowrap" | "wrap";
+  tablet?: "nowrap" | "wrap";
+  mobile?: "nowrap" | "wrap";
+};
+
+export type ColumnsGridColumnContainer = {
+  layoutType?: "flex" | "grid";
+  contentWidth?: "boxed" | "full";
+  width?: GridColumnContainerWidth;
+  minHeight?: GridColumnContainerMinHeight;
+  gridColumns?: GridColumnContainerGridColumns;
+  direction?: GridColumnContainerDirection;
+  justifyContent?: GridColumnContainerJustifyContent;
+  alignItems?: GridColumnContainerAlignItems;
+  justifyItems?: GridColumnContainerJustifyItems;
+  gap?: GridColumnContainerGap;
+  wrap?: GridColumnContainerWrap;
+};
+
+export type GridColumnContainerWidth = {
+  desktop?: GridColumnContainerWidthDesktop;
+  tablet?: GridColumnContainerWidthTablet;
+  mobile?: GridColumnContainerWidthMobile;
+};
+
+export type GridColumnContainerWidthDesktop = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type GridColumnContainerWidthTablet = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type GridColumnContainerWidthMobile = {
+  size?: number;
+  unit?: "px" | "%" | "vw";
+};
+
+export type GridColumnContainerMinHeight = {
+  desktop?: GridColumnContainerMinHeightDesktop;
+  tablet?: GridColumnContainerMinHeightTablet;
+  mobile?: GridColumnContainerMinHeightMobile;
+};
+
+export type GridColumnContainerMinHeightDesktop = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type GridColumnContainerMinHeightTablet = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type GridColumnContainerMinHeightMobile = {
+  size?: number;
+  unit?: "px" | "vh";
+};
+
+export type GridColumnContainerGridColumns = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnContainerDirection = {
+  desktop?: "row" | "column" | "row-reverse" | "column-reverse";
+  tablet?: "row" | "column" | "row-reverse" | "column-reverse";
+  mobile?: "row" | "column" | "row-reverse" | "column-reverse";
+};
+
+export type GridColumnContainerJustifyContent = {
+  desktop?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  tablet?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+  mobile?:
+    | "flex-start"
+    | "center"
+    | "flex-end"
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+};
+
+export type GridColumnContainerAlignItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type GridColumnContainerJustifyItems = {
+  desktop?: "flex-start" | "center" | "flex-end" | "stretch";
+  tablet?: "flex-start" | "center" | "flex-end" | "stretch";
+  mobile?: "flex-start" | "center" | "flex-end" | "stretch";
+};
+
+export type GridColumnContainerGap = {
+  linked?: boolean;
+  desktop?: GridColumnContainerGapDesktop;
+  tablet?: GridColumnContainerGapTablet;
+  mobile?: GridColumnContainerGapMobile;
+};
+
+export type GridColumnContainerGapDesktop = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type GridColumnContainerGapTablet = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type GridColumnContainerGapMobile = {
+  column?: number;
+  row?: number;
+  unit?: "px" | "em" | "rem" | "%";
+};
+
+export type GridColumnContainerWrap = {
+  desktop?: "nowrap" | "wrap";
+  tablet?: "nowrap" | "wrap";
+  mobile?: "nowrap" | "wrap";
+};
+
 export type GridColumnDesign = {
   background?: DesignBackground;
   overlay?: Overlay;
@@ -747,6 +1039,9 @@ export type OverlayNormal = {
     | "darken"
     | "lighten"
     | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
     | "saturation"
     | "color"
     | "difference"
@@ -897,6 +1192,9 @@ export type OverlayHover = {
     | "darken"
     | "lighten"
     | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
     | "saturation"
     | "color"
     | "difference"
@@ -1251,7 +1549,7 @@ export type GridColumnVisibility = {
   hideOnMobile?: boolean;
 };
 
-export type GridRowDesignBackground = {
+export type NestedContainerDesignBackground = {
   normal?: BackgroundNormal;
   hover?: BackgroundHover;
 };
@@ -1524,6 +1822,9 @@ export type DesignOverlayNormal = {
     | "darken"
     | "lighten"
     | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
     | "saturation"
     | "color"
     | "difference"
@@ -1674,6 +1975,9 @@ export type DesignOverlayHover = {
     | "darken"
     | "lighten"
     | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
     | "saturation"
     | "color"
     | "difference"
@@ -1803,7 +2107,7 @@ export type OverlayHoverFilters = {
   hue?: number;
 };
 
-export type GridRowDesignBorder = {
+export type NestedContainerDesignBorder = {
   normal?: DesignBorderNormal;
   hover?: DesignBorderHover;
 };
@@ -1967,6 +2271,1562 @@ export type BorderHoverShadow = {
   position?: "outline" | "inset";
 };
 
+export type NestedContainerAdvancedMargin = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type NestedContainerAdvancedPadding = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type NestedContainerAdvancedMotion = {
+  animation?:
+    | "none"
+    | "fadeIn"
+    | "fadeInUp"
+    | "fadeInDown"
+    | "fadeInLeft"
+    | "fadeInRight"
+    | "zoomIn";
+  duration?: "slow" | "normal" | "fast";
+  delay?: number;
+};
+
+export type ColumnsGridColumnDesign = {
+  background?: GridColumnDesignBackground;
+  overlay?: GridColumnDesignOverlay;
+  border?: GridColumnDesignBorder;
+};
+
+export type GridColumnDesignBackground = {
+  normal?: DesignBackgroundNormal;
+  hover?: DesignBackgroundHover;
+};
+
+export type DesignBackgroundNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: DesignBackgroundNormalImage;
+  imageTablet?: DesignBackgroundNormalImageTablet;
+  imageMobile?: DesignBackgroundNormalImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: DesignBackgroundNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: DesignBackgroundNormalRepeat;
+  size?: DesignBackgroundNormalSize;
+  gradient?: DesignBackgroundNormalGradient;
+};
+
+export type DesignBackgroundNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.background.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignBackgroundNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.background.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignBackgroundNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.background.normal.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignBackgroundNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignBackgroundNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type DesignBackgroundNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type DesignBackgroundNormalGradient = {
+  color?: string;
+  location?: DesignBackgroundNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: DesignBackgroundNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: DesignBackgroundNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignBackgroundNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignBackgroundNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignBackgroundNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignBackgroundHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: DesignBackgroundHoverImage;
+  imageTablet?: DesignBackgroundHoverImageTablet;
+  imageMobile?: DesignBackgroundHoverImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: DesignBackgroundHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: DesignBackgroundHoverRepeat;
+  size?: DesignBackgroundHoverSize;
+  gradient?: DesignBackgroundHoverGradient;
+  transition?: number;
+};
+
+export type DesignBackgroundHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.background.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignBackgroundHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.background.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignBackgroundHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.background.hover.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignBackgroundHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignBackgroundHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type DesignBackgroundHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type DesignBackgroundHoverGradient = {
+  color?: string;
+  location?: DesignBackgroundHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: DesignBackgroundHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: DesignBackgroundHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignBackgroundHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignBackgroundHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignBackgroundHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignOverlay = {
+  normal?: GridColumnDesignOverlayNormal;
+  hover?: GridColumnDesignOverlayHover;
+};
+
+export type GridColumnDesignOverlayNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridColumnDesignOverlayNormalImage;
+  imageTablet?: DesignOverlayNormalImageTablet;
+  imageMobile?: DesignOverlayNormalImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: DesignOverlayNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: DesignOverlayNormalRepeat;
+  size?: GridColumnDesignOverlayNormalSize;
+  gradient?: DesignOverlayNormalGradient;
+  opacity?: OverlayNormalOpacity;
+  filters?: OverlayNormalFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+};
+
+export type GridColumnDesignOverlayNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignOverlayNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.overlay.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignOverlayNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "design.overlay.normal.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type DesignOverlayNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignOverlayNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridColumnDesignOverlayNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type DesignOverlayNormalGradient = {
+  color?: string;
+  location?: DesignOverlayNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: DesignOverlayNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: DesignOverlayNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignOverlayNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayNormalOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type OverlayNormalFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type GridColumnDesignOverlayHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridColumnDesignOverlayHoverImage;
+  imageTablet?: GridColumnDesignOverlayHoverImageTablet;
+  imageMobile?: GridColumnDesignOverlayHoverImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridColumnDesignOverlayHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridColumnDesignOverlayHoverRepeat;
+  size?: GridColumnDesignOverlayHoverSize;
+  gradient?: GridColumnDesignOverlayHoverGradient;
+  opacity?: DesignOverlayHoverOpacity;
+  filters?: DesignOverlayHoverFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+  transition?: number;
+};
+
+export type GridColumnDesignOverlayHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignOverlayHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignOverlayHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.hover.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignOverlayHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridColumnDesignOverlayHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridColumnDesignOverlayHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridColumnDesignOverlayHoverGradient = {
+  color?: string;
+  location?: DesignOverlayHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: DesignOverlayHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: DesignOverlayHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignOverlayHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type GridColumnDesignBorder = {
+  normal?: GridColumnDesignBorderNormal;
+  hover?: GridColumnDesignBorderHover;
+};
+
+export type GridColumnDesignBorderNormal = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: DesignBorderNormalWidth;
+  color?: string;
+  radius?: BorderNormalRadius;
+  shadow?: BorderNormalShadow;
+};
+
+export type DesignBorderNormalWidth = {
+  linked?: boolean;
+  desktop?: DesignBorderNormalWidthDesktop;
+  tablet?: DesignBorderNormalWidthTablet;
+  mobile?: DesignBorderNormalWidthMobile;
+};
+
+export type DesignBorderNormalWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalRadius = {
+  linked?: boolean;
+  desktop?: BorderNormalRadiusDesktop;
+  tablet?: BorderNormalRadiusTablet;
+  mobile?: BorderNormalRadiusMobile;
+};
+
+export type BorderNormalRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type GridColumnDesignBorderHover = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: DesignBorderHoverWidth;
+  color?: string;
+  radius?: DesignBorderHoverRadius;
+  shadow?: DesignBorderHoverShadow;
+  transition?: number;
+};
+
+export type DesignBorderHoverWidth = {
+  linked?: boolean;
+  desktop?: DesignBorderHoverWidthDesktop;
+  tablet?: DesignBorderHoverWidthTablet;
+  mobile?: DesignBorderHoverWidthMobile;
+};
+
+export type DesignBorderHoverWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverRadius = {
+  linked?: boolean;
+  desktop?: DesignBorderHoverRadiusDesktop;
+  tablet?: DesignBorderHoverRadiusTablet;
+  mobile?: DesignBorderHoverRadiusMobile;
+};
+
+export type DesignBorderHoverRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type ColumnsGridColumnAdvanced = {
+  margin?: GridColumnAdvancedMargin;
+  padding?: GridColumnAdvancedPadding;
+  zIndex?: number;
+  cssId?: string;
+  cssClasses?: string;
+  customCss?: string;
+  motion?: GridColumnAdvancedMotion;
+};
+
+export type GridColumnAdvancedMargin = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type GridColumnAdvancedPadding = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type GridColumnAdvancedMotion = {
+  animation?:
+    | "none"
+    | "fadeIn"
+    | "fadeInUp"
+    | "fadeInDown"
+    | "fadeInLeft"
+    | "fadeInRight"
+    | "zoomIn";
+  duration?: "slow" | "normal" | "fast";
+  delay?: number;
+};
+
+export type ColumnsGridColumnVisibility = {
+  hideOnDesktop?: boolean;
+  hideOnTablet?: boolean;
+  hideOnMobile?: boolean;
+};
+
+export type GridRowDesignBackground = {
+  normal?: GridRowDesignBackgroundNormal;
+  hover?: GridRowDesignBackgroundHover;
+};
+
+export type GridRowDesignBackgroundNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridRowDesignBackgroundNormalImage;
+  imageTablet?: GridRowDesignBackgroundNormalImageTablet;
+  imageMobile?: GridRowDesignBackgroundNormalImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridRowDesignBackgroundNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridRowDesignBackgroundNormalRepeat;
+  size?: GridRowDesignBackgroundNormalSize;
+  gradient?: GridRowDesignBackgroundNormalGradient;
+};
+
+export type GridRowDesignBackgroundNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.background.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignBackgroundNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.background.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignBackgroundNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.background.normal.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignBackgroundNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignBackgroundNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridRowDesignBackgroundNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridRowDesignBackgroundNormalGradient = {
+  color?: string;
+  location?: GridRowDesignBackgroundNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: GridRowDesignBackgroundNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GridRowDesignBackgroundNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignBackgroundNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignBackgroundNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignBackgroundNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignBackgroundHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridRowDesignBackgroundHoverImage;
+  imageTablet?: GridRowDesignBackgroundHoverImageTablet;
+  imageMobile?: GridRowDesignBackgroundHoverImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridRowDesignBackgroundHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridRowDesignBackgroundHoverRepeat;
+  size?: GridRowDesignBackgroundHoverSize;
+  gradient?: GridRowDesignBackgroundHoverGradient;
+  transition?: number;
+};
+
+export type GridRowDesignBackgroundHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.background.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignBackgroundHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.background.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignBackgroundHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.background.hover.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignBackgroundHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignBackgroundHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridRowDesignBackgroundHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridRowDesignBackgroundHoverGradient = {
+  color?: string;
+  location?: GridRowDesignBackgroundHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: GridRowDesignBackgroundHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GridRowDesignBackgroundHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignBackgroundHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignBackgroundHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignBackgroundHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignOverlay = {
+  normal?: GridRowDesignOverlayNormal;
+  hover?: GridRowDesignOverlayHover;
+};
+
+export type GridRowDesignOverlayNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridRowDesignOverlayNormalImage;
+  imageTablet?: GridRowDesignOverlayNormalImageTablet;
+  imageMobile?: GridRowDesignOverlayNormalImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridRowDesignOverlayNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridRowDesignOverlayNormalRepeat;
+  size?: GridRowDesignOverlayNormalSize;
+  gradient?: GridRowDesignOverlayNormalGradient;
+  opacity?: DesignOverlayNormalOpacity;
+  filters?: DesignOverlayNormalFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+};
+
+export type GridRowDesignOverlayNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.overlay.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignOverlayNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.overlay.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignOverlayNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.overlay.normal.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignOverlayNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignOverlayNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridRowDesignOverlayNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridRowDesignOverlayNormalGradient = {
+  color?: string;
+  location?: GridRowDesignOverlayNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: GridRowDesignOverlayNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GridRowDesignOverlayNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignOverlayNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignOverlayNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignOverlayNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayNormalOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayNormalFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type GridRowDesignOverlayHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridRowDesignOverlayHoverImage;
+  imageTablet?: GridRowDesignOverlayHoverImageTablet;
+  imageMobile?: GridRowDesignOverlayHoverImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridRowDesignOverlayHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridRowDesignOverlayHoverRepeat;
+  size?: GridRowDesignOverlayHoverSize;
+  gradient?: GridRowDesignOverlayHoverGradient;
+  opacity?: GridRowDesignOverlayHoverOpacity;
+  filters?: GridRowDesignOverlayHoverFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+  transition?: number;
+};
+
+export type GridRowDesignOverlayHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.overlay.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignOverlayHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.overlay.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignOverlayHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridRow.design.overlay.hover.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridRowDesignOverlayHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignOverlayHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridRowDesignOverlayHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridRowDesignOverlayHoverGradient = {
+  color?: string;
+  location?: GridRowDesignOverlayHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: GridRowDesignOverlayHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GridRowDesignOverlayHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridRowDesignOverlayHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignOverlayHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignOverlayHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignOverlayHoverOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignOverlayHoverFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type GridRowDesignBorder = {
+  normal?: GridRowDesignBorderNormal;
+  hover?: GridRowDesignBorderHover;
+};
+
+export type GridRowDesignBorderNormal = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: GridRowDesignBorderNormalWidth;
+  color?: string;
+  radius?: DesignBorderNormalRadius;
+  shadow?: DesignBorderNormalShadow;
+};
+
+export type GridRowDesignBorderNormalWidth = {
+  linked?: boolean;
+  desktop?: GridRowDesignBorderNormalWidthDesktop;
+  tablet?: GridRowDesignBorderNormalWidthTablet;
+  mobile?: GridRowDesignBorderNormalWidthMobile;
+};
+
+export type GridRowDesignBorderNormalWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderNormalWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderNormalWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalRadius = {
+  linked?: boolean;
+  desktop?: DesignBorderNormalRadiusDesktop;
+  tablet?: DesignBorderNormalRadiusTablet;
+  mobile?: DesignBorderNormalRadiusMobile;
+};
+
+export type DesignBorderNormalRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type GridRowDesignBorderHover = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: GridRowDesignBorderHoverWidth;
+  color?: string;
+  radius?: GridRowDesignBorderHoverRadius;
+  shadow?: GridRowDesignBorderHoverShadow;
+  transition?: number;
+};
+
+export type GridRowDesignBorderHoverWidth = {
+  linked?: boolean;
+  desktop?: GridRowDesignBorderHoverWidthDesktop;
+  tablet?: GridRowDesignBorderHoverWidthTablet;
+  mobile?: GridRowDesignBorderHoverWidthMobile;
+};
+
+export type GridRowDesignBorderHoverWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderHoverWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderHoverWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderHoverRadius = {
+  linked?: boolean;
+  desktop?: GridRowDesignBorderHoverRadiusDesktop;
+  tablet?: GridRowDesignBorderHoverRadiusTablet;
+  mobile?: GridRowDesignBorderHoverRadiusMobile;
+};
+
+export type GridRowDesignBorderHoverRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderHoverRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderHoverRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type GridRowDesignBorderHoverShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
 export type GridRowAdvancedMargin = {
   top?: string;
   right?: string;
@@ -2036,14 +3896,14 @@ export type PageBuilder = Array<
     } & GridRow)
 >;
 
-export type GridRow = {
-  _type: "gridRow";
+export type NestedContainer = {
+  _type: "nestedContainer";
   label?: string;
   container?: Container;
   layout?: string;
   columns: Array<{
     label?: string;
-    container?: GridColumnContainer;
+    container?: ColumnsGridColumnContainer;
     content?: Array<
       | ({
           _key: string;
@@ -2141,6 +4001,116 @@ export type GridRow = {
   blockStyles?: BlockStyles;
   advanced?: Advanced;
   visibility?: Visibility;
+};
+
+export type GridRow = {
+  _type: "gridRow";
+  label?: string;
+  container?: GridRowContainer;
+  layout?: string;
+  columns: Array<{
+    label?: string;
+    container?: GridColumnContainer;
+    content?: Array<
+      | ({
+          _key: string;
+        } & RichTextBlock)
+      | ({
+          _key: string;
+        } & ImageBlock)
+      | ({
+          _key: string;
+        } & CallToAction)
+      | ({
+          _key: string;
+        } & ExternalVideo)
+      | ({
+          _key: string;
+        } & YoutubeVideo)
+      | ({
+          _key: string;
+        } & TabbedContent)
+      | ({
+          _key: string;
+        } & Accordion)
+      | ({
+          _key: string;
+        } & SpacerDivider)
+      | ({
+          _key: string;
+        } & CountdownTimer)
+      | ({
+          _key: string;
+        } & IconText)
+      | ({
+          _key: string;
+        } & ButtonGroup)
+      | ({
+          _key: string;
+        } & StatMetric)
+      | ({
+          _key: string;
+        } & TestimonialQuote)
+      | ({
+          _key: string;
+        } & AlertNotice)
+      | ({
+          _key: string;
+        } & PricingCard)
+      | ({
+          _key: string;
+        } & SocialEmbed)
+      | ({
+          _key: string;
+        } & LogoRow)
+      | ({
+          _key: string;
+        } & MapEmbed)
+      | ({
+          _key: string;
+        } & CodeBlock)
+      | ({
+          _key: string;
+        } & HtmlBlock)
+      | ({
+          _key: string;
+        } & DataTable)
+      | ({
+          _key: string;
+        } & LottieAnimation)
+      | ({
+          _key: string;
+        } & FormBlock)
+      | ({
+          _key: string;
+        } & FaqBlock)
+      | ({
+          _key: string;
+        } & FeatureCardGrid)
+      | ({
+          _key: string;
+        } & TestimonialCarousel)
+      | ({
+          _key: string;
+        } & ImageGallery)
+      | ({
+          _key: string;
+        } & TocBlock)
+      | ({
+          _key: string;
+        } & NestedContainer)
+    >;
+    design?: ColumnsGridColumnDesign;
+    blockStyles?: BlockStyles;
+    advanced?: ColumnsGridColumnAdvanced;
+    visibility?: ColumnsGridColumnVisibility;
+    _type: "gridColumn";
+    _key: string;
+  }>;
+  design?: GridRowDesign;
+  blockStyles?: BlockStyles;
+  advanced?: GridRowAdvanced;
+  visibility?: GridRowVisibility;
 };
 
 export type TocBlock = {
@@ -3051,6 +5021,10 @@ export type AllSanitySchemaTypes =
   | Design
   | Advanced
   | Visibility
+  | GridRowContainer
+  | GridRowDesign
+  | GridRowAdvanced
+  | GridRowVisibility
   | SanityImageAssetReference
   | BackgroundImage
   | Width
@@ -3097,6 +5071,43 @@ export type AllSanitySchemaTypes =
   | FeatureCardIcon
   | Cta
   | GalleryImageImage
+  | NestedContainerContainerWidth
+  | ContainerWidthDesktop
+  | ContainerWidthTablet
+  | ContainerWidthMobile
+  | NestedContainerContainerMinHeight
+  | NestedContainerContainerMinHeightDesktop
+  | NestedContainerContainerMinHeightTablet
+  | NestedContainerContainerMinHeightMobile
+  | NestedContainerContainerGridColumns
+  | NestedContainerContainerDirection
+  | NestedContainerContainerJustifyContent
+  | NestedContainerContainerAlignItems
+  | NestedContainerContainerJustifyItems
+  | NestedContainerContainerGap
+  | NestedContainerContainerGapDesktop
+  | NestedContainerContainerGapTablet
+  | NestedContainerContainerGapMobile
+  | NestedContainerContainerWrap
+  | ColumnsGridColumnContainer
+  | GridColumnContainerWidth
+  | GridColumnContainerWidthDesktop
+  | GridColumnContainerWidthTablet
+  | GridColumnContainerWidthMobile
+  | GridColumnContainerMinHeight
+  | GridColumnContainerMinHeightDesktop
+  | GridColumnContainerMinHeightTablet
+  | GridColumnContainerMinHeightMobile
+  | GridColumnContainerGridColumns
+  | GridColumnContainerDirection
+  | GridColumnContainerJustifyContent
+  | GridColumnContainerAlignItems
+  | GridColumnContainerJustifyItems
+  | GridColumnContainerGap
+  | GridColumnContainerGapDesktop
+  | GridColumnContainerGapTablet
+  | GridColumnContainerGapMobile
+  | GridColumnContainerWrap
   | GridColumnDesign
   | DesignBackground
   | Normal
@@ -3174,7 +5185,7 @@ export type AllSanitySchemaTypes =
   | AdvancedPadding
   | AdvancedMotion
   | GridColumnVisibility
-  | GridRowDesignBackground
+  | NestedContainerDesignBackground
   | BackgroundNormal
   | BackgroundNormalImage
   | BackgroundNormalImageTablet
@@ -3224,7 +5235,7 @@ export type AllSanitySchemaTypes =
   | OverlayHoverGradientAngle
   | OverlayHoverOpacity
   | OverlayHoverFilters
-  | GridRowDesignBorder
+  | NestedContainerDesignBorder
   | DesignBorderNormal
   | BorderNormalWidth
   | BorderNormalWidthDesktop
@@ -3245,12 +5256,164 @@ export type AllSanitySchemaTypes =
   | BorderHoverRadiusTablet
   | BorderHoverRadiusMobile
   | BorderHoverShadow
+  | NestedContainerAdvancedMargin
+  | NestedContainerAdvancedPadding
+  | NestedContainerAdvancedMotion
+  | ColumnsGridColumnDesign
+  | GridColumnDesignBackground
+  | DesignBackgroundNormal
+  | DesignBackgroundNormalImage
+  | DesignBackgroundNormalImageTablet
+  | DesignBackgroundNormalImageMobile
+  | DesignBackgroundNormalPosition
+  | DesignBackgroundNormalRepeat
+  | DesignBackgroundNormalSize
+  | DesignBackgroundNormalGradient
+  | DesignBackgroundNormalGradientLocation
+  | DesignBackgroundNormalGradientSecondLocation
+  | DesignBackgroundNormalGradientAngle
+  | DesignBackgroundHover
+  | DesignBackgroundHoverImage
+  | DesignBackgroundHoverImageTablet
+  | DesignBackgroundHoverImageMobile
+  | DesignBackgroundHoverPosition
+  | DesignBackgroundHoverRepeat
+  | DesignBackgroundHoverSize
+  | DesignBackgroundHoverGradient
+  | DesignBackgroundHoverGradientLocation
+  | DesignBackgroundHoverGradientSecondLocation
+  | DesignBackgroundHoverGradientAngle
+  | GridColumnDesignOverlay
+  | GridColumnDesignOverlayNormal
+  | GridColumnDesignOverlayNormalImage
+  | DesignOverlayNormalImageTablet
+  | DesignOverlayNormalImageMobile
+  | DesignOverlayNormalPosition
+  | DesignOverlayNormalRepeat
+  | GridColumnDesignOverlayNormalSize
+  | DesignOverlayNormalGradient
+  | DesignOverlayNormalGradientLocation
+  | DesignOverlayNormalGradientSecondLocation
+  | DesignOverlayNormalGradientAngle
+  | OverlayNormalOpacity
+  | OverlayNormalFilters
+  | GridColumnDesignOverlayHover
+  | GridColumnDesignOverlayHoverImage
+  | GridColumnDesignOverlayHoverImageTablet
+  | GridColumnDesignOverlayHoverImageMobile
+  | GridColumnDesignOverlayHoverPosition
+  | GridColumnDesignOverlayHoverRepeat
+  | GridColumnDesignOverlayHoverSize
+  | GridColumnDesignOverlayHoverGradient
+  | DesignOverlayHoverGradientLocation
+  | DesignOverlayHoverGradientSecondLocation
+  | DesignOverlayHoverGradientAngle
+  | DesignOverlayHoverOpacity
+  | DesignOverlayHoverFilters
+  | GridColumnDesignBorder
+  | GridColumnDesignBorderNormal
+  | DesignBorderNormalWidth
+  | DesignBorderNormalWidthDesktop
+  | DesignBorderNormalWidthTablet
+  | DesignBorderNormalWidthMobile
+  | BorderNormalRadius
+  | BorderNormalRadiusDesktop
+  | BorderNormalRadiusTablet
+  | BorderNormalRadiusMobile
+  | BorderNormalShadow
+  | GridColumnDesignBorderHover
+  | DesignBorderHoverWidth
+  | DesignBorderHoverWidthDesktop
+  | DesignBorderHoverWidthTablet
+  | DesignBorderHoverWidthMobile
+  | DesignBorderHoverRadius
+  | DesignBorderHoverRadiusDesktop
+  | DesignBorderHoverRadiusTablet
+  | DesignBorderHoverRadiusMobile
+  | DesignBorderHoverShadow
+  | ColumnsGridColumnAdvanced
+  | GridColumnAdvancedMargin
+  | GridColumnAdvancedPadding
+  | GridColumnAdvancedMotion
+  | ColumnsGridColumnVisibility
+  | GridRowDesignBackground
+  | GridRowDesignBackgroundNormal
+  | GridRowDesignBackgroundNormalImage
+  | GridRowDesignBackgroundNormalImageTablet
+  | GridRowDesignBackgroundNormalImageMobile
+  | GridRowDesignBackgroundNormalPosition
+  | GridRowDesignBackgroundNormalRepeat
+  | GridRowDesignBackgroundNormalSize
+  | GridRowDesignBackgroundNormalGradient
+  | GridRowDesignBackgroundNormalGradientLocation
+  | GridRowDesignBackgroundNormalGradientSecondLocation
+  | GridRowDesignBackgroundNormalGradientAngle
+  | GridRowDesignBackgroundHover
+  | GridRowDesignBackgroundHoverImage
+  | GridRowDesignBackgroundHoverImageTablet
+  | GridRowDesignBackgroundHoverImageMobile
+  | GridRowDesignBackgroundHoverPosition
+  | GridRowDesignBackgroundHoverRepeat
+  | GridRowDesignBackgroundHoverSize
+  | GridRowDesignBackgroundHoverGradient
+  | GridRowDesignBackgroundHoverGradientLocation
+  | GridRowDesignBackgroundHoverGradientSecondLocation
+  | GridRowDesignBackgroundHoverGradientAngle
+  | GridRowDesignOverlay
+  | GridRowDesignOverlayNormal
+  | GridRowDesignOverlayNormalImage
+  | GridRowDesignOverlayNormalImageTablet
+  | GridRowDesignOverlayNormalImageMobile
+  | GridRowDesignOverlayNormalPosition
+  | GridRowDesignOverlayNormalRepeat
+  | GridRowDesignOverlayNormalSize
+  | GridRowDesignOverlayNormalGradient
+  | GridRowDesignOverlayNormalGradientLocation
+  | GridRowDesignOverlayNormalGradientSecondLocation
+  | GridRowDesignOverlayNormalGradientAngle
+  | DesignOverlayNormalOpacity
+  | DesignOverlayNormalFilters
+  | GridRowDesignOverlayHover
+  | GridRowDesignOverlayHoverImage
+  | GridRowDesignOverlayHoverImageTablet
+  | GridRowDesignOverlayHoverImageMobile
+  | GridRowDesignOverlayHoverPosition
+  | GridRowDesignOverlayHoverRepeat
+  | GridRowDesignOverlayHoverSize
+  | GridRowDesignOverlayHoverGradient
+  | GridRowDesignOverlayHoverGradientLocation
+  | GridRowDesignOverlayHoverGradientSecondLocation
+  | GridRowDesignOverlayHoverGradientAngle
+  | GridRowDesignOverlayHoverOpacity
+  | GridRowDesignOverlayHoverFilters
+  | GridRowDesignBorder
+  | GridRowDesignBorderNormal
+  | GridRowDesignBorderNormalWidth
+  | GridRowDesignBorderNormalWidthDesktop
+  | GridRowDesignBorderNormalWidthTablet
+  | GridRowDesignBorderNormalWidthMobile
+  | DesignBorderNormalRadius
+  | DesignBorderNormalRadiusDesktop
+  | DesignBorderNormalRadiusTablet
+  | DesignBorderNormalRadiusMobile
+  | DesignBorderNormalShadow
+  | GridRowDesignBorderHover
+  | GridRowDesignBorderHoverWidth
+  | GridRowDesignBorderHoverWidthDesktop
+  | GridRowDesignBorderHoverWidthTablet
+  | GridRowDesignBorderHoverWidthMobile
+  | GridRowDesignBorderHoverRadius
+  | GridRowDesignBorderHoverRadiusDesktop
+  | GridRowDesignBorderHoverRadiusTablet
+  | GridRowDesignBorderHoverRadiusMobile
+  | GridRowDesignBorderHoverShadow
   | GridRowAdvancedMargin
   | GridRowAdvancedPadding
   | GridRowAdvancedMotion
   | ExternalVideo
   | YoutubeVideo
   | PageBuilder
+  | NestedContainer
   | GridRow
   | TocBlock
   | ImageGallery
@@ -3314,7 +5477,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type HOME_PAGE_QUERY_RESULT =
   | {
       _id: "homePage";
@@ -3335,7 +5498,7 @@ export type HOME_PAGE_QUERY_RESULT =
             _key: string;
             _type: "gridRow";
             label?: string;
-            container?: Container;
+            container?: GridRowContainer;
             layout?: string;
             columns: Array<{
               _key: string;
@@ -4272,6 +6435,1623 @@ export type HOME_PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "nestedContainer";
+                    label?: string;
+                    container?: Container;
+                    layout?: string;
+                    columns: Array<{
+                      _key: string;
+                      label?: string;
+                      container?: ColumnsGridColumnContainer;
+                      content: Array<
+                        | {
+                            _key: string;
+                            _type: "accordion";
+                            title?: string;
+                            subtitle?: string;
+                            panels: Array<{
+                              title: string;
+                              icon?: AccordionPanelIcon;
+                              content: BlockContent;
+                              _type: "accordionPanel";
+                              _key: string;
+                            }>;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "alertNotice";
+                            type:
+                              "error" | "info" | "success" | "tip" | "warning";
+                            title?: string;
+                            message: string;
+                            dismissible?: boolean;
+                            icon?: {
+                              asset?: SanityImageAssetReference;
+                              media?: unknown;
+                              hotspot?: SanityImageHotspot;
+                              crop?: SanityImageCrop;
+                              _type: "image";
+                            };
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "buttonGroup";
+                            buttons: Array<{
+                              _key: string;
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            }>;
+                            alignment?: "center" | "left" | "right";
+                            direction?: string;
+                            gap?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "callToAction";
+                            label: string;
+                            color?: string;
+                            textColor?: string;
+                            hoverColor?: string;
+                            variant?:
+                              "ghost" | "outline" | "primary" | "secondary";
+                            link: Array<
+                              | {
+                                  _key: string;
+                                  _type: "linkExternal";
+                                  title: string;
+                                  url: string;
+                                  openInNewTab?: boolean;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "linkInternal";
+                                  title?: string;
+                                  reference: {
+                                    slug: Slug;
+                                  };
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "pageSlug";
+                                  title: string;
+                                  slug: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "codeBlock";
+                            language?:
+                              | "bash"
+                              | "css"
+                              | "html"
+                              | "javascript"
+                              | "json"
+                              | "other"
+                              | "python"
+                              | "typescript";
+                            filename?: string;
+                            code: string;
+                            showLineNumbers?: boolean;
+                            highlightLines?: string;
+                            caption?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "countdownTimer";
+                            title?: string;
+                            subtitle?: string;
+                            targetDate: string;
+                            timezone?:
+                              | "America/Chicago"
+                              | "America/Denver"
+                              | "America/Los_Angeles"
+                              | "America/New_York"
+                              | "Australia/Melbourne"
+                              | "Australia/Sydney"
+                              | "Europe/London";
+                            expiredMessage?: string;
+                            hideWhenExpired?: boolean;
+                            cta?: CallToAction;
+                            style?: "compact" | "inline" | "large";
+                            backgroundColor?: string;
+                            textColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "dataTable";
+                            caption?: string;
+                            headers: Array<{
+                              text: string;
+                              _type: "tableHeader";
+                              _key: string;
+                            }>;
+                            rows: Array<{
+                              cells: Array<{
+                                text: string;
+                                _type: "tableCell";
+                                _key: string;
+                              }>;
+                              _type: "dataTableRow";
+                              _key: string;
+                            }>;
+                            striped?: boolean;
+                            compact?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "externalVideo";
+                            url: string;
+                            caption?: string;
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            muted?: boolean;
+                            blockStyles: null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "faqBlock";
+                            title?: string;
+                            subtitle?: string;
+                            items: Array<{
+                              question: string;
+                              answer?: BlockContent;
+                              _type: "faqItem";
+                              _key: string;
+                            }>;
+                            enableSchema?: boolean;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "featureCardGrid";
+                            title?: string;
+                            subtitle?: string;
+                            cards: Array<{
+                              icon?: FeatureCardIcon;
+                              title: string;
+                              description?: string;
+                              cta?: Cta;
+                              _type: "featureCard";
+                              _key: string;
+                            }>;
+                            columns?: "2" | "3" | "4";
+                            style?:
+                              "bordered" | "highlighted" | "shadow" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "formBlock";
+                            formTitle?: string;
+                            formDescription?: string;
+                            fields: Array<{
+                              label: string;
+                              name: string;
+                              type:
+                                | "checkbox"
+                                | "email"
+                                | "number"
+                                | "select"
+                                | "tel"
+                                | "text"
+                                | "textarea";
+                              placeholder?: string;
+                              required?: boolean;
+                              options?: Array<string>;
+                              width?: "full" | "half";
+                              _type: "formField";
+                              _key: string;
+                            }>;
+                            submitLabel?: string;
+                            submitAction?: "custom" | "webhook";
+                            webhookUrl?: string;
+                            customEndpoint?: string;
+                            successMessage?: string;
+                            errorMessage?: string;
+                            buttonColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "htmlBlock";
+                            html: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "iconText";
+                            icon: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            iconSize?: "large" | "medium" | "small" | "xl";
+                            title: string;
+                            description?: string;
+                            alignment?: string;
+                            link?: CallToAction;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageBlock";
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: string | null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            };
+                            caption: string | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageGallery";
+                            title?: string;
+                            images: Array<{
+                              image: GalleryImageImage;
+                              alt?: string;
+                              caption?: string;
+                              _type: "galleryImage";
+                              _key: string;
+                            }>;
+                            layout?: "grid" | "masonry";
+                            columns?: "2" | "3" | "4";
+                            enableLightbox?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "logoRow";
+                            logos: Array<{
+                              image: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                              alt: string | null;
+                              link: string | null;
+                            }>;
+                            grayscale: boolean | null;
+                            size: "large" | "medium" | "small" | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "lottieAnimation";
+                            source: "file" | "url";
+                            url?: string;
+                            file?: {
+                              asset?: SanityFileAssetReference;
+                              media?: unknown;
+                              _type: "file";
+                            };
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            speed?: number;
+                            trigger?: "auto" | "hover" | "scroll";
+                            alt?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "mapEmbed";
+                            embedUrl: string;
+                            height?: "large" | "medium" | "small" | "xl";
+                            caption?: string;
+                            style?: "borderless" | "default" | "rounded";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "pricingCard";
+                            badge?: string;
+                            title: string;
+                            price: string;
+                            priceSubtext?: string;
+                            features?: Array<{
+                              text: string;
+                              included?: boolean;
+                              _type: "pricingFeature";
+                              _key: string;
+                            }>;
+                            cta: {
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            } | null;
+                            isHighlighted?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "richTextBlock";
+                            content: Array<
+                              | {
+                                  children?: Array<{
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }>;
+                                  style?:
+                                    | "blockquote"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "normal"
+                                    | "paragraph";
+                                  listItem?: "bullet" | "number";
+                                  markDefs?: Array<{
+                                    href?: string;
+                                    openInNewTab?: boolean;
+                                    _type: "link";
+                                    _key: string;
+                                  }>;
+                                  level?: number;
+                                  _type: "block";
+                                  _key: string;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "callToAction";
+                                  label: string;
+                                  color?: string;
+                                  textColor?: string;
+                                  hoverColor?: string;
+                                  variant?:
+                                    | "ghost"
+                                    | "outline"
+                                    | "primary"
+                                    | "secondary";
+                                  link: Array<
+                                    | {
+                                        _key: string;
+                                        _type: "linkExternal";
+                                        title: string;
+                                        url: string;
+                                        openInNewTab?: boolean;
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "linkInternal";
+                                        title?: string;
+                                        reference: {
+                                          slug: Slug;
+                                        };
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "pageSlug";
+                                        title: string;
+                                        slug: string;
+                                      }
+                                  >;
+                                  blockStyles?: BlockStyles;
+                                }
+                              | {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  media?: unknown;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                  alt: string | null;
+                                  _type: "image";
+                                  _key: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "socialEmbed";
+                            platform:
+                              | "facebook"
+                              | "instagram"
+                              | "other"
+                              | "tiktok"
+                              | "twitter";
+                            embedUrl: string;
+                            caption?: string;
+                            aspectRatio?:
+                              "auto" | "landscape" | "portrait" | "square";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "spacerDivider";
+                            height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                            showDivider?: boolean;
+                            dividerStyle?: "dashed" | "dotted" | "solid";
+                            dividerColor?: string;
+                            maxWidth?: "default" | "full" | "narrow" | "wide";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "statMetric";
+                            value: string;
+                            label: string;
+                            prefix?: string;
+                            suffix?: string;
+                            size?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tabbedContent";
+                            title?: string;
+                            subtitle?: string;
+                            tabs: Array<{
+                              label: string;
+                              icon?: Icon;
+                              content: Array<
+                                | ({
+                                    _key: string;
+                                  } & AlertNotice)
+                                | ({
+                                    _key: string;
+                                  } & BlockContent)
+                                | ({
+                                    _key: string;
+                                  } & ButtonGroup)
+                                | ({
+                                    _key: string;
+                                  } & CallToAction)
+                                | ({
+                                    _key: string;
+                                  } & CodeBlock)
+                                | ({
+                                    _key: string;
+                                  } & DataTable)
+                                | ({
+                                    _key: string;
+                                  } & ExternalVideo)
+                                | ({
+                                    _key: string;
+                                  } & IconText)
+                                | ({
+                                    _key: string;
+                                  } & LogoRow)
+                                | ({
+                                    _key: string;
+                                  } & LottieAnimation)
+                                | ({
+                                    _key: string;
+                                  } & MapEmbed)
+                                | ({
+                                    _key: string;
+                                  } & PricingCard)
+                                | ({
+                                    _key: string;
+                                  } & SocialEmbed)
+                                | ({
+                                    _key: string;
+                                  } & StatMetric)
+                                | ({
+                                    _key: string;
+                                  } & TestimonialQuote)
+                                | ({
+                                    _key: string;
+                                  } & YoutubeVideo)
+                                | {
+                                    image: TabImageImage;
+                                    alt?: string;
+                                    _type: "tabImage";
+                                    _key: string;
+                                  }
+                              >;
+                              _type: "tab";
+                              _key: string;
+                            }>;
+                            tabStyle?: "boxed" | "pills" | "underline";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialCarousel";
+                            title?: string;
+                            testimonials: Array<
+                              {
+                                _key: string;
+                              } & TestimonialQuote
+                            >;
+                            perViewDesktop?: 1 | 2 | 3 | 4;
+                            perViewTablet?: 1 | 2;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
+                            showDots?: boolean;
+                            showArrows?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialQuote";
+                            quote: string;
+                            avatar: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            name: string;
+                            title?: string;
+                            rating?: number;
+                            style?: "card" | "large" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tocBlock";
+                            title?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "youtubeVideo";
+                            url: string;
+                            caption?: string;
+                            blockStyles: null;
+                          }
+                      > | null;
+                      design?: GridColumnDesign;
+                      blockStyles: {
+                        padding: Padding | null;
+                        margin: Margin | null;
+                        size: Size | null;
+                        border: Border | null;
+                        borderRadius: BorderRadius | null;
+                        background: {
+                          color: string | null;
+                          image: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          } | null;
+                          size: "auto" | "contain" | "cover" | null;
+                          overlay: string | null;
+                        } | null;
+                        typography: Typography | null;
+                        effects: Effects | null;
+                        motion: Motion | null;
+                        cssId: string | null;
+                        cssClasses: string | null;
+                        customCss: string | null;
+                      } | null;
+                      advanced?: GridColumnAdvanced;
+                      visibility?: GridColumnVisibility;
+                      _type: "gridColumn";
+                    }>;
+                    design?: Design;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    advanced?: Advanced;
+                    visibility?: Visibility;
+                  }
+                | {
+                    _key: string;
                     _type: "pricingCard";
                     badge?: string;
                     title: string;
@@ -4858,7 +8638,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: null;
                   }
               > | null;
-              design?: GridColumnDesign;
+              design?: ColumnsGridColumnDesign;
               blockStyles: {
                 padding: Padding | null;
                 margin: Margin | null;
@@ -4893,11 +8673,11 @@ export type HOME_PAGE_QUERY_RESULT =
                 cssClasses: string | null;
                 customCss: string | null;
               } | null;
-              advanced?: GridColumnAdvanced;
-              visibility?: GridColumnVisibility;
+              advanced?: ColumnsGridColumnAdvanced;
+              visibility?: ColumnsGridColumnVisibility;
               _type: "gridColumn";
             }>;
-            design?: Design;
+            design?: GridRowDesign;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -4932,8 +8712,8 @@ export type HOME_PAGE_QUERY_RESULT =
               cssClasses: string | null;
               customCss: string | null;
             } | null;
-            advanced?: Advanced;
-            visibility?: Visibility;
+            advanced?: GridRowAdvanced;
+            visibility?: GridRowVisibility;
           }
         | {
             _key: string;
@@ -5117,7 +8897,7 @@ export type HOME_PAGE_QUERY_RESULT =
             _key: string;
             _type: "gridRow";
             label?: string;
-            container?: Container;
+            container?: GridRowContainer;
             layout?: string;
             columns: Array<{
               _key: string;
@@ -6054,6 +9834,1623 @@ export type HOME_PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "nestedContainer";
+                    label?: string;
+                    container?: Container;
+                    layout?: string;
+                    columns: Array<{
+                      _key: string;
+                      label?: string;
+                      container?: ColumnsGridColumnContainer;
+                      content: Array<
+                        | {
+                            _key: string;
+                            _type: "accordion";
+                            title?: string;
+                            subtitle?: string;
+                            panels: Array<{
+                              title: string;
+                              icon?: AccordionPanelIcon;
+                              content: BlockContent;
+                              _type: "accordionPanel";
+                              _key: string;
+                            }>;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "alertNotice";
+                            type:
+                              "error" | "info" | "success" | "tip" | "warning";
+                            title?: string;
+                            message: string;
+                            dismissible?: boolean;
+                            icon?: {
+                              asset?: SanityImageAssetReference;
+                              media?: unknown;
+                              hotspot?: SanityImageHotspot;
+                              crop?: SanityImageCrop;
+                              _type: "image";
+                            };
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "buttonGroup";
+                            buttons: Array<{
+                              _key: string;
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            }>;
+                            alignment?: "center" | "left" | "right";
+                            direction?: string;
+                            gap?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "callToAction";
+                            label: string;
+                            color?: string;
+                            textColor?: string;
+                            hoverColor?: string;
+                            variant?:
+                              "ghost" | "outline" | "primary" | "secondary";
+                            link: Array<
+                              | {
+                                  _key: string;
+                                  _type: "linkExternal";
+                                  title: string;
+                                  url: string;
+                                  openInNewTab?: boolean;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "linkInternal";
+                                  title?: string;
+                                  reference: {
+                                    slug: Slug;
+                                  };
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "pageSlug";
+                                  title: string;
+                                  slug: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "codeBlock";
+                            language?:
+                              | "bash"
+                              | "css"
+                              | "html"
+                              | "javascript"
+                              | "json"
+                              | "other"
+                              | "python"
+                              | "typescript";
+                            filename?: string;
+                            code: string;
+                            showLineNumbers?: boolean;
+                            highlightLines?: string;
+                            caption?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "countdownTimer";
+                            title?: string;
+                            subtitle?: string;
+                            targetDate: string;
+                            timezone?:
+                              | "America/Chicago"
+                              | "America/Denver"
+                              | "America/Los_Angeles"
+                              | "America/New_York"
+                              | "Australia/Melbourne"
+                              | "Australia/Sydney"
+                              | "Europe/London";
+                            expiredMessage?: string;
+                            hideWhenExpired?: boolean;
+                            cta?: CallToAction;
+                            style?: "compact" | "inline" | "large";
+                            backgroundColor?: string;
+                            textColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "dataTable";
+                            caption?: string;
+                            headers: Array<{
+                              text: string;
+                              _type: "tableHeader";
+                              _key: string;
+                            }>;
+                            rows: Array<{
+                              cells: Array<{
+                                text: string;
+                                _type: "tableCell";
+                                _key: string;
+                              }>;
+                              _type: "dataTableRow";
+                              _key: string;
+                            }>;
+                            striped?: boolean;
+                            compact?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "externalVideo";
+                            url: string;
+                            caption?: string;
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            muted?: boolean;
+                            blockStyles: null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "faqBlock";
+                            title?: string;
+                            subtitle?: string;
+                            items: Array<{
+                              question: string;
+                              answer?: BlockContent;
+                              _type: "faqItem";
+                              _key: string;
+                            }>;
+                            enableSchema?: boolean;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "featureCardGrid";
+                            title?: string;
+                            subtitle?: string;
+                            cards: Array<{
+                              icon?: FeatureCardIcon;
+                              title: string;
+                              description?: string;
+                              cta?: Cta;
+                              _type: "featureCard";
+                              _key: string;
+                            }>;
+                            columns?: "2" | "3" | "4";
+                            style?:
+                              "bordered" | "highlighted" | "shadow" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "formBlock";
+                            formTitle?: string;
+                            formDescription?: string;
+                            fields: Array<{
+                              label: string;
+                              name: string;
+                              type:
+                                | "checkbox"
+                                | "email"
+                                | "number"
+                                | "select"
+                                | "tel"
+                                | "text"
+                                | "textarea";
+                              placeholder?: string;
+                              required?: boolean;
+                              options?: Array<string>;
+                              width?: "full" | "half";
+                              _type: "formField";
+                              _key: string;
+                            }>;
+                            submitLabel?: string;
+                            submitAction?: "custom" | "webhook";
+                            webhookUrl?: string;
+                            customEndpoint?: string;
+                            successMessage?: string;
+                            errorMessage?: string;
+                            buttonColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "htmlBlock";
+                            html: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "iconText";
+                            icon: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            iconSize?: "large" | "medium" | "small" | "xl";
+                            title: string;
+                            description?: string;
+                            alignment?: string;
+                            link?: CallToAction;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageBlock";
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: string | null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            };
+                            caption: string | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageGallery";
+                            title?: string;
+                            images: Array<{
+                              image: GalleryImageImage;
+                              alt?: string;
+                              caption?: string;
+                              _type: "galleryImage";
+                              _key: string;
+                            }>;
+                            layout?: "grid" | "masonry";
+                            columns?: "2" | "3" | "4";
+                            enableLightbox?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "logoRow";
+                            logos: Array<{
+                              image: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                              alt: string | null;
+                              link: string | null;
+                            }>;
+                            grayscale: boolean | null;
+                            size: "large" | "medium" | "small" | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "lottieAnimation";
+                            source: "file" | "url";
+                            url?: string;
+                            file?: {
+                              asset?: SanityFileAssetReference;
+                              media?: unknown;
+                              _type: "file";
+                            };
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            speed?: number;
+                            trigger?: "auto" | "hover" | "scroll";
+                            alt?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "mapEmbed";
+                            embedUrl: string;
+                            height?: "large" | "medium" | "small" | "xl";
+                            caption?: string;
+                            style?: "borderless" | "default" | "rounded";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "pricingCard";
+                            badge?: string;
+                            title: string;
+                            price: string;
+                            priceSubtext?: string;
+                            features?: Array<{
+                              text: string;
+                              included?: boolean;
+                              _type: "pricingFeature";
+                              _key: string;
+                            }>;
+                            cta: {
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            } | null;
+                            isHighlighted?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "richTextBlock";
+                            content: Array<
+                              | {
+                                  children?: Array<{
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }>;
+                                  style?:
+                                    | "blockquote"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "normal"
+                                    | "paragraph";
+                                  listItem?: "bullet" | "number";
+                                  markDefs?: Array<{
+                                    href?: string;
+                                    openInNewTab?: boolean;
+                                    _type: "link";
+                                    _key: string;
+                                  }>;
+                                  level?: number;
+                                  _type: "block";
+                                  _key: string;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "callToAction";
+                                  label: string;
+                                  color?: string;
+                                  textColor?: string;
+                                  hoverColor?: string;
+                                  variant?:
+                                    | "ghost"
+                                    | "outline"
+                                    | "primary"
+                                    | "secondary";
+                                  link: Array<
+                                    | {
+                                        _key: string;
+                                        _type: "linkExternal";
+                                        title: string;
+                                        url: string;
+                                        openInNewTab?: boolean;
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "linkInternal";
+                                        title?: string;
+                                        reference: {
+                                          slug: Slug;
+                                        };
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "pageSlug";
+                                        title: string;
+                                        slug: string;
+                                      }
+                                  >;
+                                  blockStyles?: BlockStyles;
+                                }
+                              | {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  media?: unknown;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                  alt: string | null;
+                                  _type: "image";
+                                  _key: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "socialEmbed";
+                            platform:
+                              | "facebook"
+                              | "instagram"
+                              | "other"
+                              | "tiktok"
+                              | "twitter";
+                            embedUrl: string;
+                            caption?: string;
+                            aspectRatio?:
+                              "auto" | "landscape" | "portrait" | "square";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "spacerDivider";
+                            height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                            showDivider?: boolean;
+                            dividerStyle?: "dashed" | "dotted" | "solid";
+                            dividerColor?: string;
+                            maxWidth?: "default" | "full" | "narrow" | "wide";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "statMetric";
+                            value: string;
+                            label: string;
+                            prefix?: string;
+                            suffix?: string;
+                            size?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tabbedContent";
+                            title?: string;
+                            subtitle?: string;
+                            tabs: Array<{
+                              label: string;
+                              icon?: Icon;
+                              content: Array<
+                                | ({
+                                    _key: string;
+                                  } & AlertNotice)
+                                | ({
+                                    _key: string;
+                                  } & BlockContent)
+                                | ({
+                                    _key: string;
+                                  } & ButtonGroup)
+                                | ({
+                                    _key: string;
+                                  } & CallToAction)
+                                | ({
+                                    _key: string;
+                                  } & CodeBlock)
+                                | ({
+                                    _key: string;
+                                  } & DataTable)
+                                | ({
+                                    _key: string;
+                                  } & ExternalVideo)
+                                | ({
+                                    _key: string;
+                                  } & IconText)
+                                | ({
+                                    _key: string;
+                                  } & LogoRow)
+                                | ({
+                                    _key: string;
+                                  } & LottieAnimation)
+                                | ({
+                                    _key: string;
+                                  } & MapEmbed)
+                                | ({
+                                    _key: string;
+                                  } & PricingCard)
+                                | ({
+                                    _key: string;
+                                  } & SocialEmbed)
+                                | ({
+                                    _key: string;
+                                  } & StatMetric)
+                                | ({
+                                    _key: string;
+                                  } & TestimonialQuote)
+                                | ({
+                                    _key: string;
+                                  } & YoutubeVideo)
+                                | {
+                                    image: TabImageImage;
+                                    alt?: string;
+                                    _type: "tabImage";
+                                    _key: string;
+                                  }
+                              >;
+                              _type: "tab";
+                              _key: string;
+                            }>;
+                            tabStyle?: "boxed" | "pills" | "underline";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialCarousel";
+                            title?: string;
+                            testimonials: Array<
+                              {
+                                _key: string;
+                              } & TestimonialQuote
+                            >;
+                            perViewDesktop?: 1 | 2 | 3 | 4;
+                            perViewTablet?: 1 | 2;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
+                            showDots?: boolean;
+                            showArrows?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialQuote";
+                            quote: string;
+                            avatar: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            name: string;
+                            title?: string;
+                            rating?: number;
+                            style?: "card" | "large" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tocBlock";
+                            title?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "youtubeVideo";
+                            url: string;
+                            caption?: string;
+                            blockStyles: null;
+                          }
+                      > | null;
+                      design?: GridColumnDesign;
+                      blockStyles: {
+                        padding: Padding | null;
+                        margin: Margin | null;
+                        size: Size | null;
+                        border: Border | null;
+                        borderRadius: BorderRadius | null;
+                        background: {
+                          color: string | null;
+                          image: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          } | null;
+                          size: "auto" | "contain" | "cover" | null;
+                          overlay: string | null;
+                        } | null;
+                        typography: Typography | null;
+                        effects: Effects | null;
+                        motion: Motion | null;
+                        cssId: string | null;
+                        cssClasses: string | null;
+                        customCss: string | null;
+                      } | null;
+                      advanced?: GridColumnAdvanced;
+                      visibility?: GridColumnVisibility;
+                      _type: "gridColumn";
+                    }>;
+                    design?: Design;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    advanced?: Advanced;
+                    visibility?: Visibility;
+                  }
+                | {
+                    _key: string;
                     _type: "pricingCard";
                     badge?: string;
                     title: string;
@@ -6640,7 +12037,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: null;
                   }
               > | null;
-              design?: GridColumnDesign;
+              design?: ColumnsGridColumnDesign;
               blockStyles: {
                 padding: Padding | null;
                 margin: Margin | null;
@@ -6675,11 +12072,11 @@ export type HOME_PAGE_QUERY_RESULT =
                 cssClasses: string | null;
                 customCss: string | null;
               } | null;
-              advanced?: GridColumnAdvanced;
-              visibility?: GridColumnVisibility;
+              advanced?: ColumnsGridColumnAdvanced;
+              visibility?: ColumnsGridColumnVisibility;
               _type: "gridColumn";
             }>;
-            design?: Design;
+            design?: GridRowDesign;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -6714,8 +12111,8 @@ export type HOME_PAGE_QUERY_RESULT =
               cssClasses: string | null;
               customCss: string | null;
             } | null;
-            advanced?: Advanced;
-            visibility?: Visibility;
+            advanced?: GridRowAdvanced;
+            visibility?: GridRowVisibility;
           }
         | {
             _key: string;
@@ -6893,7 +12290,7 @@ export type HOME_PAGE_QUERY_RESULT =
             _key: string;
             _type: "gridRow";
             label?: string;
-            container?: Container;
+            container?: GridRowContainer;
             layout?: string;
             columns: Array<{
               _key: string;
@@ -7830,6 +13227,1623 @@ export type HOME_PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "nestedContainer";
+                    label?: string;
+                    container?: Container;
+                    layout?: string;
+                    columns: Array<{
+                      _key: string;
+                      label?: string;
+                      container?: ColumnsGridColumnContainer;
+                      content: Array<
+                        | {
+                            _key: string;
+                            _type: "accordion";
+                            title?: string;
+                            subtitle?: string;
+                            panels: Array<{
+                              title: string;
+                              icon?: AccordionPanelIcon;
+                              content: BlockContent;
+                              _type: "accordionPanel";
+                              _key: string;
+                            }>;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "alertNotice";
+                            type:
+                              "error" | "info" | "success" | "tip" | "warning";
+                            title?: string;
+                            message: string;
+                            dismissible?: boolean;
+                            icon?: {
+                              asset?: SanityImageAssetReference;
+                              media?: unknown;
+                              hotspot?: SanityImageHotspot;
+                              crop?: SanityImageCrop;
+                              _type: "image";
+                            };
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "buttonGroup";
+                            buttons: Array<{
+                              _key: string;
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            }>;
+                            alignment?: "center" | "left" | "right";
+                            direction?: string;
+                            gap?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "callToAction";
+                            label: string;
+                            color?: string;
+                            textColor?: string;
+                            hoverColor?: string;
+                            variant?:
+                              "ghost" | "outline" | "primary" | "secondary";
+                            link: Array<
+                              | {
+                                  _key: string;
+                                  _type: "linkExternal";
+                                  title: string;
+                                  url: string;
+                                  openInNewTab?: boolean;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "linkInternal";
+                                  title?: string;
+                                  reference: {
+                                    slug: Slug;
+                                  };
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "pageSlug";
+                                  title: string;
+                                  slug: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "codeBlock";
+                            language?:
+                              | "bash"
+                              | "css"
+                              | "html"
+                              | "javascript"
+                              | "json"
+                              | "other"
+                              | "python"
+                              | "typescript";
+                            filename?: string;
+                            code: string;
+                            showLineNumbers?: boolean;
+                            highlightLines?: string;
+                            caption?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "countdownTimer";
+                            title?: string;
+                            subtitle?: string;
+                            targetDate: string;
+                            timezone?:
+                              | "America/Chicago"
+                              | "America/Denver"
+                              | "America/Los_Angeles"
+                              | "America/New_York"
+                              | "Australia/Melbourne"
+                              | "Australia/Sydney"
+                              | "Europe/London";
+                            expiredMessage?: string;
+                            hideWhenExpired?: boolean;
+                            cta?: CallToAction;
+                            style?: "compact" | "inline" | "large";
+                            backgroundColor?: string;
+                            textColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "dataTable";
+                            caption?: string;
+                            headers: Array<{
+                              text: string;
+                              _type: "tableHeader";
+                              _key: string;
+                            }>;
+                            rows: Array<{
+                              cells: Array<{
+                                text: string;
+                                _type: "tableCell";
+                                _key: string;
+                              }>;
+                              _type: "dataTableRow";
+                              _key: string;
+                            }>;
+                            striped?: boolean;
+                            compact?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "externalVideo";
+                            url: string;
+                            caption?: string;
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            muted?: boolean;
+                            blockStyles: null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "faqBlock";
+                            title?: string;
+                            subtitle?: string;
+                            items: Array<{
+                              question: string;
+                              answer?: BlockContent;
+                              _type: "faqItem";
+                              _key: string;
+                            }>;
+                            enableSchema?: boolean;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "featureCardGrid";
+                            title?: string;
+                            subtitle?: string;
+                            cards: Array<{
+                              icon?: FeatureCardIcon;
+                              title: string;
+                              description?: string;
+                              cta?: Cta;
+                              _type: "featureCard";
+                              _key: string;
+                            }>;
+                            columns?: "2" | "3" | "4";
+                            style?:
+                              "bordered" | "highlighted" | "shadow" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "formBlock";
+                            formTitle?: string;
+                            formDescription?: string;
+                            fields: Array<{
+                              label: string;
+                              name: string;
+                              type:
+                                | "checkbox"
+                                | "email"
+                                | "number"
+                                | "select"
+                                | "tel"
+                                | "text"
+                                | "textarea";
+                              placeholder?: string;
+                              required?: boolean;
+                              options?: Array<string>;
+                              width?: "full" | "half";
+                              _type: "formField";
+                              _key: string;
+                            }>;
+                            submitLabel?: string;
+                            submitAction?: "custom" | "webhook";
+                            webhookUrl?: string;
+                            customEndpoint?: string;
+                            successMessage?: string;
+                            errorMessage?: string;
+                            buttonColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "htmlBlock";
+                            html: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "iconText";
+                            icon: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            iconSize?: "large" | "medium" | "small" | "xl";
+                            title: string;
+                            description?: string;
+                            alignment?: string;
+                            link?: CallToAction;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageBlock";
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: string | null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            };
+                            caption: string | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageGallery";
+                            title?: string;
+                            images: Array<{
+                              image: GalleryImageImage;
+                              alt?: string;
+                              caption?: string;
+                              _type: "galleryImage";
+                              _key: string;
+                            }>;
+                            layout?: "grid" | "masonry";
+                            columns?: "2" | "3" | "4";
+                            enableLightbox?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "logoRow";
+                            logos: Array<{
+                              image: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                              alt: string | null;
+                              link: string | null;
+                            }>;
+                            grayscale: boolean | null;
+                            size: "large" | "medium" | "small" | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "lottieAnimation";
+                            source: "file" | "url";
+                            url?: string;
+                            file?: {
+                              asset?: SanityFileAssetReference;
+                              media?: unknown;
+                              _type: "file";
+                            };
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            speed?: number;
+                            trigger?: "auto" | "hover" | "scroll";
+                            alt?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "mapEmbed";
+                            embedUrl: string;
+                            height?: "large" | "medium" | "small" | "xl";
+                            caption?: string;
+                            style?: "borderless" | "default" | "rounded";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "pricingCard";
+                            badge?: string;
+                            title: string;
+                            price: string;
+                            priceSubtext?: string;
+                            features?: Array<{
+                              text: string;
+                              included?: boolean;
+                              _type: "pricingFeature";
+                              _key: string;
+                            }>;
+                            cta: {
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            } | null;
+                            isHighlighted?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "richTextBlock";
+                            content: Array<
+                              | {
+                                  children?: Array<{
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }>;
+                                  style?:
+                                    | "blockquote"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "normal"
+                                    | "paragraph";
+                                  listItem?: "bullet" | "number";
+                                  markDefs?: Array<{
+                                    href?: string;
+                                    openInNewTab?: boolean;
+                                    _type: "link";
+                                    _key: string;
+                                  }>;
+                                  level?: number;
+                                  _type: "block";
+                                  _key: string;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "callToAction";
+                                  label: string;
+                                  color?: string;
+                                  textColor?: string;
+                                  hoverColor?: string;
+                                  variant?:
+                                    | "ghost"
+                                    | "outline"
+                                    | "primary"
+                                    | "secondary";
+                                  link: Array<
+                                    | {
+                                        _key: string;
+                                        _type: "linkExternal";
+                                        title: string;
+                                        url: string;
+                                        openInNewTab?: boolean;
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "linkInternal";
+                                        title?: string;
+                                        reference: {
+                                          slug: Slug;
+                                        };
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "pageSlug";
+                                        title: string;
+                                        slug: string;
+                                      }
+                                  >;
+                                  blockStyles?: BlockStyles;
+                                }
+                              | {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  media?: unknown;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                  alt: string | null;
+                                  _type: "image";
+                                  _key: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "socialEmbed";
+                            platform:
+                              | "facebook"
+                              | "instagram"
+                              | "other"
+                              | "tiktok"
+                              | "twitter";
+                            embedUrl: string;
+                            caption?: string;
+                            aspectRatio?:
+                              "auto" | "landscape" | "portrait" | "square";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "spacerDivider";
+                            height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                            showDivider?: boolean;
+                            dividerStyle?: "dashed" | "dotted" | "solid";
+                            dividerColor?: string;
+                            maxWidth?: "default" | "full" | "narrow" | "wide";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "statMetric";
+                            value: string;
+                            label: string;
+                            prefix?: string;
+                            suffix?: string;
+                            size?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tabbedContent";
+                            title?: string;
+                            subtitle?: string;
+                            tabs: Array<{
+                              label: string;
+                              icon?: Icon;
+                              content: Array<
+                                | ({
+                                    _key: string;
+                                  } & AlertNotice)
+                                | ({
+                                    _key: string;
+                                  } & BlockContent)
+                                | ({
+                                    _key: string;
+                                  } & ButtonGroup)
+                                | ({
+                                    _key: string;
+                                  } & CallToAction)
+                                | ({
+                                    _key: string;
+                                  } & CodeBlock)
+                                | ({
+                                    _key: string;
+                                  } & DataTable)
+                                | ({
+                                    _key: string;
+                                  } & ExternalVideo)
+                                | ({
+                                    _key: string;
+                                  } & IconText)
+                                | ({
+                                    _key: string;
+                                  } & LogoRow)
+                                | ({
+                                    _key: string;
+                                  } & LottieAnimation)
+                                | ({
+                                    _key: string;
+                                  } & MapEmbed)
+                                | ({
+                                    _key: string;
+                                  } & PricingCard)
+                                | ({
+                                    _key: string;
+                                  } & SocialEmbed)
+                                | ({
+                                    _key: string;
+                                  } & StatMetric)
+                                | ({
+                                    _key: string;
+                                  } & TestimonialQuote)
+                                | ({
+                                    _key: string;
+                                  } & YoutubeVideo)
+                                | {
+                                    image: TabImageImage;
+                                    alt?: string;
+                                    _type: "tabImage";
+                                    _key: string;
+                                  }
+                              >;
+                              _type: "tab";
+                              _key: string;
+                            }>;
+                            tabStyle?: "boxed" | "pills" | "underline";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialCarousel";
+                            title?: string;
+                            testimonials: Array<
+                              {
+                                _key: string;
+                              } & TestimonialQuote
+                            >;
+                            perViewDesktop?: 1 | 2 | 3 | 4;
+                            perViewTablet?: 1 | 2;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
+                            showDots?: boolean;
+                            showArrows?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialQuote";
+                            quote: string;
+                            avatar: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            name: string;
+                            title?: string;
+                            rating?: number;
+                            style?: "card" | "large" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tocBlock";
+                            title?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "youtubeVideo";
+                            url: string;
+                            caption?: string;
+                            blockStyles: null;
+                          }
+                      > | null;
+                      design?: GridColumnDesign;
+                      blockStyles: {
+                        padding: Padding | null;
+                        margin: Margin | null;
+                        size: Size | null;
+                        border: Border | null;
+                        borderRadius: BorderRadius | null;
+                        background: {
+                          color: string | null;
+                          image: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          } | null;
+                          size: "auto" | "contain" | "cover" | null;
+                          overlay: string | null;
+                        } | null;
+                        typography: Typography | null;
+                        effects: Effects | null;
+                        motion: Motion | null;
+                        cssId: string | null;
+                        cssClasses: string | null;
+                        customCss: string | null;
+                      } | null;
+                      advanced?: GridColumnAdvanced;
+                      visibility?: GridColumnVisibility;
+                      _type: "gridColumn";
+                    }>;
+                    design?: Design;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    advanced?: Advanced;
+                    visibility?: Visibility;
+                  }
+                | {
+                    _key: string;
                     _type: "pricingCard";
                     badge?: string;
                     title: string;
@@ -8416,7 +15430,7 @@ export type HOME_PAGE_QUERY_RESULT =
                     blockStyles: null;
                   }
               > | null;
-              design?: GridColumnDesign;
+              design?: ColumnsGridColumnDesign;
               blockStyles: {
                 padding: Padding | null;
                 margin: Margin | null;
@@ -8451,11 +15465,11 @@ export type HOME_PAGE_QUERY_RESULT =
                 cssClasses: string | null;
                 customCss: string | null;
               } | null;
-              advanced?: GridColumnAdvanced;
-              visibility?: GridColumnVisibility;
+              advanced?: ColumnsGridColumnAdvanced;
+              visibility?: ColumnsGridColumnVisibility;
               _type: "gridColumn";
             }>;
-            design?: Design;
+            design?: GridRowDesign;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -8490,8 +15504,8 @@ export type HOME_PAGE_QUERY_RESULT =
               cssClasses: string | null;
               customCss: string | null;
             } | null;
-            advanced?: Advanced;
-            visibility?: Visibility;
+            advanced?: GridRowAdvanced;
+            visibility?: GridRowVisibility;
           }
         | {
             _key: string;
@@ -8678,7 +15692,7 @@ export type HOME_PAGE_QUERY_RESULT =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,    _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+// Query: *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type PAGE_QUERY_RESULT =
   | {
       _id: string;
@@ -8701,7 +15715,7 @@ export type PAGE_QUERY_RESULT =
             _key: string;
             _type: "gridRow";
             label?: string;
-            container?: Container;
+            container?: GridRowContainer;
             layout?: string;
             columns: Array<{
               _key: string;
@@ -9638,6 +16652,1623 @@ export type PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "nestedContainer";
+                    label?: string;
+                    container?: Container;
+                    layout?: string;
+                    columns: Array<{
+                      _key: string;
+                      label?: string;
+                      container?: ColumnsGridColumnContainer;
+                      content: Array<
+                        | {
+                            _key: string;
+                            _type: "accordion";
+                            title?: string;
+                            subtitle?: string;
+                            panels: Array<{
+                              title: string;
+                              icon?: AccordionPanelIcon;
+                              content: BlockContent;
+                              _type: "accordionPanel";
+                              _key: string;
+                            }>;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "alertNotice";
+                            type:
+                              "error" | "info" | "success" | "tip" | "warning";
+                            title?: string;
+                            message: string;
+                            dismissible?: boolean;
+                            icon?: {
+                              asset?: SanityImageAssetReference;
+                              media?: unknown;
+                              hotspot?: SanityImageHotspot;
+                              crop?: SanityImageCrop;
+                              _type: "image";
+                            };
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "buttonGroup";
+                            buttons: Array<{
+                              _key: string;
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            }>;
+                            alignment?: "center" | "left" | "right";
+                            direction?: string;
+                            gap?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "callToAction";
+                            label: string;
+                            color?: string;
+                            textColor?: string;
+                            hoverColor?: string;
+                            variant?:
+                              "ghost" | "outline" | "primary" | "secondary";
+                            link: Array<
+                              | {
+                                  _key: string;
+                                  _type: "linkExternal";
+                                  title: string;
+                                  url: string;
+                                  openInNewTab?: boolean;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "linkInternal";
+                                  title?: string;
+                                  reference: {
+                                    slug: Slug;
+                                  };
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "pageSlug";
+                                  title: string;
+                                  slug: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "codeBlock";
+                            language?:
+                              | "bash"
+                              | "css"
+                              | "html"
+                              | "javascript"
+                              | "json"
+                              | "other"
+                              | "python"
+                              | "typescript";
+                            filename?: string;
+                            code: string;
+                            showLineNumbers?: boolean;
+                            highlightLines?: string;
+                            caption?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "countdownTimer";
+                            title?: string;
+                            subtitle?: string;
+                            targetDate: string;
+                            timezone?:
+                              | "America/Chicago"
+                              | "America/Denver"
+                              | "America/Los_Angeles"
+                              | "America/New_York"
+                              | "Australia/Melbourne"
+                              | "Australia/Sydney"
+                              | "Europe/London";
+                            expiredMessage?: string;
+                            hideWhenExpired?: boolean;
+                            cta?: CallToAction;
+                            style?: "compact" | "inline" | "large";
+                            backgroundColor?: string;
+                            textColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "dataTable";
+                            caption?: string;
+                            headers: Array<{
+                              text: string;
+                              _type: "tableHeader";
+                              _key: string;
+                            }>;
+                            rows: Array<{
+                              cells: Array<{
+                                text: string;
+                                _type: "tableCell";
+                                _key: string;
+                              }>;
+                              _type: "dataTableRow";
+                              _key: string;
+                            }>;
+                            striped?: boolean;
+                            compact?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "externalVideo";
+                            url: string;
+                            caption?: string;
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            muted?: boolean;
+                            blockStyles: null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "faqBlock";
+                            title?: string;
+                            subtitle?: string;
+                            items: Array<{
+                              question: string;
+                              answer?: BlockContent;
+                              _type: "faqItem";
+                              _key: string;
+                            }>;
+                            enableSchema?: boolean;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "featureCardGrid";
+                            title?: string;
+                            subtitle?: string;
+                            cards: Array<{
+                              icon?: FeatureCardIcon;
+                              title: string;
+                              description?: string;
+                              cta?: Cta;
+                              _type: "featureCard";
+                              _key: string;
+                            }>;
+                            columns?: "2" | "3" | "4";
+                            style?:
+                              "bordered" | "highlighted" | "shadow" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "formBlock";
+                            formTitle?: string;
+                            formDescription?: string;
+                            fields: Array<{
+                              label: string;
+                              name: string;
+                              type:
+                                | "checkbox"
+                                | "email"
+                                | "number"
+                                | "select"
+                                | "tel"
+                                | "text"
+                                | "textarea";
+                              placeholder?: string;
+                              required?: boolean;
+                              options?: Array<string>;
+                              width?: "full" | "half";
+                              _type: "formField";
+                              _key: string;
+                            }>;
+                            submitLabel?: string;
+                            submitAction?: "custom" | "webhook";
+                            webhookUrl?: string;
+                            customEndpoint?: string;
+                            successMessage?: string;
+                            errorMessage?: string;
+                            buttonColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "htmlBlock";
+                            html: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "iconText";
+                            icon: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            iconSize?: "large" | "medium" | "small" | "xl";
+                            title: string;
+                            description?: string;
+                            alignment?: string;
+                            link?: CallToAction;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageBlock";
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: string | null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            };
+                            caption: string | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageGallery";
+                            title?: string;
+                            images: Array<{
+                              image: GalleryImageImage;
+                              alt?: string;
+                              caption?: string;
+                              _type: "galleryImage";
+                              _key: string;
+                            }>;
+                            layout?: "grid" | "masonry";
+                            columns?: "2" | "3" | "4";
+                            enableLightbox?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "logoRow";
+                            logos: Array<{
+                              image: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                              alt: string | null;
+                              link: string | null;
+                            }>;
+                            grayscale: boolean | null;
+                            size: "large" | "medium" | "small" | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "lottieAnimation";
+                            source: "file" | "url";
+                            url?: string;
+                            file?: {
+                              asset?: SanityFileAssetReference;
+                              media?: unknown;
+                              _type: "file";
+                            };
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            speed?: number;
+                            trigger?: "auto" | "hover" | "scroll";
+                            alt?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "mapEmbed";
+                            embedUrl: string;
+                            height?: "large" | "medium" | "small" | "xl";
+                            caption?: string;
+                            style?: "borderless" | "default" | "rounded";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "pricingCard";
+                            badge?: string;
+                            title: string;
+                            price: string;
+                            priceSubtext?: string;
+                            features?: Array<{
+                              text: string;
+                              included?: boolean;
+                              _type: "pricingFeature";
+                              _key: string;
+                            }>;
+                            cta: {
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            } | null;
+                            isHighlighted?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "richTextBlock";
+                            content: Array<
+                              | {
+                                  children?: Array<{
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }>;
+                                  style?:
+                                    | "blockquote"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "normal"
+                                    | "paragraph";
+                                  listItem?: "bullet" | "number";
+                                  markDefs?: Array<{
+                                    href?: string;
+                                    openInNewTab?: boolean;
+                                    _type: "link";
+                                    _key: string;
+                                  }>;
+                                  level?: number;
+                                  _type: "block";
+                                  _key: string;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "callToAction";
+                                  label: string;
+                                  color?: string;
+                                  textColor?: string;
+                                  hoverColor?: string;
+                                  variant?:
+                                    | "ghost"
+                                    | "outline"
+                                    | "primary"
+                                    | "secondary";
+                                  link: Array<
+                                    | {
+                                        _key: string;
+                                        _type: "linkExternal";
+                                        title: string;
+                                        url: string;
+                                        openInNewTab?: boolean;
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "linkInternal";
+                                        title?: string;
+                                        reference: {
+                                          slug: Slug;
+                                        };
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "pageSlug";
+                                        title: string;
+                                        slug: string;
+                                      }
+                                  >;
+                                  blockStyles?: BlockStyles;
+                                }
+                              | {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  media?: unknown;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                  alt: string | null;
+                                  _type: "image";
+                                  _key: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "socialEmbed";
+                            platform:
+                              | "facebook"
+                              | "instagram"
+                              | "other"
+                              | "tiktok"
+                              | "twitter";
+                            embedUrl: string;
+                            caption?: string;
+                            aspectRatio?:
+                              "auto" | "landscape" | "portrait" | "square";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "spacerDivider";
+                            height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                            showDivider?: boolean;
+                            dividerStyle?: "dashed" | "dotted" | "solid";
+                            dividerColor?: string;
+                            maxWidth?: "default" | "full" | "narrow" | "wide";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "statMetric";
+                            value: string;
+                            label: string;
+                            prefix?: string;
+                            suffix?: string;
+                            size?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tabbedContent";
+                            title?: string;
+                            subtitle?: string;
+                            tabs: Array<{
+                              label: string;
+                              icon?: Icon;
+                              content: Array<
+                                | ({
+                                    _key: string;
+                                  } & AlertNotice)
+                                | ({
+                                    _key: string;
+                                  } & BlockContent)
+                                | ({
+                                    _key: string;
+                                  } & ButtonGroup)
+                                | ({
+                                    _key: string;
+                                  } & CallToAction)
+                                | ({
+                                    _key: string;
+                                  } & CodeBlock)
+                                | ({
+                                    _key: string;
+                                  } & DataTable)
+                                | ({
+                                    _key: string;
+                                  } & ExternalVideo)
+                                | ({
+                                    _key: string;
+                                  } & IconText)
+                                | ({
+                                    _key: string;
+                                  } & LogoRow)
+                                | ({
+                                    _key: string;
+                                  } & LottieAnimation)
+                                | ({
+                                    _key: string;
+                                  } & MapEmbed)
+                                | ({
+                                    _key: string;
+                                  } & PricingCard)
+                                | ({
+                                    _key: string;
+                                  } & SocialEmbed)
+                                | ({
+                                    _key: string;
+                                  } & StatMetric)
+                                | ({
+                                    _key: string;
+                                  } & TestimonialQuote)
+                                | ({
+                                    _key: string;
+                                  } & YoutubeVideo)
+                                | {
+                                    image: TabImageImage;
+                                    alt?: string;
+                                    _type: "tabImage";
+                                    _key: string;
+                                  }
+                              >;
+                              _type: "tab";
+                              _key: string;
+                            }>;
+                            tabStyle?: "boxed" | "pills" | "underline";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialCarousel";
+                            title?: string;
+                            testimonials: Array<
+                              {
+                                _key: string;
+                              } & TestimonialQuote
+                            >;
+                            perViewDesktop?: 1 | 2 | 3 | 4;
+                            perViewTablet?: 1 | 2;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
+                            showDots?: boolean;
+                            showArrows?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialQuote";
+                            quote: string;
+                            avatar: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            name: string;
+                            title?: string;
+                            rating?: number;
+                            style?: "card" | "large" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tocBlock";
+                            title?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "youtubeVideo";
+                            url: string;
+                            caption?: string;
+                            blockStyles: null;
+                          }
+                      > | null;
+                      design?: GridColumnDesign;
+                      blockStyles: {
+                        padding: Padding | null;
+                        margin: Margin | null;
+                        size: Size | null;
+                        border: Border | null;
+                        borderRadius: BorderRadius | null;
+                        background: {
+                          color: string | null;
+                          image: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          } | null;
+                          size: "auto" | "contain" | "cover" | null;
+                          overlay: string | null;
+                        } | null;
+                        typography: Typography | null;
+                        effects: Effects | null;
+                        motion: Motion | null;
+                        cssId: string | null;
+                        cssClasses: string | null;
+                        customCss: string | null;
+                      } | null;
+                      advanced?: GridColumnAdvanced;
+                      visibility?: GridColumnVisibility;
+                      _type: "gridColumn";
+                    }>;
+                    design?: Design;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    advanced?: Advanced;
+                    visibility?: Visibility;
+                  }
+                | {
+                    _key: string;
                     _type: "pricingCard";
                     badge?: string;
                     title: string;
@@ -10224,7 +18855,7 @@ export type PAGE_QUERY_RESULT =
                     blockStyles: null;
                   }
               > | null;
-              design?: GridColumnDesign;
+              design?: ColumnsGridColumnDesign;
               blockStyles: {
                 padding: Padding | null;
                 margin: Margin | null;
@@ -10259,11 +18890,11 @@ export type PAGE_QUERY_RESULT =
                 cssClasses: string | null;
                 customCss: string | null;
               } | null;
-              advanced?: GridColumnAdvanced;
-              visibility?: GridColumnVisibility;
+              advanced?: ColumnsGridColumnAdvanced;
+              visibility?: ColumnsGridColumnVisibility;
               _type: "gridColumn";
             }>;
-            design?: Design;
+            design?: GridRowDesign;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -10298,8 +18929,8 @@ export type PAGE_QUERY_RESULT =
               cssClasses: string | null;
               customCss: string | null;
             } | null;
-            advanced?: Advanced;
-            visibility?: Visibility;
+            advanced?: GridRowAdvanced;
+            visibility?: GridRowVisibility;
           }
         | {
             _key: string;
@@ -10479,7 +19110,7 @@ export type PAGE_QUERY_RESULT =
             _key: string;
             _type: "gridRow";
             label?: string;
-            container?: Container;
+            container?: GridRowContainer;
             layout?: string;
             columns: Array<{
               _key: string;
@@ -11416,6 +20047,1623 @@ export type PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "nestedContainer";
+                    label?: string;
+                    container?: Container;
+                    layout?: string;
+                    columns: Array<{
+                      _key: string;
+                      label?: string;
+                      container?: ColumnsGridColumnContainer;
+                      content: Array<
+                        | {
+                            _key: string;
+                            _type: "accordion";
+                            title?: string;
+                            subtitle?: string;
+                            panels: Array<{
+                              title: string;
+                              icon?: AccordionPanelIcon;
+                              content: BlockContent;
+                              _type: "accordionPanel";
+                              _key: string;
+                            }>;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "alertNotice";
+                            type:
+                              "error" | "info" | "success" | "tip" | "warning";
+                            title?: string;
+                            message: string;
+                            dismissible?: boolean;
+                            icon?: {
+                              asset?: SanityImageAssetReference;
+                              media?: unknown;
+                              hotspot?: SanityImageHotspot;
+                              crop?: SanityImageCrop;
+                              _type: "image";
+                            };
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "buttonGroup";
+                            buttons: Array<{
+                              _key: string;
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            }>;
+                            alignment?: "center" | "left" | "right";
+                            direction?: string;
+                            gap?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "callToAction";
+                            label: string;
+                            color?: string;
+                            textColor?: string;
+                            hoverColor?: string;
+                            variant?:
+                              "ghost" | "outline" | "primary" | "secondary";
+                            link: Array<
+                              | {
+                                  _key: string;
+                                  _type: "linkExternal";
+                                  title: string;
+                                  url: string;
+                                  openInNewTab?: boolean;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "linkInternal";
+                                  title?: string;
+                                  reference: {
+                                    slug: Slug;
+                                  };
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "pageSlug";
+                                  title: string;
+                                  slug: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "codeBlock";
+                            language?:
+                              | "bash"
+                              | "css"
+                              | "html"
+                              | "javascript"
+                              | "json"
+                              | "other"
+                              | "python"
+                              | "typescript";
+                            filename?: string;
+                            code: string;
+                            showLineNumbers?: boolean;
+                            highlightLines?: string;
+                            caption?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "countdownTimer";
+                            title?: string;
+                            subtitle?: string;
+                            targetDate: string;
+                            timezone?:
+                              | "America/Chicago"
+                              | "America/Denver"
+                              | "America/Los_Angeles"
+                              | "America/New_York"
+                              | "Australia/Melbourne"
+                              | "Australia/Sydney"
+                              | "Europe/London";
+                            expiredMessage?: string;
+                            hideWhenExpired?: boolean;
+                            cta?: CallToAction;
+                            style?: "compact" | "inline" | "large";
+                            backgroundColor?: string;
+                            textColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "dataTable";
+                            caption?: string;
+                            headers: Array<{
+                              text: string;
+                              _type: "tableHeader";
+                              _key: string;
+                            }>;
+                            rows: Array<{
+                              cells: Array<{
+                                text: string;
+                                _type: "tableCell";
+                                _key: string;
+                              }>;
+                              _type: "dataTableRow";
+                              _key: string;
+                            }>;
+                            striped?: boolean;
+                            compact?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "externalVideo";
+                            url: string;
+                            caption?: string;
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            muted?: boolean;
+                            blockStyles: null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "faqBlock";
+                            title?: string;
+                            subtitle?: string;
+                            items: Array<{
+                              question: string;
+                              answer?: BlockContent;
+                              _type: "faqItem";
+                              _key: string;
+                            }>;
+                            enableSchema?: boolean;
+                            allowMultipleOpen?: boolean;
+                            firstOpenByDefault?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "featureCardGrid";
+                            title?: string;
+                            subtitle?: string;
+                            cards: Array<{
+                              icon?: FeatureCardIcon;
+                              title: string;
+                              description?: string;
+                              cta?: Cta;
+                              _type: "featureCard";
+                              _key: string;
+                            }>;
+                            columns?: "2" | "3" | "4";
+                            style?:
+                              "bordered" | "highlighted" | "shadow" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "formBlock";
+                            formTitle?: string;
+                            formDescription?: string;
+                            fields: Array<{
+                              label: string;
+                              name: string;
+                              type:
+                                | "checkbox"
+                                | "email"
+                                | "number"
+                                | "select"
+                                | "tel"
+                                | "text"
+                                | "textarea";
+                              placeholder?: string;
+                              required?: boolean;
+                              options?: Array<string>;
+                              width?: "full" | "half";
+                              _type: "formField";
+                              _key: string;
+                            }>;
+                            submitLabel?: string;
+                            submitAction?: "custom" | "webhook";
+                            webhookUrl?: string;
+                            customEndpoint?: string;
+                            successMessage?: string;
+                            errorMessage?: string;
+                            buttonColor?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "htmlBlock";
+                            html: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "iconText";
+                            icon: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            iconSize?: "large" | "medium" | "small" | "xl";
+                            title: string;
+                            description?: string;
+                            alignment?: string;
+                            link?: CallToAction;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageBlock";
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: string | null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            };
+                            caption: string | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "imageGallery";
+                            title?: string;
+                            images: Array<{
+                              image: GalleryImageImage;
+                              alt?: string;
+                              caption?: string;
+                              _type: "galleryImage";
+                              _key: string;
+                            }>;
+                            layout?: "grid" | "masonry";
+                            columns?: "2" | "3" | "4";
+                            enableLightbox?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "logoRow";
+                            logos: Array<{
+                              image: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                              alt: string | null;
+                              link: string | null;
+                            }>;
+                            grayscale: boolean | null;
+                            size: "large" | "medium" | "small" | null;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "lottieAnimation";
+                            source: "file" | "url";
+                            url?: string;
+                            file?: {
+                              asset?: SanityFileAssetReference;
+                              media?: unknown;
+                              _type: "file";
+                            };
+                            autoplay?: boolean;
+                            loop?: boolean;
+                            speed?: number;
+                            trigger?: "auto" | "hover" | "scroll";
+                            alt?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "mapEmbed";
+                            embedUrl: string;
+                            height?: "large" | "medium" | "small" | "xl";
+                            caption?: string;
+                            style?: "borderless" | "default" | "rounded";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "pricingCard";
+                            badge?: string;
+                            title: string;
+                            price: string;
+                            priceSubtext?: string;
+                            features?: Array<{
+                              text: string;
+                              included?: boolean;
+                              _type: "pricingFeature";
+                              _key: string;
+                            }>;
+                            cta: {
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              blockStyles?: BlockStyles;
+                            } | null;
+                            isHighlighted?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "richTextBlock";
+                            content: Array<
+                              | {
+                                  children?: Array<{
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }>;
+                                  style?:
+                                    | "blockquote"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "normal"
+                                    | "paragraph";
+                                  listItem?: "bullet" | "number";
+                                  markDefs?: Array<{
+                                    href?: string;
+                                    openInNewTab?: boolean;
+                                    _type: "link";
+                                    _key: string;
+                                  }>;
+                                  level?: number;
+                                  _type: "block";
+                                  _key: string;
+                                }
+                              | {
+                                  _key: string;
+                                  _type: "callToAction";
+                                  label: string;
+                                  color?: string;
+                                  textColor?: string;
+                                  hoverColor?: string;
+                                  variant?:
+                                    | "ghost"
+                                    | "outline"
+                                    | "primary"
+                                    | "secondary";
+                                  link: Array<
+                                    | {
+                                        _key: string;
+                                        _type: "linkExternal";
+                                        title: string;
+                                        url: string;
+                                        openInNewTab?: boolean;
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "linkInternal";
+                                        title?: string;
+                                        reference: {
+                                          slug: Slug;
+                                        };
+                                      }
+                                    | {
+                                        _key: string;
+                                        _type: "pageSlug";
+                                        title: string;
+                                        slug: string;
+                                      }
+                                  >;
+                                  blockStyles?: BlockStyles;
+                                }
+                              | {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  media?: unknown;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                  alt: string | null;
+                                  _type: "image";
+                                  _key: string;
+                                }
+                            >;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "socialEmbed";
+                            platform:
+                              | "facebook"
+                              | "instagram"
+                              | "other"
+                              | "tiktok"
+                              | "twitter";
+                            embedUrl: string;
+                            caption?: string;
+                            aspectRatio?:
+                              "auto" | "landscape" | "portrait" | "square";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "spacerDivider";
+                            height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                            showDivider?: boolean;
+                            dividerStyle?: "dashed" | "dotted" | "solid";
+                            dividerColor?: string;
+                            maxWidth?: "default" | "full" | "narrow" | "wide";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "statMetric";
+                            value: string;
+                            label: string;
+                            prefix?: string;
+                            suffix?: string;
+                            size?: "large" | "medium" | "small";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tabbedContent";
+                            title?: string;
+                            subtitle?: string;
+                            tabs: Array<{
+                              label: string;
+                              icon?: Icon;
+                              content: Array<
+                                | ({
+                                    _key: string;
+                                  } & AlertNotice)
+                                | ({
+                                    _key: string;
+                                  } & BlockContent)
+                                | ({
+                                    _key: string;
+                                  } & ButtonGroup)
+                                | ({
+                                    _key: string;
+                                  } & CallToAction)
+                                | ({
+                                    _key: string;
+                                  } & CodeBlock)
+                                | ({
+                                    _key: string;
+                                  } & DataTable)
+                                | ({
+                                    _key: string;
+                                  } & ExternalVideo)
+                                | ({
+                                    _key: string;
+                                  } & IconText)
+                                | ({
+                                    _key: string;
+                                  } & LogoRow)
+                                | ({
+                                    _key: string;
+                                  } & LottieAnimation)
+                                | ({
+                                    _key: string;
+                                  } & MapEmbed)
+                                | ({
+                                    _key: string;
+                                  } & PricingCard)
+                                | ({
+                                    _key: string;
+                                  } & SocialEmbed)
+                                | ({
+                                    _key: string;
+                                  } & StatMetric)
+                                | ({
+                                    _key: string;
+                                  } & TestimonialQuote)
+                                | ({
+                                    _key: string;
+                                  } & YoutubeVideo)
+                                | {
+                                    image: TabImageImage;
+                                    alt?: string;
+                                    _type: "tabImage";
+                                    _key: string;
+                                  }
+                              >;
+                              _type: "tab";
+                              _key: string;
+                            }>;
+                            tabStyle?: "boxed" | "pills" | "underline";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialCarousel";
+                            title?: string;
+                            testimonials: Array<
+                              {
+                                _key: string;
+                              } & TestimonialQuote
+                            >;
+                            perViewDesktop?: 1 | 2 | 3 | 4;
+                            perViewTablet?: 1 | 2;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
+                            showDots?: boolean;
+                            showArrows?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "testimonialQuote";
+                            quote: string;
+                            avatar: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            name: string;
+                            title?: string;
+                            rating?: number;
+                            style?: "card" | "large" | "simple";
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "tocBlock";
+                            title?: string;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
+                            _type: "youtubeVideo";
+                            url: string;
+                            caption?: string;
+                            blockStyles: null;
+                          }
+                      > | null;
+                      design?: GridColumnDesign;
+                      blockStyles: {
+                        padding: Padding | null;
+                        margin: Margin | null;
+                        size: Size | null;
+                        border: Border | null;
+                        borderRadius: BorderRadius | null;
+                        background: {
+                          color: string | null;
+                          image: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          } | null;
+                          size: "auto" | "contain" | "cover" | null;
+                          overlay: string | null;
+                        } | null;
+                        typography: Typography | null;
+                        effects: Effects | null;
+                        motion: Motion | null;
+                        cssId: string | null;
+                        cssClasses: string | null;
+                        customCss: string | null;
+                      } | null;
+                      advanced?: GridColumnAdvanced;
+                      visibility?: GridColumnVisibility;
+                      _type: "gridColumn";
+                    }>;
+                    design?: Design;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    advanced?: Advanced;
+                    visibility?: Visibility;
+                  }
+                | {
+                    _key: string;
                     _type: "pricingCard";
                     badge?: string;
                     title: string;
@@ -12002,7 +22250,7 @@ export type PAGE_QUERY_RESULT =
                     blockStyles: null;
                   }
               > | null;
-              design?: GridColumnDesign;
+              design?: ColumnsGridColumnDesign;
               blockStyles: {
                 padding: Padding | null;
                 margin: Margin | null;
@@ -12037,11 +22285,11 @@ export type PAGE_QUERY_RESULT =
                 cssClasses: string | null;
                 customCss: string | null;
               } | null;
-              advanced?: GridColumnAdvanced;
-              visibility?: GridColumnVisibility;
+              advanced?: ColumnsGridColumnAdvanced;
+              visibility?: ColumnsGridColumnVisibility;
               _type: "gridColumn";
             }>;
-            design?: Design;
+            design?: GridRowDesign;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -12076,8 +22324,8 @@ export type PAGE_QUERY_RESULT =
               cssClasses: string | null;
               customCss: string | null;
             } | null;
-            advanced?: Advanced;
-            visibility?: Visibility;
+            advanced?: GridRowAdvanced;
+            visibility?: GridRowVisibility;
           }
         | {
             _key: string;
@@ -12377,8 +22625,8 @@ export type SITE_SETTINGS_QUERY_RESULT =
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type in ["page", "practiceArea"] && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {\n    _id, title, slug,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n  }\n': PRACTICE_AREAS_QUERY_RESULT;
     '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    primaryColor, secondaryColor,\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    footerStyle,\n    footerDescription,\n    footerColumns[] {\n      _key, title,\n      links[] { _key, label, href }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;

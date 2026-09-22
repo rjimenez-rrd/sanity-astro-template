@@ -18,16 +18,27 @@ import {elementStyle, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs, type MotionSettings} from '@/lib/animation'
 import {buildDesignCss, designOverrides, type DesignSettings} from '@/lib/design'
 import {scopeCustomCss} from '@/lib/customCss'
-import type {GridRowData} from '@/types/sanity'
+import type {GridRowData, NestedContainerData} from '@/types/sanity'
+
+/** A top-level Container, or an Inner Container placed in a column. */
+type ContainerData = GridRowData | NestedContainerData
 
 interface Props {
-  data: GridRowData
+  data: ContainerData
   /** Document coordinates, so Presentation can select a container on click. */
   documentId?: string | null
   documentType?: string | null
+  /**
+   * This container's path in the document, for Presentation. Top-level rows
+   * sit at pageBuilder[_key==…]; an Inner Container is several levels down,
+   * so its caller passes the full path.
+   */
+  basePath?: string
+  /** Rendered inside a column rather than as a page section. */
+  nested?: boolean
 }
 
-const {data, documentId, documentType} = Astro.props
+const {data, documentId, documentType, basePath, nested = false} = Astro.props
 
 type Advanced = {
   padding?: BlockStyles['padding']
@@ -39,7 +50,7 @@ type Advanced = {
   motion?: MotionSettings | null
 } | null
 
-type Column = GridRowData['columns'][number] & {
+type Column = ContainerData['columns'][number] & {
   label?: string | null
   design?: DesignSettings | null
   container?: ContainerSettings | null
@@ -47,7 +58,7 @@ type Column = GridRowData['columns'][number] & {
   visibility?: VisibilitySettings | null
 }
 
-type Row = GridRowData & {
+type Row = ContainerData & {
   label?: string | null
   design?: DesignSettings | null
   container?: ContainerSettings | null
@@ -85,6 +96,7 @@ const sanityAttr = (path: string): string | undefined =>
 
 const rowContainer = clean(row.container) ?? undefined
 const rowKey = safeKey(stegaClean(row._key))
+const rowPath = basePath ?? (rowKey ? `pageBuilder[_key=="${rowKey}"]` : undefined)
 
 /**
  * Inline styles for a container: the older block styles, minus whatever the
@@ -118,15 +130,14 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
   const key = safeKey(stegaClean(column._key))
   const advanced = clean(column.advanced)
   const design = clean(column.design)
+  const path = key && rowPath ? `${rowPath}.columns[_key=="${key}"]` : undefined
   return {
     design,
     column,
     key,
+    path,
     label: editing ? stegaClean(column.label)?.trim() || undefined : undefined,
-    sanity:
-      key && rowKey
-        ? sanityAttr(`pageBuilder[_key=="${rowKey}"].columns[_key=="${key}"]`)
-        : undefined,
+    sanity: path ? sanityAttr(path) : undefined,
     container: clean(column.container) ?? undefined,
     ...elementStyle(mergeStyles(column.blockStyles, advanced ?? null, design)),
     id: safeCssId(advanced?.cssId),
@@ -192,10 +203,19 @@ if (rowContainer?.layoutType === 'grid') {
  * Appended after the generated rules so an editor's override wins at equal
  * specificity, and joined into the same style tag the container CSS uses.
  */
+// A container has two Custom CSS boxes — Advanced, and the one in Style ->
+// Typography & Effects (the shared Block Styles panel) — so both are honored.
+const scopedCss = (key: string | undefined, advanced: Advanced, blockStyles: unknown) =>
+  key
+    ? [advanced?.customCss, (clean(blockStyles) as BlockStyles | null)?.customCss].map((raw) =>
+        scopeCustomCss(raw, `[data-pb="${key}"]`),
+      )
+    : []
+
 const customCssRules = [
-  rowKey ? scopeCustomCss(rowAdvanced?.customCss, `[data-pb="${rowKey}"]`) : undefined,
-  ...columns.map((col) =>
-    col.key ? scopeCustomCss(clean(col.column.advanced)?.customCss, `[data-pb="${col.key}"]`) : undefined,
+  ...scopedCss(rowKey, rowAdvanced ?? null, row.blockStyles),
+  ...columns.flatMap((col) =>
+    scopedCss(col.key, clean(col.column.advanced) ?? null, col.column.blockStyles),
   ),
 ].filter(Boolean)
 
@@ -205,6 +225,9 @@ const rowStyle = elementStyle(
   mergeStyles(row.blockStyles, rowAdvanced ?? null, rowDesign),
 )
 
+// A page section at the top level; inside a column it's just a box.
+const Element = nested ? 'div' : 'section'
+
 ---
 
 {cssText && <Fragment set:html={`<style>${cssText}</style>`} />}
@@ -213,14 +236,15 @@ const rowStyle = elementStyle(
   One element per level. A column is simultaneously the row's flex/grid item,
   its own styled box, and the flex container for its blocks — as in Elementor.
 */}
-<section
+<Element
   data-pb={rowKey}
   id={safeCssId(rowAdvanced?.cssId)}
   class={safeCssClasses(rowAdvanced?.cssClasses)}
   style={rowStyle.style}
-  data-sanity={rowKey ? sanityAttr(`pageBuilder[_key=="${rowKey}"]`) : undefined}
+  data-sanity={rowPath ? sanityAttr(rowPath) : undefined}
   data-pb-label={rowLabel}
   data-pb-overlay={rowStyle.overlay ? '' : undefined}
+  data-pb-nested={nested ? '' : undefined}
   {...animationAttrs(rowAdvanced?.motion)}
 >
   <div data-pb-inner={rowKey}>
@@ -241,7 +265,13 @@ const rowStyle = elementStyle(
             {...col.animation}
           >
             {content.map((block) => (
-              <BlockRenderer block={block} columnCount={columns.length} />
+              <BlockRenderer
+                block={block}
+                columnCount={columns.length}
+                documentId={documentId}
+                documentType={documentType}
+                parentPath={col.path}
+              />
             ))}
             {editing && content.length === 0 && (
               <div class="flex min-h-[100px] items-center justify-center rounded-lg border border-dashed border-border text-sm text-muted">
@@ -253,4 +283,4 @@ const rowStyle = elementStyle(
       })
     }
   </div>
-</section>
+</Element>

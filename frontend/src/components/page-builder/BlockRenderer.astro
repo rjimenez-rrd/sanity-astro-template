@@ -32,15 +32,20 @@ import FeatureCardGrid from './blocks/FeatureCardGrid.astro'
 import TestimonialCarousel from './blocks/TestimonialCarousel.astro'
 import ImageGallery from './blocks/ImageGallery.astro'
 import TocBlock from './blocks/TocBlock.astro'
-import type {ContentBlock} from '@/types/sanity'
+import GridRowSection from './sections/GridRowSection.astro'
+import type {ContentBlock, NestedContainerData} from '@/types/sanity'
 
 interface Props {
   block: ContentBlock
   /** How many columns share this block's row — see DEFAULT_FILL_TYPES below. */
   columnCount?: number
+  /** Document coordinates and the column's path, passed on to an Inner Container. */
+  documentId?: string | null
+  documentType?: string | null
+  parentPath?: string
 }
 
-const {block, columnCount} = Astro.props
+const {block, columnCount, documentId, documentType, parentPath} = Astro.props
 
 const CONTENT_MAP: Record<string, any> = {
   richTextBlock: RichText,
@@ -143,12 +148,33 @@ const hasHeight =
 // 'fill' is marked apart from a fixed height so the mobile rule can undo it.
 const heightMode = built['flex'] === '1 1 auto' ? 'fill' : ''
 
+/**
+ * An Inner Container renders as a container, not a block: GridRowSection
+ * applies its own styles, Style tab and Custom CSS, so it skips the block
+ * wrapper — which would apply them twice, and its [data-pb-h] fill rules would
+ * stretch every image and iframe inside it.
+ */
+const isNestedContainer = type === 'nestedContainer'
+const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${blockKey}"]` : undefined
+
 ---
 
-{customCss && <Fragment set:html={`<style>${customCss}</style>`} />}
+{
+  isNestedContainer && (
+    <GridRowSection
+      data={block as NestedContainerData}
+      documentId={documentId}
+      documentType={documentType}
+      basePath={nestedPath}
+      nested
+    />
+  )
+}
+
+{!isNestedContainer && customCss && <Fragment set:html={`<style>${customCss}</style>`} />}
 
 {
-  Component ? (
+  isNestedContainer ? null : Component ? (
     own ? (
       <Component
         data={block}

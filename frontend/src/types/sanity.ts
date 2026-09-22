@@ -58,6 +58,7 @@ export type FeatureCardGridData = Extract<ContentBlock, {_type: 'featureCardGrid
 export type TestimonialCarouselData = Extract<ContentBlock, {_type: 'testimonialCarousel'}>
 export type ImageGalleryData = Extract<ContentBlock, {_type: 'imageGallery'}>
 export type TocBlockData = Extract<ContentBlock, {_type: 'tocBlock'}>
+export type NestedContainerData = Extract<ContentBlock, {_type: 'nestedContainer'}>
 
 // ---------- SEO ----------
 export type SeoData = NonNullable<PageData['seo']>

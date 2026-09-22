@@ -196,6 +196,23 @@ h2, h3 {
 }
 
 /*
+ * An Inner Container sized by Size & Alignment -> Height (a length, or "fill"
+ * to take the space left in its column) has to hand that height to its own
+ * row, or its columns stay at content height and Justify Content has nothing
+ * to center within. width: 100% keeps a Boxed row at its max-width — in a flex
+ * column, auto side margins would otherwise shrink it to its content.
+ */
+[data-pb-nested] {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-pb-nested] > [data-pb-inner] {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+/*
  * Container name badge, for the Presentation preview. GridRowSection only emits
  * data-pb-label on draft requests, so a published page never matches this rule
  * and never carries the markup.

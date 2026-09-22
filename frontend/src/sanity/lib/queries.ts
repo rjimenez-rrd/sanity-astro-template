@@ -45,9 +45,8 @@ const heroFragment = /* groq */ `
   }
 `
 
-const contentFragment = /* groq */ `
-  content[] {
-    _key, _type, ...,
+// Per-type projections for the blocks in a column.
+const contentTypesFragment = /* groq */ `
     _type == "imageBlock" => {
       image { ${imageFragment} },
       caption,
@@ -80,6 +79,29 @@ const contentFragment = /* groq */ `
       ...,
       icon { ${imageFragment} },
       ${blockStylesFragment}
+    }
+`
+
+// An Inner Container's own columns. No Inner Container case here: the schema
+// stops nesting at one level, and GROQ can't recurse past what's written out.
+const innerContentFragment = /* groq */ `
+  content[] {
+    _key, _type, ...,
+    ${contentTypesFragment},
+    ${blockStylesFragment}
+  }
+`
+
+const contentFragment = /* groq */ `
+  content[] {
+    _key, _type, ...,
+    ${contentTypesFragment},
+    _type == "nestedContainer" => {
+      columns[] {
+        _key, ...,
+        ${innerContentFragment},
+        ${blockStylesFragment}
+      }
     },
     ${blockStylesFragment}
   }

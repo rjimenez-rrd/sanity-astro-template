@@ -74,6 +74,7 @@ const BORDER_TYPES = new Set(['none', 'solid', 'double', 'dotted', 'dashed', 'gr
 const UNITS = new Set(['px', '%', 'em', 'rem'])
 const BLEND_MODES = new Set([
   'normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge',
+  'color-burn', 'hard-light', 'soft-light',
   'saturation', 'color', 'difference', 'exclusion', 'hue', 'luminosity',
 ])
 const RESOLUTION_WIDTH: Record<string, number> = {
