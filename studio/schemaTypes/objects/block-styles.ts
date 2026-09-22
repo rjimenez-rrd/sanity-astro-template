@@ -42,6 +42,24 @@ function widthField(name: string, title: string) {
   })
 }
 
+/**
+ * Height accepts a length like the width fields, plus the token `fill`, which
+ * makes the block stretch to the height of its column instead of keeping its
+ * natural height. Stored as a plain string so it stays one field either way.
+ */
+function heightField(name: string, title: string) {
+  return defineField({
+    name,
+    title,
+    type: 'string',
+    description: 'A number with a unit, e.g. 320px — or "fill" to match the column height.',
+    validation: (rule) =>
+      rule
+        .regex(/^(fill|\d+(\.\d+)?(px|%|rem|em|vh|vw))$/, {name: 'CSS height'})
+        .warning('Use a number with a unit, like 320px, or "fill".'),
+  })
+}
+
 function alignField(name: string, title: string) {
   return defineField({
     name,
@@ -119,6 +137,9 @@ export const blockStylesType = defineType({
         widthField('width', 'Width'),
         widthField('widthTablet', 'Width (tablet)'),
         widthField('widthMobile', 'Width (mobile)'),
+        heightField('height', 'Height'),
+        heightField('heightTablet', 'Height (tablet)'),
+        heightField('heightMobile', 'Height (mobile)'),
         alignField('align', 'Align'),
         alignField('alignTablet', 'Align (tablet)'),
         alignField('alignMobile', 'Align (mobile)'),

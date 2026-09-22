@@ -111,6 +111,19 @@ const emitted = (re: RegExp) =>
 const hasPadding = emitted(/^(padding-|--p[trbl]-(tablet|mobile)$)/)
 const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
 
+/**
+ * A configured height sizes the wrapper, but an image or iframe inside it keeps
+ * its own intrinsic height and overflows. This marker lets global.css hand the
+ * height down the chain — a wrapper is the only place it can be done, since an
+ * inline style cannot reach a descendant. Covers both a fixed height and
+ * "fill", which emits `flex` rather than `height`.
+ */
+const hasHeight =
+  emitted(/^(height|--h-(tablet|mobile)|--fill-(tablet|mobile))$/) ||
+  built['flex'] === '1 1 auto'
+// 'fill' is marked apart from a fixed height so the mobile rule can undo it.
+const heightMode = built['flex'] === '1 1 auto' ? 'fill' : ''
+
 ---
 
 {customCss && <Fragment set:html={`<style>${customCss}</style>`} />}
@@ -127,6 +140,7 @@ const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
         data-pb-overlay={own.overlay ? '' : undefined}
         data-pb-pad={hasPadding ? '' : undefined}
         data-pb-mar={hasMargin ? '' : undefined}
+        data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       />
     ) : needsWrapper ? (
@@ -137,6 +151,7 @@ const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
         class={cssClasses}
         data-pb-pad={hasPadding ? '' : undefined}
         data-pb-mar={hasMargin ? '' : undefined}
+        data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       >
         <Component data={block} />

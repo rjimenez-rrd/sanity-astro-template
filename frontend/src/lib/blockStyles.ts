@@ -14,6 +14,7 @@ export interface BlockStyles {
   customCss?: string | null
   size?: {
     width?: string | null; widthTablet?: string | null; widthMobile?: string | null
+    height?: string | null; heightTablet?: string | null; heightMobile?: string | null
     align?: string | null; alignTablet?: string | null; alignMobile?: string | null
   } | null
   border?: {width?: string | null; style?: string | null; color?: string | null} | null
@@ -120,6 +121,35 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
     if (tablet) styles['--w-tablet'] = tablet
     if (mobile) styles['--w-mobile'] = mobile
     if (base || tablet || mobile) styles['max-width'] = '100%'
+
+    /**
+     * Height is either a length or the token `fill`. A block sits in a column
+     * that is `flex-direction: column` with items at `flex: 0 0 auto`, so it
+     * keeps its natural height however tall the column grows — `fill` swaps
+     * that for `flex: 1 1 auto` so the block takes the leftover space, and the
+     * `[data-pb-fill]` rules in global.css push that height down to the image
+     * or iframe inside it.
+     */
+    const height = (raw?: string | null) => {
+      const v = raw?.trim()
+      if (v === 'fill') return 'fill'
+      return v && CSS_SIZE.test(v) ? v : undefined
+    }
+    const hBase = height(bs.size.height)
+    const hTablet = height(bs.size.heightTablet)
+    const hMobile = height(bs.size.heightMobile)
+
+    if (hBase === 'fill') {
+      styles['flex'] = '1 1 auto'
+      styles['min-height'] = '0'
+    } else if (hBase) {
+      styles['height'] = hBase
+    }
+    // Promoted by the max-width rules in global.css, like every other override.
+    if (hTablet === 'fill') styles['--fill-tablet'] = '1 1 auto'
+    else if (hTablet) styles['--h-tablet'] = hTablet
+    if (hMobile === 'fill') styles['--fill-mobile'] = '1 1 auto'
+    else if (hMobile) styles['--h-mobile'] = hMobile
 
     const align = (raw?: string | null) => (raw ? ALIGN_SELF[raw] : undefined)
     const alignBase = align(bs.size.align)

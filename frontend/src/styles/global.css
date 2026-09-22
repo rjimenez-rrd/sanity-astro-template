@@ -91,6 +91,8 @@ h2, h3 {
   [style*='--w-tablet'] { width: var(--w-tablet) !important; }
   [style*='--as-tablet'] { align-self: var(--as-tablet) !important; }
   [style*='--ta-tablet'] { text-align: var(--ta-tablet) !important; }
+  [style*='--h-tablet'] { height: var(--h-tablet) !important; flex: 0 0 auto !important; }
+  [style*='--fill-tablet'] { flex: var(--fill-tablet) !important; height: auto !important; min-height: 0 !important; }
 }
 
 @media (max-width: 767px) {
@@ -105,6 +107,8 @@ h2, h3 {
   [style*='--w-mobile'] { width: var(--w-mobile) !important; }
   [style*='--as-mobile'] { align-self: var(--as-mobile) !important; }
   [style*='--ta-mobile'] { text-align: var(--ta-mobile) !important; }
+  [style*='--h-mobile'] { height: var(--h-mobile) !important; flex: 0 0 auto !important; }
+  [style*='--fill-mobile'] { flex: var(--fill-mobile) !important; height: auto !important; min-height: 0 !important; }
 }
 
 /*
@@ -137,6 +141,56 @@ h2, h3 {
 
 [data-pb-mar] > * {
   margin: 0 !important;
+}
+
+/*
+ * Size & Alignment -> Height. The wrapper is sized by its inline style — a
+ * length, or `flex: 1 1 auto` for "fill column" — but an image or an iframe
+ * keeps its intrinsic height, so the height has to be handed down the chain:
+ * the wrapper becomes a flex column, each level stretches, and the media fills
+ * what it lands in.
+ * !important because a block's own markup sets these (Image.astro's w-full,
+ * MapEmbed's inline height) and would otherwise win.
+ */
+[data-pb-h] {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+[data-pb-h] > *,
+[data-pb-h] figure > :not(figcaption) {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+[data-pb-h] figure {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-pb-h] img,
+[data-pb-h] iframe {
+  height: 100% !important;
+  width: 100%;
+  object-fit: cover;
+}
+
+/*
+ * Columns stack below 768px, so a "fill" block has no taller sibling to match
+ * and its parent's height goes indefinite — which collapses an iframe to the
+ * 150px default. Revert to the block's natural height there unless Mobile sets
+ * one of its own. --map-h is MapEmbed's configured height; an image has none
+ * and falls through to auto.
+ */
+@media (max-width: 767px) {
+  [data-pb-h='fill']:not([style*='--fill-mobile']):not([style*='--h-mobile']) {
+    flex: 0 0 auto !important;
+  }
+
+  [data-pb-h='fill']:not([style*='--fill-mobile']):not([style*='--h-mobile']) :is(img, iframe) {
+    height: var(--map-h, auto) !important;
+  }
 }
 
 /*

@@ -8,16 +8,38 @@ interface Props {
 
 const {data} = Astro.props
 
-const resolvedHeight = stegaClean(data.height) || '400px'
+/**
+ * The schema stores a token, not a length. Emitting the token straight into
+ * `height:` produced invalid CSS, which the browser dropped — leaving the
+ * iframe at its 150px default whatever the editor picked.
+ */
+const HEIGHTS: Record<string, string> = {
+  small: '200px',
+  medium: '300px',
+  large: '400px',
+  xl: '500px',
+}
+
+/** Matches the schema's initialValue, so an untouched block renders as labelled. */
+const height = stegaClean(data.height) ?? 'medium'
+const resolvedHeight = HEIGHTS[height] ?? HEIGHTS.medium
+
+const FRAMES: Record<string, string> = {
+  default: 'overflow-hidden border border-border',
+  rounded: 'overflow-hidden rounded-xl border border-border',
+  borderless: 'overflow-hidden rounded-xl',
+}
+
+const frame = FRAMES[stegaClean(data.style) ?? 'rounded'] ?? FRAMES.rounded
 ---
 
 {
   data.embedUrl && (
-    <figure class="my-4">
-      <div class="overflow-hidden rounded-xl border border-border">
+    <figure>
+      <div class={frame}>
         <iframe
           src={data.embedUrl}
-          style={`height:${resolvedHeight}`}
+          style={`--map-h:${resolvedHeight};height:var(--map-h)`}
           class="w-full border-0"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
@@ -26,7 +48,7 @@ const resolvedHeight = stegaClean(data.height) || '400px'
         />
       </div>
       {data.caption && (
-        <figcaption class="mt-2 text-center text-sm text-muted">{data.caption}</figcaption>
+        <figcaption class="text-center text-sm text-muted">{data.caption}</figcaption>
       )}
     </figure>
   )

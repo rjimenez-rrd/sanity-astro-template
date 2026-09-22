@@ -1,0 +1,127 @@
+---
+/**
+ * Design preview for Size & Alignment -> Height -> Fill column, with hardcoded
+ * content so the behaviour can be checked without editing a real page.
+ *
+ * Mirrors the shape of /personal-injury: a two-column flex row with a media
+ * block on the left and taller text on the right.
+ */
+import Base from '@/layouts/Base.astro'
+import GridRowSection from '@/components/page-builder/sections/GridRowSection.astro'
+import type {GridRowData} from '@/types/sanity'
+
+const IMAGE_REF = 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp'
+
+// Deliberately long: the text column has to be clearly taller than the image's
+// natural height, or "fill" and "auto" measure the same and prove nothing.
+const paragraph =
+  'A column grows to the height of the tallest column in its row. A block inside it keeps its natural height unless it is set to fill, which is what this page exists to check. The text in this column is deliberately long so that the column is taller than the image beside it at every breakpoint, which is the only way the measurement can tell the two settings apart.'
+
+const column = (key: string, content: unknown[]) => ({
+  _key: key,
+  _type: 'gridColumn',
+  container: {layoutType: 'flex', direction: {desktop: 'column'}},
+  content,
+})
+
+const row = (key: string, height: string | undefined, label: string) => ({
+  _key: key,
+  _type: 'gridRow',
+  label,
+  layout: '50-50',
+  container: {
+    layoutType: 'flex',
+    contentWidth: 'full',
+    direction: {desktop: 'row', mobile: 'column'},
+    gap: {desktop: {column: 24, row: 24, unit: 'px'}},
+  },
+  columns: [
+    column(`${key}-a`, [
+      {
+        _key: `${key}-img`,
+        _type: 'imageBlock',
+        image: {_type: 'image', asset: {_ref: IMAGE_REF, _type: 'reference'}},
+        blockStyles: height ? {size: {height}} : undefined,
+      },
+    ]),
+    column(`${key}-b`, [
+      {
+        _key: `${key}-text`,
+        _type: 'richTextBlock',
+        content: [
+          {
+            _key: `${key}-p1`,
+            _type: 'block',
+            style: 'normal',
+            children: [{_key: `${key}-s1`, _type: 'span', text: paragraph}],
+          },
+          {
+            _key: `${key}-p2`,
+            _type: 'block',
+            style: 'normal',
+            children: [{_key: `${key}-s2`, _type: 'span', text: paragraph}],
+          },
+          {
+            _key: `${key}-p3`,
+            _type: 'block',
+            style: 'normal',
+            children: [{_key: `${key}-s3`, _type: 'span', text: paragraph}],
+          },
+          {
+            _key: `${key}-p4`,
+            _type: 'block',
+            style: 'normal',
+            children: [{_key: `${key}-s4`, _type: 'span', text: paragraph}],
+          },
+        ],
+      },
+    ]),
+  ],
+})
+
+const mapRow = {
+  ...row('map', 'fill', 'Map'),
+  columns: [
+    {
+      _key: 'map-a',
+      _type: 'gridColumn',
+      container: {layoutType: 'flex', direction: {desktop: 'column'}},
+      content: [
+        {
+          _key: 'map-embed',
+          _type: 'mapEmbed',
+          embedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3',
+          height: 'medium',
+          style: 'rounded',
+          blockStyles: {size: {height: 'fill'}},
+        },
+      ],
+    },
+    row('map', 'fill', 'Map').columns[1],
+  ],
+}
+
+const rows = [
+  {title: 'Height: Auto — the image keeps its aspect ratio', data: row('auto', undefined, 'Auto')},
+  {title: 'Height: Fill column — the image matches the text', data: row('fill', 'fill', 'Fill')},
+  {title: 'Height: 200px — fixed, cropped', data: row('fixed', '200px', 'Fixed')},
+  {title: 'Map Embed, Height: Fill column', data: mapRow},
+]
+---
+
+<Base title="Fill column height — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-5xl px-4 py-16 sm:px-6">
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · blockStyles.size.height
+    </p>
+    {
+      rows.map((item) => (
+        <section class="mb-16">
+          <h2 class="mb-4 text-sm font-semibold">{item.title}</h2>
+          <GridRowSection data={item.data as unknown as GridRowData} />
+        </section>
+      ))
+    }
+
+  </main>
+</Base>

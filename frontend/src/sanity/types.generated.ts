@@ -51,6 +51,9 @@ export type Size = {
   width?: string;
   widthTablet?: string;
   widthMobile?: string;
+  height?: string;
+  heightTablet?: string;
+  heightMobile?: string;
   align?: "start" | "center" | "end";
   alignTablet?: "start" | "center" | "end";
   alignMobile?: "start" | "center" | "end";

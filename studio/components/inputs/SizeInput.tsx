@@ -24,8 +24,22 @@ const ALIGNS = [
 
 const ALL_FIELDS = [
   'width', 'widthTablet', 'widthMobile',
+  'height', 'heightTablet', 'heightMobile',
   'align', 'alignTablet', 'alignMobile',
 ] as const
+
+/**
+ * A block keeps its natural height however tall its column grows. "Fill" swaps
+ * that for flex: 1 1 auto in the frontend, so the block — and the image or map
+ * inside it — matches the tallest column in the row.
+ */
+const HEIGHT_MODES = [
+  {value: 'auto', label: 'Auto'},
+  {value: 'fill', label: 'Fill column'},
+  {value: 'custom', label: 'Custom'},
+] as const
+
+const DEFAULT_CUSTOM_HEIGHT = 300
 
 const WIDTH_RE = /^(\d+(?:\.\d+)?)(px|%|rem|em|vw)$/
 
@@ -43,6 +57,7 @@ export function SizeInput(props: ObjectInputProps) {
   const suffix = bp.key
 
   const widthKey = `width${suffix}`
+  const heightKey = `height${suffix}`
   const alignKey = `align${suffix}`
 
   /**
@@ -50,7 +65,7 @@ export function SizeInput(props: ObjectInputProps) {
    * Desktop base. Desktop is the base itself, so it inherits nothing.
    */
   const inheritedFor = useCallback(
-    (field: 'width' | 'align') => {
+    (field: 'width' | 'height' | 'align') => {
       const chain = suffix === 'Mobile' ? ['Tablet', ''] : suffix === 'Tablet' ? [''] : []
       for (const from of chain) {
         const v = vals[`${field}${from}`]
@@ -62,6 +77,7 @@ export function SizeInput(props: ObjectInputProps) {
   )
 
   const inheritedWidth = inheritedFor('width')
+  const inheritedHeight = inheritedFor('height')
   const inheritedAlign = inheritedFor('align')
 
   const own = parseWidth(vals[widthKey])
@@ -81,6 +97,27 @@ export function SizeInput(props: ObjectInputProps) {
     [onChange, widthKey],
   )
 
+  // Shown value falls back to whatever this breakpoint inherits, like width.
+  const shownHeight = vals[heightKey] ?? inheritedHeight
+  const heightMode = shownHeight === 'fill' ? 'fill' : shownHeight ? 'custom' : 'auto'
+  const customHeight = heightMode === 'custom' ? parseWidth(shownHeight).num : undefined
+
+  const setHeightMode = useCallback(
+    (mode: string) => {
+      if (mode === 'auto') onChange(unset([heightKey]))
+      else if (mode === 'fill') onChange(set('fill', [heightKey]))
+      else onChange(set(`${customHeight ?? DEFAULT_CUSTOM_HEIGHT}px`, [heightKey]))
+    },
+    [onChange, heightKey, customHeight],
+  )
+
+  const writeHeight = useCallback(
+    (next: number | undefined) => {
+      onChange(next === undefined ? unset([heightKey]) : set(`${next}px`, [heightKey]))
+    },
+    [onChange, heightKey],
+  )
+
   const setAlign = useCallback(
     (next: string) => {
       onChange(vals[alignKey] === next ? unset([alignKey]) : set(next, [alignKey]))
@@ -93,7 +130,8 @@ export function SizeInput(props: ObjectInputProps) {
   }, [onChange])
 
   const hasValues = ALL_FIELDS.some((f) => vals[f])
-  const hasValuesFor = (s: string) => Boolean(vals[`width${s}`] || vals[`align${s}`])
+  const hasValuesFor = (s: string) =>
+    Boolean(vals[`width${s}`] || vals[`height${s}`] || vals[`align${s}`])
 
   return (
     <Card padding={3} radius={2} border tone="transparent">
@@ -212,6 +250,67 @@ export function SizeInput(props: ObjectInputProps) {
                 ? `Inheriting ${inheritedWidth}.`
                 : 'Empty fills the container.'}
           </Text>
+        </Stack>
+
+        <Stack space={3}>
+          <Text size={1} weight="medium">
+            Height
+          </Text>
+          <Flex gap={0}>
+            {HEIGHT_MODES.map((option, i) => {
+              const isActive = heightMode === option.value
+              const isInherited = isActive && !vals[heightKey] && option.value !== 'auto'
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setHeightMode(option.value)}
+                  style={{
+                    flex: 1,
+                    padding: '6px 4px',
+                    fontSize: 11,
+                    fontFamily: 'inherit',
+                    border: '1px solid var(--card-border-color)',
+                    borderLeft: i > 0 ? 'none' : undefined,
+                    borderRadius:
+                      i === 0
+                        ? '4px 0 0 4px'
+                        : i === HEIGHT_MODES.length - 1
+                          ? '0 4px 4px 0'
+                          : '0',
+                    backgroundColor: isActive
+                      ? 'var(--card-badge-primary-bg-color)'
+                      : 'var(--card-bg-color)',
+                    color: isActive
+                      ? 'var(--card-badge-primary-fg-color)'
+                      : 'var(--card-fg-color)',
+                    opacity: isInherited ? 0.55 : 1,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {option.label}
+                  {isInherited ? ' *' : ''}
+                </button>
+              )
+            })}
+          </Flex>
+          {heightMode === 'custom' && (
+            <SliderInput
+              size={parseWidth(vals[heightKey]).num}
+              placeholder={customHeight}
+              max={MAX_BY_UNIT.px}
+              onChange={writeHeight}
+            />
+          )}
+          <Box>
+            <Text size={0} muted>
+              {heightMode === 'fill'
+                ? 'Matches the height of the tallest block in the row.'
+                : heightMode === 'custom'
+                  ? 'A fixed height in px. Images and maps crop to fit.'
+                  : 'The block keeps its natural height.'}
+            </Text>
+          </Box>
         </Stack>
 
         <Stack space={3}>
