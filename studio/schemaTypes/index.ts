@@ -16,6 +16,7 @@ import {homePageType} from './documents/home-page'
 import {siteSettingsType} from './documents/site-settings'
 import {practiceAreaType} from './documents/practice-area'
 import {reviewType} from './documents/review'
+import {lawyerType} from './documents/lawyer'
 
 const objectTypes: SchemaTypeDefinition[] = [
   blockStylesType,
@@ -32,6 +33,7 @@ const documentTypes: SchemaTypeDefinition[] = [
   siteSettingsType,
   practiceAreaType,
   reviewType,
+  lawyerType,
 ]
 
 export const schemaTypes: SchemaTypeDefinition[] = [

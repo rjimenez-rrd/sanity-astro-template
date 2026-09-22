@@ -10,8 +10,8 @@ interface Props {
 const {data} = Astro.props
 
 const VARIANT_CLASSES: Record<string, string> = {
-  primary: 'bg-primary text-primary-foreground hover:bg-primary/90',
-  secondary: 'bg-white/15 ring-1 ring-foreground/10 text-foreground hover:bg-foreground/5',
+  primary: 'bg-primary text-primary-foreground hover:bg-foreground',
+  secondary: 'bg-white text-primary hover:bg-secondary-hover hover:text-white',
   outline: 'border border-foreground/20 text-foreground hover:bg-foreground/5',
   ghost: 'text-foreground hover:bg-foreground/5',
 }

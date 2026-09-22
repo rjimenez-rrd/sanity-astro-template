@@ -3988,6 +3988,9 @@ export type NestedContainer = {
         } & ImageGallery)
       | ({
           _key: string;
+        } & LawyerCards)
+      | ({
+          _key: string;
         } & TocBlock)
     >;
     design?: GridColumnDesign;
@@ -4095,6 +4098,9 @@ export type GridRow = {
         } & ImageGallery)
       | ({
           _key: string;
+        } & LawyerCards)
+      | ({
+          _key: string;
         } & TocBlock)
       | ({
           _key: string;
@@ -4116,6 +4122,27 @@ export type GridRow = {
 export type TocBlock = {
   _type: "tocBlock";
   title?: string;
+  blockStyles?: BlockStyles;
+};
+
+export type LawyerReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "lawyer";
+};
+
+export type LawyerCards = {
+  _type: "lawyerCards";
+  title?: string;
+  subtitle?: string;
+  lawyers: Array<
+    {
+      _key: string;
+    } & LawyerReference
+  >;
+  columns?: "1" | "2" | "3" | "4";
+  showRole?: boolean;
   blockStyles?: BlockStyles;
 };
 
@@ -4474,6 +4501,8 @@ export type SpacerDivider = {
   height: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
   showDivider?: boolean;
   dividerStyle?: "solid" | "dashed" | "dotted";
+  lineCount?: "single" | "double" | "triple";
+  thickness?: number;
   dividerColor?: string;
   maxWidth?: "narrow" | "default" | "wide" | "full";
   blockStyles?: BlockStyles;
@@ -4703,6 +4732,68 @@ export type BlockStyles = {
   motion?: Motion;
 };
 
+export type Lawyer = {
+  _id: string;
+  _type: "lawyer";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  role: string;
+  slug?: Slug;
+  photo: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  shortBio?: string;
+  bio?: BlockContent;
+  order?: number;
+  practiceAreas?: Array<
+    {
+      _key: string;
+    } & PracticeAreaReference
+  >;
+  barAdmissions?: Array<string>;
+  languages?: Array<string>;
+  education?: Array<{
+    school?: string;
+    degree?: string;
+    year?: string;
+    _type: "education";
+    _key: string;
+  }>;
+  awards?: Array<string>;
+  email?: string;
+  phone?: string;
+  linkedin?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type Review = {
   _id: string;
   _type: "review";
@@ -4733,28 +4824,6 @@ export type PracticeArea = {
     _type: "image";
   };
   seo?: Seo;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top: number;
-  bottom: number;
-  left: number;
-  right: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type SiteSettings = {
@@ -5416,6 +5485,8 @@ export type AllSanitySchemaTypes =
   | NestedContainer
   | GridRow
   | TocBlock
+  | LawyerReference
+  | LawyerCards
   | ImageGallery
   | TestimonialCarousel
   | FeatureCardGrid
@@ -5451,11 +5522,12 @@ export type AllSanitySchemaTypes =
   | LinkInternal
   | BlockContent
   | BlockStyles
-  | Review
-  | PracticeArea
+  | Lawyer
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | Review
+  | PracticeArea
   | SiteSettings
   | HomePage
   | Page
@@ -5477,7 +5549,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type HOME_PAGE_QUERY_RESULT =
   | {
       _id: "homePage";
@@ -6246,6 +6318,71 @@ export type HOME_PAGE_QUERY_RESULT =
                     layout?: "grid" | "masonry";
                     columns?: "2" | "3" | "4";
                     enableLightbox?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "lawyerCards";
+                    title?: string;
+                    subtitle?: string;
+                    lawyers: Array<{
+                      _id: string;
+                      name: string;
+                      role: string;
+                      shortBio: string | null;
+                      slug: string | null;
+                      photo: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    showRole?: boolean;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -7226,6 +7363,71 @@ export type HOME_PAGE_QUERY_RESULT =
                           }
                         | {
                             _key: string;
+                            _type: "lawyerCards";
+                            title?: string;
+                            subtitle?: string;
+                            lawyers: Array<{
+                              _id: string;
+                              name: string;
+                              role: string;
+                              shortBio: string | null;
+                              slug: string | null;
+                              photo: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: string | null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                            }>;
+                            columns?: "1" | "2" | "3" | "4";
+                            showRole?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
                             _type: "logoRow";
                             logos: Array<{
                               image: {
@@ -7634,6 +7836,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                             showDivider?: boolean;
                             dividerStyle?: "dashed" | "dotted" | "solid";
+                            lineCount?: "double" | "single" | "triple";
+                            thickness?: number;
                             dividerColor?: string;
                             maxWidth?: "default" | "full" | "narrow" | "wide";
                             blockStyles: {
@@ -8299,6 +8503,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                     showDivider?: boolean;
                     dividerStyle?: "dashed" | "dotted" | "solid";
+                    lineCount?: "double" | "single" | "triple";
+                    thickness?: number;
                     dividerColor?: string;
                     maxWidth?: "default" | "full" | "narrow" | "wide";
                     blockStyles: {
@@ -8871,6 +9077,12 @@ export type HOME_PAGE_QUERY_RESULT =
             columns: null;
           }
       > | null;
+    }
+  | {
+      _id: "homePage";
+      _type: "lawyer";
+      seo: null;
+      pageBuilder: null;
     }
   | {
       _id: "homePage";
@@ -9682,6 +9894,71 @@ export type HOME_PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "lawyerCards";
+                    title?: string;
+                    subtitle?: string;
+                    lawyers: Array<{
+                      _id: string;
+                      name: string;
+                      role: string;
+                      shortBio: string | null;
+                      slug: string | null;
+                      photo: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    showRole?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
                     _type: "logoRow";
                     logos: Array<{
                       image: {
@@ -10625,6 +10902,71 @@ export type HOME_PAGE_QUERY_RESULT =
                           }
                         | {
                             _key: string;
+                            _type: "lawyerCards";
+                            title?: string;
+                            subtitle?: string;
+                            lawyers: Array<{
+                              _id: string;
+                              name: string;
+                              role: string;
+                              shortBio: string | null;
+                              slug: string | null;
+                              photo: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: string | null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                            }>;
+                            columns?: "1" | "2" | "3" | "4";
+                            showRole?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
                             _type: "logoRow";
                             logos: Array<{
                               image: {
@@ -11033,6 +11375,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                             showDivider?: boolean;
                             dividerStyle?: "dashed" | "dotted" | "solid";
+                            lineCount?: "double" | "single" | "triple";
+                            thickness?: number;
                             dividerColor?: string;
                             maxWidth?: "default" | "full" | "narrow" | "wide";
                             blockStyles: {
@@ -11698,6 +12042,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                     showDivider?: boolean;
                     dividerStyle?: "dashed" | "dotted" | "solid";
+                    lineCount?: "double" | "single" | "triple";
+                    thickness?: number;
                     dividerColor?: string;
                     maxWidth?: "default" | "full" | "narrow" | "wide";
                     blockStyles: {
@@ -13075,6 +13421,71 @@ export type HOME_PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "lawyerCards";
+                    title?: string;
+                    subtitle?: string;
+                    lawyers: Array<{
+                      _id: string;
+                      name: string;
+                      role: string;
+                      shortBio: string | null;
+                      slug: string | null;
+                      photo: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    showRole?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
                     _type: "logoRow";
                     logos: Array<{
                       image: {
@@ -14018,6 +14429,71 @@ export type HOME_PAGE_QUERY_RESULT =
                           }
                         | {
                             _key: string;
+                            _type: "lawyerCards";
+                            title?: string;
+                            subtitle?: string;
+                            lawyers: Array<{
+                              _id: string;
+                              name: string;
+                              role: string;
+                              shortBio: string | null;
+                              slug: string | null;
+                              photo: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: string | null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                            }>;
+                            columns?: "1" | "2" | "3" | "4";
+                            showRole?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
                             _type: "logoRow";
                             logos: Array<{
                               image: {
@@ -14426,6 +14902,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                             showDivider?: boolean;
                             dividerStyle?: "dashed" | "dotted" | "solid";
+                            lineCount?: "double" | "single" | "triple";
+                            thickness?: number;
                             dividerColor?: string;
                             maxWidth?: "default" | "full" | "narrow" | "wide";
                             blockStyles: {
@@ -15091,6 +15569,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                     showDivider?: boolean;
                     dividerStyle?: "dashed" | "dotted" | "solid";
+                    lineCount?: "double" | "single" | "triple";
+                    thickness?: number;
                     dividerColor?: string;
                     maxWidth?: "default" | "full" | "narrow" | "wide";
                     blockStyles: {
@@ -15692,7 +16172,7 @@ export type HOME_PAGE_QUERY_RESULT =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+// Query: *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type PAGE_QUERY_RESULT =
   | {
       _id: string;
@@ -16500,6 +16980,71 @@ export type PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "lawyerCards";
+                    title?: string;
+                    subtitle?: string;
+                    lawyers: Array<{
+                      _id: string;
+                      name: string;
+                      role: string;
+                      shortBio: string | null;
+                      slug: string | null;
+                      photo: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    showRole?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
                     _type: "logoRow";
                     logos: Array<{
                       image: {
@@ -17443,6 +17988,71 @@ export type PAGE_QUERY_RESULT =
                           }
                         | {
                             _key: string;
+                            _type: "lawyerCards";
+                            title?: string;
+                            subtitle?: string;
+                            lawyers: Array<{
+                              _id: string;
+                              name: string;
+                              role: string;
+                              shortBio: string | null;
+                              slug: string | null;
+                              photo: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: string | null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                            }>;
+                            columns?: "1" | "2" | "3" | "4";
+                            showRole?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
                             _type: "logoRow";
                             logos: Array<{
                               image: {
@@ -17851,6 +18461,8 @@ export type PAGE_QUERY_RESULT =
                             height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                             showDivider?: boolean;
                             dividerStyle?: "dashed" | "dotted" | "solid";
+                            lineCount?: "double" | "single" | "triple";
+                            thickness?: number;
                             dividerColor?: string;
                             maxWidth?: "default" | "full" | "narrow" | "wide";
                             blockStyles: {
@@ -18516,6 +19128,8 @@ export type PAGE_QUERY_RESULT =
                     height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                     showDivider?: boolean;
                     dividerStyle?: "dashed" | "dotted" | "solid";
+                    lineCount?: "double" | "single" | "triple";
+                    thickness?: number;
                     dividerColor?: string;
                     maxWidth?: "default" | "full" | "narrow" | "wide";
                     blockStyles: {
@@ -19895,6 +20509,71 @@ export type PAGE_QUERY_RESULT =
                   }
                 | {
                     _key: string;
+                    _type: "lawyerCards";
+                    title?: string;
+                    subtitle?: string;
+                    lawyers: Array<{
+                      _id: string;
+                      name: string;
+                      role: string;
+                      shortBio: string | null;
+                      slug: string | null;
+                      photo: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    showRole?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
                     _type: "logoRow";
                     logos: Array<{
                       image: {
@@ -20838,6 +21517,71 @@ export type PAGE_QUERY_RESULT =
                           }
                         | {
                             _key: string;
+                            _type: "lawyerCards";
+                            title?: string;
+                            subtitle?: string;
+                            lawyers: Array<{
+                              _id: string;
+                              name: string;
+                              role: string;
+                              shortBio: string | null;
+                              slug: string | null;
+                              photo: {
+                                asset: {
+                                  _id: string;
+                                  url: string;
+                                  metadata: {
+                                    lqip: string | null;
+                                    dimensions: {
+                                      width: number;
+                                      height: number;
+                                    } | null;
+                                  } | null;
+                                } | null;
+                                alt: string | null;
+                                hotspot: SanityImageHotspot | null;
+                                crop: SanityImageCrop | null;
+                              };
+                            }>;
+                            columns?: "1" | "2" | "3" | "4";
+                            showRole?: boolean;
+                            blockStyles: {
+                              padding: Padding | null;
+                              margin: Margin | null;
+                              size: Size | null;
+                              border: Border | null;
+                              borderRadius: BorderRadius | null;
+                              background: {
+                                color: string | null;
+                                image: {
+                                  asset: {
+                                    _id: string;
+                                    url: string;
+                                    metadata: {
+                                      lqip: string | null;
+                                      dimensions: {
+                                        width: number;
+                                        height: number;
+                                      } | null;
+                                    } | null;
+                                  } | null;
+                                  alt: null;
+                                  hotspot: SanityImageHotspot | null;
+                                  crop: SanityImageCrop | null;
+                                } | null;
+                                size: "auto" | "contain" | "cover" | null;
+                                overlay: string | null;
+                              } | null;
+                              typography: Typography | null;
+                              effects: Effects | null;
+                              motion: Motion | null;
+                              cssId: string | null;
+                              cssClasses: string | null;
+                              customCss: string | null;
+                            } | null;
+                          }
+                        | {
+                            _key: string;
                             _type: "logoRow";
                             logos: Array<{
                               image: {
@@ -21246,6 +21990,8 @@ export type PAGE_QUERY_RESULT =
                             height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                             showDivider?: boolean;
                             dividerStyle?: "dashed" | "dotted" | "solid";
+                            lineCount?: "double" | "single" | "triple";
+                            thickness?: number;
                             dividerColor?: string;
                             maxWidth?: "default" | "full" | "narrow" | "wide";
                             blockStyles: {
@@ -21911,6 +22657,8 @@ export type PAGE_QUERY_RESULT =
                     height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
                     showDivider?: boolean;
                     dividerStyle?: "dashed" | "dotted" | "solid";
+                    lineCount?: "double" | "single" | "triple";
+                    thickness?: number;
                     dividerColor?: string;
                     maxWidth?: "default" | "full" | "narrow" | "wide";
                     blockStyles: {
@@ -22536,6 +23284,19 @@ export type SITE_SETTINGS_QUERY_RESULT =
       footerColumns: null;
     }
   | {
+      siteName: null;
+      tagline: null;
+      logo: null;
+      phone: string | null;
+      primaryColor: null;
+      secondaryColor: null;
+      socialLinks: null;
+      mainNav: null;
+      footerStyle: null;
+      footerDescription: null;
+      footerColumns: null;
+    }
+  | {
       siteName: string;
       tagline: string | null;
       logo: {
@@ -22625,8 +23386,8 @@ export type SITE_SETTINGS_QUERY_RESULT =
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type in ["page", "practiceArea"] && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {\n    _id, title, slug,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n  }\n': PRACTICE_AREAS_QUERY_RESULT;
     '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    primaryColor, secondaryColor,\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    footerStyle,\n    footerDescription,\n    footerColumns[] {\n      _key, title,\n      links[] { _key, label, href }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;

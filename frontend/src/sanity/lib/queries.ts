@@ -79,6 +79,15 @@ const contentTypesFragment = /* groq */ `
       ...,
       icon { ${imageFragment} },
       ${blockStylesFragment}
+    },
+    _type == "lawyerCards" => {
+      ...,
+      lawyers[]-> {
+        _id, name, role, shortBio,
+        "slug": slug.current,
+        photo { ${imageFragment} }
+      },
+      ${blockStylesFragment}
     }
 `
 

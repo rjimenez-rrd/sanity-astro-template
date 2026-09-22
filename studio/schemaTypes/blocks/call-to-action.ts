@@ -5,7 +5,7 @@ import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 
 export const callToActionType = defineType({
   name: 'callToAction',
-  title: 'Call to Action',
+  title: 'Button',
   type: 'object',
   icon: LaunchIcon,
   fields: [
@@ -68,8 +68,8 @@ export const callToActionType = defineType({
     },
     prepare({title}: {title?: string}) {
       return {
-        title: title || 'Call to Action',
-        subtitle: 'Call to Action',
+        title: title || 'Button',
+        subtitle: 'Button',
         media: LaunchIcon,
       }
     },

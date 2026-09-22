@@ -51,6 +51,31 @@ export const spacerDividerType = defineType({
       },
     }),
     defineField({
+      name: 'lineCount',
+      title: 'Lines',
+      type: 'string',
+      description: 'How many lines to stack.',
+      hidden: ({parent}) => !parent?.showDivider,
+      initialValue: 'single',
+      options: {
+        list: [
+          {title: 'Single', value: 'single'},
+          {title: 'Double', value: 'double'},
+          {title: 'Triple', value: 'triple'},
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      name: 'thickness',
+      title: 'Thickness',
+      type: 'number',
+      description: 'Line thickness in px. Each line in a Double or Triple is this thick.',
+      hidden: ({parent}) => !parent?.showDivider,
+      initialValue: 1,
+      validation: (rule) => rule.min(1).max(20),
+    }),
+    defineField({
       name: 'dividerColor',
       title: 'Divider Color',
       type: 'string',
@@ -82,14 +107,27 @@ export const spacerDividerType = defineType({
     }),
   ],
   preview: {
-    select: {height: 'height', showDivider: 'showDivider'},
-    prepare({height, showDivider}: {height?: string; showDivider?: boolean}) {
+    select: {height: 'height', showDivider: 'showDivider', lineCount: 'lineCount', thickness: 'thickness'},
+    prepare({
+      height,
+      showDivider,
+      lineCount,
+      thickness,
+    }: {
+      height?: string
+      showDivider?: boolean
+      lineCount?: string
+      thickness?: number
+    }) {
       const label = showDivider ? 'Divider' : 'Spacer'
       const sizeLabel =
         {xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL', xxl: 'XXL'}[height ?? 'md'] ?? height
+      const lines = {single: 1, double: 2, triple: 3}[lineCount ?? 'single'] ?? 1
       return {
         title: `${label} — ${sizeLabel}`,
-        subtitle: showDivider ? 'With line' : 'Empty space',
+        subtitle: showDivider
+          ? `${lines} line${lines > 1 ? 's' : ''} · ${thickness ?? 1}px`
+          : 'Empty space',
         media: RemoveIcon,
       }
     },

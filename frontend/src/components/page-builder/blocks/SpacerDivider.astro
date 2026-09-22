@@ -17,16 +17,67 @@ const HEIGHT_MAP: Record<string, string> = {
   xxl: 'h-24 md:h-32',
 }
 
+/**
+ * A divider is the same vertical space as a spacer, but thick or stacked lines
+ * can outgrow it — so the height becomes a floor rather than a fixed size, and
+ * the lines are never clipped.
+ */
+const MIN_HEIGHT_MAP: Record<string, string> = {
+  xs: 'min-h-2 md:min-h-3',
+  sm: 'min-h-4 md:min-h-6',
+  md: 'min-h-8 md:min-h-12',
+  lg: 'min-h-12 md:min-h-16',
+  xl: 'min-h-16 md:min-h-24',
+  xxl: 'min-h-24 md:min-h-32',
+}
+
+const LINE_COUNTS: Record<string, number> = {single: 1, double: 2, triple: 3}
+const MAX_WIDTHS: Record<string, string> = {
+  narrow: '768px',
+  default: '1200px',
+  wide: '1400px',
+  full: '100%',
+}
+const LINE_STYLES = new Set(['solid', 'dashed', 'dotted'])
+
+/** Editor input, so only a hex, rgb()/rgba() or a bare keyword reaches CSS. */
+const CSS_COLOR = /^(#[0-9a-fA-F]{3,8}|rgba?\([\d\s.,%/]+\)|[a-zA-Z]+)$/
+
 const height = stegaClean(data.height) || 'md'
-const heightClass = HEIGHT_MAP[height] || HEIGHT_MAP.md
+
+const lines = LINE_COUNTS[stegaClean(data.lineCount) ?? 'single'] ?? 1
+
+const rawThickness = data.thickness
+const thickness =
+  typeof rawThickness === 'number' && rawThickness >= 1 && rawThickness <= 20
+    ? Math.round(rawThickness)
+    : 1
+
+const lineStyle = stegaClean(data.dividerStyle) ?? 'solid'
+const style = LINE_STYLES.has(lineStyle) ? lineStyle : 'solid'
+
+const rawColor = stegaClean(data.dividerColor)?.trim()
+const color = rawColor && CSS_COLOR.test(rawColor) ? rawColor : 'var(--border)'
+
+const maxWidth = MAX_WIDTHS[stegaClean(data.maxWidth) ?? 'default'] ?? MAX_WIDTHS.default
+
+// Scaled off the thickness, so a double line reads as two lines at any weight.
+const gap = Math.max(4, thickness * 2)
+
+const lineStyleAttr = `max-width:${maxWidth};border-top-width:${thickness}px;border-top-style:${style};border-top-color:${color}`
 ---
 
 {
   data.showDivider ? (
-    <div class={`${heightClass} flex items-center`}>
-      <hr class="w-full border-t border-border" />
+    <div
+      class={`${MIN_HEIGHT_MAP[height] || MIN_HEIGHT_MAP.md} flex flex-col items-center justify-center`}
+      style={lines > 1 ? `gap:${gap}px` : undefined}
+    >
+      {Array.from({length: lines}).map(() => (
+        <hr class="w-full border-0" style={lineStyleAttr} />
+      ))}
     </div>
   ) : (
-    <div class={heightClass} aria-hidden="true" />
+    <div class={HEIGHT_MAP[height] || HEIGHT_MAP.md} aria-hidden="true" />
   )
 }

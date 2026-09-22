@@ -163,7 +163,11 @@ class CssBuilder {
 export interface ContainerCssInput {
   key: string
   variant: 'row' | 'column'
-  container: ContainerSettings
+  /**
+   * Optional: a container inserted in the Studio reaches the preview before
+   * its initial values do, so this is briefly missing on a brand new one.
+   */
+  container?: ContainerSettings
   /** Column preset, used as the template when a row is in Grid mode. */
   gridTemplate?: string | null
   zIndex?: number | null
@@ -181,7 +185,7 @@ export function directionFor(container: ContainerSettings | undefined, variant: 
 }
 
 export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder()): CssBuilder {
-  const {key, variant, container: c, gridTemplate, zIndex, visibility, parent} = input
+  const {key, variant, container: c = {}, gridTemplate, zIndex, visibility, parent} = input
   const outer = `[data-pb="${key}"]`
   const inner = `[data-pb-inner="${key}"]`
   const items = `${inner}>*`
