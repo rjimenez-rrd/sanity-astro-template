@@ -105,9 +105,24 @@ const rawStyles = stegaClean(block.blockStyles) as (BlockStyles & {motion?: Moti
 const DEFAULT_FILL_TYPES = new Set(['mapEmbed'])
 const autoFillsHeight =
   DEFAULT_FILL_TYPES.has(type) && (columnCount ?? 1) > 1 && !rawStyles?.size?.height
-const styles = autoFillsHeight
+const sizedStyles = autoFillsHeight
   ? {...rawStyles, size: {...rawStyles?.size, height: 'fill'}}
   : rawStyles
+
+/**
+ * Full Width on a Button means the width of its column, so any width set in
+ * Size & Alignment is dropped for it. The button fills its wrapper, so leaving
+ * a 200px width there would have it fill 200px and quietly contradict the
+ * toggle — turn Full Width off to go back to a sized button.
+ */
+const ignoresWidth = type === 'callToAction' && (block as {fullWidth?: boolean}).fullWidth === true
+const styles =
+  ignoresWidth && sizedStyles?.size
+    ? {
+        ...sizedStyles,
+        size: {...sizedStyles.size, width: null, widthTablet: null, widthMobile: null},
+      }
+    : sizedStyles
 const animation = animationAttrs(styles?.motion)
 // Class hooks and Custom CSS. Scoped to this block's own key, so a rule an
 // editor writes can only reach this element and its descendants.

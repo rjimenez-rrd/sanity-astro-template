@@ -288,8 +288,13 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
         // inherited desktop width would squeeze it on mobile otherwise.
         rule = {flex: '0 0 auto', width: w, 'max-width': '100%', overflow: clip}
       } else if (prevItemWidth) {
-        // Undo a width set at a larger breakpoint.
-        rule = {flex: '0 0 auto', width: 'auto', 'max-width': '100%'}
+        /**
+         * Undo a width set at a larger breakpoint. 100%, not auto: a stacked
+         * column is meant to fill the row, and auto only did that while the
+         * row stretched its items — under align-items: center it shrank to
+         * its content instead, taking anything inside it along.
+         */
+        rule = {flex: '0 0 auto', width: '100%', 'max-width': '100%'}
       }
       const signature = rule ? JSON.stringify(rule) : undefined
       if (rule && signature !== prevItemWidth) css.add(media, outer, rule)
