@@ -34,6 +34,7 @@ const cardStyle = [
 
 const showResultType = data.showResultType === true
 const results = (data.caseResults ?? []).filter((result) => result?.amount)
+const autoPlayInterval = data.autoPlayInterval || 5
 
 /**
  * Looping needs more cards in the track than are on screen, so the set is
@@ -49,7 +50,12 @@ const loopedResults = Array.from({length: loops}, () => results).flat()
 
 {
   results.length > 0 && (
-    <div data-card-carousel data-count={String(results.length)}>
+    <div
+      data-card-carousel
+      data-count={String(results.length)}
+      data-autoplay={data.autoPlay ? 'true' : 'false'}
+      data-interval={String(autoPlayInterval)}
+    >
       {data.title && (
         <h2 class="mb-2 font-display text-3xl font-bold md:text-4xl">{data.title}</h2>
       )}

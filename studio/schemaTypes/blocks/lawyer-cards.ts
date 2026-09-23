@@ -48,6 +48,21 @@ export const lawyerCardsType = defineType({
       initialValue: true,
     }),
     defineField({
+      name: 'autoPlay',
+      title: 'Auto Play',
+      type: 'boolean',
+      description: 'Advance a page at a time on its own. Only runs when there is more than one page.',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'autoPlayInterval',
+      title: 'Auto Play Interval (seconds)',
+      type: 'number',
+      initialValue: 5,
+      validation: (rule) => rule.min(2).max(30),
+      hidden: ({parent}) => !parent?.autoPlay,
+    }),
+    defineField({
       name: 'blockStyles',
       title: 'Block Styles',
       type: 'blockStyles',

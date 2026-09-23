@@ -4149,6 +4149,8 @@ export type CaseResultCards = {
   >;
   columns?: "1" | "2" | "3" | "4";
   showResultType?: boolean;
+  autoPlay?: boolean;
+  autoPlayInterval?: number;
   blockStyles?: BlockStyles;
 };
 
@@ -4170,6 +4172,8 @@ export type LawyerCards = {
   >;
   columns?: "1" | "2" | "3" | "4";
   showRole?: boolean;
+  autoPlay?: boolean;
+  autoPlayInterval?: number;
   blockStyles?: BlockStyles;
 };
 
@@ -5881,6 +5885,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showResultType?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -6484,6 +6490,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showRole?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -6937,6 +6945,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showResultType?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -7541,6 +7551,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showRole?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -9517,6 +9529,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showResultType?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -10120,6 +10134,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showRole?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -10573,6 +10589,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showResultType?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -11177,6 +11195,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showRole?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -13141,6 +13161,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showResultType?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -13744,6 +13766,8 @@ export type HOME_PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showRole?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -14197,6 +14221,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showResultType?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -14801,6 +14827,8 @@ export type HOME_PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showRole?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -16797,6 +16825,8 @@ export type PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showResultType?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -17400,6 +17430,8 @@ export type PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showRole?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -17853,6 +17885,8 @@ export type PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showResultType?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -18457,6 +18491,8 @@ export type PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showRole?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -20423,6 +20459,8 @@ export type PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showResultType?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -21026,6 +21064,8 @@ export type PAGE_QUERY_RESULT =
                     }>;
                     columns?: "1" | "2" | "3" | "4";
                     showRole?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -21479,6 +21519,8 @@ export type PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showResultType?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;
@@ -22083,6 +22125,8 @@ export type PAGE_QUERY_RESULT =
                             }>;
                             columns?: "1" | "2" | "3" | "4";
                             showRole?: boolean;
+                            autoPlay?: boolean;
+                            autoPlayInterval?: number;
                             blockStyles: {
                               padding: Padding | null;
                               margin: Margin | null;

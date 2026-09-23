@@ -13,6 +13,9 @@
  *
  * Add data-card-carousel-wrap to the root to let a two-up tablet row wrap into
  * a second row before it becomes a carousel.
+ *
+ * data-autoplay="true" plus data-interval (seconds) advances a page at a time
+ * on its own.
  */
 
 /** Guards against double-binding when more than one component imports this. */
@@ -35,12 +38,37 @@ export function initCardCarousels(scope: ParentNode = document) {
     const wrapRows = root.hasAttribute('data-card-carousel-wrap')
     if (slides.length === 0) return
 
+    const autoPlay = root.dataset.autoplay === 'true'
+    const intervalMs = Math.max(2, Number(root.dataset.interval) || 5) * 1000
+    // Someone who has asked the OS for less motion should not get a carousel
+    // that moves on its own; the dots and swiping still work.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
     let current = 0
     let pages = 1
     let perView = 1
 
+    let timer: number | undefined
+    let paused = false
+
     const offsetOf = (index: number) =>
       slides[Math.min(index, slides.length - 1)]!.offsetLeft - track.offsetLeft
+
+    function stopAuto() {
+      if (timer !== undefined) window.clearInterval(timer)
+      timer = undefined
+    }
+
+    /**
+     * Restarted from layout(), because whether there is anything to advance
+     * through depends on the breakpoint: a block that carousels at 3-up may
+     * fit on one page at 1-up, and then the timer would just fight the reader.
+     */
+    function startAuto() {
+      stopAuto()
+      if (!autoPlay || reduceMotion || paused || pages < 2) return
+      timer = window.setInterval(() => goTo(current + perView), intervalMs)
+    }
 
     /** Measured, not assumed: the width comes from CSS and changes per breakpoint. */
     function measurePerView() {
@@ -100,7 +128,10 @@ export function initCardCarousels(scope: ParentNode = document) {
 
       dotsBox!.replaceChildren()
       dotsBox!.hidden = fits
-      if (fits) return
+      if (fits) {
+        startAuto()
+        return
+      }
       for (let i = 0; i < pages; i++) {
         const dot = document.createElement('button')
         dot.type = 'button'
@@ -110,6 +141,7 @@ export function initCardCarousels(scope: ParentNode = document) {
         dotsBox!.append(dot)
       }
       paint()
+      startAuto()
     }
 
     /**
@@ -178,6 +210,27 @@ export function initCardCarousels(scope: ParentNode = document) {
         }
       }, 120)
     })
+
+    if (autoPlay && !reduceMotion) {
+      const pause = () => {
+        paused = true
+        stopAuto()
+      }
+      const resume = () => {
+        paused = false
+        startAuto()
+      }
+      // A background interval just fights the reader's scroll position, and
+      // moving the cards out from under a pointer or a keyboard focus is worse
+      // than not moving at all.
+      root.addEventListener('mouseenter', pause)
+      root.addEventListener('mouseleave', resume)
+      root.addEventListener('focusin', pause)
+      root.addEventListener('focusout', resume)
+      document.addEventListener('visibilitychange', () =>
+        document.hidden ? pause() : resume(),
+      )
+    }
 
     layout()
 

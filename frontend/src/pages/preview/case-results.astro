@@ -63,6 +63,14 @@ const variants = [
   {title: '3 columns — 4 results', data: block('3', false, 4)},
   {title: '3 columns — 3 results', data: block('3', false, 3)},
   {title: '3 columns — 2 results, fits at every width', data: block('3', false, 2)},
+  {
+    title: '3 columns — autoplay every 4s, pauses on hover',
+    data: {
+      ...block('3'),
+      autoPlay: true,
+      autoPlayInterval: 4,
+    } as unknown as CaseResultCardsData,
+  },
 ]
 ---
 
@@ -79,6 +87,7 @@ const variants = [
         </section>
       ))
     }
+
 
 
 

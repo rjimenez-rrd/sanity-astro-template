@@ -39,6 +39,7 @@ const BAR_GRADIENT = 'linear-gradient(90deg, #07083d 15%, #0A108C80 56%)'
 
 const showRole = data.showRole !== false
 const lawyers = (data.lawyers ?? []).filter((lawyer) => lawyer?.name)
+const autoPlayInterval = data.autoPlayInterval || 5
 
 /**
  * Looping needs more cards in the track than are on screen, so the set is
@@ -54,7 +55,13 @@ const loopedLawyers = Array.from({length: loops}, () => lawyers).flat()
 
 {
   lawyers.length > 0 && (
-    <div data-card-carousel data-card-carousel-wrap data-count={String(lawyers.length)}>
+    <div
+      data-card-carousel
+      data-card-carousel-wrap
+      data-count={String(lawyers.length)}
+      data-autoplay={data.autoPlay ? 'true' : 'false'}
+      data-interval={String(autoPlayInterval)}
+    >
       {data.title && (
         <h2 class="mb-2 font-display text-3xl font-bold md:text-4xl">{data.title}</h2>
       )}
