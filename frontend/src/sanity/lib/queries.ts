@@ -88,6 +88,13 @@ const contentTypesFragment = /* groq */ `
         photo { ${imageFragment} }
       },
       ${blockStylesFragment}
+    },
+    _type == "caseResultCards" => {
+      ...,
+      caseResults[]-> {
+        _id, amount, summary, resultType
+      },
+      ${blockStylesFragment}
     }
 `
 

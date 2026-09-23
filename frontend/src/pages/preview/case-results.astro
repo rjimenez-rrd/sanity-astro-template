@@ -1,0 +1,86 @@
+---
+/**
+ * Design preview for the Case Results block, with hardcoded content so it can
+ * be worked on without creating real caseResult documents.
+ *
+ * Base rather than Site: it pulls in global.css and the animation runtime but
+ * leaves out the header and footer, so the block is the only thing on screen.
+ */
+import Base from '@/layouts/Base.astro'
+import CaseResultCards from '@/components/page-builder/blocks/CaseResultCards.astro'
+import type {CaseResultCardsData} from '@/types/sanity'
+
+// Shaped like what GROQ returns once caseResults[] has been dereferenced.
+const RESULTS = [
+  {
+    _id: 'preview-1',
+    amount: '$1.75M',
+    summary: 'Fall Down Stairs Results in Multiple Surgeries',
+    resultType: 'Settlement',
+  },
+  {
+    _id: 'preview-2',
+    amount: '$4.2M',
+    summary: 'Construction Site Scaffold Collapse',
+    resultType: 'Verdict',
+  },
+  {
+    _id: 'preview-3',
+    amount: '$980K',
+    summary: 'Rear-End Collision Causing Spinal Injury',
+    resultType: 'Settlement',
+  },
+  {
+    _id: 'preview-4',
+    amount: '$2.3M',
+    summary: 'Delayed Diagnosis of Cardiac Condition',
+    resultType: 'Settlement',
+  },
+  {
+    _id: 'preview-5',
+    amount: '$615K',
+    summary: 'Slip and Fall on Unmarked Wet Floor',
+    resultType: 'Award',
+  },
+]
+
+const block = (columns: string, showResultType = false, take = RESULTS.length) =>
+  ({
+    _type: 'caseResultCards',
+    title: 'Case results',
+    subtitle: 'Past results do not guarantee a similar outcome.',
+    columns,
+    showResultType,
+    caseResults: RESULTS.slice(0, take),
+  }) as unknown as CaseResultCardsData
+
+const variants = [
+  {title: '3 columns — 5 results, so it carousels', data: block('3')},
+  {title: '3 columns, with the result type label', data: block('3', true)},
+  {title: '2 columns', data: block('2')},
+  // Four at 3-up is the case that used to wrap into a 2x2 block on tablet
+  // instead of carouselling.
+  {title: '3 columns — 4 results', data: block('3', false, 4)},
+  {title: '3 columns — 3 results', data: block('3', false, 3)},
+  {title: '3 columns — 2 results, fits at every width', data: block('3', false, 2)},
+]
+---
+
+<Base title="Case Results — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · caseResultCards
+    </p>
+    {
+      variants.map((variant) => (
+        <section class="mb-20">
+          <h2 class="mb-6 text-sm font-semibold">{variant.title}</h2>
+          <CaseResultCards data={variant.data} />
+        </section>
+      ))
+    }
+
+
+
+  </main>
+</Base>

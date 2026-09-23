@@ -60,6 +60,7 @@ export type ImageGalleryData = Extract<ContentBlock, {_type: 'imageGallery'}>
 export type TocBlockData = Extract<ContentBlock, {_type: 'tocBlock'}>
 export type NestedContainerData = Extract<ContentBlock, {_type: 'nestedContainer'}>
 export type LawyerCardsData = Extract<ContentBlock, {_type: 'lawyerCards'}>
+export type CaseResultCardsData = Extract<ContentBlock, {_type: 'caseResultCards'}>
 
 // ---------- SEO ----------
 export type SeoData = NonNullable<PageData['seo']>

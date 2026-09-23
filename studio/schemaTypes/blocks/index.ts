@@ -27,6 +27,7 @@ import {tocBlockType} from './toc-block'
 import {testimonialCarouselType} from './testimonial-carousel'
 import {imageGalleryType} from './image-gallery'
 import {lawyerCardsType} from './lawyer-cards'
+import {caseResultCardsType} from './case-result-cards'
 import {pageBuilderType} from './page-builder'
 import { youtubeVideoType, externalVideoType } from './video'
 
@@ -61,6 +62,7 @@ export {
   testimonialCarouselType,
   imageGalleryType,
   lawyerCardsType,
+  caseResultCardsType,
   tocBlockType,
   gridRowType,
   nestedContainerType,
@@ -97,6 +99,7 @@ export const blockTypes = [
   testimonialCarouselType,
   imageGalleryType,
   lawyerCardsType,
+  caseResultCardsType,
   tocBlockType,
   gridRowType,
   nestedContainerType,

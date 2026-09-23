@@ -7,7 +7,7 @@ const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
  * Types given an explicit item below. The catch-all at the end skips these, so
  * adding one here is all it takes to avoid a duplicate-ID error.
  */
-const PLACED = ['page', 'practiceArea', 'review', 'lawyer', ...SINGLETONS]
+const PLACED = ['page', 'practiceArea', 'review', 'lawyer', 'caseResult', ...SINGLETONS]
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -33,6 +33,7 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('practiceArea').title('Practice Areas'),
       S.documentTypeListItem('review').title('Reviews'),
       S.documentTypeListItem('lawyer').title('Lawyers'),
+      S.documentTypeListItem('caseResult').title('Case Results'),
 
       // Any document type not placed above, so a new one still shows up.
       ...S.documentTypeListItems().filter(

@@ -74,6 +74,7 @@ const contentMembers = () => [
   defineArrayMember({type: 'testimonialCarousel'}),
   defineArrayMember({type: 'imageGallery'}),
   defineArrayMember({type: 'lawyerCards'}),
+  defineArrayMember({type: 'caseResultCards'}),
   defineArrayMember({type: 'tocBlock'}),
 ]
 
