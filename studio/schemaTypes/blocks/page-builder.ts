@@ -9,7 +9,7 @@ export const pageBuilderType = defineType({
   title: 'Page Builder',
   type: 'array',
   of: [
-    defineArrayMember({type: 'heroSection'}),
+    // defineArrayMember({type: 'heroSection'}),
     defineArrayMember({type: 'gridRow'}),
   ],
 })

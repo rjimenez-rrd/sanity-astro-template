@@ -5,23 +5,24 @@ import {createDataAttribute} from '@sanity/visual-editing/create-data-attribute'
 import {projectId, dataset} from '@/sanity/lib/env'
 import BlockRenderer from '../BlockRenderer.astro'
 import {
-  CssBuilder,
-  buildContainerCss,
-  buildGridWidthCss,
   safeCssClasses,
   safeCssId,
   safeKey,
   type ContainerSettings,
   type VisibilitySettings,
 } from '@/lib/container'
+import {
+  buildContainerStyles,
+  clean,
+  type ContainerAdvanced,
+} from '@/lib/containerStyles'
 import {elementStyle, type BlockStyles} from '@/lib/blockStyles'
-import {animationAttrs, type MotionSettings} from '@/lib/animation'
-import {buildDesignCss, designOverrides, type DesignSettings} from '@/lib/design'
-import {scopeCustomCss} from '@/lib/customCss'
-import type {GridRowData, NestedContainerData} from '@/types/sanity'
+import {animationAttrs} from '@/lib/animation'
+import {designOverrides, type DesignSettings} from '@/lib/design'
+import type {ContainerBlockData, NestedContainerData} from '@/types/sanity'
 
 /** A top-level Container, or an Inner Container placed in a column. */
-type ContainerData = GridRowData | NestedContainerData
+type ContainerData = ContainerBlockData | NestedContainerData
 
 interface Props {
   data: ContainerData
@@ -40,15 +41,7 @@ interface Props {
 
 const {data, documentId, documentType, basePath, nested = false} = Astro.props
 
-type Advanced = {
-  padding?: BlockStyles['padding']
-  margin?: BlockStyles['margin']
-  zIndex?: number | null
-  cssId?: string | null
-  cssClasses?: string | null
-  customCss?: string | null
-  motion?: MotionSettings | null
-} | null
+type Advanced = ContainerAdvanced | null
 
 type Column = ContainerData['columns'][number] & {
   label?: string | null
@@ -71,8 +64,6 @@ const row = data as Row
 
 
 // --- Container settings (Elementor-style Layout / Style / Advanced / Visibility) ---
-
-const clean = <T,>(value: T): T => (value ? (stegaClean(value) as T) : value)
 
 /**
  * Draft requests are the Presentation preview. Container names and the empty
@@ -148,78 +139,27 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
   }
 })
 
-const css = new CssBuilder()
 const rowAdvanced = clean(row.advanced)
-
-if (rowKey) {
-  buildContainerCss(
-    {
-      key: rowKey,
-      variant: 'row',
-      container: rowContainer,
-      gridTemplate: stegaClean(row.layout),
-      zIndex: rowAdvanced?.zIndex,
-      visibility: clean(row.visibility),
-    },
-    css,
-  )
-}
-
-for (const col of columns) {
-  // Columns saved before the container settings have nothing to emit.
-  if (!col.key || (!col.container && !col.visibility && col.zIndex == null)) continue
-  buildContainerCss(
-    {
-      key: col.key,
-      variant: 'column',
-      container: col.container ?? {},
-      zIndex: col.zIndex,
-      visibility: col.visibility,
-      // Widths only apply inside a flex container row.
-      parent: rowContainer,
-    },
-    css,
-  )
-}
-
-// Style tab (background, overlay, border) for the row and each column.
 const rowDesign = clean(row.design)
-if (rowKey) buildDesignCss(rowKey, rowDesign, css)
-for (const col of columns) if (col.key) buildDesignCss(col.key, col.design, css)
 
-// In Grid mode the preset defines the row's tracks.
-if (rowContainer?.layoutType === 'grid') {
-  buildGridWidthCss(
-    {
-      selector: `[data-pb-inner="${rowKey}"]`,
-      columns: columns.map((col) => ({key: col.key, width: col.container?.width})),
-    },
-    css,
-  )
-}
-
-/**
- * Custom CSS from the Advanced tab, scoped to the element it was written for.
- * Appended after the generated rules so an editor's override wins at equal
- * specificity, and joined into the same style tag the container CSS uses.
- */
-// A container has two Custom CSS boxes — Advanced, and the one in Style ->
-// Typography & Effects (the shared Block Styles panel) — so both are honored.
-const scopedCss = (key: string | undefined, advanced: Advanced, blockStyles: unknown) =>
-  key
-    ? [advanced?.customCss, (clean(blockStyles) as BlockStyles | null)?.customCss].map((raw) =>
-        scopeCustomCss(raw, `[data-pb="${key}"]`),
-      )
-    : []
-
-const customCssRules = [
-  ...scopedCss(rowKey, rowAdvanced ?? null, row.blockStyles),
-  ...columns.flatMap((col) =>
-    scopedCss(col.key, clean(col.column.advanced) ?? null, col.column.blockStyles),
-  ),
-].filter(Boolean)
-
-const cssText = css.toString() + customCssRules.join('')
+const cssText = buildContainerStyles({
+  key: rowKey,
+  container: rowContainer,
+  layout: row.layout,
+  design: rowDesign,
+  visibility: row.visibility,
+  advanced: rowAdvanced ?? null,
+  blockStyles: row.blockStyles,
+  columns: columns.map((col) => ({
+    key: col.key,
+    container: col.container,
+    design: col.design,
+    visibility: col.visibility,
+    zIndex: col.zIndex,
+    advanced: col.column.advanced ?? null,
+    blockStyles: col.column.blockStyles,
+  })),
+})
 
 const rowStyle = elementStyle(
   mergeStyles(row.blockStyles, rowAdvanced ?? null, rowDesign),

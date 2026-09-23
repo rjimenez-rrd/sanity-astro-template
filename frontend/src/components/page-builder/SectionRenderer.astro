@@ -1,6 +1,6 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
-import GridRowSection from './sections/GridRowSection.astro'
+import Container from './sections/Container.astro'
 import HeroSection from './sections/HeroSection.astro'
 import type {PageBuilderBlock} from '@/types/sanity'
 
@@ -27,7 +27,7 @@ const {sections, documentId, documentType} = Astro.props
       }
       if (type === 'gridRow') {
         return (
-          <GridRowSection
+          <Container
             data={section as Extract<PageBuilderBlock, {_type: 'gridRow'}>}
             documentId={documentId}
             documentType={documentType}

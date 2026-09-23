@@ -26,9 +26,14 @@ export type PracticeAreaListItem = PRACTICE_AREAS_QUERY_RESULT[number]
 // PAGE_QUERY_RESULT has pageBuilder as a non-null array on its type, so use it directly
 export type PageBuilderBlock = NonNullable<PageData['pageBuilder']>[number]
 export type HeroSectionData = Extract<PageBuilderBlock, {_type: 'heroSection'}>
-export type GridRowData = Extract<PageBuilderBlock, {_type: 'gridRow'}>
-export type GridColumn = GridRowData['columns'][number]
-export type ContentBlock = NonNullable<GridColumn['content']>[number]
+/**
+ * A top-level Container. The stored `_type` is still `gridRow` — it is on every
+ * container already saved, so renaming it would orphan them — but nothing an
+ * editor or a reader of this code sees calls it that any more.
+ */
+export type ContainerBlockData = Extract<PageBuilderBlock, {_type: 'gridRow'}>
+export type ContainerColumn = ContainerBlockData['columns'][number]
+export type ContentBlock = NonNullable<ContainerColumn['content']>[number]
 
 // ---------- Content block types ----------
 export type RichTextBlockData = Extract<ContentBlock, {_type: 'richTextBlock'}>

@@ -215,7 +215,7 @@ h2, h3 {
 }
 
 /*
- * Container name badge, for the Presentation preview. GridRowSection only emits
+ * Container name badge, for the Presentation preview. Container.astro only emits
  * data-pb-label on draft requests, so a published page never matches this rule
  * and never carries the markup.
  */

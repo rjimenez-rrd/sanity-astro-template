@@ -7,8 +7,8 @@
  * block on the left and taller text on the right.
  */
 import Base from '@/layouts/Base.astro'
-import GridRowSection from '@/components/page-builder/sections/GridRowSection.astro'
-import type {GridRowData} from '@/types/sanity'
+import Container from '@/components/page-builder/sections/Container.astro'
+import type {ContainerBlockData} from '@/types/sanity'
 
 const IMAGE_REF = 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp'
 
@@ -118,7 +118,7 @@ const rows = [
       rows.map((item) => (
         <section class="mb-16">
           <h2 class="mb-4 text-sm font-semibold">{item.title}</h2>
-          <GridRowSection data={item.data as unknown as GridRowData} />
+          <Container data={item.data as unknown as ContainerBlockData} />
         </section>
       ))
     }

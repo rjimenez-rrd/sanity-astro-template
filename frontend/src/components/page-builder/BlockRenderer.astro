@@ -34,7 +34,7 @@ import ImageGallery from './blocks/ImageGallery.astro'
 import LawyerCards from './blocks/LawyerCards.astro'
 import CaseResultCards from './blocks/CaseResultCards.astro'
 import TocBlock from './blocks/TocBlock.astro'
-import GridRowSection from './sections/GridRowSection.astro'
+import Container from './sections/Container.astro'
 import type {ContentBlock, NestedContainerData} from '@/types/sanity'
 
 interface Props {
@@ -153,7 +153,7 @@ const hasHeight =
 const heightMode = built['flex'] === '1 1 auto' ? 'fill' : ''
 
 /**
- * An Inner Container renders as a container, not a block: GridRowSection
+ * An Inner Container renders as a container, not a block: Container
  * applies its own styles, Style tab and Custom CSS, so it skips the block
  * wrapper — which would apply them twice, and its [data-pb-h] fill rules would
  * stretch every image and iframe inside it.
@@ -165,7 +165,7 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
 
 {
   isNestedContainer && (
-    <GridRowSection
+    <Container
       data={block as NestedContainerData}
       documentId={documentId}
       documentType={documentType}
