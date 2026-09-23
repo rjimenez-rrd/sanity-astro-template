@@ -25,13 +25,14 @@ const cleanHoverColor = stegaClean(data.hoverColor)
 const cleanVariant = stegaClean(data.variant) || 'primary'
 
 /**
- * Width comes from Block Styles -> Size & Alignment, same as every other
- * block, but a plain inline-block link ignores a wrapper's configured width —
- * it stays sized to its label regardless of how wide the wrapper is. Filling
- * the wrapper is opt-in, keyed off a width actually being set, so a CTA with
- * no configured width keeps hugging its label like it always has.
+ * A plain inline-block link sizes to its label and ignores the width around
+ * it, so stretching is opt-in: either Full Width, or a width set in Block
+ * Styles -> Size & Alignment, which the button then fills instead of sitting
+ * at its natural size inside a wider wrapper. Untouched, it still hugs the
+ * label as it always has.
  */
 const hasWidth = Boolean(stegaClean(data.blockStyles?.size?.width))
+const fillsWidth = data.fullWidth === true || hasWidth
 
 const style = hasCustomColors
   ? [
@@ -43,7 +44,7 @@ const style = hasCustomColors
       .join(';')
   : undefined
 
-const baseClasses = `${hasWidth ? 'block w-full' : 'inline-block'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
+const baseClasses = `${fillsWidth ? 'block w-full' : 'inline-block'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
 const colorClasses = hasCustomColors
   ? 'hover:opacity-90'
   : VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary

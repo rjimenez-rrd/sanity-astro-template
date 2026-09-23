@@ -36,6 +36,14 @@ export function initCardCarousels(scope: ParentNode = document) {
     const canLoop = slides.length > count
     // Opt in to the two-row tablet layout; without it, tablet carousels.
     const wrapRows = root.hasAttribute('data-card-carousel-wrap')
+    /**
+     * Opt-in: on phones, show every card stacked instead of paging through
+     * them. Keyed off the same 767px breakpoint global.css uses for one card
+     * per view, rather than off the measured count — a one-column block at
+     * desktop also measures one per view, and that should still carousel.
+     */
+    const stackMobileAttr = root.hasAttribute('data-card-carousel-stack-mobile')
+    const phone = window.matchMedia('(max-width: 767px)')
     if (slides.length === 0) return
 
     const autoPlay = root.dataset.autoplay === 'true'
@@ -105,7 +113,8 @@ export function initCardCarousels(scope: ParentNode = document) {
        * rather than a page with one card hidden off-screen.
        */
       const capacity = wrapRows && perView === 2 ? perView * 2 : perView
-      const fits = count <= capacity
+      const stackMobile = stackMobileAttr && phone.matches
+      const fits = stackMobile || count <= capacity
       pages = fits ? 1 : Math.max(1, Math.ceil(count / perView))
 
       slides.slice(count).forEach((copy) => {
@@ -118,7 +127,9 @@ export function initCardCarousels(scope: ParentNode = document) {
        * up — which is what made a narrowing window flash a wrapped second row
        * before becoming a carousel.
        */
-      const wrapping = wrapRows && fits && perView === 2
+      // Stacked phones wrap too: at 100% wide, wrapping is what puts each
+      // card on its own row.
+      const wrapping = stackMobile || (wrapRows && fits && perView === 2)
       track!.style.flexWrap = wrapping ? 'wrap' : 'nowrap'
       track!.style.overflowX = wrapping ? 'hidden' : 'auto'
       if (fits) {

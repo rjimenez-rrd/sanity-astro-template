@@ -56,6 +56,13 @@ export const callToActionType = defineType({
       types: ['linkInternal', 'linkExternal', 'pageSlug'],
     }),
     defineField({
+      name: 'fullWidth',
+      title: 'Full Width',
+      type: 'boolean',
+      description: 'Stretch the button across its column instead of sizing it to the label.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'blockStyles',
       title: 'Block Styles',
       type: 'blockStyles',

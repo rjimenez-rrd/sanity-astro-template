@@ -95,6 +95,14 @@ const contentTypesFragment = /* groq */ `
         _id, amount, summary, resultType
       },
       ${blockStylesFragment}
+    },
+    _type == "practiceAreaCards" => {
+      ...,
+      practiceAreas[]-> {
+        _id, title, cardTitle, slug,
+        coverImage { ${imageFragment} }
+      },
+      ${blockStylesFragment}
     }
 `
 
@@ -162,7 +170,7 @@ export const PAGE_SLUGS_QUERY = defineQuery(/* groq */ `
 
 export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
   *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {
-    _id, title, slug,
+    _id, title, cardTitle, slug,
     coverImage { ${imageFragment} }
   }
 `)

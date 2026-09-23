@@ -5,16 +5,48 @@ import type {PracticeAreaListItem} from '@/types/sanity'
 
 interface Props {
   area: PracticeAreaListItem
+  /** Where the name sits in the bar. */
+  align?: 'left' | 'center'
+  /** Put each word of the name on its own line. */
+  stackWords?: boolean
+  /**
+   * Stacked cards run the full width of a phone, where the 11:10 crop would
+   * make each one taller than the screen. 'wide' gives them a banner crop
+   * below 768px — the same breakpoint the carousel uses for one card per view
+   * — and the usual crop from there up.
+   */
+  mobileAspect?: 'card' | 'wide'
 }
 
-const {area} = Astro.props
+const {area, align = 'center', stackWords = false, mobileAspect = 'card'} = Astro.props
 const slug = stegaClean(area.slug?.current)
+
+/**
+ * Card Title wins over Title when it is set: an editor who typed their own
+ * line breaks has said exactly where the name should wrap, so One Word Per
+ * Line must not fight it. Failing that, the toggle splits the title on
+ * spaces. Either way whitespace-pre-line is what renders the breaks.
+ */
+const custom = area.cardTitle?.trim()
+const label = custom
+  ? custom
+  : stackWords
+    ? // stegaClean first: in Presentation every string carries ~900 invisible
+      // characters for click-to-edit, and JS treats one of them (U+FEFF) as
+      // whitespace — splitting the raw string turns two words into hundreds of
+      // lines. Only this branch loses click-to-edit, and only while stacking.
+      (stegaClean(area.title) ?? '').trim().split(/\s+/).join('\n')
+    : area.title
 ---
 
 {
   slug && (
     <a href={`/${slug}`} class="group block overflow-hidden">
-      <div class="aspect-[11/10] overflow-hidden bg-foreground/10">
+      <div
+        class={`overflow-hidden bg-foreground/10 ${
+          mobileAspect === 'wide' ? 'aspect-[16/6] md:aspect-[11/10]' : 'aspect-[11/10]'
+        }`}
+      >
         {area.coverImage?.asset && (
           <SanityImage
             value={area.coverImage}
@@ -26,8 +58,12 @@ const slug = stegaClean(area.slug?.current)
           />
         )}
       </div>
-      <h2 class="bg-practice-card px-6 py-3 font-display text-2xl font-semibold text-white">
-        {area.title}
+      <h2
+        class={`whitespace-pre-line bg-practice-card px-6 py-3 font-display text-2xl font-semibold text-white ${
+          align === 'left' ? 'text-left' : 'text-center'
+        }`}
+      >
+        {label}
       </h2>
     </a>
   )

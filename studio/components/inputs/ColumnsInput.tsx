@@ -1,16 +1,11 @@
-import {useCallback} from 'react'
-import {
-  type ArrayOfObjectsInputProps,
-  useFormValue,
-  insert,
-  setIfMissing,
-} from 'sanity'
+import {useCallback, useEffect, useRef} from 'react'
+import {type ArrayOfObjectsInputProps, useFormValue, insert, set, setIfMissing, unset} from 'sanity'
 import {randomKey} from '@sanity/util/content'
 import {Button, Card, Flex, Text, Stack, Box} from '@sanity/ui'
 import {AddIcon, WarningOutlineIcon} from '@sanity/icons'
 
 const LAYOUT_COLUMN_COUNT: Record<string, number> = {
-  'full': 1,
+  full: 1,
   '50-50': 2,
   '33-66': 2,
   '66-33': 2,
@@ -22,7 +17,7 @@ const LAYOUT_COLUMN_COUNT: Record<string, number> = {
 }
 
 const LAYOUT_WIDTHS: Record<string, number[]> = {
-  'full': [12],
+  full: [12],
   '50-50': [6, 6],
   '33-66': [4, 8],
   '66-33': [8, 4],
@@ -48,6 +43,8 @@ const WIDTH_LABELS: Record<number, string> = {
   9: '75%',
   12: '100%',
 }
+
+const plural = (count: number, noun: string) => `${count} ${noun}${count === 1 ? '' : 's'}`
 
 // Built by hand here, so the schema's initialValue doesn't apply; mirror it.
 function createEmptyColumn(span?: number) {
@@ -90,13 +87,73 @@ export function ColumnsInput(props: ArrayOfObjectsInputProps) {
       ? presetCount
       : 0
     : layout
-      ? LAYOUT_COLUMN_COUNT[layout] ?? 0
+      ? (LAYOUT_COLUMN_COUNT[layout] ?? 0)
       : 0
-  const widths = layout ? LAYOUT_WIDTHS[layout] ?? [] : []
+  const widths = layout ? (LAYOUT_WIDTHS[layout] ?? []) : []
   const positions = POSITION_LABELS[expectedCount] ?? []
   const needsColumns = expectedCount > 0 && currentCount < expectedCount
   const tooManyColumns = expectedCount > 0 && currentCount > expectedCount
   const columnsToAdd = expectedCount - currentCount
+
+  /**
+   * Applying a preset belongs here: this input owns the columns array, so its
+   * onChange already targets the right path. The picker only records the
+   * preset's name — in Flexbox each column carries its own width, so without
+   * this the layout never actually changed.
+   *
+   * Nothing is asked here. The picker confirms before it writes the preset, so
+   * by the time this runs the editor has already agreed to whatever the new
+   * layout costs.
+   */
+  const lastLayout = useRef<string | undefined>(undefined)
+  useEffect(() => {
+    const previous = lastLayout.current
+    lastLayout.current = gridLayout
+    // Skip the first run: opening a container must not rewrite widths an
+    // editor has since tuned by hand.
+    if (previous === undefined || previous === gridLayout || !gridLayout) return
+
+    const spans = LAYOUT_WIDTHS[gridLayout]
+    if (!spans) return
+
+    // Columns past the preset go, and only from the end — removing from the
+    // middle would shift content into a different slot.
+    const removals = ((value ?? []) as Array<{_key?: string}>)
+      .slice(spans.length)
+      .flatMap((column) => (column?._key ? [unset([{_key: column._key}])] : []))
+
+    const missing = spans.length - currentCount
+    const additions =
+      missing > 0
+        ? [
+            setIfMissing([]),
+            insert(
+              Array.from({length: missing}, (_, i) =>
+                createEmptyColumn(isFlex ? spans[currentCount + i] : undefined),
+              ),
+              'after',
+              [-1],
+            ),
+          ]
+        : []
+
+    // Grid sizes its columns from the template, so only the count is topped up
+    // there; per-column widths would override the preset's tracks.
+    const resizes = isFlex
+      ? (value ?? []).flatMap((column, i) => {
+          const span = spans[i]
+          if (!column?._key || !span) return []
+          const width = Math.round((span / 12) * 10000) / 100
+          return [
+            set({size: width, unit: '%'}, [{_key: column._key}, 'container', 'width', 'desktop']),
+          ]
+        })
+      : []
+
+    const patches = [...resizes, ...additions, ...removals]
+    if (patches.length > 0) onChange(patches)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gridLayout])
 
   const handleAddColumns = useCallback(() => {
     if (columnsToAdd <= 0) return
@@ -184,9 +241,7 @@ export function ColumnsInput(props: ArrayOfObjectsInputProps) {
       {tooManyColumns && (
         <Card padding={3} radius={2} tone="transparent" border>
           <Flex align="center" gap={2}>
-            <Text size={1}>
-              Extra columns will wrap to a new row.
-            </Text>
+            <Text size={1}>Extra columns will wrap to a new row.</Text>
           </Flex>
         </Card>
       )}

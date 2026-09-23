@@ -32,6 +32,15 @@ export const practiceAreaType = defineType({
       group: 'content',
     }),
     defineField({
+      name: 'cardTitle',
+      title: 'Card Title',
+      type: 'text',
+      rows: 2,
+      group: 'card',
+      description:
+        'Optional. Shown on the card instead of the title, and line breaks are kept — put each word on its own line to control where it wraps.',
+    }),
+    defineField({
       name: 'coverImage',
       title: 'Card Image',
       type: 'image',

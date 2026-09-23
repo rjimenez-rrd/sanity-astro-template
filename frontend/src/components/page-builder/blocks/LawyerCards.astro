@@ -81,13 +81,17 @@ const loopedLawyers = Array.from({length: loops}, () => lawyers).flat()
             aria-hidden={i >= lawyers.length ? 'true' : undefined}
             {...(i >= lawyers.length ? {hidden: true} : {})}
           >
-            <div class="aspect-3/4 w-full">
+            {/* A 3:4 portrait is ~630px tall at full phone width, so below
+                768px — the same breakpoint the carousel switches to one card
+                per view — the crop goes square. Square rather than a letterbox
+                because a headshot can't lose that much head room. */}
+            <div class="aspect-square w-full md:aspect-3/4">
               <SanityImage
                 value={lawyer.photo}
                 alt={lawyer.photo?.alt ?? lawyer.name ?? ''}
                 width={600}
                 height={800}
-                class="h-full w-full object-cover transition-transform duration-500 ease-out motion-safe:group-hover:scale-105"
+                class="h-full w-full object-cover object-top transition-transform duration-500 ease-out motion-safe:group-hover:scale-105 md:object-center"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
