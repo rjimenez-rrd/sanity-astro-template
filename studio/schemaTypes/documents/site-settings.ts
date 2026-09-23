@@ -10,6 +10,7 @@ export const siteSettingsType = defineType({
   icon: CogIcon,
   groups: [
     {name: 'branding', title: 'Branding', default: true},
+    {name: 'theme', title: 'Theme'},
     {name: 'navigation', title: 'Navigation'},
     {name: 'footer', title: 'Footer'},
   ],
@@ -46,22 +47,72 @@ export const siteSettingsType = defineType({
       group: 'branding',
     }),
     defineField({
-      name: 'primaryColor',
-      title: 'Primary Color',
-      type: 'string',
-      group: 'branding',
-      description: 'Hex color (e.g., #3b82f6)',
-      components: {input: ColorStringInput},
-      // default color in # format
-      initialValue: '#f63b99',
-    }),
-    defineField({
-      name: 'secondaryColor',
-      title: 'Secondary Color',
-      type: 'string',
-      group: 'branding',
-      description: 'Hex color (e.g., #10b981)',
-      components: {input: ColorStringInput},
+      name: 'theme',
+      title: 'Theme',
+      type: 'object',
+      group: 'theme',
+      description:
+        'Site-wide colors and fonts. Every block, button and heading reads these, and they show up as swatches in the color pickers.',
+      options: {collapsible: false},
+      fields: [
+        defineField({
+          name: 'primary',
+          title: 'Primary',
+          type: 'string',
+          description: 'Buttons, links and accents.',
+          components: {input: ColorStringInput},
+        }),
+        defineField({
+          name: 'secondary',
+          title: 'Secondary',
+          type: 'string',
+          components: {input: ColorStringInput},
+        }),
+        defineField({
+          name: 'accent',
+          title: 'Accent',
+          type: 'string',
+          components: {input: ColorStringInput},
+        }),
+        defineField({
+          name: 'foreground',
+          title: 'Text',
+          type: 'string',
+          description: 'Body text, headings included.',
+          components: {input: ColorStringInput},
+        }),
+        defineField({
+          name: 'background',
+          title: 'Background',
+          type: 'string',
+          components: {input: ColorStringInput},
+        }),
+        defineField({
+          name: 'muted',
+          title: 'Muted Text',
+          type: 'string',
+          components: {input: ColorStringInput},
+        }),
+        defineField({
+          name: 'border',
+          title: 'Border',
+          type: 'string',
+          components: {input: ColorStringInput},
+        }),
+        defineField({
+          name: 'headingFont',
+          title: 'Heading Font',
+          type: 'string',
+          description:
+            'Any Google Font, spelled as Google does, e.g. Playfair Display. Leave empty to keep Montserrat.',
+        }),
+        defineField({
+          name: 'bodyFont',
+          title: 'Body Font',
+          type: 'string',
+          description: 'Any Google Font, e.g. Source Sans 3. Leave empty to keep Inter.',
+        }),
+      ],
     }),
     defineField({
       name: 'socialLinks',

@@ -172,7 +172,10 @@ export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
     siteName, tagline,
     logo { ${imageFragment} },
     phone,
-    primaryColor, secondaryColor,
+    theme {
+      primary, secondary, accent, foreground, background, muted, border,
+      headingFont, bodyFont
+    },
     socialLinks[] { _key, platform, url },
     mainNav[] {
       _key, _type, label, href, isButton,

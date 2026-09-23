@@ -1,0 +1,28 @@
+---
+/**
+ * Renders the Theme from Site Settings into the document head: one Google
+ * Fonts request, then the :root overrides. Both are omitted entirely when the
+ * theme is empty, so an unconfigured site ships exactly what it does today.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import {googleFontsHref, themeCss, type ThemeSettings} from '@/lib/theme'
+
+interface Props {
+  theme?: ThemeSettings | null
+}
+
+const theme = (Astro.props.theme ? stegaClean(Astro.props.theme) : null) as ThemeSettings | null
+const fontsHref = googleFontsHref(theme)
+const css = themeCss(theme)
+---
+
+{
+  fontsHref && (
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="stylesheet" href={fontsHref} />
+    </>
+  )
+}
+{css && <style set:html={css} />}

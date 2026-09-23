@@ -1,7 +1,33 @@
-import {useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent} from 'react'
-import {Box, Button, Card, Flex, Popover, Stack, Text, useClickOutsideEvent, useGlobalKeyDown} from '@sanity/ui'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent,
+} from 'react'
+import {useThemeColors} from './themeColors'
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Popover,
+  Stack,
+  Text,
+  useClickOutsideEvent,
+  useGlobalKeyDown,
+} from '@sanity/ui'
 import {ResetIcon} from '@sanity/icons'
-import {clamp, detectFormat, formatColor, parseColor, toCss, type ColorFormat, type Hsva} from './color'
+import {
+  clamp,
+  detectFormat,
+  formatColor,
+  parseColor,
+  toCss,
+  type ColorFormat,
+  type Hsva,
+} from './color'
 
 const DEBOUNCE_MS = 150
 const DEFAULT: Hsva = {h: 0, s: 0, v: 0, a: 1}
@@ -13,15 +39,21 @@ const FORMATS: {value: ColorFormat; label: string}[] = [
 
 /** Checkerboard so transparency is visible, as in Elementor's picker. */
 const CHECKER: CSSProperties = {
-  backgroundImage:
-    'conic-gradient(#c8c8c8 25%, #ffffff 0 50%, #c8c8c8 0 75%, #ffffff 0)',
+  backgroundImage: 'conic-gradient(#c8c8c8 25%, #ffffff 0 50%, #c8c8c8 0 75%, #ffffff 0)',
   backgroundSize: '10px 10px',
 }
 
 type EyeDropperCtor = new () => {open: () => Promise<{sRGBHex: string}>}
 
 const EyedropperIcon = () => (
-  <svg width="1em" height="1em" viewBox="0 0 25 25" fill="none" stroke="currentColor" strokeWidth={1.4}>
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 25 25"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.4}
+  >
     <path
       d="M16.5 5.5l3 3m-1.5-4.5 3 3-2.5 2.5-3-3L18 4zM15.5 8.5l-8 8-1.5 4 4-1.5 8-8"
       strokeLinecap="round"
@@ -91,6 +123,8 @@ export function ColorPicker({
   showInput?: boolean
 }) {
   const [open, setOpen] = useState(false)
+  // Fetched when the popover opens, so a closed picker costs nothing.
+  const themeColors = useThemeColors(open)
   const [format, setFormat] = useState<ColorFormat>(() => detectFormat(value))
   const [hsva, setHsva] = useState<Hsva>(() => parseColor(value) ?? parseColor(fallback) ?? DEFAULT)
   const [text, setText] = useState(value ?? '')
@@ -211,7 +245,14 @@ export function ColorPicker({
         {/* Saturation / value square, drawn at the current alpha like Elementor's. */}
         <div
           {...sv}
-          style={{position: 'relative', height: 150, borderRadius: 4, cursor: 'crosshair', touchAction: 'none', ...CHECKER}}
+          style={{
+            position: 'relative',
+            height: 150,
+            borderRadius: 4,
+            cursor: 'crosshair',
+            touchAction: 'none',
+            ...CHECKER,
+          }}
         >
           <div
             style={{
@@ -222,7 +263,9 @@ export function ColorPicker({
               background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent), ${opaqueHue}`,
             }}
           />
-          <Thumb style={{left: `${hsva.s * 100}%`, top: `${(1 - hsva.v) * 100}%`, background: solid}} />
+          <Thumb
+            style={{left: `${hsva.s * 100}%`, top: `${(1 - hsva.v) * 100}%`, background: solid}}
+          />
         </div>
 
         {/* Hue */}
@@ -244,7 +287,14 @@ export function ColorPicker({
         {/* Alpha */}
         <div
           {...alpha}
-          style={{position: 'relative', height: 12, borderRadius: 6, cursor: 'pointer', touchAction: 'none', ...CHECKER}}
+          style={{
+            position: 'relative',
+            height: 12,
+            borderRadius: 6,
+            cursor: 'pointer',
+            touchAction: 'none',
+            ...CHECKER,
+          }}
         >
           <div
             style={{
@@ -256,6 +306,38 @@ export function ColorPicker({
           />
           <Thumb style={{left: `${hsva.a * 100}%`, top: '50%', background: toCss(hsva)}} />
         </div>
+
+        {themeColors.length > 0 && (
+          <Stack space={2}>
+            <Text
+              size={0}
+              muted
+              style={{textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: 10}}
+            >
+              Theme
+            </Text>
+            <Flex gap={1} wrap="wrap">
+              {themeColors.map((swatch) => (
+                <button
+                  key={swatch.label}
+                  type="button"
+                  title={`${swatch.label} — ${swatch.value}`}
+                  aria-label={`Use ${swatch.label}`}
+                  onClick={() => commitText(swatch.value)}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    padding: 0,
+                    borderRadius: 4,
+                    border: '1px solid var(--card-border-color)',
+                    background: swatch.value,
+                    cursor: 'pointer',
+                  }}
+                />
+              ))}
+            </Flex>
+          </Stack>
+        )}
 
         <Flex align="center" gap={2}>
           <input

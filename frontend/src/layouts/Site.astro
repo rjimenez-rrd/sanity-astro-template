@@ -2,6 +2,7 @@
 import Base from './Base.astro'
 import Header from '@/components/layout/Header.astro'
 import Footer from '@/components/layout/Footer.astro'
+import Theme from '@/components/layout/Theme.astro'
 import VisualEditing from '@/components/sanity/VisualEditing.astro'
 import SanityLive from '@/components/sanity/SanityLive.astro'
 import type {SiteSettings} from '@/types/sanity'
@@ -19,6 +20,7 @@ const {isDraft} = Astro.locals
 ---
 
 <Base {...seo}>
+  <Theme theme={settings?.theme} slot="head" />
   <Header settings={settings} />
   {/* min-w-0: as a flex item main defaults to min-width:auto, so wide content
       (a carousel track) would push it past the viewport instead of scrolling. */}
