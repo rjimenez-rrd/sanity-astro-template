@@ -144,8 +144,13 @@ export function ColumnsInput(props: ArrayOfObjectsInputProps) {
           const span = spans[i]
           if (!column?._key || !span) return []
           const width = Math.round((span / 12) * 10000) / 100
+          const at = {_key: column._key}
+          // A set can't reach into a parent that doesn't exist yet, and a
+          // column that never had a width has no container.width object.
           return [
-            set({size: width, unit: '%'}, [{_key: column._key}, 'container', 'width', 'desktop']),
+            setIfMissing({}, [at, 'container']),
+            setIfMissing({}, [at, 'container', 'width']),
+            set({size: width, unit: '%'}, [at, 'container', 'width', 'desktop']),
           ]
         })
       : []

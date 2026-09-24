@@ -68,6 +68,7 @@ const contentMembers = () => [
   defineArrayMember({type: 'lottieAnimation'}),
   // Forms & FAQ
   defineArrayMember({type: 'formBlock'}),
+  defineArrayMember({type: 'formCta'}),
   defineArrayMember({type: 'faqBlock'}),
   // Grids & galleries
   defineArrayMember({type: 'featureCardGrid'}),

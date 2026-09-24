@@ -3,10 +3,14 @@ import {stegaClean} from '@sanity/client/stega'
 import type {FormBlockData} from '@/types/sanity'
 
 interface Props {
-  data: FormBlockData
+  /** Only the form's own fields, so Form CTA can pass its embedded form (no _key, and its styles are the renderer's job). */
+  data: Omit<FormBlockData, '_key' | 'blockStyles'>
+  /** Set by a block that owns the background, e.g. Form CTA, overriding the form's own choice. */
+  formStyle?: 'default' | 'dark'
 }
 
-const {data} = Astro.props
+const {data, formStyle} = Astro.props
+const dark = (formStyle ?? stegaClean(data.formStyle)) === 'dark'
 
 const fields = data.fields || []
 const submitLabel = data.submitLabel || 'Submit'
@@ -16,22 +20,52 @@ const errorMessage = data.errorMessage || 'Something went wrong. Please try agai
 const endpoint =
   cleanAction === 'webhook' ? '/api/form-submit' : data.customEndpoint || '/api/form-submit'
 
-const baseClass =
-  'w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary'
+/**
+ * Default is the light form. On Dark matches a form set on a brand-colored
+ * section: small white labels, square white fields, a white button.
+ */
+const ui = dark
+  ? {
+      field:
+        'w-full border-0 bg-white px-3 py-2.5 text-base text-foreground placeholder:text-foreground/70 focus:outline-none focus:ring-2 focus:ring-secondary-hover',
+      label: 'mb-1.5 block text-[13px] text-white',
+      required: 'ml-1 text-white',
+      check: 'flex items-start gap-2 text-[13px] leading-relaxed text-white',
+      title: 'text-xl font-semibold text-white',
+      description: 'mt-1 text-sm text-white/80',
+      footnote: 'text-[13px] text-white',
+      error: 'text-sm text-red-300',
+      button:
+        'inline-flex items-center bg-white px-6 py-3 text-base font-semibold text-primary transition-colors hover:bg-secondary-hover hover:text-white disabled:opacity-50',
+      success: 'border border-white/30 bg-white/10 p-6 text-center font-medium text-white',
+    }
+  : {
+      field:
+        'w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary',
+      label: 'mb-1.5 block text-sm font-medium text-foreground',
+      required: 'ml-0.5 text-red-500',
+      check: 'flex items-center gap-2 text-sm text-foreground',
+      title: 'text-xl font-semibold text-foreground',
+      description: 'mt-1 text-sm text-muted',
+      footnote: 'text-xs text-muted',
+      error: 'text-sm text-red-500',
+      button:
+        'inline-flex items-center rounded-lg px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90 disabled:opacity-50',
+      success: 'rounded-xl border border-secondary/30 bg-secondary/5 p-6 text-center font-medium text-secondary',
+    }
 
-const buttonColor = stegaClean(data.buttonColor) || 'var(--primary)'
+// On Dark has its own white button; a Button Color still wins when set.
+const buttonColor = stegaClean(data.buttonColor) || (dark ? undefined : 'var(--primary)')
 ---
 
 <div data-form-block>
   <div data-form-success hidden>
-    <div class="rounded-xl border border-secondary/30 bg-secondary/5 p-6 text-center">
-      <p class="font-medium text-secondary">{successMessage}</p>
-    </div>
+    <p class={ui.success}>{successMessage}</p>
   </div>
 
   <div data-form-body>
-    {data.formTitle && <h3 class="text-xl font-semibold text-foreground">{data.formTitle}</h3>}
-    {data.formDescription && <p class="mt-1 text-sm text-muted">{data.formDescription}</p>}
+    {data.formTitle && <h3 class={ui.title}>{data.formTitle}</h3>}
+    {data.formDescription && <p class={ui.description}>{data.formDescription}</p>}
 
     <form
       class={`${data.formTitle || data.formDescription ? 'mt-6' : ''} space-y-4`}
@@ -40,41 +74,47 @@ const buttonColor = stegaClean(data.buttonColor) || 'var(--primary)'
       data-action={cleanAction}
       data-webhook={stegaClean(data.webhookUrl) || undefined}
     >
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class={`grid grid-cols-1 sm:grid-cols-2 ${dark ? 'gap-x-3 gap-y-4' : 'gap-4'}`}>
         {
           fields.map((field) => {
             const fieldType = stegaClean(field.type)
             const isHalf = stegaClean(field.width) === 'half'
             return (
               <div class={isHalf ? '' : 'sm:col-span-2'}>
-                <label class="mb-1.5 block text-sm font-medium text-foreground">
-                  {field.label}
-                  {field.required && <span class="ml-0.5 text-red-500">*</span>}
-                </label>
+                {/* A checkbox carries its text beside the box instead. */}
+                {fieldType !== 'checkbox' && (
+                  <label class={ui.label}>
+                    {field.label}
+                    {field.required && <span class={ui.required}>*</span>}
+                  </label>
+                )}
                 {fieldType === 'textarea' ? (
                   <textarea
                     name={field.name}
                     placeholder={field.placeholder}
                     required={field.required}
                     rows={4}
-                    class={`${baseClass} resize-y`}
+                    class={`${ui.field} resize-y`}
                   />
                 ) : fieldType === 'select' ? (
-                  <select name={field.name} required={field.required} class={baseClass}>
+                  <select name={field.name} required={field.required} class={`${ui.field} ${dark ? 'py-3.5' : ''}`}>
                     <option value="">{field.placeholder || 'Select...'}</option>
                     {(field.options || []).map((opt) => (
                       <option value={opt}>{opt}</option>
                     ))}
                   </select>
                 ) : fieldType === 'checkbox' ? (
-                  <label class="flex items-center gap-2 text-sm text-foreground">
+                  <label class={ui.check}>
                     <input
                       type="checkbox"
                       name={field.name}
                       required={field.required}
-                      class="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                      class={`h-4 w-4 shrink-0 border-border text-primary focus:ring-primary ${dark ? 'mt-0.5 rounded-none' : 'rounded'}`}
                     />
-                    {field.placeholder || field.label}
+                    <span>
+                      {field.placeholder || field.label}
+                      {field.required && '*'}
+                    </span>
                   </label>
                 ) : (
                   <input
@@ -82,7 +122,7 @@ const buttonColor = stegaClean(data.buttonColor) || 'var(--primary)'
                     name={field.name}
                     placeholder={field.placeholder}
                     required={field.required}
-                    class={baseClass}
+                    class={ui.field}
                   />
                 )}
               </div>
@@ -91,12 +131,14 @@ const buttonColor = stegaClean(data.buttonColor) || 'var(--primary)'
         }
       </div>
 
-      <p class="text-sm text-red-500" data-form-error hidden>{errorMessage}</p>
+      {data.footnote && <p class={ui.footnote}>{data.footnote}</p>}
+
+      <p class={ui.error} data-form-error hidden>{errorMessage}</p>
 
       <button
         type="submit"
-        class="inline-flex items-center rounded-lg px-6 py-3 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90 disabled:opacity-50"
-        style={`background-color:${buttonColor}`}
+        class={ui.button}
+        style={buttonColor ? `background-color:${buttonColor}` : undefined}
         data-form-submit
         data-label={submitLabel}
       >

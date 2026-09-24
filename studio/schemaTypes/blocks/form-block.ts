@@ -175,7 +175,30 @@ export const formBlockType = defineType({
       initialValue: 'Something went wrong. Please try again.',
     }),
 
+    defineField({
+      name: 'footnote',
+      title: 'Footnote',
+      type: 'string',
+      group: 'submit',
+      description: 'Small print above the button, e.g. "This site is protected by reCAPTCHA."',
+    }),
+
     // Style
+    defineField({
+      name: 'formStyle',
+      title: 'Form Style',
+      type: 'string',
+      group: 'style',
+      description: 'On Dark: white labels, square white fields and a white button, for a dark background.',
+      initialValue: 'default',
+      options: {
+        list: [
+          {title: 'Default', value: 'default'},
+          {title: 'On Dark', value: 'dark'},
+        ],
+        layout: 'radio',
+      },
+    }),
     defineField({
       name: 'buttonColor',
       title: 'Button Color',

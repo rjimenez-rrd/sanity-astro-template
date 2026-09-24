@@ -1,0 +1,90 @@
+---
+/**
+ * Form CTA: eyebrow, heading, description and a form on the left; a cut-out
+ * image on the bottom edge on the right, with large outlined words behind it.
+ * The form is a Form block rendered in its On Dark style.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import FormBlock from './FormBlock.astro'
+import type {FormCtaData} from '@/types/sanity'
+
+interface Props {
+  data: FormCtaData
+}
+
+const {data} = Astro.props
+
+/** A Google Font name, or the fallback when it's empty or not a plain name. */
+const font = (value: string | null | undefined, fallback: string) => {
+  const name = stegaClean(value)?.trim()
+  return name && /^[A-Za-z0-9 ]+$/.test(name) ? name : fallback
+}
+const headingFont = font(data.headingFont, 'Libre Baskerville')
+const outlineFont = font(data.outlineFont, 'Bebas Neue')
+const fontsHref = `https://fonts.googleapis.com/css2?${[headingFont, outlineFont]
+  .filter((name, i, all) => all.indexOf(name) === i)
+  .map((name) => `family=${name.replace(/ /g, '+')}`)
+  .join('&')}&display=swap`
+
+// Empty means no color of its own, so the container's background (color,
+// image, overlay) shows through.
+const background = stegaClean(data.backgroundColor)
+---
+
+<link rel="stylesheet" href={fontsHref} />
+
+<section class="relative w-full overflow-hidden text-white" style={background ? `background-color:${background}` : undefined}>
+  <div
+    class="mx-auto grid max-w-[1140px] grid-cols-1 gap-10 px-4 md:px-8 lg:grid-cols-[minmax(0,525px)_1fr]"
+  >
+    <div class="py-12 font-display lg:py-14">
+      {data.eyebrow && <p class="text-lg">{data.eyebrow}</p>}
+      {
+        data.heading && (
+          <h2
+            class="mt-1 whitespace-pre-line text-[clamp(2.5rem,4vw,3.25rem)] leading-[1.05]"
+            style={`font-family:'${headingFont}', ui-serif, Georgia, serif`}
+          >
+            {data.heading}
+          </h2>
+        )
+      }
+      {data.description && <p class="mt-7 text-lg leading-relaxed">{data.description}</p>}
+      {
+        data.form && (
+          <div class="mt-7">
+            <FormBlock data={data.form} formStyle="dark" />
+          </div>
+        )
+      }
+    </div>
+
+    {/* The image sits on the section's bottom edge; the outlined words sit
+        behind it, so a cut-out's edges overlap them the way the design does. */}
+    <div class="relative flex min-h-[380px] items-end justify-center lg:min-h-0 lg:justify-start">
+      {
+        data.outlineText && (
+          <p
+            aria-hidden="true"
+            class="pointer-events-none absolute top-8 right-0 whitespace-pre-line text-right text-[clamp(3.5rem,7vw,6.5rem)] uppercase leading-[0.85] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.55)] lg:top-[20%]"
+            style={`font-family:'${outlineFont}', Impact, sans-serif`}
+          >
+            {data.outlineText}
+          </p>
+        )
+      }
+      {
+        data.image?.asset && (
+          <SanityImage
+            value={data.image}
+            alt={stegaClean(data.image.alt) || ''}
+            width={900}
+            sizes="(max-width: 1023px) 90vw, 600px"
+            class="relative z-10 block max-h-[420px] w-auto lg:max-h-[740px]"
+          />
+        )
+      }
+    </div>
+  </div>
+</section>

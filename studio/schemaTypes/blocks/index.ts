@@ -21,6 +21,7 @@ import {dataTableType} from './data-table'
 import {lottieAnimationType} from './lottie-animation'
 import {heroSectionType} from './hero-section'
 import {formBlockType} from './form-block'
+import {formCtaType} from './form-cta'
 import {faqBlockType} from './faq-block'
 import {featureCardGridType} from './feature-card-grid'
 import {tocBlockType} from './toc-block'
@@ -59,6 +60,7 @@ export {
   lottieAnimationType,
   heroSectionType,
   formBlockType,
+  formCtaType,
   faqBlockType,
   featureCardGridType,
   testimonialCarouselType,
@@ -98,6 +100,7 @@ export const blockTypes = [
   lottieAnimationType,
   heroSectionType,
   formBlockType,
+  formCtaType,
   faqBlockType,
   featureCardGridType,
   testimonialCarouselType,

@@ -68,6 +68,7 @@ export type LawyerCardsData = Extract<ContentBlock, {_type: 'lawyerCards'}>
 export type PracticeAreaCardsData = Extract<ContentBlock, {_type: 'practiceAreaCards'}>
 export type NewsCardsData = Extract<ContentBlock, {_type: 'newsCards'}>
 export type CaseResultCardsData = Extract<ContentBlock, {_type: 'caseResultCards'}>
+export type FormCtaData = Extract<ContentBlock, {_type: 'formCta'}>
 
 // ---------- SEO ----------
 export type SeoData = NonNullable<PageData['seo']>
