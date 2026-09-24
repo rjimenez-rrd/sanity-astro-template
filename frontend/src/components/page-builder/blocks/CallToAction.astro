@@ -44,7 +44,14 @@ const style = hasCustomColors
       .join(';')
   : undefined
 
-const baseClasses = `${fillsWidth ? 'block w-full' : 'inline-block'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
+/**
+ * w-fit, not just inline-block: a button with no Block Styles sits directly in
+ * its column, which is a flex container — and flex stretches its items across
+ * the column regardless of display. A fit-content width opts out of that
+ * stretch while still following the column's own alignment, so Full Width off
+ * really does mean sized to the label.
+ */
+const baseClasses = `${fillsWidth ? 'block w-full' : 'inline-block w-fit'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
 const colorClasses = hasCustomColors
   ? 'hover:opacity-90'
   : VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary

@@ -108,8 +108,12 @@ const WRAPS: IconOption[] = [
 
 export function ContainerLayoutInput(props: ObjectInputProps) {
   const {onChange, value, schemaType} = props
-  const variant: ContainerVariant =
-    (schemaType.options as {variant?: ContainerVariant} | undefined)?.variant ?? 'row'
+  const options = schemaType.options as {variant?: ContainerVariant; item?: boolean} | undefined
+  const variant: ContainerVariant = options?.variant ?? 'row'
+  // An inner Column: Width sizes it inside its parent column, like a column's
+  // does in its row, so it is always shown and there is no Content Width.
+  const isItem = options?.item === true
+  const sizesAsItem = variant === 'column' || isItem
 
   const v = (value ?? {}) as ContainerValue
 
@@ -147,7 +151,7 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
   const pick = <T,>(r: Responsive<T> | undefined) => resolveResponsive(r, device)
 
   const width = pick(v.width)
-  const widthUnit = v.width?.[device]?.unit ?? width.value?.unit ?? (variant === 'column' ? '%' : 'px')
+  const widthUnit = v.width?.[device]?.unit ?? width.value?.unit ?? (sizesAsItem ? '%' : 'px')
   const minHeight = pick(v.minHeight)
   const minHeightUnit = v.minHeight?.[device]?.unit ?? minHeight.value?.unit ?? 'px'
   const gap = pick(v.gap as Responsive<Gap> | undefined)
@@ -179,7 +183,7 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
               </Select>
             </ControlRow>
 
-            {variant === 'row' && (
+            {variant === 'row' && !isItem && (
               <ControlRow label="Content Width">
                 <Select
                   fontSize={1}
@@ -193,7 +197,7 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
               </ControlRow>
             )}
 
-            {(variant === 'column' || contentWidth === 'boxed') && (
+            {(sizesAsItem || contentWidth === 'boxed') && (
               <ControlRow
                 label="Width"
                 responsive={responsive}
@@ -208,7 +212,9 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
                 hint={
                   variant === 'column'
                     ? 'How wide this column is inside its row. Leave empty to share the remaining space.'
-                    : undefined
+                    : isItem
+                      ? 'How wide this column is inside its parent. Leave empty to size to its content; 100% takes a line of its own.'
+                      : undefined
                 }
               >
                 <SliderInput
@@ -216,7 +222,7 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
                   placeholder={
                     width.inherited
                       ? width.value?.size
-                      : variant === 'row' && !width.value
+                      : variant === 'row' && !isItem && !width.value
                         ? BOXED_DEFAULT_WIDTH
                         : undefined
                   }

@@ -1,0 +1,96 @@
+---
+/**
+ * One news card: image, title, then the date and category pinned to the
+ * bottom above a rule. Shared by the News Cards block and /news, so a post
+ * looks the same wherever it is listed.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import type {SanityImageValue} from '@/components/sanity/SanityImage.astro'
+
+export interface NewsCardPost {
+  _id?: string
+  title?: string | null
+  slug?: string | null
+  publishedAt?: string | null
+  category?: string | null
+  coverImage?: SanityImageValue | null
+}
+
+interface Props {
+  post: NewsCardPost
+}
+
+const {post} = Astro.props
+const slug = stegaClean(post.slug)
+
+/**
+ * Formatted from the plain date, never through a Date in local time: a
+ * midnight UTC date read in New York becomes the evening before, so a post
+ * dated August 6 would show August 5.
+ */
+const dateLabel = (() => {
+  const raw = stegaClean(post.publishedAt)
+  const match = raw && /^(\d{4})-(\d{2})-(\d{2})/.exec(raw)
+  if (!match) return undefined
+  const [, y, m, d] = match
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(Number(y), Number(m) - 1, Number(d))))
+})()
+---
+
+{
+  slug && (
+    <a
+      href={`/news/${slug}`}
+      class="group flex h-[600px] lg:h-full flex-col bg-white p-5 font-display transition-shadow duration-200 hover:shadow-lg"
+    >
+      {/* 10:9 as in the design, but 16:9 on tablet (768–1023px), where the
+          wider cards would otherwise crop a 16:9 banner cover down to its
+          middle and cut off its text. */}
+      <div class="aspect-[10/9] overflow-hidden bg-foreground/10 md:aspect-video lg:aspect-[10/9]">
+        {post.coverImage?.asset && (
+          <SanityImage
+            value={post.coverImage}
+            alt={stegaClean(post.coverImage.alt) || ''}
+            width={640}
+            sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            class="h-full w-full object-cover transition-transform duration-500 ease-out motion-safe:group-hover:scale-105"
+          />
+        )}
+      </div>
+
+      <h3 class="mt-5 text-3xl font-bold leading-tight text-primary">
+        {post.title}
+      </h3>
+
+      {/* mt-auto pins the meta row and the rule to the bottom, so they line up
+          across cards whose titles wrap to different lengths. */}
+      <div class="mt-auto pt-8">
+        {/* Always side by side, date left and category right, each on one line
+            whenever they fit. Only when they don't does the category wrap — the
+            date holds its line, so just the part that has to give does. Each
+            dot is centered on its text. */}
+        <div class="flex items-center justify-between gap-4 text-medium text-foreground">
+          {dateLabel && (
+            <span class="flex min-w-0 items-center gap-2">
+              <span class="h-3 w-3 shrink-0 rounded-full bg-secondary-hover" aria-hidden="true" />
+              <time datetime={stegaClean(post.publishedAt) ?? undefined}>{dateLabel}</time>
+            </span>
+          )}
+          {post.category && (
+            <span class="flex min-w-0 items-center gap-2">
+              <span class="h-3 w-3 shrink-0 rounded-full bg-secondary-hover" aria-hidden="true" />
+              <span>{post.category}</span>
+            </span>
+          )}
+        </div>
+        <div class="mt-10 border-b-2 border-primary" aria-hidden="true" />
+      </div>
+    </a>
+  )
+}

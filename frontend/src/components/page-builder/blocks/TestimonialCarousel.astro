@@ -62,6 +62,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
   testimonials.length > 0 && (
     <div
       data-carousel
+      class="w-full min-w-0"
       data-autoplay={data.autoPlay ? 'true' : 'false'}
       data-interval={String(autoPlayInterval)}
       data-count={String(testimonials.length)}

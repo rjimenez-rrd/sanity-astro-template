@@ -35,6 +35,14 @@ const linkFragment = /* groq */ `
   }
 `
 
+// Everything a news card shows. Shared by the News Cards block and /news, so
+// the card reads the same data wherever it appears.
+const newsCardFragment = /* groq */ `
+  _id, title, "slug": slug.current, publishedAt,
+  "category": category->title,
+  coverImage { ${imageFragment} }
+`
+
 const heroFragment = /* groq */ `
   _type == "heroSection" => {
     ...,
@@ -113,6 +121,19 @@ const contentTypesFragment = /* groq */ `
         _id, title, cardTitle, slug,
         coverImage { ${imageFragment} }
       },
+      ${blockStylesFragment}
+    },
+    // Picked posts in their picked order, or the newest ones — optionally from
+    // one category (^ is the block, so ^.category is its own filter). GROQ
+    // can't slice by a field, so it takes 24 and the component keeps "count".
+    _type == "newsCards" => {
+      ...,
+      "posts": select(
+        source == "manual" => newsPosts[]-> { ${newsCardFragment} },
+        *[_type == "newsPost" && defined(slug.current)
+          && (!defined(^.category) || category._ref == ^.category._ref)]
+          | order(publishedAt desc) [0...24] { ${newsCardFragment} }
+      ),
       ${blockStylesFragment}
     }
 `
@@ -208,5 +229,21 @@ export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
       _key, title,
       links[] { _key, label, href }
     }
+  }
+`)
+
+export const NEWS_LIST_QUERY = defineQuery(/* groq */ `
+  *[_type == "newsPost" && defined(slug.current)] | order(publishedAt desc) {
+    ${newsCardFragment}
+  }
+`)
+
+export const NEWS_POST_QUERY = defineQuery(/* groq */ `
+  *[_type == "newsPost" && slug.current == $slug][0] {
+    _id, _type, title, "slug": slug.current, publishedAt, excerpt,
+    "category": category->title,
+    coverImage { ${imageFragment} },
+    ${seoFragment},
+    ${pageBuilderFragment}
   }
 `)

@@ -37,9 +37,11 @@ interface Props {
   basePath?: string
   /** Rendered inside a column rather than as a page section. */
   nested?: boolean
+  /** When nested: the settings of the column it sits in, to size it as an item. */
+  parentContainer?: ContainerSettings | null
 }
 
-const {data, documentId, documentType, basePath, nested = false} = Astro.props
+const {data, documentId, documentType, basePath, nested = false, parentContainer} = Astro.props
 
 type Advanced = ContainerAdvanced | null
 
@@ -143,6 +145,7 @@ const rowAdvanced = clean(row.advanced)
 const rowDesign = clean(row.design)
 
 const cssText = buildContainerStyles({
+  itemOf: nested ? (parentContainer ?? {}) : undefined,
   key: rowKey,
   container: rowContainer,
   layout: row.layout,
@@ -211,6 +214,7 @@ const Element = nested ? 'div' : 'section'
                 documentId={documentId}
                 documentType={documentType}
                 parentPath={col.path}
+                parentContainer={col.container}
               />
             ))}
             {editing && content.length === 0 && (

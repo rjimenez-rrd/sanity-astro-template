@@ -132,6 +132,7 @@ export type Advanced = {
   margin?: NestedContainerAdvancedMargin;
   padding?: NestedContainerAdvancedPadding;
   zIndex?: number;
+  order?: AdvancedOrder;
   cssId?: string;
   cssClasses?: string;
   customCss?: string;
@@ -168,6 +169,7 @@ export type GridRowAdvanced = {
   margin?: GridRowAdvancedMargin;
   padding?: GridRowAdvancedPadding;
   zIndex?: number;
+  order?: GridRowAdvancedOrder;
   cssId?: string;
   cssClasses?: string;
   customCss?: string;
@@ -1492,6 +1494,7 @@ export type GridColumnAdvanced = {
   margin?: AdvancedMargin;
   padding?: AdvancedPadding;
   zIndex?: number;
+  order?: Order;
   cssId?: string;
   cssClasses?: string;
   customCss?: string;
@@ -1528,6 +1531,12 @@ export type AdvancedPadding = {
   bottomMobile?: string;
   leftMobile?: string;
   linked?: boolean;
+};
+
+export type Order = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
 };
 
 export type AdvancedMotion = {
@@ -2303,6 +2312,12 @@ export type NestedContainerAdvancedPadding = {
   linked?: boolean;
 };
 
+export type AdvancedOrder = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
 export type NestedContainerAdvancedMotion = {
   animation?:
     | "none"
@@ -3048,6 +3063,7 @@ export type ColumnsGridColumnAdvanced = {
   margin?: GridColumnAdvancedMargin;
   padding?: GridColumnAdvancedPadding;
   zIndex?: number;
+  order?: GridColumnAdvancedOrder;
   cssId?: string;
   cssClasses?: string;
   customCss?: string;
@@ -3084,6 +3100,12 @@ export type GridColumnAdvancedPadding = {
   bottomMobile?: string;
   leftMobile?: string;
   linked?: boolean;
+};
+
+export type GridColumnAdvancedOrder = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
 };
 
 export type GridColumnAdvancedMotion = {
@@ -3859,6 +3881,12 @@ export type GridRowAdvancedPadding = {
   linked?: boolean;
 };
 
+export type GridRowAdvancedOrder = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
 export type GridRowAdvancedMotion = {
   animation?:
     | "none"
@@ -3991,6 +4019,9 @@ export type NestedContainer = {
         } & PracticeAreaCards)
       | ({
           _key: string;
+        } & NewsCards)
+      | ({
+          _key: string;
         } & CaseResultCards)
       | ({
           _key: string;
@@ -4107,6 +4138,9 @@ export type GridRow = {
         } & PracticeAreaCards)
       | ({
           _key: string;
+        } & NewsCards)
+      | ({
+          _key: string;
         } & CaseResultCards)
       | ({
           _key: string;
@@ -4152,6 +4186,40 @@ export type CaseResultCards = {
   >;
   columns?: "1" | "2" | "3" | "4";
   showResultType?: boolean;
+  autoPlay?: boolean;
+  autoPlayInterval?: number;
+  blockStyles?: BlockStyles;
+};
+
+export type NewsCategoryReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "newsCategory";
+};
+
+export type NewsPostReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "newsPost";
+};
+
+export type NewsCards = {
+  _type: "newsCards";
+  title?: string;
+  subtitle?: string;
+  source?: "latest" | "manual";
+  count?: number;
+  category?: NewsCategoryReference;
+  newsPosts?: Array<
+    {
+      _key: string;
+    } & NewsPostReference
+  >;
+  columns?: "1" | "2" | "3" | "4";
+  tabletColumns?: "1" | "2" | "3" | "4";
+  stackOnMobile?: boolean;
   autoPlay?: boolean;
   autoPlayInterval?: number;
   blockStyles?: BlockStyles;
@@ -4825,6 +4893,45 @@ export type CaseResult = {
   order?: number;
 };
 
+export type NewsPost = {
+  _id: string;
+  _type: "newsPost";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  publishedAt: string;
+  category?: NewsCategoryReference;
+  coverImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  excerpt?: string;
+  pageBuilder?: PageBuilder;
+  seo?: Seo;
+};
+
+export type NewsCategory = {
+  _id: string;
+  _type: "newsCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+};
+
+export type Slug = {
+  _type: "slug";
+  current: string;
+  source?: string;
+};
+
 export type Lawyer = {
   _id: string;
   _type: "lawyer";
@@ -4863,12 +4970,6 @@ export type Lawyer = {
   email?: string;
   phone?: string;
   linkedin?: string;
-};
-
-export type Slug = {
-  _type: "slug";
-  current: string;
-  source?: string;
 };
 
 export type Review = {
@@ -5339,6 +5440,7 @@ export type AllSanitySchemaTypes =
   | GridColumnAdvanced
   | AdvancedMargin
   | AdvancedPadding
+  | Order
   | AdvancedMotion
   | GridColumnVisibility
   | NestedContainerDesignBackground
@@ -5414,6 +5516,7 @@ export type AllSanitySchemaTypes =
   | BorderHoverShadow
   | NestedContainerAdvancedMargin
   | NestedContainerAdvancedPadding
+  | AdvancedOrder
   | NestedContainerAdvancedMotion
   | ColumnsGridColumnDesign
   | GridColumnDesignBackground
@@ -5490,6 +5593,7 @@ export type AllSanitySchemaTypes =
   | ColumnsGridColumnAdvanced
   | GridColumnAdvancedMargin
   | GridColumnAdvancedPadding
+  | GridColumnAdvancedOrder
   | GridColumnAdvancedMotion
   | ColumnsGridColumnVisibility
   | GridRowDesignBackground
@@ -5565,6 +5669,7 @@ export type AllSanitySchemaTypes =
   | GridRowDesignBorderHoverShadow
   | GridRowAdvancedMargin
   | GridRowAdvancedPadding
+  | GridRowAdvancedOrder
   | GridRowAdvancedMotion
   | ExternalVideo
   | YoutubeVideo
@@ -5574,6 +5679,9 @@ export type AllSanitySchemaTypes =
   | TocBlock
   | CaseResultReference
   | CaseResultCards
+  | NewsCategoryReference
+  | NewsPostReference
+  | NewsCards
   | PracticeAreaReference
   | PracticeAreaCards
   | LawyerReference
@@ -5616,8 +5724,10 @@ export type AllSanitySchemaTypes =
   | LinkInternal
   | BlockContent
   | CaseResult
-  | Lawyer
+  | NewsPost
+  | NewsCategory
   | Slug
+  | Lawyer
   | Review
   | PracticeArea
   | SiteSettings
@@ -5641,7 +5751,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+// Query: *[_id == "homePage"][0] {    _id, _type,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Picked posts in their picked order, or the newest ones — optionally from    // one category (^ is the block, so ^.category is its own filter). GROQ    // can't slice by a field, so it takes 24 and the component keeps "count".    _type == "newsCards" => {      ...,      "posts": select(        source == "manual" => newsPosts[]-> {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } },        *[_type == "newsPost" && defined(slug.current)          && (!defined(^.category) || category._ref == ^.category._ref)]          | order(publishedAt desc) [0...24] {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Picked posts in their picked order, or the newest ones — optionally from    // one category (^ is the block, so ^.category is its own filter). GROQ    // can't slice by a field, so it takes 24 and the component keeps "count".    _type == "newsCards" => {      ...,      "posts": select(        source == "manual" => newsPosts[]-> {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } },        *[_type == "newsPost" && defined(slug.current)          && (!defined(^.category) || category._ref == ^.category._ref)]          | order(publishedAt desc) [0...24] {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type HOME_PAGE_QUERY_RESULT =
   | {
       _id: "homePage";
@@ -7783,6 +7893,82 @@ export type HOME_PAGE_QUERY_RESULT =
                       }
                     | {
                         _key: string;
+                        _type: "newsCards";
+                        title?: string;
+                        subtitle?: string;
+                        source?: "latest" | "manual";
+                        count?: number;
+                        category?: NewsCategoryReference;
+                        newsPosts?: Array<
+                          {
+                            _key: string;
+                          } & NewsPostReference
+                        >;
+                        columns?: "1" | "2" | "3" | "4";
+                        tabletColumns?: "1" | "2" | "3" | "4";
+                        stackOnMobile?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        posts: Array<{
+                          _id: string;
+                          title: string;
+                          slug: string;
+                          publishedAt: string;
+                          category: string | null;
+                          coverImage: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                        }> | null;
+                      }
+                    | {
+                        _key: string;
                         _type: "practiceAreaCards";
                         title?: string;
                         subtitle?: string;
@@ -8525,6 +8711,82 @@ export type HOME_PAGE_QUERY_RESULT =
                 } | null;
                 advanced?: Advanced;
                 visibility?: Visibility;
+              }
+            | {
+                _key: string;
+                _type: "newsCards";
+                title?: string;
+                subtitle?: string;
+                source?: "latest" | "manual";
+                count?: number;
+                category?: NewsCategoryReference;
+                newsPosts?: Array<
+                  {
+                    _key: string;
+                  } & NewsPostReference
+                >;
+                columns?: "1" | "2" | "3" | "4";
+                tabletColumns?: "1" | "2" | "3" | "4";
+                stackOnMobile?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                posts: Array<{
+                  _id: string;
+                  title: string;
+                  slug: string;
+                  publishedAt: string;
+                  category: string | null;
+                  coverImage: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                }> | null;
               }
             | {
                 _key: string;
@@ -9276,6 +9538,3780 @@ export type HOME_PAGE_QUERY_RESULT =
       _type: "media.tag";
       seo: null;
       pageBuilder: null;
+    }
+  | {
+      _id: "homePage";
+      _type: "newsCategory";
+      seo: null;
+      pageBuilder: null;
+    }
+  | {
+      _id: "homePage";
+      _type: "newsPost";
+      seo: {
+        metaTitle: string | null;
+        metaDescription: string | null;
+        noIndex: boolean | null;
+        ogImage: {
+          asset: {
+            _id: string;
+            url: string;
+          } | null;
+        } | null;
+      } | null;
+      pageBuilder: Array<{
+        _key: string;
+        _type: "gridRow";
+        label?: string;
+        container?: GridRowContainer;
+        layout?: string;
+        columns: Array<{
+          _key: string;
+          label?: string;
+          container?: GridColumnContainer;
+          content: Array<
+            | {
+                _key: string;
+                _type: "accordion";
+                title?: string;
+                subtitle?: string;
+                panels: Array<{
+                  title: string;
+                  icon?: AccordionPanelIcon;
+                  content: BlockContent;
+                  _type: "accordionPanel";
+                  _key: string;
+                }>;
+                allowMultipleOpen?: boolean;
+                firstOpenByDefault?: boolean;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "alertNotice";
+                type: "error" | "info" | "success" | "tip" | "warning";
+                title?: string;
+                message: string;
+                dismissible?: boolean;
+                icon?: {
+                  asset?: SanityImageAssetReference;
+                  media?: unknown;
+                  hotspot?: SanityImageHotspot;
+                  crop?: SanityImageCrop;
+                  _type: "image";
+                };
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "buttonGroup";
+                buttons: Array<{
+                  _key: string;
+                  _type: "callToAction";
+                  label: string;
+                  color?: string;
+                  textColor?: string;
+                  hoverColor?: string;
+                  variant?: "ghost" | "outline" | "primary" | "secondary";
+                  link: Array<
+                    | {
+                        _key: string;
+                        _type: "linkExternal";
+                        title: string;
+                        url: string;
+                        openInNewTab?: boolean;
+                      }
+                    | {
+                        _key: string;
+                        _type: "linkInternal";
+                        title?: string;
+                        reference: {
+                          slug: Slug;
+                        };
+                      }
+                    | {
+                        _key: string;
+                        _type: "pageSlug";
+                        title: string;
+                        slug: string;
+                      }
+                  >;
+                  fullWidth?: boolean;
+                  blockStyles?: BlockStyles;
+                }>;
+                alignment?: "center" | "left" | "right";
+                direction?: string;
+                gap?: "large" | "medium" | "small";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "callToAction";
+                label: string;
+                color?: string;
+                textColor?: string;
+                hoverColor?: string;
+                variant?: "ghost" | "outline" | "primary" | "secondary";
+                link: Array<
+                  | {
+                      _key: string;
+                      _type: "linkExternal";
+                      title: string;
+                      url: string;
+                      openInNewTab?: boolean;
+                    }
+                  | {
+                      _key: string;
+                      _type: "linkInternal";
+                      title?: string;
+                      reference: {
+                        slug: Slug;
+                      };
+                    }
+                  | {
+                      _key: string;
+                      _type: "pageSlug";
+                      title: string;
+                      slug: string;
+                    }
+                >;
+                fullWidth?: boolean;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "caseResultCards";
+                title?: string;
+                subtitle?: string;
+                caseResults: Array<{
+                  _id: string;
+                  amount: string;
+                  summary: string;
+                  resultType: "Award" | "Settlement" | "Verdict" | null;
+                }>;
+                columns?: "1" | "2" | "3" | "4";
+                showResultType?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "codeBlock";
+                language?:
+                  | "bash"
+                  | "css"
+                  | "html"
+                  | "javascript"
+                  | "json"
+                  | "other"
+                  | "python"
+                  | "typescript";
+                filename?: string;
+                code: string;
+                showLineNumbers?: boolean;
+                highlightLines?: string;
+                caption?: string;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "countdownTimer";
+                title?: string;
+                subtitle?: string;
+                targetDate: string;
+                timezone?:
+                  | "America/Chicago"
+                  | "America/Denver"
+                  | "America/Los_Angeles"
+                  | "America/New_York"
+                  | "Australia/Melbourne"
+                  | "Australia/Sydney"
+                  | "Europe/London";
+                expiredMessage?: string;
+                hideWhenExpired?: boolean;
+                cta?: CallToAction;
+                style?: "compact" | "inline" | "large";
+                backgroundColor?: string;
+                textColor?: string;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "dataTable";
+                caption?: string;
+                headers: Array<{
+                  text: string;
+                  _type: "tableHeader";
+                  _key: string;
+                }>;
+                rows: Array<{
+                  cells: Array<{
+                    text: string;
+                    _type: "tableCell";
+                    _key: string;
+                  }>;
+                  _type: "dataTableRow";
+                  _key: string;
+                }>;
+                striped?: boolean;
+                compact?: boolean;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "externalVideo";
+                url: string;
+                caption?: string;
+                autoplay?: boolean;
+                loop?: boolean;
+                muted?: boolean;
+                blockStyles: null;
+              }
+            | {
+                _key: string;
+                _type: "faqBlock";
+                title?: string;
+                subtitle?: string;
+                items: Array<{
+                  question: string;
+                  answer?: BlockContent;
+                  _type: "faqItem";
+                  _key: string;
+                }>;
+                enableSchema?: boolean;
+                allowMultipleOpen?: boolean;
+                firstOpenByDefault?: boolean;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "featureCardGrid";
+                title?: string;
+                subtitle?: string;
+                cards: Array<{
+                  icon?: FeatureCardIcon;
+                  title: string;
+                  description?: string;
+                  cta?: Cta;
+                  _type: "featureCard";
+                  _key: string;
+                }>;
+                columns?: "2" | "3" | "4";
+                style?: "bordered" | "highlighted" | "shadow" | "simple";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "formBlock";
+                formTitle?: string;
+                formDescription?: string;
+                fields: Array<{
+                  label: string;
+                  name: string;
+                  type:
+                    | "checkbox"
+                    | "email"
+                    | "number"
+                    | "select"
+                    | "tel"
+                    | "text"
+                    | "textarea";
+                  placeholder?: string;
+                  required?: boolean;
+                  options?: Array<string>;
+                  width?: "full" | "half";
+                  _type: "formField";
+                  _key: string;
+                }>;
+                submitLabel?: string;
+                submitAction?: "custom" | "webhook";
+                webhookUrl?: string;
+                customEndpoint?: string;
+                successMessage?: string;
+                errorMessage?: string;
+                buttonColor?: string;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "htmlBlock";
+                html: string;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "iconText";
+                icon: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                iconSize?: "large" | "medium" | "small" | "xl";
+                title: string;
+                description?: string;
+                alignment?: string;
+                link?: CallToAction;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "imageBlock";
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: string | null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                };
+                caption: string | null;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "imageGallery";
+                title?: string;
+                images: Array<{
+                  image: GalleryImageImage;
+                  alt?: string;
+                  caption?: string;
+                  _type: "galleryImage";
+                  _key: string;
+                }>;
+                layout?: "grid" | "masonry";
+                columns?: "2" | "3" | "4";
+                enableLightbox?: boolean;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "lawyerCards";
+                title?: string;
+                subtitle?: string;
+                lawyers: Array<{
+                  _id: string;
+                  name: string;
+                  role: string;
+                  shortBio: string | null;
+                  slug: string | null;
+                  photo: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                }>;
+                columns?: "1" | "2" | "3" | "4";
+                showRole?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "logoRow";
+                logos: Array<{
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                  alt: string | null;
+                  link: string | null;
+                }>;
+                grayscale: boolean | null;
+                size: "large" | "medium" | "small" | null;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "lottieAnimation";
+                source: "file" | "url";
+                url?: string;
+                file?: {
+                  asset?: SanityFileAssetReference;
+                  media?: unknown;
+                  _type: "file";
+                };
+                autoplay?: boolean;
+                loop?: boolean;
+                speed?: number;
+                trigger?: "auto" | "hover" | "scroll";
+                alt?: string;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "mapEmbed";
+                embedUrl: string;
+                height?: "large" | "medium" | "small" | "xl";
+                caption?: string;
+                style?: "borderless" | "default" | "rounded";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "nestedContainer";
+                label?: string;
+                container?: Container;
+                layout?: string;
+                columns: Array<{
+                  _key: string;
+                  label?: string;
+                  container?: ColumnsGridColumnContainer;
+                  content: Array<
+                    | {
+                        _key: string;
+                        _type: "accordion";
+                        title?: string;
+                        subtitle?: string;
+                        panels: Array<{
+                          title: string;
+                          icon?: AccordionPanelIcon;
+                          content: BlockContent;
+                          _type: "accordionPanel";
+                          _key: string;
+                        }>;
+                        allowMultipleOpen?: boolean;
+                        firstOpenByDefault?: boolean;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "alertNotice";
+                        type: "error" | "info" | "success" | "tip" | "warning";
+                        title?: string;
+                        message: string;
+                        dismissible?: boolean;
+                        icon?: {
+                          asset?: SanityImageAssetReference;
+                          media?: unknown;
+                          hotspot?: SanityImageHotspot;
+                          crop?: SanityImageCrop;
+                          _type: "image";
+                        };
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "buttonGroup";
+                        buttons: Array<{
+                          _key: string;
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | {
+                                _key: string;
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
+                                _key: string;
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
+                                _key: string;
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
+                          >;
+                          fullWidth?: boolean;
+                          blockStyles?: BlockStyles;
+                        }>;
+                        alignment?: "center" | "left" | "right";
+                        direction?: string;
+                        gap?: "large" | "medium" | "small";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "callToAction";
+                        label: string;
+                        color?: string;
+                        textColor?: string;
+                        hoverColor?: string;
+                        variant?: "ghost" | "outline" | "primary" | "secondary";
+                        link: Array<
+                          | {
+                              _key: string;
+                              _type: "linkExternal";
+                              title: string;
+                              url: string;
+                              openInNewTab?: boolean;
+                            }
+                          | {
+                              _key: string;
+                              _type: "linkInternal";
+                              title?: string;
+                              reference: {
+                                slug: Slug;
+                              };
+                            }
+                          | {
+                              _key: string;
+                              _type: "pageSlug";
+                              title: string;
+                              slug: string;
+                            }
+                        >;
+                        fullWidth?: boolean;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "caseResultCards";
+                        title?: string;
+                        subtitle?: string;
+                        caseResults: Array<{
+                          _id: string;
+                          amount: string;
+                          summary: string;
+                          resultType: "Award" | "Settlement" | "Verdict" | null;
+                        }>;
+                        columns?: "1" | "2" | "3" | "4";
+                        showResultType?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "codeBlock";
+                        language?:
+                          | "bash"
+                          | "css"
+                          | "html"
+                          | "javascript"
+                          | "json"
+                          | "other"
+                          | "python"
+                          | "typescript";
+                        filename?: string;
+                        code: string;
+                        showLineNumbers?: boolean;
+                        highlightLines?: string;
+                        caption?: string;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "countdownTimer";
+                        title?: string;
+                        subtitle?: string;
+                        targetDate: string;
+                        timezone?:
+                          | "America/Chicago"
+                          | "America/Denver"
+                          | "America/Los_Angeles"
+                          | "America/New_York"
+                          | "Australia/Melbourne"
+                          | "Australia/Sydney"
+                          | "Europe/London";
+                        expiredMessage?: string;
+                        hideWhenExpired?: boolean;
+                        cta?: CallToAction;
+                        style?: "compact" | "inline" | "large";
+                        backgroundColor?: string;
+                        textColor?: string;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "dataTable";
+                        caption?: string;
+                        headers: Array<{
+                          text: string;
+                          _type: "tableHeader";
+                          _key: string;
+                        }>;
+                        rows: Array<{
+                          cells: Array<{
+                            text: string;
+                            _type: "tableCell";
+                            _key: string;
+                          }>;
+                          _type: "dataTableRow";
+                          _key: string;
+                        }>;
+                        striped?: boolean;
+                        compact?: boolean;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "externalVideo";
+                        url: string;
+                        caption?: string;
+                        autoplay?: boolean;
+                        loop?: boolean;
+                        muted?: boolean;
+                        blockStyles: null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "faqBlock";
+                        title?: string;
+                        subtitle?: string;
+                        items: Array<{
+                          question: string;
+                          answer?: BlockContent;
+                          _type: "faqItem";
+                          _key: string;
+                        }>;
+                        enableSchema?: boolean;
+                        allowMultipleOpen?: boolean;
+                        firstOpenByDefault?: boolean;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "featureCardGrid";
+                        title?: string;
+                        subtitle?: string;
+                        cards: Array<{
+                          icon?: FeatureCardIcon;
+                          title: string;
+                          description?: string;
+                          cta?: Cta;
+                          _type: "featureCard";
+                          _key: string;
+                        }>;
+                        columns?: "2" | "3" | "4";
+                        style?:
+                          "bordered" | "highlighted" | "shadow" | "simple";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "formBlock";
+                        formTitle?: string;
+                        formDescription?: string;
+                        fields: Array<{
+                          label: string;
+                          name: string;
+                          type:
+                            | "checkbox"
+                            | "email"
+                            | "number"
+                            | "select"
+                            | "tel"
+                            | "text"
+                            | "textarea";
+                          placeholder?: string;
+                          required?: boolean;
+                          options?: Array<string>;
+                          width?: "full" | "half";
+                          _type: "formField";
+                          _key: string;
+                        }>;
+                        submitLabel?: string;
+                        submitAction?: "custom" | "webhook";
+                        webhookUrl?: string;
+                        customEndpoint?: string;
+                        successMessage?: string;
+                        errorMessage?: string;
+                        buttonColor?: string;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "htmlBlock";
+                        html: string;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "iconText";
+                        icon: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        iconSize?: "large" | "medium" | "small" | "xl";
+                        title: string;
+                        description?: string;
+                        alignment?: string;
+                        link?: CallToAction;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "imageBlock";
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: string | null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        };
+                        caption: string | null;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "imageGallery";
+                        title?: string;
+                        images: Array<{
+                          image: GalleryImageImage;
+                          alt?: string;
+                          caption?: string;
+                          _type: "galleryImage";
+                          _key: string;
+                        }>;
+                        layout?: "grid" | "masonry";
+                        columns?: "2" | "3" | "4";
+                        enableLightbox?: boolean;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "lawyerCards";
+                        title?: string;
+                        subtitle?: string;
+                        lawyers: Array<{
+                          _id: string;
+                          name: string;
+                          role: string;
+                          shortBio: string | null;
+                          slug: string | null;
+                          photo: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                        }>;
+                        columns?: "1" | "2" | "3" | "4";
+                        showRole?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "logoRow";
+                        logos: Array<{
+                          image: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                          alt: string | null;
+                          link: string | null;
+                        }>;
+                        grayscale: boolean | null;
+                        size: "large" | "medium" | "small" | null;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "lottieAnimation";
+                        source: "file" | "url";
+                        url?: string;
+                        file?: {
+                          asset?: SanityFileAssetReference;
+                          media?: unknown;
+                          _type: "file";
+                        };
+                        autoplay?: boolean;
+                        loop?: boolean;
+                        speed?: number;
+                        trigger?: "auto" | "hover" | "scroll";
+                        alt?: string;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "mapEmbed";
+                        embedUrl: string;
+                        height?: "large" | "medium" | "small" | "xl";
+                        caption?: string;
+                        style?: "borderless" | "default" | "rounded";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "newsCards";
+                        title?: string;
+                        subtitle?: string;
+                        source?: "latest" | "manual";
+                        count?: number;
+                        category?: NewsCategoryReference;
+                        newsPosts?: Array<
+                          {
+                            _key: string;
+                          } & NewsPostReference
+                        >;
+                        columns?: "1" | "2" | "3" | "4";
+                        tabletColumns?: "1" | "2" | "3" | "4";
+                        stackOnMobile?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        posts: Array<{
+                          _id: string;
+                          title: string;
+                          slug: string;
+                          publishedAt: string;
+                          category: string | null;
+                          coverImage: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                        }> | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "practiceAreaCards";
+                        title?: string;
+                        subtitle?: string;
+                        practiceAreas: Array<{
+                          _id: string;
+                          title: string;
+                          cardTitle: string | null;
+                          slug: Slug;
+                          coverImage: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          } | null;
+                        }>;
+                        columns?: "1" | "2" | "3" | "4";
+                        titleAlign?: "center" | "left";
+                        stackTitleWords?: boolean;
+                        stackOnMobile?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "pricingCard";
+                        badge?: string;
+                        title: string;
+                        price: string;
+                        priceSubtext?: string;
+                        features?: Array<{
+                          text: string;
+                          included?: boolean;
+                          _type: "pricingFeature";
+                          _key: string;
+                        }>;
+                        cta: {
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | {
+                                _key: string;
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
+                                _key: string;
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
+                                _key: string;
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
+                          >;
+                          fullWidth?: boolean;
+                          blockStyles?: BlockStyles;
+                        } | null;
+                        isHighlighted?: boolean;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "richTextBlock";
+                        content: Array<
+                          | {
+                              children?: Array<{
+                                marks?: Array<string>;
+                                text?: string;
+                                _type: "span";
+                                _key: string;
+                              }>;
+                              style?:
+                                | "blockquote"
+                                | "h1"
+                                | "h2"
+                                | "h3"
+                                | "h4"
+                                | "normal"
+                                | "paragraph";
+                              listItem?: "bullet" | "number";
+                              markDefs?: Array<{
+                                href?: string;
+                                openInNewTab?: boolean;
+                                _type: "link";
+                                _key: string;
+                              }>;
+                              level?: number;
+                              _type: "block";
+                              _key: string;
+                            }
+                          | {
+                              _key: string;
+                              _type: "callToAction";
+                              label: string;
+                              color?: string;
+                              textColor?: string;
+                              hoverColor?: string;
+                              variant?:
+                                "ghost" | "outline" | "primary" | "secondary";
+                              link: Array<
+                                | {
+                                    _key: string;
+                                    _type: "linkExternal";
+                                    title: string;
+                                    url: string;
+                                    openInNewTab?: boolean;
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "linkInternal";
+                                    title?: string;
+                                    reference: {
+                                      slug: Slug;
+                                    };
+                                  }
+                                | {
+                                    _key: string;
+                                    _type: "pageSlug";
+                                    title: string;
+                                    slug: string;
+                                  }
+                              >;
+                              fullWidth?: boolean;
+                              blockStyles?: BlockStyles;
+                            }
+                          | {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              media?: unknown;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                              alt: string | null;
+                              _type: "image";
+                              _key: string;
+                            }
+                        >;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "socialEmbed";
+                        platform:
+                          | "facebook"
+                          | "instagram"
+                          | "other"
+                          | "tiktok"
+                          | "twitter";
+                        embedUrl: string;
+                        caption?: string;
+                        aspectRatio?:
+                          "auto" | "landscape" | "portrait" | "square";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "spacerDivider";
+                        height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                        showDivider?: boolean;
+                        dividerStyle?: "dashed" | "dotted" | "solid";
+                        lineCount?: "double" | "single" | "triple";
+                        thickness?: number;
+                        dividerColor?: string;
+                        maxWidth?: "default" | "full" | "narrow" | "wide";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "statMetric";
+                        value: string;
+                        label: string;
+                        prefix?: string;
+                        suffix?: string;
+                        size?: "large" | "medium" | "small";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "tabbedContent";
+                        title?: string;
+                        subtitle?: string;
+                        tabs: Array<{
+                          label: string;
+                          icon?: Icon;
+                          content: Array<
+                            | ({
+                                _key: string;
+                              } & AlertNotice)
+                            | ({
+                                _key: string;
+                              } & BlockContent)
+                            | ({
+                                _key: string;
+                              } & ButtonGroup)
+                            | ({
+                                _key: string;
+                              } & CallToAction)
+                            | ({
+                                _key: string;
+                              } & CodeBlock)
+                            | ({
+                                _key: string;
+                              } & DataTable)
+                            | ({
+                                _key: string;
+                              } & ExternalVideo)
+                            | ({
+                                _key: string;
+                              } & IconText)
+                            | ({
+                                _key: string;
+                              } & LogoRow)
+                            | ({
+                                _key: string;
+                              } & LottieAnimation)
+                            | ({
+                                _key: string;
+                              } & MapEmbed)
+                            | ({
+                                _key: string;
+                              } & PricingCard)
+                            | ({
+                                _key: string;
+                              } & SocialEmbed)
+                            | ({
+                                _key: string;
+                              } & StatMetric)
+                            | ({
+                                _key: string;
+                              } & TestimonialQuote)
+                            | ({
+                                _key: string;
+                              } & YoutubeVideo)
+                            | {
+                                image: TabImageImage;
+                                alt?: string;
+                                _type: "tabImage";
+                                _key: string;
+                              }
+                          >;
+                          _type: "tab";
+                          _key: string;
+                        }>;
+                        tabStyle?: "boxed" | "pills" | "underline";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "testimonialCarousel";
+                        title?: string;
+                        reviews: Array<{
+                          _id: string;
+                          clientName: string;
+                          title: string | null;
+                          reviewText: string;
+                          rating: number;
+                        }> | null;
+                        perViewDesktop?: 1 | 2 | 3 | 4;
+                        perViewTablet?: 1 | 2;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        showDots?: boolean;
+                        showArrows?: boolean;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "testimonialQuote";
+                        quote: string;
+                        avatar: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        name: string;
+                        title?: string;
+                        rating?: number;
+                        style?: "card" | "large" | "simple";
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "tocBlock";
+                        title?: string;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                      }
+                    | {
+                        _key: string;
+                        _type: "youtubeVideo";
+                        url: string;
+                        caption?: string;
+                        blockStyles: null;
+                      }
+                  > | null;
+                  design?: GridColumnDesign;
+                  blockStyles: {
+                    padding: Padding | null;
+                    margin: Margin | null;
+                    size: Size | null;
+                    border: Border | null;
+                    borderRadius: BorderRadius | null;
+                    background: {
+                      color: string | null;
+                      image: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      } | null;
+                      size: "auto" | "contain" | "cover" | null;
+                      overlay: string | null;
+                    } | null;
+                    typography: Typography | null;
+                    effects: Effects | null;
+                    motion: Motion | null;
+                    cssId: string | null;
+                    cssClasses: string | null;
+                    customCss: string | null;
+                  } | null;
+                  advanced?: GridColumnAdvanced;
+                  visibility?: GridColumnVisibility;
+                  _type: "gridColumn";
+                }>;
+                design?: Design;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                advanced?: Advanced;
+                visibility?: Visibility;
+              }
+            | {
+                _key: string;
+                _type: "newsCards";
+                title?: string;
+                subtitle?: string;
+                source?: "latest" | "manual";
+                count?: number;
+                category?: NewsCategoryReference;
+                newsPosts?: Array<
+                  {
+                    _key: string;
+                  } & NewsPostReference
+                >;
+                columns?: "1" | "2" | "3" | "4";
+                tabletColumns?: "1" | "2" | "3" | "4";
+                stackOnMobile?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                posts: Array<{
+                  _id: string;
+                  title: string;
+                  slug: string;
+                  publishedAt: string;
+                  category: string | null;
+                  coverImage: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                }> | null;
+              }
+            | {
+                _key: string;
+                _type: "practiceAreaCards";
+                title?: string;
+                subtitle?: string;
+                practiceAreas: Array<{
+                  _id: string;
+                  title: string;
+                  cardTitle: string | null;
+                  slug: Slug;
+                  coverImage: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                }>;
+                columns?: "1" | "2" | "3" | "4";
+                titleAlign?: "center" | "left";
+                stackTitleWords?: boolean;
+                stackOnMobile?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "pricingCard";
+                badge?: string;
+                title: string;
+                price: string;
+                priceSubtext?: string;
+                features?: Array<{
+                  text: string;
+                  included?: boolean;
+                  _type: "pricingFeature";
+                  _key: string;
+                }>;
+                cta: {
+                  _type: "callToAction";
+                  label: string;
+                  color?: string;
+                  textColor?: string;
+                  hoverColor?: string;
+                  variant?: "ghost" | "outline" | "primary" | "secondary";
+                  link: Array<
+                    | {
+                        _key: string;
+                        _type: "linkExternal";
+                        title: string;
+                        url: string;
+                        openInNewTab?: boolean;
+                      }
+                    | {
+                        _key: string;
+                        _type: "linkInternal";
+                        title?: string;
+                        reference: {
+                          slug: Slug;
+                        };
+                      }
+                    | {
+                        _key: string;
+                        _type: "pageSlug";
+                        title: string;
+                        slug: string;
+                      }
+                  >;
+                  fullWidth?: boolean;
+                  blockStyles?: BlockStyles;
+                } | null;
+                isHighlighted?: boolean;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "richTextBlock";
+                content: Array<
+                  | {
+                      children?: Array<{
+                        marks?: Array<string>;
+                        text?: string;
+                        _type: "span";
+                        _key: string;
+                      }>;
+                      style?:
+                        | "blockquote"
+                        | "h1"
+                        | "h2"
+                        | "h3"
+                        | "h4"
+                        | "normal"
+                        | "paragraph";
+                      listItem?: "bullet" | "number";
+                      markDefs?: Array<{
+                        href?: string;
+                        openInNewTab?: boolean;
+                        _type: "link";
+                        _key: string;
+                      }>;
+                      level?: number;
+                      _type: "block";
+                      _key: string;
+                    }
+                  | {
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                      fullWidth?: boolean;
+                      blockStyles?: BlockStyles;
+                    }
+                  | {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      media?: unknown;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                      alt: string | null;
+                      _type: "image";
+                      _key: string;
+                    }
+                >;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "socialEmbed";
+                platform:
+                  "facebook" | "instagram" | "other" | "tiktok" | "twitter";
+                embedUrl: string;
+                caption?: string;
+                aspectRatio?: "auto" | "landscape" | "portrait" | "square";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "spacerDivider";
+                height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                showDivider?: boolean;
+                dividerStyle?: "dashed" | "dotted" | "solid";
+                lineCount?: "double" | "single" | "triple";
+                thickness?: number;
+                dividerColor?: string;
+                maxWidth?: "default" | "full" | "narrow" | "wide";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "statMetric";
+                value: string;
+                label: string;
+                prefix?: string;
+                suffix?: string;
+                size?: "large" | "medium" | "small";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "tabbedContent";
+                title?: string;
+                subtitle?: string;
+                tabs: Array<{
+                  label: string;
+                  icon?: Icon;
+                  content: Array<
+                    | ({
+                        _key: string;
+                      } & AlertNotice)
+                    | ({
+                        _key: string;
+                      } & BlockContent)
+                    | ({
+                        _key: string;
+                      } & ButtonGroup)
+                    | ({
+                        _key: string;
+                      } & CallToAction)
+                    | ({
+                        _key: string;
+                      } & CodeBlock)
+                    | ({
+                        _key: string;
+                      } & DataTable)
+                    | ({
+                        _key: string;
+                      } & ExternalVideo)
+                    | ({
+                        _key: string;
+                      } & IconText)
+                    | ({
+                        _key: string;
+                      } & LogoRow)
+                    | ({
+                        _key: string;
+                      } & LottieAnimation)
+                    | ({
+                        _key: string;
+                      } & MapEmbed)
+                    | ({
+                        _key: string;
+                      } & PricingCard)
+                    | ({
+                        _key: string;
+                      } & SocialEmbed)
+                    | ({
+                        _key: string;
+                      } & StatMetric)
+                    | ({
+                        _key: string;
+                      } & TestimonialQuote)
+                    | ({
+                        _key: string;
+                      } & YoutubeVideo)
+                    | {
+                        image: TabImageImage;
+                        alt?: string;
+                        _type: "tabImage";
+                        _key: string;
+                      }
+                  >;
+                  _type: "tab";
+                  _key: string;
+                }>;
+                tabStyle?: "boxed" | "pills" | "underline";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "testimonialCarousel";
+                title?: string;
+                reviews: Array<{
+                  _id: string;
+                  clientName: string;
+                  title: string | null;
+                  reviewText: string;
+                  rating: number;
+                }> | null;
+                perViewDesktop?: 1 | 2 | 3 | 4;
+                perViewTablet?: 1 | 2;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                showDots?: boolean;
+                showArrows?: boolean;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "testimonialQuote";
+                quote: string;
+                avatar: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                name: string;
+                title?: string;
+                rating?: number;
+                style?: "card" | "large" | "simple";
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "tocBlock";
+                title?: string;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+              }
+            | {
+                _key: string;
+                _type: "youtubeVideo";
+                url: string;
+                caption?: string;
+                blockStyles: null;
+              }
+          > | null;
+          design?: ColumnsGridColumnDesign;
+          blockStyles: {
+            padding: Padding | null;
+            margin: Margin | null;
+            size: Size | null;
+            border: Border | null;
+            borderRadius: BorderRadius | null;
+            background: {
+              color: string | null;
+              image: {
+                asset: {
+                  _id: string;
+                  url: string;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+                alt: null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+              } | null;
+              size: "auto" | "contain" | "cover" | null;
+              overlay: string | null;
+            } | null;
+            typography: Typography | null;
+            effects: Effects | null;
+            motion: Motion | null;
+            cssId: string | null;
+            cssClasses: string | null;
+            customCss: string | null;
+          } | null;
+          advanced?: ColumnsGridColumnAdvanced;
+          visibility?: ColumnsGridColumnVisibility;
+          _type: "gridColumn";
+        }>;
+        design?: GridRowDesign;
+        blockStyles: {
+          padding: Padding | null;
+          margin: Margin | null;
+          size: Size | null;
+          border: Border | null;
+          borderRadius: BorderRadius | null;
+          background: {
+            color: string | null;
+            image: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            size: "auto" | "contain" | "cover" | null;
+            overlay: string | null;
+          } | null;
+          typography: Typography | null;
+          effects: Effects | null;
+          motion: Motion | null;
+          cssId: string | null;
+          cssClasses: string | null;
+          customCss: string | null;
+        } | null;
+        advanced?: GridRowAdvanced;
+        visibility?: GridRowVisibility;
+      }> | null;
     }
   | {
       _id: "homePage";
@@ -11411,6 +15447,82 @@ export type HOME_PAGE_QUERY_RESULT =
                       }
                     | {
                         _key: string;
+                        _type: "newsCards";
+                        title?: string;
+                        subtitle?: string;
+                        source?: "latest" | "manual";
+                        count?: number;
+                        category?: NewsCategoryReference;
+                        newsPosts?: Array<
+                          {
+                            _key: string;
+                          } & NewsPostReference
+                        >;
+                        columns?: "1" | "2" | "3" | "4";
+                        tabletColumns?: "1" | "2" | "3" | "4";
+                        stackOnMobile?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        posts: Array<{
+                          _id: string;
+                          title: string;
+                          slug: string;
+                          publishedAt: string;
+                          category: string | null;
+                          coverImage: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                        }> | null;
+                      }
+                    | {
+                        _key: string;
                         _type: "practiceAreaCards";
                         title?: string;
                         subtitle?: string;
@@ -12153,6 +16265,82 @@ export type HOME_PAGE_QUERY_RESULT =
                 } | null;
                 advanced?: Advanced;
                 visibility?: Visibility;
+              }
+            | {
+                _key: string;
+                _type: "newsCards";
+                title?: string;
+                subtitle?: string;
+                source?: "latest" | "manual";
+                count?: number;
+                category?: NewsCategoryReference;
+                newsPosts?: Array<
+                  {
+                    _key: string;
+                  } & NewsPostReference
+                >;
+                columns?: "1" | "2" | "3" | "4";
+                tabletColumns?: "1" | "2" | "3" | "4";
+                stackOnMobile?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                posts: Array<{
+                  _id: string;
+                  title: string;
+                  slug: string;
+                  publishedAt: string;
+                  category: string | null;
+                  coverImage: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                }> | null;
               }
             | {
                 _key: string;
@@ -15027,6 +19215,82 @@ export type HOME_PAGE_QUERY_RESULT =
                       }
                     | {
                         _key: string;
+                        _type: "newsCards";
+                        title?: string;
+                        subtitle?: string;
+                        source?: "latest" | "manual";
+                        count?: number;
+                        category?: NewsCategoryReference;
+                        newsPosts?: Array<
+                          {
+                            _key: string;
+                          } & NewsPostReference
+                        >;
+                        columns?: "1" | "2" | "3" | "4";
+                        tabletColumns?: "1" | "2" | "3" | "4";
+                        stackOnMobile?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        posts: Array<{
+                          _id: string;
+                          title: string;
+                          slug: string;
+                          publishedAt: string;
+                          category: string | null;
+                          coverImage: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                        }> | null;
+                      }
+                    | {
+                        _key: string;
                         _type: "practiceAreaCards";
                         title?: string;
                         subtitle?: string;
@@ -15769,6 +20033,82 @@ export type HOME_PAGE_QUERY_RESULT =
                 } | null;
                 advanced?: Advanced;
                 visibility?: Visibility;
+              }
+            | {
+                _key: string;
+                _type: "newsCards";
+                title?: string;
+                subtitle?: string;
+                source?: "latest" | "manual";
+                count?: number;
+                category?: NewsCategoryReference;
+                newsPosts?: Array<
+                  {
+                    _key: string;
+                  } & NewsPostReference
+                >;
+                columns?: "1" | "2" | "3" | "4";
+                tabletColumns?: "1" | "2" | "3" | "4";
+                stackOnMobile?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                posts: Array<{
+                  _id: string;
+                  title: string;
+                  slug: string;
+                  publishedAt: string;
+                  category: string | null;
+                  coverImage: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                }> | null;
               }
             | {
                 _key: string;
@@ -16537,7 +20877,7 @@ export type HOME_PAGE_QUERY_RESULT =
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+// Query: *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {    _id, _type, title, slug,      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Picked posts in their picked order, or the newest ones — optionally from    // one category (^ is the block, so ^.category is its own filter). GROQ    // can't slice by a field, so it takes 24 and the component keeps "count".    _type == "newsCards" => {      ...,      "posts": select(        source == "manual" => newsPosts[]-> {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } },        *[_type == "newsPost" && defined(slug.current)          && (!defined(^.category) || category._ref == ^.category._ref)]          | order(publishedAt desc) [0...24] {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Picked posts in their picked order, or the newest ones — optionally from    // one category (^ is the block, so ^.category is its own filter). GROQ    // can't slice by a field, so it takes 24 and the component keeps "count".    _type == "newsCards" => {      ...,      "posts": select(        source == "manual" => newsPosts[]-> {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } },        *[_type == "newsPost" && defined(slug.current)          && (!defined(^.category) || category._ref == ^.category._ref)]          | order(publishedAt desc) [0...24] {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
 export type PAGE_QUERY_RESULT =
   | {
       _id: string;
@@ -18675,6 +23015,82 @@ export type PAGE_QUERY_RESULT =
                       }
                     | {
                         _key: string;
+                        _type: "newsCards";
+                        title?: string;
+                        subtitle?: string;
+                        source?: "latest" | "manual";
+                        count?: number;
+                        category?: NewsCategoryReference;
+                        newsPosts?: Array<
+                          {
+                            _key: string;
+                          } & NewsPostReference
+                        >;
+                        columns?: "1" | "2" | "3" | "4";
+                        tabletColumns?: "1" | "2" | "3" | "4";
+                        stackOnMobile?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        posts: Array<{
+                          _id: string;
+                          title: string;
+                          slug: string;
+                          publishedAt: string;
+                          category: string | null;
+                          coverImage: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                        }> | null;
+                      }
+                    | {
+                        _key: string;
                         _type: "practiceAreaCards";
                         title?: string;
                         subtitle?: string;
@@ -19417,6 +23833,82 @@ export type PAGE_QUERY_RESULT =
                 } | null;
                 advanced?: Advanced;
                 visibility?: Visibility;
+              }
+            | {
+                _key: string;
+                _type: "newsCards";
+                title?: string;
+                subtitle?: string;
+                source?: "latest" | "manual";
+                count?: number;
+                category?: NewsCategoryReference;
+                newsPosts?: Array<
+                  {
+                    _key: string;
+                  } & NewsPostReference
+                >;
+                columns?: "1" | "2" | "3" | "4";
+                tabletColumns?: "1" | "2" | "3" | "4";
+                stackOnMobile?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                posts: Array<{
+                  _id: string;
+                  title: string;
+                  slug: string;
+                  publishedAt: string;
+                  category: string | null;
+                  coverImage: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                }> | null;
               }
             | {
                 _key: string;
@@ -22293,6 +26785,82 @@ export type PAGE_QUERY_RESULT =
                       }
                     | {
                         _key: string;
+                        _type: "newsCards";
+                        title?: string;
+                        subtitle?: string;
+                        source?: "latest" | "manual";
+                        count?: number;
+                        category?: NewsCategoryReference;
+                        newsPosts?: Array<
+                          {
+                            _key: string;
+                          } & NewsPostReference
+                        >;
+                        columns?: "1" | "2" | "3" | "4";
+                        tabletColumns?: "1" | "2" | "3" | "4";
+                        stackOnMobile?: boolean;
+                        autoPlay?: boolean;
+                        autoPlayInterval?: number;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        posts: Array<{
+                          _id: string;
+                          title: string;
+                          slug: string;
+                          publishedAt: string;
+                          category: string | null;
+                          coverImage: {
+                            asset: {
+                              _id: string;
+                              url: string;
+                              metadata: {
+                                lqip: string | null;
+                                dimensions: {
+                                  width: number;
+                                  height: number;
+                                } | null;
+                              } | null;
+                            } | null;
+                            alt: string | null;
+                            hotspot: SanityImageHotspot | null;
+                            crop: SanityImageCrop | null;
+                          };
+                        }> | null;
+                      }
+                    | {
+                        _key: string;
                         _type: "practiceAreaCards";
                         title?: string;
                         subtitle?: string;
@@ -23035,6 +27603,82 @@ export type PAGE_QUERY_RESULT =
                 } | null;
                 advanced?: Advanced;
                 visibility?: Visibility;
+              }
+            | {
+                _key: string;
+                _type: "newsCards";
+                title?: string;
+                subtitle?: string;
+                source?: "latest" | "manual";
+                count?: number;
+                category?: NewsCategoryReference;
+                newsPosts?: Array<
+                  {
+                    _key: string;
+                  } & NewsPostReference
+                >;
+                columns?: "1" | "2" | "3" | "4";
+                tabletColumns?: "1" | "2" | "3" | "4";
+                stackOnMobile?: boolean;
+                autoPlay?: boolean;
+                autoPlayInterval?: number;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                posts: Array<{
+                  _id: string;
+                  title: string;
+                  slug: string;
+                  publishedAt: string;
+                  category: string | null;
+                  coverImage: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: string | null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  };
+                }> | null;
               }
             | {
                 _key: string;
@@ -23933,14 +28577,3827 @@ export type SITE_SETTINGS_QUERY_RESULT =
     }
   | null;
 
+// Source: ../frontend/src/sanity/lib/queries.ts
+// Variable: NEWS_LIST_QUERY
+// Query: *[_type == "newsPost" && defined(slug.current)] | order(publishedAt desc) {      _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }  }
+export type NEWS_LIST_QUERY_RESULT = Array<{
+  _id: string;
+  title: string;
+  slug: string;
+  publishedAt: string;
+  category: string | null;
+  coverImage: {
+    asset: {
+      _id: string;
+      url: string;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          width: number;
+          height: number;
+        } | null;
+      } | null;
+    } | null;
+    alt: string | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+  };
+}>;
+
+// Source: ../frontend/src/sanity/lib/queries.ts
+// Variable: NEWS_POST_QUERY
+// Query: *[_type == "newsPost" && slug.current == $slug][0] {    _id, _type, title, "slug": slug.current, publishedAt, excerpt,    "category": category->title,    coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      seo {    metaTitle, metaDescription, noIndex,    ogImage { asset->{ _id, url } }  },      pageBuilder[] {    _key, _type, ...,      _type == "heroSection" => {    ...,    buttons[] { _key, _type, ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  },   blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  } },    mediaImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },    backgroundImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },    columns[] {      _key, ...,        content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Picked posts in their picked order, or the newest ones — optionally from    // one category (^ is the block, so ^.category is its own filter). GROQ    // can't slice by a field, so it takes 24 and the component keeps "count".    _type == "newsCards" => {      ...,      "posts": select(        source == "manual" => newsPosts[]-> {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } },        *[_type == "newsPost" && defined(slug.current)          && (!defined(^.category) || category._ref == ^.category._ref)]          | order(publishedAt desc) [0...24] {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "nestedContainer" => {      columns[] {        _key, ...,          content[] {    _key, _type, ...,        _type == "imageBlock" => {      image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },      caption,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "richTextBlock" => {      // Inline images need their asset dereferenced, or SanityImage has no      // dimensions and falls back to a default aspect ratio.      content[] {        ...,        _type == "image" => {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "callToAction" => {   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } },    _type == "buttonGroup" => { buttons[] { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "pricingCard" => { cta { ...,   link[] {    ...,    _type == "linkInternal" => { "reference": reference->{ slug } }  } } },    _type == "logoRow" => {      logos[] { image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, alt, link },      grayscale, size,        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "testimonialQuote" => {      ...,      avatar {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "iconText" => {      ...,      icon {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Reviews live in their own documents. Picked ones keep the editor's order;    // an empty pick means every review, newest first. The computed "reviews"    // comes after the spread, so it replaces the bare references.    _type == "testimonialCarousel" => {      ...,      "reviews": select(        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "lawyerCards" => {      ...,      lawyers[]-> {        _id, name, role, shortBio,        "slug": slug.current,        photo {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "caseResultCards" => {      ...,      caseResults[]-> {        _id, amount, summary, resultType      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    _type == "practiceAreaCards" => {      ...,      practiceAreas[]-> {        _id, title, cardTitle, slug,        coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }      },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },    // Picked posts in their picked order, or the newest ones — optionally from    // one category (^ is the block, so ^.category is its own filter). GROQ    // can't slice by a field, so it takes 24 and the component keeps "count".    _type == "newsCards" => {      ...,      "posts": select(        source == "manual" => newsPosts[]-> {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } },        *[_type == "newsPost" && defined(slug.current)          && (!defined(^.category) || category._ref == ^.category._ref)]          | order(publishedAt desc) [0...24] {   _id, title, "slug": slug.current, publishedAt,  "category": category->title,  coverImage {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop } }      ),        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },          blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }      }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  },        blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }    },      blockStyles {    padding, margin, size, border, borderRadius,    background { color, image {   asset->{    _id,    url,    metadata { lqip, dimensions { width, height } }  },  alt,  hotspot,  crop }, size, overlay },    typography, effects, motion,    cssId, cssClasses, customCss  }  }  }
+export type NEWS_POST_QUERY_RESULT = {
+  _id: string;
+  _type: "newsPost";
+  title: string;
+  slug: string;
+  publishedAt: string;
+  excerpt: string | null;
+  category: string | null;
+  coverImage: {
+    asset: {
+      _id: string;
+      url: string;
+      metadata: {
+        lqip: string | null;
+        dimensions: {
+          width: number;
+          height: number;
+        } | null;
+      } | null;
+    } | null;
+    alt: string | null;
+    hotspot: SanityImageHotspot | null;
+    crop: SanityImageCrop | null;
+  };
+  seo: {
+    metaTitle: string | null;
+    metaDescription: string | null;
+    noIndex: boolean | null;
+    ogImage: {
+      asset: {
+        _id: string;
+        url: string;
+      } | null;
+    } | null;
+  } | null;
+  pageBuilder: Array<{
+    _key: string;
+    _type: "gridRow";
+    label?: string;
+    container?: GridRowContainer;
+    layout?: string;
+    columns: Array<{
+      _key: string;
+      label?: string;
+      container?: GridColumnContainer;
+      content: Array<
+        | {
+            _key: string;
+            _type: "accordion";
+            title?: string;
+            subtitle?: string;
+            panels: Array<{
+              title: string;
+              icon?: AccordionPanelIcon;
+              content: BlockContent;
+              _type: "accordionPanel";
+              _key: string;
+            }>;
+            allowMultipleOpen?: boolean;
+            firstOpenByDefault?: boolean;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "alertNotice";
+            type: "error" | "info" | "success" | "tip" | "warning";
+            title?: string;
+            message: string;
+            dismissible?: boolean;
+            icon?: {
+              asset?: SanityImageAssetReference;
+              media?: unknown;
+              hotspot?: SanityImageHotspot;
+              crop?: SanityImageCrop;
+              _type: "image";
+            };
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "buttonGroup";
+            buttons: Array<{
+              _key: string;
+              _type: "callToAction";
+              label: string;
+              color?: string;
+              textColor?: string;
+              hoverColor?: string;
+              variant?: "ghost" | "outline" | "primary" | "secondary";
+              link: Array<
+                | {
+                    _key: string;
+                    _type: "linkExternal";
+                    title: string;
+                    url: string;
+                    openInNewTab?: boolean;
+                  }
+                | {
+                    _key: string;
+                    _type: "linkInternal";
+                    title?: string;
+                    reference: {
+                      slug: Slug;
+                    };
+                  }
+                | {
+                    _key: string;
+                    _type: "pageSlug";
+                    title: string;
+                    slug: string;
+                  }
+              >;
+              fullWidth?: boolean;
+              blockStyles?: BlockStyles;
+            }>;
+            alignment?: "center" | "left" | "right";
+            direction?: string;
+            gap?: "large" | "medium" | "small";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "callToAction";
+            label: string;
+            color?: string;
+            textColor?: string;
+            hoverColor?: string;
+            variant?: "ghost" | "outline" | "primary" | "secondary";
+            link: Array<
+              | {
+                  _key: string;
+                  _type: "linkExternal";
+                  title: string;
+                  url: string;
+                  openInNewTab?: boolean;
+                }
+              | {
+                  _key: string;
+                  _type: "linkInternal";
+                  title?: string;
+                  reference: {
+                    slug: Slug;
+                  };
+                }
+              | {
+                  _key: string;
+                  _type: "pageSlug";
+                  title: string;
+                  slug: string;
+                }
+            >;
+            fullWidth?: boolean;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "caseResultCards";
+            title?: string;
+            subtitle?: string;
+            caseResults: Array<{
+              _id: string;
+              amount: string;
+              summary: string;
+              resultType: "Award" | "Settlement" | "Verdict" | null;
+            }>;
+            columns?: "1" | "2" | "3" | "4";
+            showResultType?: boolean;
+            autoPlay?: boolean;
+            autoPlayInterval?: number;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "codeBlock";
+            language?:
+              | "bash"
+              | "css"
+              | "html"
+              | "javascript"
+              | "json"
+              | "other"
+              | "python"
+              | "typescript";
+            filename?: string;
+            code: string;
+            showLineNumbers?: boolean;
+            highlightLines?: string;
+            caption?: string;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "countdownTimer";
+            title?: string;
+            subtitle?: string;
+            targetDate: string;
+            timezone?:
+              | "America/Chicago"
+              | "America/Denver"
+              | "America/Los_Angeles"
+              | "America/New_York"
+              | "Australia/Melbourne"
+              | "Australia/Sydney"
+              | "Europe/London";
+            expiredMessage?: string;
+            hideWhenExpired?: boolean;
+            cta?: CallToAction;
+            style?: "compact" | "inline" | "large";
+            backgroundColor?: string;
+            textColor?: string;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "dataTable";
+            caption?: string;
+            headers: Array<{
+              text: string;
+              _type: "tableHeader";
+              _key: string;
+            }>;
+            rows: Array<{
+              cells: Array<{
+                text: string;
+                _type: "tableCell";
+                _key: string;
+              }>;
+              _type: "dataTableRow";
+              _key: string;
+            }>;
+            striped?: boolean;
+            compact?: boolean;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "externalVideo";
+            url: string;
+            caption?: string;
+            autoplay?: boolean;
+            loop?: boolean;
+            muted?: boolean;
+            blockStyles: null;
+          }
+        | {
+            _key: string;
+            _type: "faqBlock";
+            title?: string;
+            subtitle?: string;
+            items: Array<{
+              question: string;
+              answer?: BlockContent;
+              _type: "faqItem";
+              _key: string;
+            }>;
+            enableSchema?: boolean;
+            allowMultipleOpen?: boolean;
+            firstOpenByDefault?: boolean;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "featureCardGrid";
+            title?: string;
+            subtitle?: string;
+            cards: Array<{
+              icon?: FeatureCardIcon;
+              title: string;
+              description?: string;
+              cta?: Cta;
+              _type: "featureCard";
+              _key: string;
+            }>;
+            columns?: "2" | "3" | "4";
+            style?: "bordered" | "highlighted" | "shadow" | "simple";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "formBlock";
+            formTitle?: string;
+            formDescription?: string;
+            fields: Array<{
+              label: string;
+              name: string;
+              type:
+                | "checkbox"
+                | "email"
+                | "number"
+                | "select"
+                | "tel"
+                | "text"
+                | "textarea";
+              placeholder?: string;
+              required?: boolean;
+              options?: Array<string>;
+              width?: "full" | "half";
+              _type: "formField";
+              _key: string;
+            }>;
+            submitLabel?: string;
+            submitAction?: "custom" | "webhook";
+            webhookUrl?: string;
+            customEndpoint?: string;
+            successMessage?: string;
+            errorMessage?: string;
+            buttonColor?: string;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "htmlBlock";
+            html: string;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "iconText";
+            icon: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            iconSize?: "large" | "medium" | "small" | "xl";
+            title: string;
+            description?: string;
+            alignment?: string;
+            link?: CallToAction;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "imageBlock";
+            image: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: string | null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            };
+            caption: string | null;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "imageGallery";
+            title?: string;
+            images: Array<{
+              image: GalleryImageImage;
+              alt?: string;
+              caption?: string;
+              _type: "galleryImage";
+              _key: string;
+            }>;
+            layout?: "grid" | "masonry";
+            columns?: "2" | "3" | "4";
+            enableLightbox?: boolean;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "lawyerCards";
+            title?: string;
+            subtitle?: string;
+            lawyers: Array<{
+              _id: string;
+              name: string;
+              role: string;
+              shortBio: string | null;
+              slug: string | null;
+              photo: {
+                asset: {
+                  _id: string;
+                  url: string;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+                alt: string | null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+              };
+            }>;
+            columns?: "1" | "2" | "3" | "4";
+            showRole?: boolean;
+            autoPlay?: boolean;
+            autoPlayInterval?: number;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "logoRow";
+            logos: Array<{
+              image: {
+                asset: {
+                  _id: string;
+                  url: string;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+                alt: null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+              };
+              alt: string | null;
+              link: string | null;
+            }>;
+            grayscale: boolean | null;
+            size: "large" | "medium" | "small" | null;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "lottieAnimation";
+            source: "file" | "url";
+            url?: string;
+            file?: {
+              asset?: SanityFileAssetReference;
+              media?: unknown;
+              _type: "file";
+            };
+            autoplay?: boolean;
+            loop?: boolean;
+            speed?: number;
+            trigger?: "auto" | "hover" | "scroll";
+            alt?: string;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "mapEmbed";
+            embedUrl: string;
+            height?: "large" | "medium" | "small" | "xl";
+            caption?: string;
+            style?: "borderless" | "default" | "rounded";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "nestedContainer";
+            label?: string;
+            container?: Container;
+            layout?: string;
+            columns: Array<{
+              _key: string;
+              label?: string;
+              container?: ColumnsGridColumnContainer;
+              content: Array<
+                | {
+                    _key: string;
+                    _type: "accordion";
+                    title?: string;
+                    subtitle?: string;
+                    panels: Array<{
+                      title: string;
+                      icon?: AccordionPanelIcon;
+                      content: BlockContent;
+                      _type: "accordionPanel";
+                      _key: string;
+                    }>;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "alertNotice";
+                    type: "error" | "info" | "success" | "tip" | "warning";
+                    title?: string;
+                    message: string;
+                    dismissible?: boolean;
+                    icon?: {
+                      asset?: SanityImageAssetReference;
+                      media?: unknown;
+                      hotspot?: SanityImageHotspot;
+                      crop?: SanityImageCrop;
+                      _type: "image";
+                    };
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "buttonGroup";
+                    buttons: Array<{
+                      _key: string;
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                      fullWidth?: boolean;
+                      blockStyles?: BlockStyles;
+                    }>;
+                    alignment?: "center" | "left" | "right";
+                    direction?: string;
+                    gap?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "callToAction";
+                    label: string;
+                    color?: string;
+                    textColor?: string;
+                    hoverColor?: string;
+                    variant?: "ghost" | "outline" | "primary" | "secondary";
+                    link: Array<
+                      | {
+                          _key: string;
+                          _type: "linkExternal";
+                          title: string;
+                          url: string;
+                          openInNewTab?: boolean;
+                        }
+                      | {
+                          _key: string;
+                          _type: "linkInternal";
+                          title?: string;
+                          reference: {
+                            slug: Slug;
+                          };
+                        }
+                      | {
+                          _key: string;
+                          _type: "pageSlug";
+                          title: string;
+                          slug: string;
+                        }
+                    >;
+                    fullWidth?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "caseResultCards";
+                    title?: string;
+                    subtitle?: string;
+                    caseResults: Array<{
+                      _id: string;
+                      amount: string;
+                      summary: string;
+                      resultType: "Award" | "Settlement" | "Verdict" | null;
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    showResultType?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "codeBlock";
+                    language?:
+                      | "bash"
+                      | "css"
+                      | "html"
+                      | "javascript"
+                      | "json"
+                      | "other"
+                      | "python"
+                      | "typescript";
+                    filename?: string;
+                    code: string;
+                    showLineNumbers?: boolean;
+                    highlightLines?: string;
+                    caption?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "countdownTimer";
+                    title?: string;
+                    subtitle?: string;
+                    targetDate: string;
+                    timezone?:
+                      | "America/Chicago"
+                      | "America/Denver"
+                      | "America/Los_Angeles"
+                      | "America/New_York"
+                      | "Australia/Melbourne"
+                      | "Australia/Sydney"
+                      | "Europe/London";
+                    expiredMessage?: string;
+                    hideWhenExpired?: boolean;
+                    cta?: CallToAction;
+                    style?: "compact" | "inline" | "large";
+                    backgroundColor?: string;
+                    textColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "dataTable";
+                    caption?: string;
+                    headers: Array<{
+                      text: string;
+                      _type: "tableHeader";
+                      _key: string;
+                    }>;
+                    rows: Array<{
+                      cells: Array<{
+                        text: string;
+                        _type: "tableCell";
+                        _key: string;
+                      }>;
+                      _type: "dataTableRow";
+                      _key: string;
+                    }>;
+                    striped?: boolean;
+                    compact?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "externalVideo";
+                    url: string;
+                    caption?: string;
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    muted?: boolean;
+                    blockStyles: null;
+                  }
+                | {
+                    _key: string;
+                    _type: "faqBlock";
+                    title?: string;
+                    subtitle?: string;
+                    items: Array<{
+                      question: string;
+                      answer?: BlockContent;
+                      _type: "faqItem";
+                      _key: string;
+                    }>;
+                    enableSchema?: boolean;
+                    allowMultipleOpen?: boolean;
+                    firstOpenByDefault?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "featureCardGrid";
+                    title?: string;
+                    subtitle?: string;
+                    cards: Array<{
+                      icon?: FeatureCardIcon;
+                      title: string;
+                      description?: string;
+                      cta?: Cta;
+                      _type: "featureCard";
+                      _key: string;
+                    }>;
+                    columns?: "2" | "3" | "4";
+                    style?: "bordered" | "highlighted" | "shadow" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "formBlock";
+                    formTitle?: string;
+                    formDescription?: string;
+                    fields: Array<{
+                      label: string;
+                      name: string;
+                      type:
+                        | "checkbox"
+                        | "email"
+                        | "number"
+                        | "select"
+                        | "tel"
+                        | "text"
+                        | "textarea";
+                      placeholder?: string;
+                      required?: boolean;
+                      options?: Array<string>;
+                      width?: "full" | "half";
+                      _type: "formField";
+                      _key: string;
+                    }>;
+                    submitLabel?: string;
+                    submitAction?: "custom" | "webhook";
+                    webhookUrl?: string;
+                    customEndpoint?: string;
+                    successMessage?: string;
+                    errorMessage?: string;
+                    buttonColor?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "htmlBlock";
+                    html: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "iconText";
+                    icon: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    iconSize?: "large" | "medium" | "small" | "xl";
+                    title: string;
+                    description?: string;
+                    alignment?: string;
+                    link?: CallToAction;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageBlock";
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: string | null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    };
+                    caption: string | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "imageGallery";
+                    title?: string;
+                    images: Array<{
+                      image: GalleryImageImage;
+                      alt?: string;
+                      caption?: string;
+                      _type: "galleryImage";
+                      _key: string;
+                    }>;
+                    layout?: "grid" | "masonry";
+                    columns?: "2" | "3" | "4";
+                    enableLightbox?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "lawyerCards";
+                    title?: string;
+                    subtitle?: string;
+                    lawyers: Array<{
+                      _id: string;
+                      name: string;
+                      role: string;
+                      shortBio: string | null;
+                      slug: string | null;
+                      photo: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    showRole?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "logoRow";
+                    logos: Array<{
+                      image: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                      alt: string | null;
+                      link: string | null;
+                    }>;
+                    grayscale: boolean | null;
+                    size: "large" | "medium" | "small" | null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "lottieAnimation";
+                    source: "file" | "url";
+                    url?: string;
+                    file?: {
+                      asset?: SanityFileAssetReference;
+                      media?: unknown;
+                      _type: "file";
+                    };
+                    autoplay?: boolean;
+                    loop?: boolean;
+                    speed?: number;
+                    trigger?: "auto" | "hover" | "scroll";
+                    alt?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "mapEmbed";
+                    embedUrl: string;
+                    height?: "large" | "medium" | "small" | "xl";
+                    caption?: string;
+                    style?: "borderless" | "default" | "rounded";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "newsCards";
+                    title?: string;
+                    subtitle?: string;
+                    source?: "latest" | "manual";
+                    count?: number;
+                    category?: NewsCategoryReference;
+                    newsPosts?: Array<
+                      {
+                        _key: string;
+                      } & NewsPostReference
+                    >;
+                    columns?: "1" | "2" | "3" | "4";
+                    tabletColumns?: "1" | "2" | "3" | "4";
+                    stackOnMobile?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    posts: Array<{
+                      _id: string;
+                      title: string;
+                      slug: string;
+                      publishedAt: string;
+                      category: string | null;
+                      coverImage: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      };
+                    }> | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "practiceAreaCards";
+                    title?: string;
+                    subtitle?: string;
+                    practiceAreas: Array<{
+                      _id: string;
+                      title: string;
+                      cardTitle: string | null;
+                      slug: Slug;
+                      coverImage: {
+                        asset: {
+                          _id: string;
+                          url: string;
+                          metadata: {
+                            lqip: string | null;
+                            dimensions: {
+                              width: number;
+                              height: number;
+                            } | null;
+                          } | null;
+                        } | null;
+                        alt: string | null;
+                        hotspot: SanityImageHotspot | null;
+                        crop: SanityImageCrop | null;
+                      } | null;
+                    }>;
+                    columns?: "1" | "2" | "3" | "4";
+                    titleAlign?: "center" | "left";
+                    stackTitleWords?: boolean;
+                    stackOnMobile?: boolean;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "pricingCard";
+                    badge?: string;
+                    title: string;
+                    price: string;
+                    priceSubtext?: string;
+                    features?: Array<{
+                      text: string;
+                      included?: boolean;
+                      _type: "pricingFeature";
+                      _key: string;
+                    }>;
+                    cta: {
+                      _type: "callToAction";
+                      label: string;
+                      color?: string;
+                      textColor?: string;
+                      hoverColor?: string;
+                      variant?: "ghost" | "outline" | "primary" | "secondary";
+                      link: Array<
+                        | {
+                            _key: string;
+                            _type: "linkExternal";
+                            title: string;
+                            url: string;
+                            openInNewTab?: boolean;
+                          }
+                        | {
+                            _key: string;
+                            _type: "linkInternal";
+                            title?: string;
+                            reference: {
+                              slug: Slug;
+                            };
+                          }
+                        | {
+                            _key: string;
+                            _type: "pageSlug";
+                            title: string;
+                            slug: string;
+                          }
+                      >;
+                      fullWidth?: boolean;
+                      blockStyles?: BlockStyles;
+                    } | null;
+                    isHighlighted?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "richTextBlock";
+                    content: Array<
+                      | {
+                          children?: Array<{
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }>;
+                          style?:
+                            | "blockquote"
+                            | "h1"
+                            | "h2"
+                            | "h3"
+                            | "h4"
+                            | "normal"
+                            | "paragraph";
+                          listItem?: "bullet" | "number";
+                          markDefs?: Array<{
+                            href?: string;
+                            openInNewTab?: boolean;
+                            _type: "link";
+                            _key: string;
+                          }>;
+                          level?: number;
+                          _type: "block";
+                          _key: string;
+                        }
+                      | {
+                          _key: string;
+                          _type: "callToAction";
+                          label: string;
+                          color?: string;
+                          textColor?: string;
+                          hoverColor?: string;
+                          variant?:
+                            "ghost" | "outline" | "primary" | "secondary";
+                          link: Array<
+                            | {
+                                _key: string;
+                                _type: "linkExternal";
+                                title: string;
+                                url: string;
+                                openInNewTab?: boolean;
+                              }
+                            | {
+                                _key: string;
+                                _type: "linkInternal";
+                                title?: string;
+                                reference: {
+                                  slug: Slug;
+                                };
+                              }
+                            | {
+                                _key: string;
+                                _type: "pageSlug";
+                                title: string;
+                                slug: string;
+                              }
+                          >;
+                          fullWidth?: boolean;
+                          blockStyles?: BlockStyles;
+                        }
+                      | {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          media?: unknown;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                          alt: string | null;
+                          _type: "image";
+                          _key: string;
+                        }
+                    >;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "socialEmbed";
+                    platform:
+                      "facebook" | "instagram" | "other" | "tiktok" | "twitter";
+                    embedUrl: string;
+                    caption?: string;
+                    aspectRatio?: "auto" | "landscape" | "portrait" | "square";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "spacerDivider";
+                    height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+                    showDivider?: boolean;
+                    dividerStyle?: "dashed" | "dotted" | "solid";
+                    lineCount?: "double" | "single" | "triple";
+                    thickness?: number;
+                    dividerColor?: string;
+                    maxWidth?: "default" | "full" | "narrow" | "wide";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "statMetric";
+                    value: string;
+                    label: string;
+                    prefix?: string;
+                    suffix?: string;
+                    size?: "large" | "medium" | "small";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tabbedContent";
+                    title?: string;
+                    subtitle?: string;
+                    tabs: Array<{
+                      label: string;
+                      icon?: Icon;
+                      content: Array<
+                        | ({
+                            _key: string;
+                          } & AlertNotice)
+                        | ({
+                            _key: string;
+                          } & BlockContent)
+                        | ({
+                            _key: string;
+                          } & ButtonGroup)
+                        | ({
+                            _key: string;
+                          } & CallToAction)
+                        | ({
+                            _key: string;
+                          } & CodeBlock)
+                        | ({
+                            _key: string;
+                          } & DataTable)
+                        | ({
+                            _key: string;
+                          } & ExternalVideo)
+                        | ({
+                            _key: string;
+                          } & IconText)
+                        | ({
+                            _key: string;
+                          } & LogoRow)
+                        | ({
+                            _key: string;
+                          } & LottieAnimation)
+                        | ({
+                            _key: string;
+                          } & MapEmbed)
+                        | ({
+                            _key: string;
+                          } & PricingCard)
+                        | ({
+                            _key: string;
+                          } & SocialEmbed)
+                        | ({
+                            _key: string;
+                          } & StatMetric)
+                        | ({
+                            _key: string;
+                          } & TestimonialQuote)
+                        | ({
+                            _key: string;
+                          } & YoutubeVideo)
+                        | {
+                            image: TabImageImage;
+                            alt?: string;
+                            _type: "tabImage";
+                            _key: string;
+                          }
+                      >;
+                      _type: "tab";
+                      _key: string;
+                    }>;
+                    tabStyle?: "boxed" | "pills" | "underline";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialCarousel";
+                    title?: string;
+                    reviews: Array<{
+                      _id: string;
+                      clientName: string;
+                      title: string | null;
+                      reviewText: string;
+                      rating: number;
+                    }> | null;
+                    perViewDesktop?: 1 | 2 | 3 | 4;
+                    perViewTablet?: 1 | 2;
+                    autoPlay?: boolean;
+                    autoPlayInterval?: number;
+                    showDots?: boolean;
+                    showArrows?: boolean;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "testimonialQuote";
+                    quote: string;
+                    avatar: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    name: string;
+                    title?: string;
+                    rating?: number;
+                    style?: "card" | "large" | "simple";
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "tocBlock";
+                    title?: string;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                  }
+                | {
+                    _key: string;
+                    _type: "youtubeVideo";
+                    url: string;
+                    caption?: string;
+                    blockStyles: null;
+                  }
+              > | null;
+              design?: GridColumnDesign;
+              blockStyles: {
+                padding: Padding | null;
+                margin: Margin | null;
+                size: Size | null;
+                border: Border | null;
+                borderRadius: BorderRadius | null;
+                background: {
+                  color: string | null;
+                  image: {
+                    asset: {
+                      _id: string;
+                      url: string;
+                      metadata: {
+                        lqip: string | null;
+                        dimensions: {
+                          width: number;
+                          height: number;
+                        } | null;
+                      } | null;
+                    } | null;
+                    alt: null;
+                    hotspot: SanityImageHotspot | null;
+                    crop: SanityImageCrop | null;
+                  } | null;
+                  size: "auto" | "contain" | "cover" | null;
+                  overlay: string | null;
+                } | null;
+                typography: Typography | null;
+                effects: Effects | null;
+                motion: Motion | null;
+                cssId: string | null;
+                cssClasses: string | null;
+                customCss: string | null;
+              } | null;
+              advanced?: GridColumnAdvanced;
+              visibility?: GridColumnVisibility;
+              _type: "gridColumn";
+            }>;
+            design?: Design;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            advanced?: Advanced;
+            visibility?: Visibility;
+          }
+        | {
+            _key: string;
+            _type: "newsCards";
+            title?: string;
+            subtitle?: string;
+            source?: "latest" | "manual";
+            count?: number;
+            category?: NewsCategoryReference;
+            newsPosts?: Array<
+              {
+                _key: string;
+              } & NewsPostReference
+            >;
+            columns?: "1" | "2" | "3" | "4";
+            tabletColumns?: "1" | "2" | "3" | "4";
+            stackOnMobile?: boolean;
+            autoPlay?: boolean;
+            autoPlayInterval?: number;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            posts: Array<{
+              _id: string;
+              title: string;
+              slug: string;
+              publishedAt: string;
+              category: string | null;
+              coverImage: {
+                asset: {
+                  _id: string;
+                  url: string;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+                alt: string | null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+              };
+            }> | null;
+          }
+        | {
+            _key: string;
+            _type: "practiceAreaCards";
+            title?: string;
+            subtitle?: string;
+            practiceAreas: Array<{
+              _id: string;
+              title: string;
+              cardTitle: string | null;
+              slug: Slug;
+              coverImage: {
+                asset: {
+                  _id: string;
+                  url: string;
+                  metadata: {
+                    lqip: string | null;
+                    dimensions: {
+                      width: number;
+                      height: number;
+                    } | null;
+                  } | null;
+                } | null;
+                alt: string | null;
+                hotspot: SanityImageHotspot | null;
+                crop: SanityImageCrop | null;
+              } | null;
+            }>;
+            columns?: "1" | "2" | "3" | "4";
+            titleAlign?: "center" | "left";
+            stackTitleWords?: boolean;
+            stackOnMobile?: boolean;
+            autoPlay?: boolean;
+            autoPlayInterval?: number;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "pricingCard";
+            badge?: string;
+            title: string;
+            price: string;
+            priceSubtext?: string;
+            features?: Array<{
+              text: string;
+              included?: boolean;
+              _type: "pricingFeature";
+              _key: string;
+            }>;
+            cta: {
+              _type: "callToAction";
+              label: string;
+              color?: string;
+              textColor?: string;
+              hoverColor?: string;
+              variant?: "ghost" | "outline" | "primary" | "secondary";
+              link: Array<
+                | {
+                    _key: string;
+                    _type: "linkExternal";
+                    title: string;
+                    url: string;
+                    openInNewTab?: boolean;
+                  }
+                | {
+                    _key: string;
+                    _type: "linkInternal";
+                    title?: string;
+                    reference: {
+                      slug: Slug;
+                    };
+                  }
+                | {
+                    _key: string;
+                    _type: "pageSlug";
+                    title: string;
+                    slug: string;
+                  }
+              >;
+              fullWidth?: boolean;
+              blockStyles?: BlockStyles;
+            } | null;
+            isHighlighted?: boolean;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "richTextBlock";
+            content: Array<
+              | {
+                  children?: Array<{
+                    marks?: Array<string>;
+                    text?: string;
+                    _type: "span";
+                    _key: string;
+                  }>;
+                  style?:
+                    | "blockquote"
+                    | "h1"
+                    | "h2"
+                    | "h3"
+                    | "h4"
+                    | "normal"
+                    | "paragraph";
+                  listItem?: "bullet" | "number";
+                  markDefs?: Array<{
+                    href?: string;
+                    openInNewTab?: boolean;
+                    _type: "link";
+                    _key: string;
+                  }>;
+                  level?: number;
+                  _type: "block";
+                  _key: string;
+                }
+              | {
+                  _key: string;
+                  _type: "callToAction";
+                  label: string;
+                  color?: string;
+                  textColor?: string;
+                  hoverColor?: string;
+                  variant?: "ghost" | "outline" | "primary" | "secondary";
+                  link: Array<
+                    | {
+                        _key: string;
+                        _type: "linkExternal";
+                        title: string;
+                        url: string;
+                        openInNewTab?: boolean;
+                      }
+                    | {
+                        _key: string;
+                        _type: "linkInternal";
+                        title?: string;
+                        reference: {
+                          slug: Slug;
+                        };
+                      }
+                    | {
+                        _key: string;
+                        _type: "pageSlug";
+                        title: string;
+                        slug: string;
+                      }
+                  >;
+                  fullWidth?: boolean;
+                  blockStyles?: BlockStyles;
+                }
+              | {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  media?: unknown;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                  alt: string | null;
+                  _type: "image";
+                  _key: string;
+                }
+            >;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "socialEmbed";
+            platform: "facebook" | "instagram" | "other" | "tiktok" | "twitter";
+            embedUrl: string;
+            caption?: string;
+            aspectRatio?: "auto" | "landscape" | "portrait" | "square";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "spacerDivider";
+            height: "lg" | "md" | "sm" | "xl" | "xs" | "xxl";
+            showDivider?: boolean;
+            dividerStyle?: "dashed" | "dotted" | "solid";
+            lineCount?: "double" | "single" | "triple";
+            thickness?: number;
+            dividerColor?: string;
+            maxWidth?: "default" | "full" | "narrow" | "wide";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "statMetric";
+            value: string;
+            label: string;
+            prefix?: string;
+            suffix?: string;
+            size?: "large" | "medium" | "small";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "tabbedContent";
+            title?: string;
+            subtitle?: string;
+            tabs: Array<{
+              label: string;
+              icon?: Icon;
+              content: Array<
+                | ({
+                    _key: string;
+                  } & AlertNotice)
+                | ({
+                    _key: string;
+                  } & BlockContent)
+                | ({
+                    _key: string;
+                  } & ButtonGroup)
+                | ({
+                    _key: string;
+                  } & CallToAction)
+                | ({
+                    _key: string;
+                  } & CodeBlock)
+                | ({
+                    _key: string;
+                  } & DataTable)
+                | ({
+                    _key: string;
+                  } & ExternalVideo)
+                | ({
+                    _key: string;
+                  } & IconText)
+                | ({
+                    _key: string;
+                  } & LogoRow)
+                | ({
+                    _key: string;
+                  } & LottieAnimation)
+                | ({
+                    _key: string;
+                  } & MapEmbed)
+                | ({
+                    _key: string;
+                  } & PricingCard)
+                | ({
+                    _key: string;
+                  } & SocialEmbed)
+                | ({
+                    _key: string;
+                  } & StatMetric)
+                | ({
+                    _key: string;
+                  } & TestimonialQuote)
+                | ({
+                    _key: string;
+                  } & YoutubeVideo)
+                | {
+                    image: TabImageImage;
+                    alt?: string;
+                    _type: "tabImage";
+                    _key: string;
+                  }
+              >;
+              _type: "tab";
+              _key: string;
+            }>;
+            tabStyle?: "boxed" | "pills" | "underline";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "testimonialCarousel";
+            title?: string;
+            reviews: Array<{
+              _id: string;
+              clientName: string;
+              title: string | null;
+              reviewText: string;
+              rating: number;
+            }> | null;
+            perViewDesktop?: 1 | 2 | 3 | 4;
+            perViewTablet?: 1 | 2;
+            autoPlay?: boolean;
+            autoPlayInterval?: number;
+            showDots?: boolean;
+            showArrows?: boolean;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "testimonialQuote";
+            quote: string;
+            avatar: {
+              asset: {
+                _id: string;
+                url: string;
+                metadata: {
+                  lqip: string | null;
+                  dimensions: {
+                    width: number;
+                    height: number;
+                  } | null;
+                } | null;
+              } | null;
+              alt: null;
+              hotspot: SanityImageHotspot | null;
+              crop: SanityImageCrop | null;
+            } | null;
+            name: string;
+            title?: string;
+            rating?: number;
+            style?: "card" | "large" | "simple";
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "tocBlock";
+            title?: string;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+          }
+        | {
+            _key: string;
+            _type: "youtubeVideo";
+            url: string;
+            caption?: string;
+            blockStyles: null;
+          }
+      > | null;
+      design?: ColumnsGridColumnDesign;
+      blockStyles: {
+        padding: Padding | null;
+        margin: Margin | null;
+        size: Size | null;
+        border: Border | null;
+        borderRadius: BorderRadius | null;
+        background: {
+          color: string | null;
+          image: {
+            asset: {
+              _id: string;
+              url: string;
+              metadata: {
+                lqip: string | null;
+                dimensions: {
+                  width: number;
+                  height: number;
+                } | null;
+              } | null;
+            } | null;
+            alt: null;
+            hotspot: SanityImageHotspot | null;
+            crop: SanityImageCrop | null;
+          } | null;
+          size: "auto" | "contain" | "cover" | null;
+          overlay: string | null;
+        } | null;
+        typography: Typography | null;
+        effects: Effects | null;
+        motion: Motion | null;
+        cssId: string | null;
+        cssClasses: string | null;
+        customCss: string | null;
+      } | null;
+      advanced?: ColumnsGridColumnAdvanced;
+      visibility?: ColumnsGridColumnVisibility;
+      _type: "gridColumn";
+    }>;
+    design?: GridRowDesign;
+    blockStyles: {
+      padding: Padding | null;
+      margin: Margin | null;
+      size: Size | null;
+      border: Border | null;
+      borderRadius: BorderRadius | null;
+      background: {
+        color: string | null;
+        image: {
+          asset: {
+            _id: string;
+            url: string;
+            metadata: {
+              lqip: string | null;
+              dimensions: {
+                width: number;
+                height: number;
+              } | null;
+            } | null;
+          } | null;
+          alt: null;
+          hotspot: SanityImageHotspot | null;
+          crop: SanityImageCrop | null;
+        } | null;
+        size: "auto" | "contain" | "cover" | null;
+        overlay: string | null;
+      } | null;
+      typography: Typography | null;
+      effects: Effects | null;
+      motion: Motion | null;
+      cssId: string | null;
+      cssClasses: string | null;
+      customCss: string | null;
+    } | null;
+    advanced?: GridRowAdvanced;
+    visibility?: GridRowVisibility;
+  }> | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
+    '\n  *[_id == "homePage"][0] {\n    _id, _type,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type in ["page", "practiceArea"] && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {\n    _id, title, cardTitle, slug,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n  }\n': PRACTICE_AREAS_QUERY_RESULT;
     '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    theme {\n      primary, secondary, accent, foreground, background, muted, border,\n      headingFont, bodyFont\n    },\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    footerStyle,\n    footerDescription,\n    footerColumns[] {\n      _key, title,\n      links[] { _key, label, href }\n    }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
+    '\n  *[_type == "newsPost" && defined(slug.current)] | order(publishedAt desc) {\n    \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n\n  }\n': NEWS_LIST_QUERY_RESULT;
+    '\n  *[_type == "newsPost" && slug.current == $slug][0] {\n    _id, _type, title, "slug": slug.current, publishedAt, excerpt,\n    "category": category->title,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaCards" => {\n      ...,\n      practiceAreas[]-> {\n        _id, title, cardTitle, slug,\n        coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': NEWS_POST_QUERY_RESULT;
   }
 }

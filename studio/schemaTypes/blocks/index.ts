@@ -28,6 +28,7 @@ import {testimonialCarouselType} from './testimonial-carousel'
 import {imageGalleryType} from './image-gallery'
 import {lawyerCardsType} from './lawyer-cards'
 import {practiceAreaCardsType} from './practice-area-cards'
+import {newsCardsType} from './news-cards'
 import {caseResultCardsType} from './case-result-cards'
 import {pageBuilderType} from './page-builder'
 import { youtubeVideoType, externalVideoType } from './video'
@@ -64,6 +65,7 @@ export {
   imageGalleryType,
   lawyerCardsType,
   practiceAreaCardsType,
+  newsCardsType,
   caseResultCardsType,
   tocBlockType,
   gridRowType,
@@ -102,6 +104,7 @@ export const blockTypes = [
   imageGalleryType,
   lawyerCardsType,
   practiceAreaCardsType,
+  newsCardsType,
   caseResultCardsType,
   tocBlockType,
   gridRowType,

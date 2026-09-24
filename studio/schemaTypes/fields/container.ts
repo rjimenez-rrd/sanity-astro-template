@@ -1,4 +1,5 @@
 import {defineField, type FieldProps} from 'sanity'
+import {OrderInput} from '../../components/inputs/OrderInput'
 import {CogIcon, ColorWheelIcon, EyeOpenIcon, ThLargeIcon} from '@sanity/icons'
 import {ContainerLayoutInput, type ContainerVariant} from '../../components/container/ContainerLayoutInput'
 import {ContainerStyleInput} from '../../components/container/ContainerStyleInput'
@@ -58,13 +59,17 @@ function responsiveSize(name: string, title: string, units: string[]) {
 const FLEX_POSITIONS = ['flex-start', 'center', 'flex-end']
 
 /** Layout tab: the whole Elementor "Container" panel, rendered by one input. */
-export function containerField(variant: ContainerVariant) {
+/**
+ * `item` marks an inner Column: it sits inside another column, so its Width is
+ * its size as an item there (like a column's), not a boxed content width.
+ */
+export function containerField(variant: ContainerVariant, {item = false}: {item?: boolean} = {}) {
   return defineField({
     name: 'container',
     title: 'Container',
     type: 'object',
     group: 'layout',
-    options: {variant} as Record<string, unknown>,
+    options: {variant, item} as Record<string, unknown>,
     components: {
       input: ContainerLayoutInput,
       // ContainerLayoutInput draws its own collapsible "Container" header, so
@@ -152,6 +157,21 @@ export function advancedField() {
         title: 'Z-Index',
         type: 'number',
         validation: (rule) => rule.integer(),
+      }),
+      defineField({
+        name: 'order',
+        title: 'Order',
+        type: 'object',
+        // Start / End / Custom per device, as in Elementor. Stored as numbers:
+        // Start is -99, End is 99, Custom anything between.
+        // The control draws its own "Order" label and device switcher, so the
+        // default field wrapper would print a second one above it.
+        components: {input: OrderInput, field: (props: FieldProps) => props.children},
+        fields: [
+          defineField({name: 'desktop', title: 'Desktop', type: 'number'}),
+          defineField({name: 'tablet', title: 'Tablet', type: 'number'}),
+          defineField({name: 'mobile', title: 'Mobile', type: 'number'}),
+        ],
       }),
       defineField({
         name: 'cssId',

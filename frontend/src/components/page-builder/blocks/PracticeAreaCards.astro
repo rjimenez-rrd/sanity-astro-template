@@ -1,5 +1,6 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
+import CardCarousel from '@/components/ui/CardCarousel.astro'
 import PracticeAreaCard from '@/components/practice-areas/PracticeAreaCard.astro'
 import type {PracticeAreaCardsData, PracticeAreaListItem} from '@/types/sanity'
 
@@ -9,92 +10,31 @@ interface Props {
 
 const {data} = Astro.props
 
-/**
- * Card width per breakpoint, written as custom properties and promoted to real
- * widths by the rules in global.css. Each width subtracts the card's share of
- * the 1.5rem gap, or the cards overflow the track. Mobile is always one card.
- */
-const CARD_WIDTH: Record<number, string> = {
-  1: '100%',
-  2: 'calc(50% - 0.75rem)',
-  3: 'calc(33.333% - 1rem)',
-  4: 'calc(25% - 1.125rem)',
-}
-
-const columns = Number(stegaClean(data.columns) ?? '3')
-const perViewDesktop = CARD_WIDTH[columns] ? columns : 3
-// Tablet halves a 3- or 4-up row; 1 and 2 stay as they are.
-const perViewTablet = Math.min(perViewDesktop, 2)
-
-const cardStyle = [
-  `--card-w:${CARD_WIDTH[perViewDesktop]}`,
-  `--card-w-tablet:${CARD_WIDTH[perViewTablet]}`,
-].join(';')
-
 const areas = (data.practiceAreas ?? []).filter((area) => area?.slug?.current)
 const titleAlign = stegaClean(data.titleAlign) === 'left' ? 'left' : 'center'
 const stackWords = data.stackTitleWords === true
-const autoPlayInterval = data.autoPlayInterval || 5
-
-/**
- * Looping needs more cards in the track than are on screen, so the set is
- * repeated and the shared carousel script rewinds out of the copies. The
- * copies render hidden and are revealed only when the areas don't all fit, so
- * they never flash — and with no JS the block is a plain row of real cards.
- */
-const loops = areas.length < 2 ? 1 : areas.length >= perViewDesktop ? 2 : 3
-const loopedAreas = Array.from({length: loops}, () => areas).flat()
 ---
 
-{
-  areas.length > 0 && (
-    <div
-      data-card-carousel
-      data-card-carousel-wrap
-      data-card-carousel-stack-mobile={data.stackOnMobile ? '' : undefined}
-      data-count={String(areas.length)}
-      data-autoplay={data.autoPlay ? 'true' : 'false'}
-      data-interval={String(autoPlayInterval)}
-    >
-      {data.title && (
-        <h2 class="mb-2 font-display text-3xl font-bold md:text-4xl">{data.title}</h2>
-      )}
-      {data.subtitle && <p class="mb-8 max-w-2xl text-muted">{data.subtitle}</p>}
-
-      {/* No scroll-smooth class: the rewind out of the copies uses
-          behavior:'auto', which follows CSS scroll-behavior — with smooth set
-          there, the seam would animate instead of being instant. */}
-      <div
-        data-card-carousel-track
-        class="flex snap-x snap-mandatory gap-6 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {loopedAreas.map((area, i) => (
-          <div
-            style={cardStyle}
-            class="shrink-0 snap-start"
-            aria-hidden={i >= areas.length ? 'true' : undefined}
-            {...(i >= areas.length ? {hidden: true} : {})}
-          >
-            {/* The same card the /practice-areas page uses, so the look stays
-                in one place. */}
-            <PracticeAreaCard
-              area={area as unknown as PracticeAreaListItem}
-              align={titleAlign}
-              stackWords={stackWords}
-              mobileAspect={data.stackOnMobile ? 'wide' : 'card'}
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Filled by the script: one dot per page, and a page is however many
-          cards fit at the current breakpoint. */}
-      <div class="mt-6 flex justify-center gap-2" data-card-carousel-dots hidden />
-    </div>
-  )
-}
-
-<script>
-  import {initCardCarousels} from '@/lib/cardCarousel'
-  initCardCarousels()
-</script>
+<CardCarousel
+  items={areas}
+  columns={data.columns}
+  title={data.title}
+  subtitle={data.subtitle}
+  autoPlay={data.autoPlay}
+  autoPlayInterval={data.autoPlayInterval}
+  wrapRows
+  stackOnMobile={data.stackOnMobile}
+>
+  {
+    (area: (typeof areas)[number]) => (
+      // The same card the /practice-areas page uses, so the look stays in one
+      // place.
+      <PracticeAreaCard
+        area={area as unknown as PracticeAreaListItem}
+        align={titleAlign}
+        stackWords={stackWords}
+        mobileAspect={data.stackOnMobile ? 'wide' : 'card'}
+      />
+    )
+  }
+</CardCarousel>

@@ -171,7 +171,15 @@ export interface ContainerCssInput {
   /** Column preset, used as the template when a row is in Grid mode. */
   gridTemplate?: string | null
   zIndex?: number | null
+  /** Position among flex/grid siblings, per breakpoint. */
+  order?: Responsive<number>
   visibility?: VisibilitySettings | null
+  /**
+   * For an inner Column: the settings of the column it sits in. It is then a
+   * flex item of that column, so its Width sizes the item itself — as a
+   * column's does in a row — instead of boxing its contents like a section.
+   */
+  itemOf?: ContainerSettings
   /** For a column: the parent row's settings, to size it as a flex item. */
   parent?: ContainerSettings
 }
@@ -185,7 +193,11 @@ export function directionFor(container: ContainerSettings | undefined, variant: 
 }
 
 export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder()): CssBuilder {
-  const {key, variant, container: c = {}, gridTemplate, zIndex, visibility, parent} = input
+  const {key, variant, container: c = {}, gridTemplate, zIndex, order, visibility, parent, itemOf} = input
+  // What this element is an item of, and which way that container runs by
+  // default: a column sits in a row, an inner Column sits in a column.
+  const host = variant === 'column' ? parent : itemOf
+  const hostVariant = variant === 'column' ? 'row' : 'column'
   const outer = `[data-pb="${key}"]`
   const inner = `[data-pb-inner="${key}"]`
   const items = `${inner}>*`
@@ -205,7 +217,8 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
     const media = MEDIA[device]
 
     // --- Container box ---
-    if (variant === 'row' && c.contentWidth === 'boxed') {
+    // An inner Column's Width is its item width (below), not a boxed width.
+    if (variant === 'row' && !itemOf && c.contentWidth === 'boxed') {
       const width = resolve(c.width, device)
       if (width.own || device === 'desktop') {
         // Boxed with no width falls back to Elementor's default content width.
@@ -213,6 +226,12 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
         css.add(media, inner, {'max-width': w, 'margin-inline': 'auto'})
       }
     }
+
+    // Order is emitted only where it was set; the max-width media queries
+    // carry a desktop value down to tablet and mobile until one overrides it.
+    const itemOrder = resolve(order, device)
+    const orderValue = itemOrder.own ? num(itemOrder.value, -99, 99) : undefined
+    if (orderValue !== undefined) css.add(media, outer, {order: String(Math.round(orderValue))})
 
     const minHeight = resolve(c.minHeight, device)
     if (minHeight.own) css.add(media, inner, {'min-height': size(minHeight.value ?? undefined, 'px')})
@@ -274,9 +293,11 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
       }
     }
 
-    // --- This column's own width inside its parent row ---
-    if (variant === 'column' && parent && parent.layoutType !== 'grid') {
-      const parentDirection = directionFor(parent, 'row', device)
+    // --- This item's own width inside the container holding it ---
+    // A column in its row, or an inner Column in its column. Grid parents size
+    // their items from the template, so they're left alone.
+    if (host && host.layoutType !== 'grid') {
+      const parentDirection = directionFor(host, hostVariant, device)
       const width = resolve(c.width, device)
       const w = size(width.value ?? undefined, '%', true)
       const clip = num(width.value?.size, 0, 10000) === 0 ? 'hidden' : undefined

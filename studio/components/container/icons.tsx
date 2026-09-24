@@ -75,6 +75,20 @@ export const WrapIcon = (p: IconProps) => (
   </Svg>
 )
 
+/** Order: move to the start — an arrow into the leading edge. */
+export const OrderStartIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M2.5 3.5v9M13.5 8H5M8 5 5 8l3 3" strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+)
+
+/** Order: move to the end — an arrow into the trailing edge. */
+export const OrderEndIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M13.5 3.5v9M2.5 8H11M8 5l3 3-3 3" strokeLinecap="round" strokeLinejoin="round" />
+  </Svg>
+)
+
 /** Background type: classic (solid color / image). */
 export const BrushIcon = (p: IconProps) => (
   <Svg {...p}>

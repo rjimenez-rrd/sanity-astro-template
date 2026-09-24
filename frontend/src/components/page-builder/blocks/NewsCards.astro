@@ -1,0 +1,32 @@
+---
+import {stegaClean} from '@sanity/client/stega'
+import CardCarousel from '@/components/ui/CardCarousel.astro'
+import NewsCard, {type NewsCardPost} from '@/components/news/NewsCard.astro'
+import type {NewsCardsData} from '@/types/sanity'
+
+interface Props {
+  data: NewsCardsData
+}
+
+const {data} = Astro.props
+
+// The query hands over up to 24 of the newest; "How Many" trims that here,
+// because GROQ can't slice by a field's value. Picked posts are shown as-is.
+const limit =
+  stegaClean(data.source) === 'manual' ? Infinity : Math.max(1, Number(data.count) || 6)
+const posts = ((data.posts ?? []) as NewsCardPost[]).filter((post) => post?.slug).slice(0, limit)
+---
+
+<CardCarousel
+  items={posts}
+  columns={data.columns}
+  tabletColumns={data.tabletColumns}
+  title={data.title}
+  subtitle={data.subtitle}
+  autoPlay={data.autoPlay}
+  autoPlayInterval={data.autoPlayInterval}
+  wrapRows
+  stackOnMobile={data.stackOnMobile}
+>
+  {(post: NewsCardPost) => <NewsCard post={post} />}
+</CardCarousel>

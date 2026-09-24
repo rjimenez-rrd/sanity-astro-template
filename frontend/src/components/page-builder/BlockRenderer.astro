@@ -3,7 +3,7 @@ import {stegaClean} from '@sanity/client/stega'
 import BlockStylesWrapper from '@/components/ui/BlockStylesWrapper.astro'
 import {buildStyles, elementStyle, hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs, type MotionSettings} from '@/lib/animation'
-import {safeCssId, safeCssClasses, safeKey} from '@/lib/container'
+import {safeCssId, safeCssClasses, safeKey, type ContainerSettings} from '@/lib/container'
 import {scopeCustomCss} from '@/lib/customCss'
 import RichText from './blocks/RichText.astro'
 import Image from './blocks/Image.astro'
@@ -33,6 +33,7 @@ import TestimonialCarousel from './blocks/TestimonialCarousel.astro'
 import ImageGallery from './blocks/ImageGallery.astro'
 import LawyerCards from './blocks/LawyerCards.astro'
 import PracticeAreaCards from './blocks/PracticeAreaCards.astro'
+import NewsCards from './blocks/NewsCards.astro'
 import CaseResultCards from './blocks/CaseResultCards.astro'
 import TocBlock from './blocks/TocBlock.astro'
 import Container from './sections/Container.astro'
@@ -46,9 +47,11 @@ interface Props {
   documentId?: string | null
   documentType?: string | null
   parentPath?: string
+  /** The column's own settings, so an inner Column can size itself inside it. */
+  parentContainer?: ContainerSettings | null
 }
 
-const {block, columnCount, documentId, documentType, parentPath} = Astro.props
+const {block, columnCount, documentId, documentType, parentPath, parentContainer} = Astro.props
 
 const CONTENT_MAP: Record<string, any> = {
   richTextBlock: RichText,
@@ -80,6 +83,7 @@ const CONTENT_MAP: Record<string, any> = {
   imageGallery: ImageGallery,
   lawyerCards: LawyerCards,
   practiceAreaCards: PracticeAreaCards,
+  newsCards: NewsCards,
   caseResultCards: CaseResultCards,
   tocBlock: TocBlock,
 }
@@ -184,6 +188,7 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
   isNestedContainer && (
     <Container
       data={block as NestedContainerData}
+      parentContainer={parentContainer ?? undefined}
       documentId={documentId}
       documentType={documentType}
       basePath={nestedPath}

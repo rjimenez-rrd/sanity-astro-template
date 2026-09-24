@@ -1,5 +1,5 @@
 import type {StructureResolver} from 'sanity/structure'
-import {CogIcon, HomeIcon} from '@sanity/icons'
+import {CogIcon, DocumentsIcon, HomeIcon} from '@sanity/icons'
 
 const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
 
@@ -7,7 +7,16 @@ const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
  * Types given an explicit item below. The catch-all at the end skips these, so
  * adding one here is all it takes to avoid a duplicate-ID error.
  */
-const PLACED = ['page', 'practiceArea', 'review', 'lawyer', 'caseResult', ...SINGLETONS]
+const PLACED = [
+  'page',
+  'practiceArea',
+  'review',
+  'lawyer',
+  'caseResult',
+  'newsPost',
+  'newsCategory',
+  ...SINGLETONS,
+]
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -33,6 +42,20 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('practiceArea').title('Practice Areas'),
       S.documentTypeListItem('review').title('Reviews'),
       S.documentTypeListItem('lawyer').title('Lawyers'),
+      // Categories only exist to label posts, so they live inside News rather
+      // than beside it.
+      S.listItem()
+        .title('News')
+        .id('news')
+        .icon(DocumentsIcon)
+        .child(
+          S.list()
+            .title('News')
+            .items([
+              S.documentTypeListItem('newsPost').title('All News'),
+              S.documentTypeListItem('newsCategory').title('Categories'),
+            ]),
+        ),
       S.documentTypeListItem('caseResult').title('Case Results'),
 
       // Any document type not placed above, so a new one still shows up.

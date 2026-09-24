@@ -17,6 +17,8 @@ import {siteSettingsType} from './documents/site-settings'
 import {practiceAreaType} from './documents/practice-area'
 import {reviewType} from './documents/review'
 import {lawyerType} from './documents/lawyer'
+import {newsPostType} from './documents/news-post'
+import {newsCategoryType} from './documents/news-category'
 import {caseResultType} from './documents/case-result'
 
 const objectTypes: SchemaTypeDefinition[] = [
@@ -35,6 +37,8 @@ const documentTypes: SchemaTypeDefinition[] = [
   practiceAreaType,
   reviewType,
   lawyerType,
+  newsPostType,
+  newsCategoryType,
   caseResultType,
 ]
 

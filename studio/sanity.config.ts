@@ -45,6 +45,17 @@ export default defineConfig({
                 : [],
             }),
           }),
+          newsPost: defineLocations({
+            select: {title: 'title', slug: 'slug.current'},
+            resolve: (doc) => ({
+              locations: doc?.slug
+                ? [
+                    {title: doc.title || 'Untitled news', href: `/news/${doc.slug}`},
+                    {title: 'News', href: '/news'},
+                  ]
+                : [],
+            }),
+          }),
           practiceArea: defineLocations({
             select: {title: 'title', slug: 'slug.current'},
             resolve: (doc) => ({
@@ -59,6 +70,7 @@ export default defineConfig({
         },
         mainDocuments: defineDocuments([
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
+          {route: '/news/:slug', filter: '_type == "newsPost" && slug.current == $slug'},
           {route: '/:slug', filter: '_type in ["page", "practiceArea"] && slug.current == $slug'},
         ]),
       },

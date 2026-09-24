@@ -66,6 +66,7 @@ export type TocBlockData = Extract<ContentBlock, {_type: 'tocBlock'}>
 export type NestedContainerData = Extract<ContentBlock, {_type: 'nestedContainer'}>
 export type LawyerCardsData = Extract<ContentBlock, {_type: 'lawyerCards'}>
 export type PracticeAreaCardsData = Extract<ContentBlock, {_type: 'practiceAreaCards'}>
+export type NewsCardsData = Extract<ContentBlock, {_type: 'newsCards'}>
 export type CaseResultCardsData = Extract<ContentBlock, {_type: 'caseResultCards'}>
 
 // ---------- SEO ----------

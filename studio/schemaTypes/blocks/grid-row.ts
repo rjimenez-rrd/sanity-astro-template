@@ -75,6 +75,7 @@ const contentMembers = () => [
   defineArrayMember({type: 'imageGallery'}),
   defineArrayMember({type: 'lawyerCards'}),
   defineArrayMember({type: 'practiceAreaCards'}),
+  defineArrayMember({type: 'newsCards'}),
   defineArrayMember({type: 'caseResultCards'}),
   defineArrayMember({type: 'tocBlock'}),
 ]
@@ -103,7 +104,7 @@ function defineContainerType({nested}: {nested: boolean}) {
         group: 'layout',
         description: 'Shown in the Page Builder list, so you can tell containers apart.',
       }),
-      containerField('row'),
+      containerField('row', {item: nested}),
 
       defineField({
         name: 'layout',

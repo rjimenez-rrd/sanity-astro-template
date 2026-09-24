@@ -15,6 +15,7 @@ import {
   buildContainerCss,
   buildGridWidthCss,
   type ContainerSettings,
+  type Responsive,
   type VisibilitySettings,
 } from './container'
 import {buildDesignCss, type DesignSettings} from './design'
@@ -26,6 +27,7 @@ export interface ContainerAdvanced {
   padding?: BlockStyles['padding']
   margin?: BlockStyles['margin']
   zIndex?: number | null
+  order?: Responsive<number>
   cssId?: string | null
   cssClasses?: string | null
   customCss?: string | null
@@ -61,6 +63,8 @@ export interface ContainerStylesInput {
   advanced?: ContainerAdvanced | null
   blockStyles?: unknown
   columns: ContainerStylesColumn[]
+  /** Set for an inner Column: the settings of the column it sits in. */
+  itemOf?: ContainerSettings | null
 }
 
 /**
@@ -91,6 +95,8 @@ export function buildContainerStyles(input: ContainerStylesInput): string {
         container: rowContainer,
         gridTemplate: stegaClean(input.layout),
         zIndex: input.advanced?.zIndex,
+        order: clean(input.advanced)?.order,
+        itemOf: input.itemOf ?? undefined,
         visibility: clean(input.visibility),
       },
       css,
@@ -99,13 +105,15 @@ export function buildContainerStyles(input: ContainerStylesInput): string {
 
   for (const col of columns) {
     // Columns saved before the container settings have nothing to emit.
-    if (!col.key || (!col.container && !col.visibility && col.zIndex == null)) continue
+    const order = clean(col.advanced)?.order
+    if (!col.key || (!col.container && !col.visibility && col.zIndex == null && !order)) continue
     buildContainerCss(
       {
         key: col.key,
         variant: 'column',
         container: col.container ?? {},
         zIndex: col.zIndex,
+        order,
         visibility: col.visibility,
         // Widths only apply inside a flex container row.
         parent: rowContainer,

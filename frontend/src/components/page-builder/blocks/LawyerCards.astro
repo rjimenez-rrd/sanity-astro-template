@@ -1,5 +1,5 @@
 ---
-import {stegaClean} from '@sanity/client/stega'
+import CardCarousel from '@/components/ui/CardCarousel.astro'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import type {LawyerCardsData} from '@/types/sanity'
 
@@ -9,114 +9,46 @@ interface Props {
 
 const {data} = Astro.props
 
-/**
- * Card width per breakpoint, written as custom properties and promoted to real
- * widths by the rules in global.css — the same mechanism the testimonial
- * carousel uses, so no generated class names are needed. Each width subtracts
- * the card's share of the 1.5rem gap, or the cards overflow the track.
- * Mobile is always one card, forced by global.css.
- */
-const CARD_WIDTH: Record<number, string> = {
-  1: '100%',
-  2: 'calc(50% - 0.75rem)',
-  3: 'calc(33.333% - 1rem)',
-  4: 'calc(25% - 1.125rem)',
-}
-
-const columns = Number(stegaClean(data.columns) ?? '3')
-const perViewDesktop = CARD_WIDTH[columns] ? columns : 3
-// Tablet halves a 3- or 4-up row; 1 and 2 stay as they are.
-const perViewTablet = Math.min(perViewDesktop, 2)
-
-const cardStyle = [
-  `--card-w:${CARD_WIDTH[perViewDesktop]}`,
-  `--card-w-tablet:${CARD_WIDTH[perViewTablet]}`,
-].join(';')
-
 // The name bar: solid dark navy on the left, fading to a half-transparent brand
 // blue by 56%, so the photo reads through on the right as in the design.
 const BAR_GRADIENT = 'linear-gradient(90deg, #07083d 15%, #0A108C80 56%)'
 
 const showRole = data.showRole !== false
 const lawyers = (data.lawyers ?? []).filter((lawyer) => lawyer?.name)
-const autoPlayInterval = data.autoPlayInterval || 5
-
-/**
- * Looping needs more cards in the track than are on screen, so the set is
- * repeated and the script rewinds out of the copies. Two passes cover a full
- * row; below that it takes three to avoid a gap appearing at the wrap.
- * The copies render hidden and the script reveals them only when the lawyers
- * don't all fit — so they never flash before it runs, and with no JS at all
- * the block degrades to a plain row of the real cards.
- */
-const loops = lawyers.length < 2 ? 1 : lawyers.length >= perViewDesktop ? 2 : 3
-const loopedLawyers = Array.from({length: loops}, () => lawyers).flat()
 ---
 
-{
-  lawyers.length > 0 && (
-    <div
-      data-card-carousel
-      data-card-carousel-wrap
-      data-count={String(lawyers.length)}
-      data-autoplay={data.autoPlay ? 'true' : 'false'}
-      data-interval={String(autoPlayInterval)}
-    >
-      {data.title && (
-        <h2 class="mb-2 font-display text-3xl font-bold md:text-4xl">{data.title}</h2>
-      )}
-      {data.subtitle && <p class="mb-8 max-w-2xl text-muted">{data.subtitle}</p>}
+<CardCarousel
+  items={lawyers}
+  columns={data.columns}
+  title={data.title}
+  subtitle={data.subtitle}
+  autoPlay={data.autoPlay}
+  autoPlayInterval={data.autoPlayInterval}
+  wrapRows
+>
+  {
+    (lawyer: (typeof lawyers)[number]) => (
+      <article class="group relative overflow-hidden border border-border bg-surface">
+        {/* A 3:4 portrait is ~630px tall at full phone width, so below 768px —
+            the same breakpoint the carousel switches to one card per view —
+            the crop goes square. Square rather than a letterbox because a
+            headshot can't lose that much head room. */}
+        <div class="aspect-square w-full md:aspect-3/4">
+          <SanityImage
+            value={lawyer.photo}
+            alt={lawyer.photo?.alt ?? lawyer.name ?? ''}
+            width={600}
+            height={800}
+            class="h-full w-full object-cover object-top transition-transform duration-500 ease-out motion-safe:group-hover:scale-105 md:object-center"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        </div>
 
-      {/* No scroll-smooth class: the rewind out of the copies uses
-          behavior:'auto', which follows CSS scroll-behavior — with smooth set
-          there, the seam would animate instead of being instant. */}
-      <div
-        data-card-carousel-track
-        class="flex snap-x snap-mandatory gap-6 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {loopedLawyers.map((lawyer, i) => (
-          <article
-            style={cardStyle}
-            class="group relative shrink-0 snap-start overflow-hidden border border-border bg-surface"
-            aria-hidden={i >= lawyers.length ? 'true' : undefined}
-            {...(i >= lawyers.length ? {hidden: true} : {})}
-          >
-            {/* A 3:4 portrait is ~630px tall at full phone width, so below
-                768px — the same breakpoint the carousel switches to one card
-                per view — the crop goes square. Square rather than a letterbox
-                because a headshot can't lose that much head room. */}
-            <div class="aspect-square w-full md:aspect-3/4">
-              <SanityImage
-                value={lawyer.photo}
-                alt={lawyer.photo?.alt ?? lawyer.name ?? ''}
-                width={600}
-                height={800}
-                class="h-full w-full object-cover object-top transition-transform duration-500 ease-out motion-safe:group-hover:scale-105 md:object-center"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-            </div>
-
-            <div
-              class="absolute inset-x-0 bottom-0 px-5 py-4"
-              style={`background-image:${BAR_GRADIENT}`}
-            >
-              <h3 class="font-display text-xl font-bold text-white">{lawyer.name}</h3>
-              {showRole && lawyer.role && (
-                <p class="mt-0.5 text-sm text-white/85">{lawyer.role}</p>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
-
-      {/* Filled by the script: one dot per page, and a page is however many
-          cards fit at the current breakpoint. */}
-      <div class="mt-6 flex justify-center gap-2" data-card-carousel-dots hidden />
-    </div>
-  )
-}
-
-<script>
-  import {initCardCarousels} from '@/lib/cardCarousel'
-  initCardCarousels()
-</script>
+        <div class="absolute inset-x-0 bottom-0 px-5 py-4" style={`background-image:${BAR_GRADIENT}`}>
+          <h3 class="font-display text-xl font-bold text-white">{lawyer.name}</h3>
+          {showRole && lawyer.role && <p class="mt-0.5 text-sm text-white/85">{lawyer.role}</p>}
+        </div>
+      </article>
+    )
+  }
+</CardCarousel>
