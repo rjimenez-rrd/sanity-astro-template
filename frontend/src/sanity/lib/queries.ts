@@ -223,12 +223,12 @@ export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
         items[] { _key, label, href, description, icon { ${imageFragment} } }
       }
     },
-    footerStyle,
-    footerDescription,
-    footerColumns[] {
-      _key, title,
-      links[] { _key, label, href }
-    }
+    footerLogo { ${imageFragment} },
+    footerPhoneLabel, footerPhoneText,
+    footerNav[] { _key, label, href },
+    footerOffices[] { _key, name, address, directionsUrl },
+    footerDisclaimerTitle, footerDisclaimer, footerCopyright,
+    footerLegalLinks[] { _key, label, href }
   }
 `)
 

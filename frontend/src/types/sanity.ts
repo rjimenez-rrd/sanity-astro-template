@@ -11,8 +11,8 @@ export type NavItem = NonNullable<SiteSettings['mainNav']>[number]
 export type NavLink = Extract<NavItem, {_type: 'navLink'}>
 export type NavDropdown = Extract<NavItem, {_type: 'navDropdown'}>
 export type DropdownItem = NavDropdown['items'][number]
-export type FooterColumn = NonNullable<SiteSettings['footerColumns']>[number]
-export type FooterLink = NonNullable<FooterColumn['links']>[number]
+export type FooterLink = NonNullable<SiteSettings['footerNav']>[number]
+export type FooterOffice = NonNullable<SiteSettings['footerOffices']>[number]
 export type SocialLink = NonNullable<SiteSettings['socialLinks']>[number]
 
 // ---------- Pages ----------

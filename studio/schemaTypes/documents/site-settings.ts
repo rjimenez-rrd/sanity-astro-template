@@ -278,88 +278,103 @@ export const siteSettingsType = defineType({
 
     // --- Footer ---
     defineField({
-      name: 'footerStyle',
-      title: 'Footer Style',
+      name: 'footerLogo',
+      title: 'Footer Logo',
+      type: 'image',
+      group: 'footer',
+      description: 'A light version for the dark footer. Leave empty to use the main logo in white.',
+      fields: [defineField({name: 'alt', type: 'string', title: 'Alt Text'})],
+    }),
+    defineField({
+      name: 'footerPhoneLabel',
+      title: 'Phone Label',
       type: 'string',
       group: 'footer',
-      initialValue: 'default',
-      options: {
-        list: [
-          {title: 'Default', value: 'default'},
-          {title: 'Gradient', value: 'gradient'},
-          {title: 'Dark', value: 'dark'},
-        ],
-        layout: 'radio',
-      },
+      description: 'The small line above the phone number.',
+      initialValue: 'Free Consultation 24/7',
     }),
     defineField({
-      name: 'footerDescription',
-      title: 'Footer Description',
-      type: 'text',
+      name: 'footerPhoneText',
+      title: 'Phone Display Text',
+      type: 'string',
       group: 'footer',
-      rows: 3,
-      description: 'Short description displayed in the footer next to the logo.',
+      description:
+        'How the number reads, e.g. (833) SANDERS. It still dials the Phone Number from Branding. Leave empty to show that number.',
     }),
     defineField({
-      name: 'footerColumns',
-      title: 'Footer Link Columns',
+      name: 'footerNav',
+      title: 'Footer Menu',
+      type: 'array',
+      group: 'footer',
+      description: 'The row of links between the two lines.',
+      of: [defineArrayMember({type: 'footerLink'})],
+    }),
+    defineField({
+      name: 'footerOffices',
+      title: 'Offices',
       type: 'array',
       group: 'footer',
       of: [
         defineArrayMember({
           type: 'object',
-          name: 'footerColumn',
+          name: 'footerOffice',
           fields: [
             defineField({
-              name: 'title',
-              title: 'Column Title',
+              name: 'name',
+              title: 'Name',
               type: 'string',
               validation: (rule) => rule.required(),
             }),
             defineField({
-              name: 'links',
-              title: 'Links',
-              type: 'array',
-              of: [
-                defineArrayMember({
-                  type: 'object',
-                  name: 'footerLink',
-                  fields: [
-                    defineField({
-                      name: 'label',
-                      title: 'Label',
-                      type: 'string',
-                      validation: (rule) => rule.required(),
-                    }),
-                    defineField({
-                      name: 'href',
-                      title: 'Link',
-                      type: 'string',
-                      validation: (rule) => rule.required(),
-                    }),
-                  ],
-                  preview: {
-                    select: {label: 'label', href: 'href'},
-                    prepare({label, href}: {label?: string; href?: string}) {
-                      return {title: label || 'Link', subtitle: href}
-                    },
-                  },
-                }),
-              ],
+              name: 'address',
+              title: 'Address',
+              type: 'text',
+              rows: 2,
+              description: 'Line breaks are kept.',
+            }),
+            defineField({
+              name: 'directionsUrl',
+              title: 'Directions Link',
+              type: 'url',
+              description: 'Leave empty to open the address in Google Maps.',
             }),
           ],
           preview: {
-            select: {title: 'title', links: 'links'},
-            prepare({title, links}: {title?: string; links?: Array<unknown>}) {
-              return {
-                title: title || 'Column',
-                subtitle: `${links?.length ?? 0} links`,
-              }
-            },
+            select: {title: 'name', subtitle: 'address'},
           },
         }),
       ],
-    }), 
+    }),
+    defineField({
+      name: 'footerDisclaimerTitle',
+      title: 'Disclaimer Title',
+      type: 'string',
+      group: 'footer',
+      description: 'Shown in bold before the disclaimer.',
+      initialValue: 'Attorney Advertising',
+    }),
+    defineField({
+      name: 'footerDisclaimer',
+      title: 'Disclaimer',
+      type: 'string',
+      group: 'footer',
+      initialValue: 'Prior results do not guarantee a similar outcome.',
+    }),
+    defineField({
+      name: 'footerCopyright',
+      title: 'Copyright',
+      type: 'string',
+      group: 'footer',
+      description: 'Leave empty for "<Site Name> © All Rights Reserved".',
+    }),
+    defineField({
+      name: 'footerLegalLinks',
+      title: 'Legal Links',
+      type: 'array',
+      group: 'footer',
+      description: 'Bottom right, e.g. Privacy Policy, FAQ, Terms and Conditions.',
+      of: [defineArrayMember({type: 'footerLink'})],
+    }),
   ],
   preview: {
     prepare() {
@@ -368,5 +383,30 @@ export const siteSettingsType = defineType({
         media: CogIcon,
       }
     },
+  },
+})
+
+/** A label and a path or URL, shared by the footer's link lists. */
+export const footerLinkType = defineType({
+  name: 'footerLink',
+  title: 'Link',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'label',
+      title: 'Label',
+      type: 'string',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'href',
+      title: 'Link',
+      type: 'string',
+      description: 'Internal path (e.g., /about) or external URL',
+      validation: (rule) => rule.required(),
+    }),
+  ],
+  preview: {
+    select: {title: 'label', subtitle: 'href'},
   },
 })
