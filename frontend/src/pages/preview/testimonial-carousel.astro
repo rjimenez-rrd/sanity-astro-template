@@ -10,8 +10,8 @@ import Base from '@/layouts/Base.astro'
 import TestimonialCarousel from '@/components/page-builder/blocks/TestimonialCarousel.astro'
 import type {TestimonialCarouselData} from '@/types/sanity'
 
-// Shaped like what GROQ returns for a testimonialCarousel. No avatars: those are
-// Sanity image refs, and the component already omits the image when absent.
+// Shaped like what GROQ returns for a testimonialCarousel once its reviews
+// have been resolved from the Review documents.
 const data = {
   _type: 'testimonialCarousel',
   title: 'What our clients say',
@@ -21,43 +21,41 @@ const data = {
   autoPlayInterval: 5,
   showDots: true,
   showArrows: true,
-  testimonials: [
+  // One long review per card width, so Show More appears, and one short one,
+  // so it can be seen to stay hidden when the text fits.
+  reviews: [
     {
-      _key: 'preview-1',
-      _type: 'testimonialQuote',
-      quote:
-        'They took my case when two other firms would not return my calls. The settlement covered my surgery and the time I could not work.',
-      name: 'Maria Delgado',
-      title: 'Queens, NY',
+      _id: 'preview-1',
+      clientName: 'Karin C.',
+      reviewText:
+        'Always happy to work with this firm. They are caring, intelligent attorneys who fight for people’s rights. Their primary concern is to make sure their clients are treated fairly, and they kept me informed from the first call to the final settlement.',
       rating: 5,
     },
     {
-      _key: 'preview-2',
-      _type: 'testimonialQuote',
-      quote:
-        'I was kept informed at every stage. No jargon, no chasing for updates — I always knew where things stood.',
-      name: 'James Okafor',
-      title: 'Brooklyn, NY',
+      _id: 'preview-2',
+      clientName: 'James O.',
+      reviewText: 'Kept informed at every stage. No jargon, no chasing for updates.',
       rating: 5,
     },
     {
-      _key: 'preview-3',
-      _type: 'testimonialQuote',
-      quote:
-        'The insurer offered a fraction of what my injuries were worth. Sanders pushed back and we settled for eleven times that.',
-      name: 'Rachel Kim',
-      title: 'Manhattan, NY',
-      rating: 4,
+      _id: 'preview-3',
+      clientName: 'Rachel K.',
+      reviewText:
+        'The insurer offered a fraction of what my injuries were worth. Sanders pushed back at every turn, took the time to explain each option, and we settled for eleven times the first offer. I cannot recommend them highly enough to anyone in a similar situation.',
+      rating: 5,
     },
   ],
 } as unknown as TestimonialCarouselData
 ---
 
 <Base title="Testimonial Carousel — preview" noIndex>
-  <main class="mx-auto w-full min-w-0 max-w-5xl px-4 py-16 sm:px-6">
+  <main class="w-full min-w-0 px-4 py-16 sm:px-6" style="background:#eceef2">
+    <div class="mx-auto max-w-6xl">
     <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
       Block preview · testimonialCarousel
     </p>
     <TestimonialCarousel data={data} />
+
+    </div>
   </main>
 </Base>

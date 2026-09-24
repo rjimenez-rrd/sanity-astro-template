@@ -287,12 +287,15 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
         // Stacked, a column only narrows if this device asks for it; an
         // inherited desktop width would squeeze it on mobile otherwise.
         rule = {flex: '0 0 auto', width: w, 'max-width': '100%', overflow: clip}
-      } else if (prevItemWidth) {
+      } else {
         /**
-         * Undo a width set at a larger breakpoint. 100%, not auto: a stacked
-         * column is meant to fill the row, and auto only did that while the
-         * row stretched its items — under align-items: center it shrank to
-         * its content instead, taking anything inside it along.
+         * Stacked with no width of its own: fill the row. Also undoes a width
+         * set at a larger breakpoint. 100%, not auto: a stacked column is
+         * meant to fill the row, and auto only did that while the row
+         * stretched its items — under align-items: center it shrank to its
+         * content instead. For a carousel that content is its whole track laid
+         * end to end, so the column grew several times wider than the page.
+         * Emitted even when no width was ever set, which is exactly that case.
          */
         rule = {flex: '0 0 auto', width: '100%', 'max-width': '100%'}
       }

@@ -1,5 +1,4 @@
 ---
-import SanityImage from '@/components/sanity/SanityImage.astro'
 import type {TestimonialCarouselData} from '@/types/sanity'
 
 interface Props {
@@ -8,7 +7,9 @@ interface Props {
 
 const {data} = Astro.props
 
-const testimonials = data.testimonials || []
+// Resolved by the query from the Reviews documents: the editor's picks, or
+// every review when none are picked. A review needs text to be worth a card.
+const testimonials = (data.reviews ?? []).filter((review) => review?.reviewText)
 const autoPlayInterval = data.autoPlayInterval || 5
 const showDots = data.showDots !== false
 const showArrows = data.showArrows !== false
@@ -81,16 +82,17 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
             <div
               data-carousel-card
               style={cardStyle}
-              class="flex-shrink-0 snap-start rounded-xl border border-border bg-card p-6 sm:p-8"
+              class="flex flex-shrink-0 snap-start flex-col bg-card px-8 py-10 sm:px-12 sm:py-12"
               aria-hidden={i >= testimonials.length ? 'true' : undefined}
             >
               {t.rating && (
-                <div class="mb-4 flex gap-0.5">
+                <div class="mb-8 flex gap-1" aria-label={`${t.rating} out of 5 stars`}>
                   {Array.from({length: 5}, (_, i) => (
                     <svg
-                      class={`h-4 w-4 ${i < t.rating! ? 'text-yellow-400' : 'text-border'}`}
+                      class={`h-9 w-9 ${i < t.rating! ? 'text-practice-card' : 'text-border'}`}
                       fill="currentColor"
                       viewBox="0 0 20 20"
+                      aria-hidden="true"
                     >
                       <path d={STAR_PATH} />
                     </svg>
@@ -98,24 +100,31 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
                 </div>
               )}
 
-              <blockquote class="text-base leading-relaxed text-foreground sm:text-lg">
-                &ldquo;{t.quote}&rdquo;
-              </blockquote>
+              {/* Clamped to five lines; the script reveals Show More only when
+                  the text actually overflows, so short reviews get no button. */}
+              <p
+                data-review-text
+                class="line-clamp-5 font-display text-lg italic leading-relaxed text-foreground md:text-xl"
+              >
+                {t.reviewText}
+              </p>
+              <button
+                type="button"
+                data-review-toggle
+                aria-expanded="false"
+                class="mt-4 self-start font-display text-lg text-practice-card hover:underline md:text-xl"
+                hidden
+              >
+                Show More
+              </button>
 
-              <div class="mt-6 flex items-center gap-3">
-                {t.avatar?.asset && (
-                  <SanityImage
-                    value={t.avatar}
-                    alt={t.name || ''}
-                    width={48}
-                    height={48}
-                    class="h-10 w-10 rounded-full object-cover"
-                  />
+              {/* mt-auto pins the rule and the name to the bottom, so they line
+                  up across cards whatever the length of each review. */}
+              <div class="mt-auto pt-8">
+                <hr class="border-t border-primary" />
+                {t.clientName && (
+                  <p class="mt-6 font-display text-lg font-bold text-foreground">{t.clientName}</p>
                 )}
-                <div>
-                  {t.name && <p class="text-sm font-semibold text-foreground">{t.name}</p>}
-                  {t.title && <p class="text-xs text-muted">{t.title}</p>}
-                </div>
               </div>
             </div>
           ))}
@@ -234,6 +243,46 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       paintDots(current)
     }
 
+    /**
+     * Show More / Show Less. The button starts hidden and is revealed only for
+     * a review that actually overflows its five-line clamp — measured, since
+     * whether it overflows depends on the card width at this breakpoint.
+     */
+    const reviews = Array.from(root.querySelectorAll<HTMLElement>('[data-review-text]'))
+    const toggleFor = (text: HTMLElement) =>
+      text.nextElementSibling as HTMLButtonElement | null
+
+    function measureOverflow() {
+      reviews.forEach((text) => {
+        const button = toggleFor(text)
+        if (!button) return
+        // An expanded review keeps its button so it can be collapsed again.
+        if (button.getAttribute('aria-expanded') === 'true') return
+        button.hidden = text.scrollHeight <= text.clientHeight + 1
+      })
+    }
+
+    reviews.forEach((text) => {
+      const button = toggleFor(text)
+      button?.addEventListener('click', () => {
+        const expand = button.getAttribute('aria-expanded') !== 'true'
+        text.classList.toggle('line-clamp-5', !expand)
+        button.setAttribute('aria-expanded', String(expand))
+        button.textContent = expand ? 'Show Less' : 'Show More'
+      })
+    })
+
+    measureOverflow()
+    let measureQueued = false
+    window.addEventListener('resize', () => {
+      if (measureQueued) return
+      measureQueued = true
+      requestAnimationFrame(() => {
+        measureQueued = false
+        measureOverflow()
+      })
+    })
+
     root.querySelector('[data-carousel-prev]')?.addEventListener('click', () => goTo(current - 1))
     root.querySelector('[data-carousel-next]')?.addEventListener('click', () => goTo(current + 1))
     dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)))
@@ -246,6 +295,9 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       // hidden — a background interval just fights the user's scroll position.
       root.addEventListener('mouseenter', () => clearInterval(timer))
       root.addEventListener('mouseleave', () => {
+        // Cleared first: a stray second mouseleave would otherwise stack a
+        // second interval and double the speed.
+        clearInterval(timer)
         timer = setInterval(() => goTo(current + 1), interval)
       })
     }

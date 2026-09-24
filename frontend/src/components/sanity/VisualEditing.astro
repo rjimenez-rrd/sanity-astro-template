@@ -31,9 +31,23 @@
         return () => window.removeEventListener('popstate', onPopState)
       },
       update: (update) => {
+        if (update.type === 'pop') {
+          history.back()
+          return
+        }
+        /**
+         * `subscribe` above reports the current URL on every load, and
+         * Presentation can echo it straight back. assign()/replace() with the
+         * URL already showing is a full reload, so that echo reloaded the page,
+         * which reported the URL again — an endless refresh, and any selection
+         * lost with each one. Navigating only on a real change breaks the loop.
+         */
+        const here = location.pathname + location.search
+        const target = new URL(update.url, location.origin)
+        if (target.pathname + target.search === here) return
+
         if (update.type === 'push') location.assign(update.url)
-        else if (update.type === 'replace') location.replace(update.url)
-        else if (update.type === 'pop') history.back()
+        else location.replace(update.url)
       },
     },
     // Without this handler the library never subscribes to Studio's refresh

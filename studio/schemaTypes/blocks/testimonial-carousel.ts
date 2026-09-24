@@ -12,12 +12,25 @@ export const testimonialCarouselType = defineType({
       title: 'Title',
       type: 'string',
     }),
+    /**
+     * Reviews are written once in the sidebar's Reviews section and shown from
+     * there — the block never holds review text of its own. Left empty it shows
+     * every review; picking some chooses which and in what order. disableNew
+     * keeps the picker a picker: no inline form for writing a review here.
+     */
     defineField({
-      name: 'testimonials',
-      title: 'Testimonials',
+      name: 'reviews',
+      title: 'Reviews',
       type: 'array',
-      validation: (rule) => rule.required().min(1),
-      of: [defineArrayMember({type: 'testimonialQuote'})],
+      description:
+        'Leave empty to show every review, newest first. Pick reviews to choose which ones appear and in what order. Write reviews in the Reviews section.',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'review'}],
+          options: {disableNew: true},
+        }),
+      ],
     }),
     // Mobile is always one card — anything narrower is unreadable on a phone.
     defineField({
@@ -85,11 +98,12 @@ export const testimonialCarouselType = defineType({
     }),
   ],
   preview: {
-    select: {title: 'title', testimonials: 'testimonials'},
-    prepare({title, testimonials}: {title?: string; testimonials?: Array<unknown>}) {
+    select: {title: 'title', reviews: 'reviews'},
+    prepare({title, reviews}: {title?: string; reviews?: Array<unknown>}) {
+      const count = reviews?.length ?? 0
       return {
         title: title || 'Testimonial Carousel',
-        subtitle: `${testimonials?.length ?? 0} testimonials`,
+        subtitle: count ? `${count} picked review${count === 1 ? '' : 's'}` : 'All reviews',
         media: UsersIcon,
       }
     },

@@ -80,6 +80,17 @@ const contentTypesFragment = /* groq */ `
       icon { ${imageFragment} },
       ${blockStylesFragment}
     },
+    // Reviews live in their own documents. Picked ones keep the editor's order;
+    // an empty pick means every review, newest first. The computed "reviews"
+    // comes after the spread, so it replaces the bare references.
+    _type == "testimonialCarousel" => {
+      ...,
+      "reviews": select(
+        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },
+        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }
+      ),
+      ${blockStylesFragment}
+    },
     _type == "lawyerCards" => {
       ...,
       lawyers[]-> {
