@@ -1,0 +1,63 @@
+---
+/**
+ * Design preview for the Button block's Normal / Hover colors, one button per
+ * case the Colors tabs can produce.
+ */
+import Base from '@/layouts/Base.astro'
+import CallToAction from '@/components/page-builder/blocks/CallToAction.astro'
+import type {CallToActionData} from '@/types/sanity'
+
+const LINK = [{_key: 'l', _type: 'linkExternal', url: 'https://example.com'}]
+
+const button = (id: string, label: string, colors: Record<string, string> = {}) =>
+  ({
+    _key: id,
+    _type: 'callToAction',
+    label,
+    variant: 'primary',
+    link: LINK,
+    ...colors,
+  }) as unknown as CallToActionData
+
+const cases = [
+  {id: 'variant', note: 'No colors — the Primary variant as-is', data: button('variant', 'Variant only')},
+  {
+    id: 'all',
+    note: 'Normal navy / blue text, Hover blue / white text',
+    data: button('all', 'All Practice Areas', {
+      color: '#0A108C',
+      textColor: '#0A8DF5',
+      hoverColor: '#0A8DF5',
+      hoverTextColor: '#FFFFFF',
+    }),
+  },
+  {
+    id: 'hover-only',
+    note: 'Hover only — Normal comes from the variant',
+    data: button('hover-only', 'Hover only', {hoverColor: '#0A8DF5', hoverTextColor: '#FFFFFF'}),
+  },
+  {
+    id: 'normal-only',
+    note: 'Normal only — Hover keeps the Normal colors',
+    data: button('normal-only', 'Normal only', {color: '#0A108C', textColor: '#FFFFFF'}),
+  },
+]
+---
+
+<Base title="Buttons — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · callToAction colors
+    </p>
+    <div class="flex flex-col gap-8">
+      {
+        cases.map((c) => (
+          <div class="flex flex-col gap-2" data-case={c.id}>
+            <p class="text-sm text-muted">{c.note}</p>
+            <CallToAction data={c.data} />
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</Base>

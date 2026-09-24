@@ -2,12 +2,15 @@ import {defineType, defineField} from 'sanity'
 import {LaunchIcon} from '@sanity/icons'
 import {linkField} from '../fields/fields'
 import {ColorStringInput} from '../../components/inputs/ColorStringInput'
+import {ButtonInput} from '../../components/inputs/ButtonInput'
 
 export const callToActionType = defineType({
   name: 'callToAction',
   title: 'Button',
   type: 'object',
   icon: LaunchIcon,
+  // Draws the four color fields as Normal / Hover tabs.
+  components: {input: ButtonInput},
   fields: [
     defineField({
       name: 'label',
@@ -33,7 +36,14 @@ export const callToActionType = defineType({
       name: 'hoverColor',
       title: 'Hover Color',
       type: 'string',
-      description: 'Hex color on hover',
+      description: 'Background on hover',
+      components: {input: ColorStringInput},
+    }),
+    defineField({
+      name: 'hoverTextColor',
+      title: 'Hover Text Color',
+      type: 'string',
+      description: 'Text color on hover',
       components: {input: ColorStringInput},
     }),
     defineField({

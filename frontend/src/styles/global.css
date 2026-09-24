@@ -137,6 +137,29 @@ h2, h3 {
  * so untouched blocks keep their defaults. Unlayered and !important so it beats
  * Tailwind's utilities, while the wrapper's own inline padding still wins.
  */
+/*
+ * Button colors — Normal and Hover, from the Button block's Colors tabs.
+ * CallToAction writes whichever of the four is set as a custom property; each
+ * rule applies only when its own property is present, so an unset color keeps
+ * the Variant's. Unlayered, so they win over the Variant's Tailwind classes
+ * (which live in the utilities layer) at rest and on hover alike.
+ */
+[style*='--btn-bg'] {
+  background-color: var(--btn-bg);
+}
+
+[style*='--btn-fg'] {
+  color: var(--btn-fg);
+}
+
+[style*='--btn-hover-bg']:hover {
+  background-color: var(--btn-hover-bg);
+}
+
+[style*='--btn-hover-fg']:hover {
+  color: var(--btn-hover-fg);
+}
+
 [data-pb-pad] > * {
   padding: 0 !important;
 }

@@ -4822,6 +4822,7 @@ export type CallToAction = {
   color?: string;
   textColor?: string;
   hoverColor?: string;
+  hoverTextColor?: string;
   variant?: "primary" | "secondary" | "outline" | "ghost";
   link: Array<
     | ({
@@ -6001,6 +6002,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -6079,6 +6081,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 color?: string;
                 textColor?: string;
                 hoverColor?: string;
+                hoverTextColor?: string;
                 variant?: "ghost" | "outline" | "primary" | "secondary";
                 link: Array<
                   | {
@@ -7167,6 +7170,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -7246,6 +7250,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         color?: string;
                         textColor?: string;
                         hoverColor?: string;
+                        hoverTextColor?: string;
                         variant?: "ghost" | "outline" | "primary" | "secondary";
                         link: Array<
                           | {
@@ -8379,6 +8384,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -8486,6 +8492,7 @@ export type HOME_PAGE_QUERY_RESULT =
                               color?: string;
                               textColor?: string;
                               hoverColor?: string;
+                              hoverTextColor?: string;
                               variant?:
                                 "ghost" | "outline" | "primary" | "secondary";
                               link: Array<
@@ -9212,6 +9219,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -9318,6 +9326,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -10027,6 +10036,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -10105,6 +10115,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 color?: string;
                 textColor?: string;
                 hoverColor?: string;
+                hoverTextColor?: string;
                 variant?: "ghost" | "outline" | "primary" | "secondary";
                 link: Array<
                   | {
@@ -11193,6 +11204,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -11272,6 +11284,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         color?: string;
                         textColor?: string;
                         hoverColor?: string;
+                        hoverTextColor?: string;
                         variant?: "ghost" | "outline" | "primary" | "secondary";
                         link: Array<
                           | {
@@ -12405,6 +12418,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -12512,6 +12526,7 @@ export type HOME_PAGE_QUERY_RESULT =
                               color?: string;
                               textColor?: string;
                               hoverColor?: string;
+                              hoverTextColor?: string;
                               variant?:
                                 "ghost" | "outline" | "primary" | "secondary";
                               link: Array<
@@ -13238,6 +13253,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -13344,6 +13360,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -14035,6 +14052,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -14113,6 +14131,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 color?: string;
                 textColor?: string;
                 hoverColor?: string;
+                hoverTextColor?: string;
                 variant?: "ghost" | "outline" | "primary" | "secondary";
                 link: Array<
                   | {
@@ -15201,6 +15220,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -15280,6 +15300,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         color?: string;
                         textColor?: string;
                         hoverColor?: string;
+                        hoverTextColor?: string;
                         variant?: "ghost" | "outline" | "primary" | "secondary";
                         link: Array<
                           | {
@@ -16413,6 +16434,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -16520,6 +16542,7 @@ export type HOME_PAGE_QUERY_RESULT =
                               color?: string;
                               textColor?: string;
                               hoverColor?: string;
+                              hoverTextColor?: string;
                               variant?:
                                 "ghost" | "outline" | "primary" | "secondary";
                               link: Array<
@@ -17246,6 +17269,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -17352,6 +17376,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -18043,6 +18068,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -18121,6 +18147,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 color?: string;
                 textColor?: string;
                 hoverColor?: string;
+                hoverTextColor?: string;
                 variant?: "ghost" | "outline" | "primary" | "secondary";
                 link: Array<
                   | {
@@ -19209,6 +19236,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -19288,6 +19316,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         color?: string;
                         textColor?: string;
                         hoverColor?: string;
+                        hoverTextColor?: string;
                         variant?: "ghost" | "outline" | "primary" | "secondary";
                         link: Array<
                           | {
@@ -20421,6 +20450,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -20528,6 +20558,7 @@ export type HOME_PAGE_QUERY_RESULT =
                               color?: string;
                               textColor?: string;
                               hoverColor?: string;
+                              hoverTextColor?: string;
                               variant?:
                                 "ghost" | "outline" | "primary" | "secondary";
                               link: Array<
@@ -21254,6 +21285,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -21360,6 +21392,7 @@ export type HOME_PAGE_QUERY_RESULT =
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -22083,6 +22116,7 @@ export type PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -22161,6 +22195,7 @@ export type PAGE_QUERY_RESULT =
                 color?: string;
                 textColor?: string;
                 hoverColor?: string;
+                hoverTextColor?: string;
                 variant?: "ghost" | "outline" | "primary" | "secondary";
                 link: Array<
                   | {
@@ -23249,6 +23284,7 @@ export type PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -23328,6 +23364,7 @@ export type PAGE_QUERY_RESULT =
                         color?: string;
                         textColor?: string;
                         hoverColor?: string;
+                        hoverTextColor?: string;
                         variant?: "ghost" | "outline" | "primary" | "secondary";
                         link: Array<
                           | {
@@ -24461,6 +24498,7 @@ export type PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -24568,6 +24606,7 @@ export type PAGE_QUERY_RESULT =
                               color?: string;
                               textColor?: string;
                               hoverColor?: string;
+                              hoverTextColor?: string;
                               variant?:
                                 "ghost" | "outline" | "primary" | "secondary";
                               link: Array<
@@ -25294,6 +25333,7 @@ export type PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -25400,6 +25440,7 @@ export type PAGE_QUERY_RESULT =
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -26093,6 +26134,7 @@ export type PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -26171,6 +26213,7 @@ export type PAGE_QUERY_RESULT =
                 color?: string;
                 textColor?: string;
                 hoverColor?: string;
+                hoverTextColor?: string;
                 variant?: "ghost" | "outline" | "primary" | "secondary";
                 link: Array<
                   | {
@@ -27259,6 +27302,7 @@ export type PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -27338,6 +27382,7 @@ export type PAGE_QUERY_RESULT =
                         color?: string;
                         textColor?: string;
                         hoverColor?: string;
+                        hoverTextColor?: string;
                         variant?: "ghost" | "outline" | "primary" | "secondary";
                         link: Array<
                           | {
@@ -28471,6 +28516,7 @@ export type PAGE_QUERY_RESULT =
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -28578,6 +28624,7 @@ export type PAGE_QUERY_RESULT =
                               color?: string;
                               textColor?: string;
                               hoverColor?: string;
+                              hoverTextColor?: string;
                               variant?:
                                 "ghost" | "outline" | "primary" | "secondary";
                               link: Array<
@@ -29304,6 +29351,7 @@ export type PAGE_QUERY_RESULT =
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {
@@ -29410,6 +29458,7 @@ export type PAGE_QUERY_RESULT =
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -30363,6 +30412,7 @@ export type NEWS_POST_QUERY_RESULT = {
               color?: string;
               textColor?: string;
               hoverColor?: string;
+              hoverTextColor?: string;
               variant?: "ghost" | "outline" | "primary" | "secondary";
               link: Array<
                 | {
@@ -30441,6 +30491,7 @@ export type NEWS_POST_QUERY_RESULT = {
             color?: string;
             textColor?: string;
             hoverColor?: string;
+            hoverTextColor?: string;
             variant?: "ghost" | "outline" | "primary" | "secondary";
             link: Array<
               | {
@@ -31529,6 +31580,7 @@ export type NEWS_POST_QUERY_RESULT = {
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -31607,6 +31659,7 @@ export type NEWS_POST_QUERY_RESULT = {
                     color?: string;
                     textColor?: string;
                     hoverColor?: string;
+                    hoverTextColor?: string;
                     variant?: "ghost" | "outline" | "primary" | "secondary";
                     link: Array<
                       | {
@@ -32739,6 +32792,7 @@ export type NEWS_POST_QUERY_RESULT = {
                       color?: string;
                       textColor?: string;
                       hoverColor?: string;
+                      hoverTextColor?: string;
                       variant?: "ghost" | "outline" | "primary" | "secondary";
                       link: Array<
                         | {
@@ -32845,6 +32899,7 @@ export type NEWS_POST_QUERY_RESULT = {
                           color?: string;
                           textColor?: string;
                           hoverColor?: string;
+                          hoverTextColor?: string;
                           variant?:
                             "ghost" | "outline" | "primary" | "secondary";
                           link: Array<
@@ -33566,6 +33621,7 @@ export type NEWS_POST_QUERY_RESULT = {
               color?: string;
               textColor?: string;
               hoverColor?: string;
+              hoverTextColor?: string;
               variant?: "ghost" | "outline" | "primary" | "secondary";
               link: Array<
                 | {
@@ -33672,6 +33728,7 @@ export type NEWS_POST_QUERY_RESULT = {
                   color?: string;
                   textColor?: string;
                   hoverColor?: string;
+                  hoverTextColor?: string;
                   variant?: "ghost" | "outline" | "primary" | "secondary";
                   link: Array<
                     | {

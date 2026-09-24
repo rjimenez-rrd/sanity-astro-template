@@ -19,10 +19,36 @@ const VARIANT_CLASSES: Record<string, string> = {
 
 const {href, isExternal, missing} = resolveHref((data.link || []) as unknown as LinkItem[])
 
-const hasCustomColors = Boolean(data.color || data.textColor)
-const cleanColor = stegaClean(data.color)
-const cleanTextColor = stegaClean(data.textColor)
-const cleanHoverColor = stegaClean(data.hoverColor)
+/**
+ * Editor colors are free text, so only a recognisable color reaches the style
+ * attribute: hex, rgb()/rgba(), hsl()/hsla() — all three are what the Studio's
+ * picker can write — or a bare keyword. Anything else is dropped rather than
+ * risk a stray `;` smuggling in other declarations.
+ */
+const COLOR = /^(#[0-9a-fA-F]{3,8}|(rgb|rgba|hsl|hsla)\([\d\s.,%/]+\)|[a-zA-Z]+)$/
+const color = (raw?: string | null) => {
+  const v = stegaClean(raw)?.trim()
+  return v && COLOR.test(v) ? v : undefined
+}
+
+/**
+ * Normal and Hover colors, as custom properties that the [style*='--btn-…']
+ * rules in global.css apply. Each one only takes effect when it is set, so an
+ * unset color falls back to the Variant rather than to nothing — and the rules
+ * are unlayered, so they beat the Variant's Tailwind classes, hover included.
+ * An inline style couldn't do this: it can't target :hover at all, which is
+ * why the old hover color was set and never applied.
+ */
+const colorVars = [
+  ['--btn-bg', color(data.color)],
+  ['--btn-fg', color(data.textColor)],
+  ['--btn-hover-bg', color(data.hoverColor)],
+  ['--btn-hover-fg', color(data.hoverTextColor)],
+]
+  .filter(([, v]) => v)
+  .map(([k, v]) => `${k}:${v}`)
+  .join(';')
+
 const cleanVariant = stegaClean(data.variant) || 'primary'
 
 /**
@@ -35,16 +61,6 @@ const cleanVariant = stegaClean(data.variant) || 'primary'
 const hasWidth = Boolean(stegaClean(data.blockStyles?.size?.width))
 const fillsWidth = data.fullWidth === true || hasWidth
 
-const style = hasCustomColors
-  ? [
-      cleanColor && `background-color:${cleanColor}`,
-      cleanTextColor && `color:${cleanTextColor}`,
-      cleanHoverColor && `--cta-hover-bg:${cleanHoverColor}`,
-    ]
-      .filter(Boolean)
-      .join(';')
-  : undefined
-
 /**
  * w-fit, not just inline-block: a button with no Block Styles sits directly in
  * its column, which is a flex container — and flex stretches its items across
@@ -53,9 +69,9 @@ const style = hasCustomColors
  * really does mean sized to the label.
  */
 const baseClasses = `relative ${fillsWidth ? 'block w-full' : 'inline-block w-fit'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
-const colorClasses = hasCustomColors
-  ? 'hover:opacity-90'
-  : VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary
+// Always the Variant's classes: the custom colors above override only the
+// parts that are set, so the rest still comes from the Variant.
+const colorClasses = VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary
 ---
 
 {
@@ -65,7 +81,7 @@ const colorClasses = hasCustomColors
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
       class={`${baseClasses} ${colorClasses}`}
-      style={style || undefined}
+      style={colorVars || undefined}
     >
       {data.label}
       {missing && <MissingLinkBadge />}
