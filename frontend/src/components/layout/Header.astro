@@ -41,9 +41,17 @@ const isCurrent = (href?: string | null) => {
   const clean = stegaClean(href);
   return Boolean(clean && clean.startsWith("/") && normalize(clean) === currentPath);
 };
-/** A dropdown is current when its own page or one of its links is. */
-const dropdownIsCurrent = (item: NavDropdown) =>
-  isCurrent(item.href) || (item.items || []).some((child) => isCurrent(child.href));
+/**
+ * A dropdown is current on its own page and on pages under its path
+ * (/practice-areas/…), not merely because one of its links is open: a page
+ * like /personal-injury highlights only its own link inside the dropdown.
+ */
+const dropdownIsCurrent = (item: NavDropdown) => {
+  const own = stegaClean(item.href);
+  if (!own?.startsWith("/")) return false;
+  const base = normalize(own);
+  return currentPath === base || (base !== "/" && currentPath.startsWith(`${base}/`));
+};
 /** Attributes for a current item: aria-current for links, data-current for styling. */
 const current = (on: boolean, link = true) =>
   on ? { "data-current": "", ...(link ? { "aria-current": "page" as const } : {}) } : {};
@@ -123,11 +131,11 @@ const current = (on: boolean, link = true) =>
                 class="invisible absolute left-0 top-full z-50 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 group-data-[open]:visible group-data-[open]:opacity-100"
                 data-dropdown-menu
               >
-                <div class="w-64 border border-border bg-white p-2 shadow-lg">
+                <div class="w-64 border border-border bg-white shadow-lg">
                   {(item.items || []).map((child) => (
                     <a
                       href={child.href}
-                      class="flex items-start gap-3 px-3 py-2.5 transition-colors hover:bg-foreground/5 data-current:bg-foreground/5"
+                      class="group/child flex items-start gap-3 px-5 py-3 transition-colors hover:bg-header-banner data-current:bg-header-banner"
                       {...current(isCurrent(child.href))}
                     >
                       {child.icon?.asset && (
@@ -140,9 +148,9 @@ const current = (on: boolean, link = true) =>
                         />
                       )}
                       <div>
-                        <span class="block text-[15px] text-foreground">{child.label}</span>
+                        <span class="block text-[15px] text-foreground transition-colors group-hover/child:text-white group-data-current/child:text-white">{child.label}</span>
                         {child.description && (
-                          <span class="block text-xs text-muted">{child.description}</span>
+                          <span class="block text-xs text-muted transition-colors group-hover/child:text-white/80 group-data-current/child:text-white/80">{child.description}</span>
                         )}
                       </div>
                     </a>
