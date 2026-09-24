@@ -17,7 +17,6 @@
   --accent: #7c3aed;
   --surface: #fafafa;
   --ring: #18181b;
-  --header-banner: #0a108c;
   --secondary-hover: #0a8df5;
   --practice-card: #3f8bee;
 }
@@ -37,7 +36,6 @@
   --color-ring: var(--ring);
   --font-sans: var(--font-inter);
   --font-display: var(--font-montserrat);
-  --color-header-banner: var(--header-banner);
   --color-secondary-hover: var(--secondary-hover);
   --color-practice-card: var(--practice-card);
 }

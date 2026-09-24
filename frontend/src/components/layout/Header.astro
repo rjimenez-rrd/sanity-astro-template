@@ -58,7 +58,7 @@ const current = (on: boolean, link = true) =>
 ---
 
 <header>
-  <div class="bg-header-banner py-4 flex items-center justify-center font-display text-sm sm:text-base md:text-xl font-normal uppercase leading-[30px] tracking-[0.09px] text-white flex-wrap gap-2 md:gap-4">
+  <div class="bg-primary py-4 flex items-center justify-center font-display text-sm sm:text-base md:text-xl font-normal uppercase leading-[30px] tracking-[0.09px] text-white flex-wrap gap-2 md:gap-4">
     <div>Free consultation 24/7</div>
     <div>
       <a href={`tel:${phone}`} class="text-md sm:text-lg md:text-2xl">
@@ -135,7 +135,7 @@ const current = (on: boolean, link = true) =>
                   {(item.items || []).map((child) => (
                     <a
                       href={child.href}
-                      class="group/child flex items-start gap-3 px-5 py-3 transition-colors hover:bg-header-banner data-current:bg-header-banner"
+                      class="group/child flex items-start gap-3 px-5 py-3 transition-colors hover:bg-primary data-current:bg-primary"
                       {...current(isCurrent(child.href))}
                     >
                       {child.icon?.asset && (
@@ -261,7 +261,7 @@ const current = (on: boolean, link = true) =>
                   the dropdown's own Link, or closes it when there is none. */}
               <button
                 type="button"
-                class="group/row flex w-full items-center justify-center gap-2 py-3 font-display text-[17px] text-foreground transition-colors hover:bg-header-banner hover:text-white active:bg-header-banner active:text-white aria-expanded:bg-header-banner aria-expanded:text-white data-current:bg-header-banner data-current:text-white"
+                class="group/row flex w-full items-center justify-center gap-2 py-3 font-display text-[17px] text-foreground transition-colors hover:bg-primary hover:text-white active:bg-primary active:text-white aria-expanded:bg-primary aria-expanded:text-white data-current:bg-primary data-current:text-white"
                 {...current(dropdownIsCurrent(item), false)}
                 data-mobile-dropdown-toggle
                 data-href={item.href ? stegaClean(item.href) : undefined}
@@ -283,7 +283,7 @@ const current = (on: boolean, link = true) =>
                 {(item.items || []).map((child) => (
                   <a
                     href={child.href}
-                    class="w-full px-4 py-2.5 text-center text-[15px] text-foreground/80 transition-colors hover:bg-header-banner hover:text-white active:bg-header-banner active:text-white data-current:bg-header-banner data-current:text-white"
+                    class="w-full px-4 py-2.5 text-center text-[15px] text-foreground/80 transition-colors hover:bg-primary hover:text-white active:bg-primary active:text-white data-current:bg-primary data-current:text-white"
                     {...current(isCurrent(child.href))}
                   >
                     {child.label}
@@ -300,7 +300,7 @@ const current = (on: boolean, link = true) =>
               class={
                 (item as NavLink).isButton
                   ? "my-2 rounded-full bg-foreground px-6 py-2.5 text-center text-[15px] text-background"
-                  : "w-full px-4 py-3 text-center text-[17px] text-foreground transition-colors hover:bg-header-banner hover:text-white active:bg-header-banner active:text-white data-current:bg-header-banner data-current:text-white"
+                  : "w-full px-4 py-3 text-center text-[17px] text-foreground transition-colors hover:bg-primary hover:text-white active:bg-primary active:text-white data-current:bg-primary data-current:text-white"
               }
               {...current(isCurrent((item as NavLink).href))}
             >
