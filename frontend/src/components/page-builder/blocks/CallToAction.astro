@@ -2,6 +2,7 @@
 import {stegaClean} from '@sanity/client/stega'
 import {resolveHref, type LinkItem} from '@/lib/links'
 import type {CallToActionData} from '@/types/sanity'
+import MissingLinkBadge from '@/components/ui/MissingLinkBadge.astro'
 
 interface Props {
   data: CallToActionData
@@ -16,7 +17,7 @@ const VARIANT_CLASSES: Record<string, string> = {
   ghost: 'text-foreground hover:bg-foreground/5',
 }
 
-const {href, isExternal} = resolveHref((data.link || []) as unknown as LinkItem[])
+const {href, isExternal, missing} = resolveHref((data.link || []) as unknown as LinkItem[])
 
 const hasCustomColors = Boolean(data.color || data.textColor)
 const cleanColor = stegaClean(data.color)
@@ -51,7 +52,7 @@ const style = hasCustomColors
  * stretch while still following the column's own alignment, so Full Width off
  * really does mean sized to the label.
  */
-const baseClasses = `${fillsWidth ? 'block w-full' : 'inline-block w-fit'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
+const baseClasses = `relative ${fillsWidth ? 'block w-full' : 'inline-block w-fit'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
 const colorClasses = hasCustomColors
   ? 'hover:opacity-90'
   : VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary
@@ -67,6 +68,7 @@ const colorClasses = hasCustomColors
       style={style || undefined}
     >
       {data.label}
+      {missing && <MissingLinkBadge />}
     </a>
   )
 }

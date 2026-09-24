@@ -1,0 +1,25 @@
+---
+/**
+ * A red "!" on the corner of a button that has no link, with a message on
+ * hover. Preview only: it renders in draft mode (Presentation), never on the
+ * live site. The parent must be position: relative.
+ */
+const show = Astro.locals.isDraft
+---
+
+{
+  show && (
+    <span
+      class="group/missing absolute -right-2 -top-2 z-20 flex h-5 w-5 cursor-help items-center justify-center rounded-full bg-red-600 font-sans text-xs font-bold leading-none text-white shadow ring-2 ring-white"
+      aria-hidden="true"
+    >
+      !
+      {/* Above the badge, right-aligned to it, so it doesn't run off the right
+          edge of the page for buttons that sit there. */}
+      <span class="pointer-events-none invisible absolute bottom-full right-0 mb-2 w-max max-w-60 rounded-md bg-foreground px-3 py-2 text-left text-xs font-normal normal-case leading-snug tracking-normal text-white opacity-0 shadow-lg transition-opacity duration-150 group-hover/missing:visible group-hover/missing:opacity-100">
+        <strong class="block font-semibold">This button has no link</strong>
+        Add one in the button's Link field, or it won't go anywhere.
+      </span>
+    </span>
+  )
+}

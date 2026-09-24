@@ -2,35 +2,50 @@
 export const prerender = false
 
 import Site from '@/layouts/Site.astro'
+import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
+import {buildSeo} from '@/lib/seo'
 import NewsCard from '@/components/news/NewsCard.astro'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
-import {NEWS_LIST_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
+import {NEWS_LIST_QUERY, PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 import {getMaxWidthClass} from '@/lib/maxWidth'
 
 const client = getClient(Astro.locals.isDraft)
 
-const [posts, settings] = await Promise.all([
+const [posts, settings, page] = await Promise.all([
   sanityFetch(client, Astro.locals, NEWS_LIST_QUERY),
   sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
+  sanityFetch(client, Astro.locals, PAGE_QUERY, {slug: 'news'}),
 ])
 
 const maxWidthClass = getMaxWidthClass()
+
+// A Studio page with the slug "news" replaces this built-in listing, so
+// editors can build it like any other page and link to it with Internal Link.
+const seo = page ? buildSeo(page.seo, {title: page.title}) : undefined
 ---
 
-<Site settings={settings} title="News">
-  <section class={`mx-auto ${maxWidthClass} px-4 py-16 md:px-8`}>
-    <h1 class="font-display text-4xl font-bold text-foreground md:text-5xl">News</h1>
-    {
-      posts.length > 0 ? (
-        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <NewsCard post={post} />
-          ))}
-        </div>
-      ) : (
-        <p class="mt-10 text-muted">No news yet.</p>
-      )
-    }
-  </section>
-</Site>
+{
+  page ? (
+    <Site settings={settings} {...seo}>
+      <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
+    </Site>
+  ) : (
+    <Site settings={settings} title="News">
+      <section class={`mx-auto ${maxWidthClass} px-4 py-16 md:px-8`}>
+        <h1 class="font-display text-4xl font-bold text-foreground md:text-5xl">News</h1>
+        {
+          posts.length > 0 ? (
+            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post) => (
+                <NewsCard post={post} />
+              ))}
+            </div>
+          ) : (
+            <p class="mt-10 text-muted">No news yet.</p>
+          )
+        }
+      </section>
+    </Site>
+  )
+}

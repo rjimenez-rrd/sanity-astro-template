@@ -3,8 +3,12 @@ import {defineField, type SlugValidationContext} from 'sanity'
 /** Document types served at /<slug>; a slug must be unique across all of them. */
 export const ROOT_SLUG_TYPES = ['page', 'practiceArea']
 
-/** Paths the frontend already serves itself, which a document would be hidden behind. */
-const RESERVED = ['practice-areas', 'api', '404']
+/**
+ * Paths the frontend serves itself, which a document would be hidden behind.
+ * practice-areas and news aren't here: a page with either slug replaces the
+ * built-in listing at that path.
+ */
+const RESERVED = ['api', '404', 'search']
 
 async function isUniqueAtRoot(slug: string, context: SlugValidationContext) {
   if (RESERVED.includes(slug)) return false

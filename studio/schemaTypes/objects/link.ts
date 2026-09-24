@@ -1,5 +1,15 @@
 import {defineType, defineField} from 'sanity'
-import {LinkIcon, EarthGlobeIcon, LaunchIcon} from '@sanity/icons'
+import {LinkIcon, EarthGlobeIcon, LaunchIcon, DocumentsIcon} from '@sanity/icons'
+
+/**
+ * Pages built into the site rather than written in the Studio, so the Internal
+ * Link picker can't find them. The frontend's links.ts maps each to its path.
+ */
+export const SITE_PAGES = [
+  {title: 'Practice Areas', value: 'practiceAreas'},
+  {title: 'News', value: 'news'},
+  {title: 'Search', value: 'search'},
+]
 
 export const linkInternalType = defineType({
   name: 'linkInternal',
@@ -98,6 +108,35 @@ export const pageSlugType = defineType({
         subtitle: slug,
         media: LaunchIcon,
       }
+    },
+  },
+})
+
+export const linkSitePageType = defineType({
+  name: 'linkSitePage',
+  title: 'Site Page',
+  type: 'object',
+  icon: DocumentsIcon,
+  description: 'Pages built into the site, like the Practice Areas and News listings.',
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    }),
+    defineField({
+      name: 'page',
+      title: 'Page',
+      type: 'string',
+      options: {list: SITE_PAGES, layout: 'radio'},
+      validation: (rule) => rule.required(),
+    }),
+  ],
+  preview: {
+    select: {title: 'title', page: 'page'},
+    prepare({title, page}: {title?: string; page?: string}) {
+      const label = SITE_PAGES.find((p) => p.value === page)?.title
+      return {title: title || label || 'Site Page', subtitle: label, media: DocumentsIcon}
     },
   },
 })

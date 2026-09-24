@@ -3,7 +3,7 @@ import type {SchemaTypeDefinition} from 'sanity'
 // Objects
 import {blockStylesType} from './objects/block-styles'
 import {blockContentType} from './objects/rich-text'
-import {linkInternalType, linkExternalType, pageSlugType} from './objects/link'
+import {linkInternalType, linkExternalType, pageSlugType, linkSitePageType} from './objects/link'
 import {youtubeVideoType, externalVideoType} from './blocks/video'
 import {seoType} from './objects/seo'
 
@@ -27,6 +27,7 @@ const objectTypes: SchemaTypeDefinition[] = [
   linkInternalType,
   linkExternalType,
   pageSlugType,
+  linkSitePageType,
   seoType,
 ]
 

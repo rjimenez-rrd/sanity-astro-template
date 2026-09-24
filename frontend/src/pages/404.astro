@@ -1,13 +1,16 @@
 ---
 import Site from '@/layouts/Site.astro'
-import {client} from '@/sanity/lib/client'
+import {getClient} from '@/sanity/lib/client'
+import {sanityFetch} from '@/sanity/lib/live'
 import {SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 
 // On-demand, so the dynamic routes can Astro.rewrite() here for a missing
 // slug — rewriting from an on-demand route to a prerendered one is forbidden.
 export const prerender = false
 
-const settings = await client.fetch(SITE_SETTINGS_QUERY)
+// Draft-aware like every other page, so in Presentation the header and
+// footer show the same unpublished settings as the page you came from.
+const settings = await sanityFetch(getClient(Astro.locals.isDraft), Astro.locals, SITE_SETTINGS_QUERY)
 Astro.response.status = 404
 ---
 

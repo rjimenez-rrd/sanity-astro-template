@@ -2,6 +2,7 @@
 import {stegaClean} from '@sanity/client/stega'
 import {resolveHref, type LinkItem} from '@/lib/links'
 import type {ButtonGroupData} from '@/types/sanity'
+import MissingLinkBadge from '@/components/ui/MissingLinkBadge.astro'
 
 interface Props {
   data: ButtonGroupData
@@ -24,7 +25,7 @@ const justifyClass = ALIGN_MAP[cleanAlignment!] || ALIGN_MAP.left
 const resolved = buttons
   .filter((button) => button.label)
   .map((button) => {
-    const {href, isExternal} = resolveHref((button.link || []) as unknown as LinkItem[])
+    const {href, isExternal, missing} = resolveHref((button.link || []) as unknown as LinkItem[])
     const bg = stegaClean(button.color)
     const fg = stegaClean(button.textColor)
     const hasCustomColors = Boolean(button.color || button.textColor)
@@ -34,6 +35,7 @@ const resolved = buttons
       label: button.label,
       href,
       isExternal,
+      missing,
       colorClasses: hasCustomColors
         ? 'hover:opacity-90'
         : 'bg-primary text-primary-foreground hover:bg-primary/90',
@@ -52,10 +54,11 @@ const resolved = buttons
           href={button.href}
           target={button.isExternal ? '_blank' : undefined}
           rel={button.isExternal ? 'noopener noreferrer' : undefined}
-          class={`inline-block rounded-lg px-6 py-3 text-center font-medium transition-colors duration-200 ${button.colorClasses}`}
+          class={`relative inline-block rounded-lg px-6 py-3 text-center font-medium transition-colors duration-200 ${button.colorClasses}`}
           style={button.style || undefined}
         >
           {button.label}
+          {button.missing && <MissingLinkBadge />}
         </a>
       ))}
     </div>

@@ -23,12 +23,30 @@ const phone = settings?.phone;
 const showSearch = settings?.headerSearch !== false;
 const extraLink = settings?.headerExtraLink;
 
-const CHEVRON_PATH = "M19 9l-7 7-7-7";
 const CLOSE_PATH = "M6 18L18 6M6 6l12 12";
 const BURGER_PATH = "M4 6h16M4 12h16M4 18h16";
 
 const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
   stegaClean(item._type) === "navDropdown";
+
+/**
+ * The page being viewed, so its menu item can stay highlighted in the hover
+ * color. Trailing slashes are ignored, and only internal paths can match.
+ */
+const normalize = (path: string) => path.replace(/\/+$/, "") || "/";
+// originPathname, not url.pathname: a missing page is rewritten to /404, and
+// the menu should still match the address the visitor actually opened.
+const currentPath = normalize(Astro.originPathname);
+const isCurrent = (href?: string | null) => {
+  const clean = stegaClean(href);
+  return Boolean(clean && clean.startsWith("/") && normalize(clean) === currentPath);
+};
+/** A dropdown is current when its own page or one of its links is. */
+const dropdownIsCurrent = (item: NavDropdown) =>
+  isCurrent(item.href) || (item.items || []).some((child) => isCurrent(child.href));
+/** Attributes for a current item: aria-current for links, data-current for styling. */
+const current = (on: boolean, link = true) =>
+  on ? { "data-current": "", ...(link ? { "aria-current": "page" as const } : {}) } : {};
 ---
 
 <header>
@@ -55,7 +73,8 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
             alt={stegaClean(settings.logo.alt) || siteName}
             width={300}
             quality={100}
-            sizes="300px"
+            sizes="(max-width: 639px) 190px, 300px"
+            class="h-auto w-[190px] sm:w-[300px]"
             priority
           />
         ) : (
@@ -74,12 +93,18 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
                 {item.href ? (
                   <a
                     href={item.href}
-                    class="py-2 text-[17px] text-foreground transition-colors hover:text-secondary-hover"
+                    class="py-2 text-[17px] text-foreground transition-colors hover:text-secondary-hover data-current:text-secondary-hover"
+                    {...current(dropdownIsCurrent(item), isCurrent(item.href))}
                   >
                     {item.label}
                   </a>
                 ) : (
-                  <span class="cursor-default py-2 text-[17px] text-foreground">{item.label}</span>
+                  <span
+                    class="cursor-default py-2 text-[17px] text-foreground data-current:text-secondary-hover"
+                    {...current(dropdownIsCurrent(item), false)}
+                  >
+                    {item.label}
+                  </span>
                 )}
                 <button
                   type="button"
@@ -102,7 +127,8 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
                   {(item.items || []).map((child) => (
                     <a
                       href={child.href}
-                      class="flex items-start gap-3 px-3 py-2.5 transition-colors hover:bg-foreground/5"
+                      class="flex items-start gap-3 px-3 py-2.5 transition-colors hover:bg-foreground/5 data-current:bg-foreground/5"
+                      {...current(isCurrent(child.href))}
                     >
                       {child.icon?.asset && (
                         <SanityImage
@@ -130,8 +156,9 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
               class={
                 (item as NavLink).isButton
                   ? "rounded-full bg-foreground px-4 py-2 text-[15px] text-background transition-colors hover:bg-primary"
-                  : "py-2 text-[17px] text-foreground transition-colors hover:text-secondary-hover"
+                  : "py-2 text-[17px] text-foreground transition-colors hover:text-secondary-hover data-current:text-secondary-hover"
               }
+              {...current(isCurrent((item as NavLink).href))}
             >
               {(item as NavLink).label}
             </a>
@@ -139,9 +166,11 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
         )}
       </nav>
 
-      {/* Search and the extra link (e.g. Spanish) */}
+      {/* Right side: search and the extra link (e.g. Spanish) at every size,
+          then the menu button below lg. */}
+      <div class="flex items-center gap-4 sm:gap-7 lg:gap-10">
       {(showSearch || extraLink?.href) && (
-        <div class="hidden items-center gap-10 font-display lg:flex">
+        <div class="flex items-center gap-4 font-display sm:gap-7 lg:gap-10">
           {showSearch && (
             <button
               type="button"
@@ -156,7 +185,7 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
             </button>
           )}
           {extraLink?.href && (
-            <a href={extraLink.href} class="text-sm text-foreground transition-colors hover:text-secondary-hover">
+            <a href={extraLink.href} class="text-sm text-foreground transition-colors hover:text-secondary-hover sm:text-base lg:text-sm">
               {extraLink.label}
             </a>
           )}
@@ -164,21 +193,21 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
       )}
 
       {/* Mobile toggle */}
-      <div class="flex items-center gap-2 lg:hidden">
+      <div class="flex items-center lg:hidden">
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-lg p-2 text-foreground/70 hover:bg-foreground/5"
+          class="-mr-2 inline-flex items-center justify-center rounded-lg p-2 text-primary transition-colors hover:text-secondary-hover"
           data-mobile-toggle
           aria-label="Toggle menu"
           aria-expanded="false"
         >
           <span data-icon-burger>
             <svg
-              class="h-5 w-5"
+              class="h-7 w-7"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width={2}
+              stroke-width={3}
             >
               <path
                 stroke-linecap="round"
@@ -189,11 +218,11 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
           </span>
           <span data-icon-close hidden>
             <svg
-              class="h-5 w-5"
+              class="h-7 w-7"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width={2}
+              stroke-width={3}
             >
               <path
                 stroke-linecap="round"
@@ -204,67 +233,54 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
           </span>
         </button>
       </div>
+      </div>
     </div>
 
-    {/* Mobile nav */}
+    {/* Mobile nav: centered, one item per line. The negative margins cancel
+        the header's side and bottom padding, so rows run edge to edge. Tapping
+        a dropdown's row opens its links; tapping it again goes to its own Link. */}
     <nav
-      class="border-t border-border px-4 py-4 lg:hidden"
+      class="-mx-4 -mb-2 border-t border-border py-3 font-display md:-mx-8 lg:hidden"
       data-mobile-nav
       hidden
     >
-      <div class="flex flex-col gap-1">
+      <div class="flex flex-col items-center">
         {nav.map((item) =>
           isDropdown(item) ? (
-            <div data-mobile-dropdown>
-              <div class="flex items-center justify-between">
-              {item.href ? (
-                <a
-                  href={item.href}
-                  class="flex-1 rounded-lg px-4 py-2.5 text-sm font-medium text-foreground/80 hover:bg-foreground/5"
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <span class="flex-1 px-4 py-2.5 text-sm font-medium text-foreground/80">{item.label}</span>
-              )}
+            <div class="flex w-full flex-col items-center" data-mobile-dropdown>
+              {/* The whole row is one button, edge to edge: the first tap
+                  opens the links below; tapping it again while open goes to
+                  the dropdown's own Link, or closes it when there is none. */}
               <button
                 type="button"
-                class="rounded-lg p-3 text-foreground/80 hover:bg-foreground/5"
+                class="group/row flex w-full items-center justify-center gap-2 py-3 font-display text-[17px] text-foreground transition-colors hover:bg-header-banner hover:text-white active:bg-header-banner active:text-white aria-expanded:bg-header-banner aria-expanded:text-white data-current:bg-header-banner data-current:text-white"
+                {...current(dropdownIsCurrent(item), false)}
                 data-mobile-dropdown-toggle
+                data-href={item.href ? stegaClean(item.href) : undefined}
                 aria-expanded="false"
-                aria-label={`${stegaClean(item.label)} menu`}
               >
-                <svg
-                  class="h-3 w-3 transition-transform"
+                {item.label}
+                <span
+                  class="block p-1 text-secondary-hover transition-[color,transform] group-hover/row:text-white group-active/row:text-white group-aria-expanded/row:text-white group-data-current/row:text-white"
                   data-mobile-dropdown-chevron
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width={2}
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d={CHEVRON_PATH}
-                  />
-                </svg>
+                  <CaretDown class="h-4 w-2.5" />
+                </span>
               </button>
-              </div>
               <div
-                class="ml-4 flex flex-col gap-0.5 border-l border-border pl-4"
+                class="flex w-full flex-col items-center bg-foreground/[0.03] py-1"
                 data-mobile-dropdown-menu
                 hidden
               >
                 {(item.items || []).map((child) => (
                   <a
                     href={child.href}
-                    class="rounded-lg px-3 py-2 text-sm text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
+                    class="w-full px-4 py-2.5 text-center text-[15px] text-foreground/80 transition-colors hover:bg-header-banner hover:text-white active:bg-header-banner active:text-white data-current:bg-header-banner data-current:text-white"
+                    {...current(isCurrent(child.href))}
                   >
                     {child.label}
                     {child.description && (
-                      <span class="block text-xs text-muted">
-                        {child.description}
-                      </span>
+                      <span class="block text-xs text-muted">{child.description}</span>
                     )}
                   </a>
                 ))}
@@ -275,23 +291,14 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
               href={(item as NavLink).href}
               class={
                 (item as NavLink).isButton
-                  ? "rounded-full bg-foreground px-4 py-2.5 text-center text-sm font-medium text-background"
-                  : "rounded-lg px-4 py-2.5 text-sm font-medium text-foreground/80 hover:bg-foreground/5"
+                  ? "my-2 rounded-full bg-foreground px-6 py-2.5 text-center text-[15px] text-background"
+                  : "w-full px-4 py-3 text-center text-[17px] text-foreground transition-colors hover:bg-header-banner hover:text-white active:bg-header-banner active:text-white data-current:bg-header-banner data-current:text-white"
               }
+              {...current(isCurrent((item as NavLink).href))}
             >
               {(item as NavLink).label}
             </a>
           ),
-        )}
-        {showSearch && (
-          <button type="button" data-search-open class="rounded-lg px-4 py-2.5 text-left text-sm font-medium text-foreground/80 hover:bg-foreground/5">
-            Search
-          </button>
-        )}
-        {extraLink?.href && (
-          <a href={extraLink.href} class="rounded-lg px-4 py-2.5 text-sm font-medium text-foreground/80 hover:bg-foreground/5">
-            {extraLink.label}
-          </a>
         )}
       </div>
     </nav>
@@ -395,12 +402,18 @@ const isDropdown = (item: (typeof nav)[number]): item is NavDropdown =>
         const menu = dropdown.querySelector<HTMLElement>(
           "[data-mobile-dropdown-menu]",
         );
-        const chevron = dropdown.querySelector<SVGElement>(
+        const chevron = dropdown.querySelector<HTMLElement>(
           "[data-mobile-dropdown-chevron]",
         );
 
         toggle?.addEventListener("click", () => {
           const willOpen = menu?.hidden ?? true;
+          // Already open, and the dropdown has a page of its own: go there.
+          const href = toggle.dataset.href;
+          if (!willOpen && href) {
+            window.location.href = href;
+            return;
+          }
           if (menu) menu.hidden = !willOpen;
           toggle.setAttribute("aria-expanded", String(willOpen));
           chevron?.classList.toggle("rotate-180", willOpen);

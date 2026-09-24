@@ -1,6 +1,7 @@
 ---
 import {resolveHref, type LinkItem} from '@/lib/links'
 import type {PricingCardData} from '@/types/sanity'
+import MissingLinkBadge from '@/components/ui/MissingLinkBadge.astro'
 
 interface Props {
   data: PricingCardData
@@ -9,8 +10,8 @@ interface Props {
 const {data} = Astro.props
 
 function resolveCtaHref(cta: NonNullable<PricingCardData['cta']>): string | null {
-  const {href} = resolveHref((cta.link || []) as unknown as LinkItem[])
-  return href === '#' ? null : href
+  const {href, missing} = resolveHref((cta.link || []) as unknown as LinkItem[])
+  return missing ? null : href
 }
 
 const features = data.features || []
@@ -85,9 +86,10 @@ const X_PATH = 'M6 18L18 6M6 6l12 12'
             </a>
           ) : (
             <span
-              class={`block w-full rounded-lg px-4 py-3 text-center text-sm font-semibold ${ctaClasses}`}
+              class={`relative block w-full rounded-lg px-4 py-3 text-center text-sm font-semibold ${ctaClasses}`}
             >
               {data.cta.label}
+              <MissingLinkBadge />
             </span>
           )}
         </div>

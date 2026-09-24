@@ -62,7 +62,7 @@ export function linkField(
     types?: string[]
   },
 ) {
-  const types = opts?.types ?? ['linkInternal', 'linkExternal', 'pageSlug']
+  const types = opts?.types ?? ['linkInternal', 'linkSitePage', 'linkExternal', 'pageSlug']
   return defineField({
     name,
     title,

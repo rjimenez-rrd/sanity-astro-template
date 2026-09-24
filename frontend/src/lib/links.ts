@@ -16,32 +16,58 @@ interface PageSlugLink {
   slug?: string
 }
 
-export type LinkItem = LinkInternal | LinkExternal | PageSlugLink
+interface SitePageLink {
+  _type: 'linkSitePage'
+  page?: string
+}
+
+export type LinkItem = LinkInternal | LinkExternal | PageSlugLink | SitePageLink
+
+/** Paths of the pages built into the site, keyed as the Studio's Site Page list stores them. */
+const SITE_PAGE_PATHS: Record<string, string> = {
+  practiceAreas: '/practice-areas',
+  news: '/news',
+  search: '/search',
+}
 
 
 /**
  * Resolves the Studio's polymorphic link array into an href.
- * Shared by callToAction and buttonGroup, which had identical copies.
+ * Shared by callToAction, buttonGroup and pricingCard.
+ *
+ * `missing` is true when the link goes nowhere: no link at all, or one whose
+ * page, URL or slug was never filled in. The href is then '#', and the preview
+ * flags the button so an editor notices before publishing.
  */
-export function resolveHref(linkItems: LinkItem[]): {href: string; isExternal: boolean} {
+export function resolveHref(linkItems: LinkItem[]): {
+  href: string
+  isExternal: boolean
+  missing: boolean
+} {
+  const none = {href: '#', isExternal: false, missing: true}
   const item = linkItems[0]
-  if (!item) return {href: '#', isExternal: false}
+  if (!item) return none
 
   switch (stegaClean(item._type)) {
     case 'linkExternal': {
       const ext = item as LinkExternal
-      return {href: ext.url || '#', isExternal: Boolean(ext.newWindow)}
+      return ext.url ? {href: ext.url, isExternal: Boolean(ext.newWindow), missing: false} : none
     }
     case 'linkInternal': {
-      const int = item as LinkInternal
-      return {href: `/${int.reference?.slug?.current || ''}`, isExternal: false}
+      const slug = (item as LinkInternal).reference?.slug?.current
+      return slug ? {href: `/${slug}`, isExternal: false, missing: false} : none
     }
     case 'pageSlug': {
-      const slug = item as PageSlugLink
       // Editors type it either way ("about" or "/about"), per the field's hint.
-      return {href: `/${(slug.slug || '').replace(/^\/+/, '')}`, isExternal: false}
+      const slug = ((item as PageSlugLink).slug || '').replace(/^\/+/, '')
+      return slug ? {href: `/${slug}`, isExternal: false, missing: false} : none
+    }
+    case 'linkSitePage': {
+      const page = stegaClean((item as SitePageLink).page)
+      const path = page && SITE_PAGE_PATHS[page]
+      return path ? {href: path, isExternal: false, missing: false} : none
     }
     default:
-      return {href: '#', isExternal: false}
+      return none
   }
 }

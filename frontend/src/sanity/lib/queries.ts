@@ -255,13 +255,20 @@ export const NEWS_POST_QUERY = defineQuery(/* groq */ `
   }
 `)
 
-// Site search over titles and excerpts. $terms is the query split into words,
-// each with a trailing * so "acci" finds "accident"; every word must match.
-// Pages and practice areas live at /<slug>, news at /news/<slug>.
+// Site search. $terms is the query split into words, each with a trailing *
+// so "acci" finds "accident"; every word must match, but they can come from
+// different fields — the array is matched as one bag of words. Besides the
+// visible text it searches the slug's words (new-york-car-accident-lawyer)
+// and the type's name, so "practice areas" finds every practice area and
+// "news" every post. Titles rank first. Pages and practice areas live at
+// /<slug>, news at /news/<slug>.
 export const SEARCH_QUERY = defineQuery(/* groq */ `
   *[_type in ["page", "practiceArea", "newsPost"] && defined(slug.current)
-    && (title match $terms || cardTitle match $terms || excerpt match $terms)]
-  | score(boost(title match $terms, 3), excerpt match $terms)
+    && [
+      title, cardTitle, excerpt, seo.metaDescription, slug.current,
+      select(_type == "practiceArea" => "practice areas", _type == "newsPost" => "news", "")
+    ] match $terms]
+  | score(boost(title match $terms, 3), boost(cardTitle match $terms, 2), excerpt match $terms)
   | order(_score desc) [0...30] {
     _id, _type, title, "slug": slug.current, excerpt, publishedAt
   }

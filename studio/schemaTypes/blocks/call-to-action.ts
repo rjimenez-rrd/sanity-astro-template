@@ -53,7 +53,7 @@ export const callToActionType = defineType({
     }),
     linkField('link', 'Link', {
       required: true,
-      types: ['linkInternal', 'linkExternal', 'pageSlug'],
+      types: ['linkInternal', 'linkSitePage', 'linkExternal', 'pageSlug'],
     }),
     defineField({
       name: 'fullWidth',
