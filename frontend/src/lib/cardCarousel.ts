@@ -134,7 +134,7 @@ export function initCardCarousels(scope: ParentNode = document) {
       track!.style.overflowX = wrapping ? 'hidden' : 'auto'
       if (fits) {
         current = 0
-        track!.scrollTo({left: 0, behavior: 'auto'})
+        track!.scrollTo({left: 0, behavior: 'instant'})
       }
 
       dotsBox!.replaceChildren()
@@ -158,7 +158,9 @@ export function initCardCarousels(scope: ParentNode = document) {
     /**
      * Once a smooth scroll into the copies has settled, jump instantly to the
      * identical real card. It looks the same, so the seam is invisible — that
-     * is what makes the loop endless.
+     * is what makes the loop endless. The jumps say 'instant', not 'auto':
+     * 'auto' follows the track's CSS scroll-behavior, and if that is ever
+     * smooth the jump becomes a visible scroll back to the start.
      */
     function settle(then: () => void) {
       if ('onscrollend' in window) track!.addEventListener('scrollend', then, {once: true})
@@ -167,7 +169,7 @@ export function initCardCarousels(scope: ParentNode = document) {
 
     function normalize(target: number) {
       current = ((target % count) + count) % count
-      if (target !== current) track!.scrollTo({left: offsetOf(current), behavior: 'auto'})
+      if (target !== current) track!.scrollTo({left: offsetOf(current), behavior: 'instant'})
       paint()
     }
 
@@ -183,7 +185,7 @@ export function initCardCarousels(scope: ParentNode = document) {
         // Nothing exists to the left of the first card, so hop to its copy a
         // full set ahead and animate left from there instead.
         const from = current + count
-        track!.scrollTo({left: offsetOf(from), behavior: 'auto'})
+        track!.scrollTo({left: offsetOf(from), behavior: 'instant'})
         const target = from + (index - current)
         requestAnimationFrame(() => {
           track!.scrollTo({left: offsetOf(target), behavior: 'smooth'})

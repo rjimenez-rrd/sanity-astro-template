@@ -74,9 +74,13 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       )}
 
       <div class="relative">
-        {/* Carousel track */}
+        {/* Carousel track. No scroll-smooth: the loop hides its seam by jumping
+            instantly from the copies back to the identical real card, and a
+            smooth scroll-behavior here turned that jump into a visible scroll
+            all the way back to the start. Forward moves animate on their own
+            — goTo asks for behavior: 'smooth' explicitly. */}
         <div
-          class="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          class="flex snap-x snap-mandatory gap-6 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           data-carousel-track
         >
           {loopedTestimonials.map((t, i) => (
@@ -211,7 +215,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       if (!canLoop || current < count) return
       const settled = () => {
         current -= count
-        track!.scrollTo({left: offsetOf(current), behavior: 'auto'})
+        track!.scrollTo({left: offsetOf(current), behavior: 'instant'})
       }
       if ('onscrollend' in window) {
         track!.addEventListener('scrollend', settled, {once: true})
@@ -232,7 +236,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       // Going back from the first slide has no clone to its left, so hop to the
       // matching clone instantly first and animate from there.
       if (canLoop && index < 0) {
-        track!.scrollTo({left: offsetOf(current + count), behavior: 'auto'})
+        track!.scrollTo({left: offsetOf(current + count), behavior: 'instant'})
         requestAnimationFrame(() => {
           track!.scrollTo({left: offsetOf(current), behavior: 'smooth'})
         })
