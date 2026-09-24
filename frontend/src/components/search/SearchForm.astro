@@ -1,0 +1,41 @@
+---
+/**
+ * The search box: a white field with the round search button inside it.
+ * Submits to /search?q=…, so it works without JavaScript. Shared by the
+ * header overlay and the results page.
+ */
+interface Props {
+  placeholder?: string | null
+  value?: string
+  /** Focus target for the overlay's script. */
+  autofocus?: boolean
+}
+
+const {placeholder, value, autofocus = false} = Astro.props
+// The overlay's box and the results page's can share a page, so each needs its own id.
+const id = autofocus ? 'site-search-overlay' : 'site-search'
+---
+
+<form action="/search" method="get" role="search" class="relative w-full font-display">
+  <label for={id} class="sr-only">Search</label>
+  <input
+    id={id}
+    type="search"
+    name="q"
+    value={value}
+    required
+    placeholder={placeholder || 'Search articles and pages...'}
+    data-search-input={autofocus ? '' : undefined}
+    class="h-[62px] w-full bg-white pl-7 pr-16 text-[17px] text-foreground shadow-lg placeholder:text-foreground/80 focus:outline-none focus:ring-2 focus:ring-secondary-hover [&::-webkit-search-cancel-button]:hidden"
+  />
+  <button
+    type="submit"
+    aria-label="Search"
+    class="absolute right-3.5 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-secondary-hover"
+  >
+    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={3} aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <path stroke-linecap="round" d="M20 20l-3.5-3.5" />
+    </svg>
+  </button>
+</form>

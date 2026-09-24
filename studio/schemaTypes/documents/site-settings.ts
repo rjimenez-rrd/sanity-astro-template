@@ -221,6 +221,13 @@ export const siteSettingsType = defineType({
               validation: (rule) => rule.required(),
             }),
             defineField({
+              name: 'href',
+              title: 'Link',
+              type: 'string',
+              description:
+                'Optional. Clicking the label opens this page; hovering still shows the dropdown. Leave empty for a label that only opens the dropdown.',
+            }),
+            defineField({
               name: 'items',
               title: 'Dropdown Items',
               type: 'array',
@@ -274,6 +281,38 @@ export const siteSettingsType = defineType({
           },
         }),
       ],
+    }),
+
+    defineField({
+      name: 'headerSearch',
+      title: 'Show Search',
+      type: 'boolean',
+      group: 'navigation',
+      description: 'The round search button after the menu. It opens a full-screen search over pages, practice areas and news.',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'searchHeading',
+      title: 'Search Heading',
+      type: 'string',
+      group: 'navigation',
+      initialValue: 'Looking for something?',
+      hidden: ({parent}) => parent?.headerSearch === false,
+    }),
+    defineField({
+      name: 'searchPlaceholder',
+      title: 'Search Placeholder',
+      type: 'string',
+      group: 'navigation',
+      initialValue: 'Search articles and pages...',
+      hidden: ({parent}) => parent?.headerSearch === false,
+    }),
+    defineField({
+      name: 'headerExtraLink',
+      title: 'Extra Link',
+      type: 'footerLink',
+      group: 'navigation',
+      description: 'A small link at the far right, e.g. Spanish → /es.',
     }),
 
     // --- Footer ---

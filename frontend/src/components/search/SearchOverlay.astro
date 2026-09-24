@@ -1,0 +1,84 @@
+---
+/**
+ * Full-screen search, opened by any [data-search-open] button. Esc, the close
+ * button, or submitting closes it; focus goes to the field on open and back to
+ * the opener on close.
+ */
+import SearchForm from './SearchForm.astro'
+
+interface Props {
+  heading?: string | null
+  placeholder?: string | null
+}
+
+const {heading, placeholder} = Astro.props
+---
+
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap"
+/>
+
+<div
+  class="fixed inset-0 z-[100] flex items-center justify-center bg-primary px-4"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search"
+  data-search-overlay
+  hidden
+>
+  <button
+    type="button"
+    aria-label="Close search"
+    class="absolute right-5 top-5 p-2 text-white transition-colors hover:text-secondary-hover"
+    data-search-close
+  >
+    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={3} aria-hidden="true">
+      <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
+
+  <div class="w-full max-w-[693px] text-center">
+    <h2
+      class="mb-8 text-[clamp(2.25rem,8vw,3.5rem)] leading-tight text-white"
+      style="font-family:'Libre Baskerville', ui-serif, Georgia, serif"
+    >
+      {heading || 'Looking for something?'}
+    </h2>
+    <SearchForm placeholder={placeholder} autofocus />
+  </div>
+</div>
+
+<script>
+  const overlay = document.querySelector<HTMLElement>('[data-search-overlay]')
+  if (overlay) {
+    const input = overlay.querySelector<HTMLInputElement>('[data-search-input]')
+    let opener: HTMLElement | null = null
+
+    const close = () => {
+      if (overlay.hidden) return
+      overlay.hidden = true
+      document.documentElement.style.overflow = ''
+      opener?.focus()
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-search-open]').forEach((button) =>
+      button.addEventListener('click', () => {
+        opener = button
+        overlay.hidden = false
+        // The page behind shouldn't scroll while the overlay covers it.
+        document.documentElement.style.overflow = 'hidden'
+        input?.focus()
+      }),
+    )
+
+    overlay.querySelector('[data-search-close]')?.addEventListener('click', close)
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') close()
+    })
+    // Leaving for the results page: restore scrolling in case of a back-navigation.
+    overlay.querySelector('form')?.addEventListener('submit', () => {
+      document.documentElement.style.overflow = ''
+    })
+  }
+</script>

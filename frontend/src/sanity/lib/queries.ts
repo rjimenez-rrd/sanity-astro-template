@@ -228,6 +228,8 @@ export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
         items[] { _key, label, href, description, icon { ${imageFragment} } }
       }
     },
+    headerSearch, searchHeading, searchPlaceholder,
+    headerExtraLink { label, href },
     footerLogo { ${imageFragment} },
     footerPhoneLabel, footerPhoneText,
     footerNav[] { _key, label, href },
@@ -250,5 +252,17 @@ export const NEWS_POST_QUERY = defineQuery(/* groq */ `
     coverImage { ${imageFragment} },
     ${seoFragment},
     ${pageBuilderFragment}
+  }
+`)
+
+// Site search over titles and excerpts. $terms is the query split into words,
+// each with a trailing * so "acci" finds "accident"; every word must match.
+// Pages and practice areas live at /<slug>, news at /news/<slug>.
+export const SEARCH_QUERY = defineQuery(/* groq */ `
+  *[_type in ["page", "practiceArea", "newsPost"] && defined(slug.current)
+    && (title match $terms || cardTitle match $terms || excerpt match $terms)]
+  | score(boost(title match $terms, 3), excerpt match $terms)
+  | order(_score desc) [0...30] {
+    _id, _type, title, "slug": slug.current, excerpt, publishedAt
   }
 `)
