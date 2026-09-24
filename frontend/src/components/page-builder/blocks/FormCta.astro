@@ -3,6 +3,10 @@
  * Form CTA: eyebrow, heading, description and a form on the left; a cut-out
  * image on the bottom edge on the right, with large outlined words behind it.
  * The form is a Form block rendered in its On Dark style.
+ *
+ * The content comes from the Form CTA document the block picks, so the same
+ * CTA can sit on many pages. Blocks made before that carry their own content,
+ * used only while nothing is picked.
  */
 import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
@@ -13,7 +17,8 @@ interface Props {
   data: FormCtaData
 }
 
-const {data} = Astro.props
+const {data: block} = Astro.props
+const data = block.cta ?? block
 
 /** A Google Font name, or the fallback when it's empty or not a plain name. */
 const font = (value: string | null | undefined, fallback: string) => {
@@ -35,15 +40,17 @@ const background = stegaClean(data.backgroundColor)
 <link rel="stylesheet" href={fontsHref} />
 
 <section class="relative w-full overflow-hidden text-white" style={background ? `background-color:${background}` : undefined}>
+  {/* px-5: the Container sets the width, but the text and form still keep
+      20px off the blue edge when the window narrows to that width. */}
   <div
-    class="mx-auto grid max-w-[1140px] grid-cols-1 gap-10 px-4 md:px-8 lg:grid-cols-[minmax(0,525px)_1fr]"
+    class="mx-auto grid grid-cols-1 gap-10 px-5 lg:grid-cols-2"
   >
     <div class="py-12 font-display lg:py-14">
       {data.eyebrow && <p class="text-lg">{data.eyebrow}</p>}
       {
         data.heading && (
           <h2
-            class="mt-1 whitespace-pre-line text-[clamp(2.5rem,4vw,3.25rem)] leading-[1.05]"
+            class="mt-1 max-w-[9em] whitespace-pre-line text-[clamp(2.5rem,4.5vw,3.875rem)] leading-[1.02]"
             style={`font-family:'${headingFont}', ui-serif, Georgia, serif`}
           >
             {data.heading}
@@ -80,8 +87,8 @@ const background = stegaClean(data.backgroundColor)
             value={data.image}
             alt={stegaClean(data.image.alt) || ''}
             width={900}
-            sizes="(max-width: 1023px) 90vw, 600px"
-            class="relative z-10 block max-h-[420px] w-auto lg:max-h-[740px]"
+            sizes="100vw, 600px"
+            class="relative z-10 block max-h-[720px] w-auto lg:max-h-full"
           />
         )
       }

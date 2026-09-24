@@ -108,8 +108,11 @@ const contentTypesFragment = /* groq */ `
       },
       ${blockStylesFragment}
     },
+    // A picked Form CTA document; older blocks carry their own content, which
+    // the spread keeps for the component to fall back on.
     _type == "formCta" => {
       ...,
+      "cta": cta-> { ..., image { ${imageFragment} } },
       image { ${imageFragment} },
       ${blockStylesFragment}
     },

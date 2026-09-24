@@ -27,24 +27,33 @@ const endpoint =
 const ui = dark
   ? {
       field:
-        'w-full border-0 bg-white px-3 py-2.5 text-base text-foreground placeholder:text-foreground/70 focus:outline-none focus:ring-2 focus:ring-secondary-hover',
-      label: 'mb-1.5 block text-[13px] text-white',
-      required: 'ml-1 text-white',
-      check: 'flex items-start gap-2 text-[13px] leading-relaxed text-white',
+        'w-full border-0 bg-white px-3 text-[17px] text-foreground placeholder:text-foreground/70 focus:outline-none focus:ring-2 focus:ring-secondary-hover',
+      input: 'h-[50px]',
+      select: 'h-[58px]',
+      textarea: 'min-h-[100px] py-3',
+      label: 'mb-2 block text-sm text-white',
+      required: 'ml-1.5 text-xs text-white',
+      // Text flows under the box, as in the design, rather than hanging beside it.
+      check: 'block px-3 text-sm leading-relaxed text-white',
+      checkbox: 'mr-2 inline-block h-4 w-4 rounded-none border-0 align-[-2px]',
       title: 'text-xl font-semibold text-white',
       description: 'mt-1 text-sm text-white/80',
-      footnote: 'text-[13px] text-white',
+      footnote: 'px-3 text-sm text-white',
       error: 'text-sm text-red-300',
       button:
-        'inline-flex items-center bg-white px-6 py-3 text-base font-semibold text-primary transition-colors hover:bg-secondary-hover hover:text-white disabled:opacity-50',
+        'inline-flex items-center bg-white px-8 py-3.5 text-lg font-semibold text-primary transition-colors hover:bg-secondary-hover hover:text-white disabled:opacity-50',
       success: 'border border-white/30 bg-white/10 p-6 text-center font-medium text-white',
     }
   : {
       field:
-        'w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary',
+        'w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary',
+      input: 'py-2.5',
+      select: 'py-2.5',
+      textarea: 'py-2.5',
       label: 'mb-1.5 block text-sm font-medium text-foreground',
       required: 'ml-0.5 text-red-500',
       check: 'flex items-center gap-2 text-sm text-foreground',
+      checkbox: 'h-4 w-4 shrink-0 rounded border-border text-primary focus:ring-primary',
       title: 'text-xl font-semibold text-foreground',
       description: 'mt-1 text-sm text-muted',
       footnote: 'text-xs text-muted',
@@ -94,26 +103,45 @@ const buttonColor = stegaClean(data.buttonColor) || (dark ? undefined : 'var(--p
                     placeholder={field.placeholder}
                     required={field.required}
                     rows={4}
-                    class={`${ui.field} resize-y`}
+                    class={`${ui.field} ${ui.textarea} resize-y`}
                   />
                 ) : fieldType === 'select' ? (
-                  <select name={field.name} required={field.required} class={`${ui.field} ${dark ? 'py-3.5' : ''}`}>
-                    <option value="">{field.placeholder || 'Select...'}</option>
-                    {(field.options || []).map((opt) => (
-                      <option value={opt}>{opt}</option>
-                    ))}
-                  </select>
+                  <div class="relative">
+                    {/* The browser's own arrow differs everywhere and can't be
+                        styled, so it's hidden and drawn here instead. */}
+                    <select
+                      name={field.name}
+                      required={field.required}
+                      class={`${ui.field} ${ui.select} appearance-none pr-10`}
+                    >
+                      <option value="">{field.placeholder || 'Select...'}</option>
+                      {(field.options || []).map((opt) => (
+                        <option value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                    <svg
+                      class="pointer-events-none absolute right-4 top-1/2 h-3 w-3 -translate-y-1/2 text-foreground"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width={3}
+                      aria-hidden="true"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 9l7 7 7-7" />
+                    </svg>
+                  </div>
                 ) : fieldType === 'checkbox' ? (
                   <label class={ui.check}>
                     <input
                       type="checkbox"
                       name={field.name}
                       required={field.required}
-                      class={`h-4 w-4 shrink-0 border-border text-primary focus:ring-primary ${dark ? 'mt-0.5 rounded-none' : 'rounded'}`}
+                      class={ui.checkbox}
                     />
                     <span>
                       {field.placeholder || field.label}
-                      {field.required && '*'}
+                      {/* Consent text often ends in its own asterisk already. */}
+                      {field.required && !stegaClean(field.placeholder || field.label)?.trim().endsWith('*') && '*'}
                     </span>
                   </label>
                 ) : (
@@ -122,7 +150,7 @@ const buttonColor = stegaClean(data.buttonColor) || (dark ? undefined : 'var(--p
                     name={field.name}
                     placeholder={field.placeholder}
                     required={field.required}
-                    class={ui.field}
+                    class={`${ui.field} ${ui.input}`}
                   />
                 )}
               </div>
