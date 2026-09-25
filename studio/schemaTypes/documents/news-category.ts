@@ -1,5 +1,6 @@
-import {defineField, defineType} from 'sanity'
-import {TagIcon} from '@sanity/icons'
+import { defineField, defineType } from 'sanity'
+import { TagIcon } from '@sanity/icons'
+import { PublishStampInput } from '../../components/inputs/PublishStampInput'
 
 /**
  * A news category — Awards & Accolades, Team Updates, Case Results — kept as
@@ -22,9 +23,26 @@ export const newsCategoryType = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: {source: 'title', maxLength: 96},
+      options: { source: 'title', maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'publishedAt',
+      title: 'First Published',
+      type: 'datetime',
+      description: 'Set the first time it is published.',
+      // Stamped by the Publish action (actions/publishWithDate.ts).
+      readOnly: true,
+      components: { input: PublishStampInput },
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Last Updated',
+      type: 'datetime',
+      description: 'Set every time it is published.',
+      readOnly: true,
+      components: { input: PublishStampInput },
+    }),
   ],
-  preview: {select: {title: 'title'}},
+  preview: { select: { title: 'title' } },
 })

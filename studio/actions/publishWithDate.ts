@@ -1,10 +1,18 @@
-import {useEffect, useState} from 'react'
-import {useDocumentOperation, useSchema, type DocumentActionComponent, type ObjectSchemaType} from 'sanity'
+import { useEffect, useState } from 'react'
+import {
+  useDocumentOperation,
+  useSchema,
+  useSyncState,
+  type DocumentActionComponent,
+  type ObjectSchemaType,
+} from 'sanity'
 
 /** Types whose publish dates are stamped by publishing rather than typed in. */
-export const PUBLISH_DATE_TYPES = new Set(['page', 'newsPost', 'practiceArea', 'caseResult'])
+export const PUBLISH_DATE_TYPES = new Set(
+  ['page', 'newsPost', 'practiceArea', 'caseResult', 'homePage', 'review', 'lawyer', 'newsCategory']
+)
 
-type Stamped = {publishedAt?: string; updatedAt?: string}
+type Stamped = { publishedAt?: string; updatedAt?: string }
 
 /**
  * One wrapper per original action, reused. sanity.config's actions resolver
@@ -17,7 +25,7 @@ const wrapped = new WeakMap<DocumentActionComponent, DocumentActionComponent>()
  * Publishes waiting for their stamp, by document id. Kept outside the
  * component so a remount mid-wait still finishes the publish.
  */
-const pendingById = new Map<string, {updatedAt?: string}>()
+const pendingById = new Map<string, { updatedAt?: string }>()
 
 /**
  * Wraps Sanity's Publish button to stamp two dates before publishing:
@@ -38,7 +46,8 @@ export function withPublishDate(publish: DocumentActionComponent): DocumentActio
 
   const PublishWithDate: DocumentActionComponent = (props) => {
     const result = publish(props)
-    const {patch, publish: publishOp} = useDocumentOperation(props.id, props.type)
+    const { patch, publish: publishOp } = useDocumentOperation(props.id, props.type)
+    const { isSyncing } = useSyncState(props.id, props.type)
     const schemaType = useSchema().get(props.type) as ObjectSchemaType | undefined
     // The updatedAt value being waited for; null when nothing is pending.
     const [pending, setPending] = useState(() => pendingById.get(props.id) ?? null)
@@ -54,17 +63,19 @@ export function withPublishDate(publish: DocumentActionComponent): DocumentActio
       if (!pending) return
       const draft = props.draft as Stamped | null
       // The stamp is in the draft once its updatedAt matches (or, for a type
-      // without updatedAt, once publishedAt is there). Only then publish.
+      // without updatedAt, once publishedAt is there), and saved once syncing
+      // is done: the draft shows the patch locally before the server has it,
+      // and a publish sent during that gap is dropped. Only then publish.
       const stamped = pending.updatedAt
         ? draft?.updatedAt === pending.updatedAt
         : !fieldType('publishedAt') || Boolean(draft?.publishedAt)
-      if (stamped && !publishOp.disabled) {
+      if (stamped && !isSyncing && !publishOp.disabled) {
         publishOp.execute()
         pendingById.delete(props.id)
         setPending(null)
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pending, props.draft, publishOp])
+    }, [pending, props.draft, publishOp, isSyncing])
 
     if (!result) return result
 
@@ -76,11 +87,11 @@ export function withPublishDate(publish: DocumentActionComponent): DocumentActio
         const now = new Date().toISOString()
         const publishedAt = stampFor('publishedAt', now)
         const updatedAt = stampFor('updatedAt', now)
-        if (publishedAt) patch.execute([{setIfMissing: {publishedAt}}])
-        if (updatedAt) patch.execute([{set: {updatedAt}}])
+        if (publishedAt) patch.execute([{ setIfMissing: { publishedAt } }])
+        if (updatedAt) patch.execute([{ set: { updatedAt } }])
         // The effect above publishes once the draft carries the stamp.
-        pendingById.set(props.id, {updatedAt})
-        setPending({updatedAt})
+        pendingById.set(props.id, { updatedAt })
+        setPending({ updatedAt })
       },
     }
   }

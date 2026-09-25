@@ -1,6 +1,7 @@
 // Lawyer profile: the source for the lawyer cards in the page builder.
-import {defineField, defineType, defineArrayMember} from 'sanity'
-import {UserIcon} from '@sanity/icons'
+import { defineField, defineType, defineArrayMember } from 'sanity'
+import { UserIcon } from '@sanity/icons'
+import { PublishStampInput } from '../../components/inputs/PublishStampInput'
 
 export const lawyerType = defineType({
   name: 'lawyer',
@@ -8,9 +9,9 @@ export const lawyerType = defineType({
   type: 'document',
   icon: UserIcon,
   groups: [
-    {name: 'profile', title: 'Profile', default: true},
-    {name: 'credentials', title: 'Credentials'},
-    {name: 'contact', title: 'Contact'},
+    { name: 'profile', title: 'Profile', default: true },
+    { name: 'credentials', title: 'Credentials' },
+    { name: 'contact', title: 'Contact' },
   ],
   fields: [
     defineField({
@@ -35,7 +36,7 @@ export const lawyerType = defineType({
       type: 'slug',
       group: 'profile',
       description: 'Used if this lawyer ever gets their own page.',
-      options: {source: 'name', maxLength: 96},
+      options: { source: 'name', maxLength: 96 },
     }),
     defineField({
       name: 'photo',
@@ -43,8 +44,8 @@ export const lawyerType = defineType({
       type: 'image',
       group: 'profile',
       description: 'Portrait. The card crops it to a 3:4 frame.',
-      options: {hotspot: true},
-      fields: [defineField({name: 'alt', title: 'Alt Text', type: 'string'})],
+      options: { hotspot: true },
+      fields: [defineField({ name: 'alt', title: 'Alt Text', type: 'string' })],
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -68,13 +69,32 @@ export const lawyerType = defineType({
       group: 'profile',
       description: 'Lower numbers come first where lawyers are listed automatically.',
     }),
+    defineField({
+      name: 'publishedAt',
+      title: 'First Published',
+      type: 'datetime',
+      group: 'profile',
+      description: 'Set the first time it is published.',
+      // Stamped by the Publish action (actions/publishWithDate.ts).
+      readOnly: true,
+      components: { input: PublishStampInput },
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Last Updated',
+      type: 'datetime',
+      group: 'profile',
+      description: 'Set every time it is published.',
+      readOnly: true,
+      components: { input: PublishStampInput },
+    }),
 
     defineField({
       name: 'practiceAreas',
       title: 'Practice Areas',
       type: 'array',
       group: 'credentials',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'practiceArea'}]})],
+      of: [defineArrayMember({ type: 'reference', to: [{ type: 'practiceArea' }] })],
     }),
     defineField({
       name: 'barAdmissions',
@@ -82,16 +102,16 @@ export const lawyerType = defineType({
       type: 'array',
       group: 'credentials',
       description: 'e.g. New York, New Jersey.',
-      of: [defineArrayMember({type: 'string'})],
-      options: {layout: 'tags'},
+      of: [defineArrayMember({ type: 'string' })],
+      options: { layout: 'tags' },
     }),
     defineField({
       name: 'languages',
       title: 'Languages',
       type: 'array',
       group: 'credentials',
-      of: [defineArrayMember({type: 'string'})],
-      options: {layout: 'tags'},
+      of: [defineArrayMember({ type: 'string' })],
+      options: { layout: 'tags' },
     }),
     defineField({
       name: 'education',
@@ -103,13 +123,13 @@ export const lawyerType = defineType({
           type: 'object',
           name: 'education',
           fields: [
-            defineField({name: 'school', title: 'School', type: 'string'}),
-            defineField({name: 'degree', title: 'Degree', type: 'string'}),
-            defineField({name: 'year', title: 'Year', type: 'string'}),
+            defineField({ name: 'school', title: 'School', type: 'string' }),
+            defineField({ name: 'degree', title: 'Degree', type: 'string' }),
+            defineField({ name: 'year', title: 'Year', type: 'string' }),
           ],
           preview: {
-            select: {title: 'school', degree: 'degree', year: 'year'},
-            prepare({title, degree, year}: {title?: string; degree?: string; year?: string}) {
+            select: { title: 'school', degree: 'degree', year: 'year' },
+            prepare({ title, degree, year }: { title?: string; degree?: string; year?: string }) {
               return {
                 title: title || 'School',
                 subtitle: [degree, year].filter(Boolean).join(' · '),
@@ -124,11 +144,11 @@ export const lawyerType = defineType({
       title: 'Awards & Recognition',
       type: 'array',
       group: 'credentials',
-      of: [defineArrayMember({type: 'string'})],
+      of: [defineArrayMember({ type: 'string' })],
     }),
 
-    defineField({name: 'email', title: 'Email', type: 'string', group: 'contact'}),
-    defineField({name: 'phone', title: 'Phone', type: 'string', group: 'contact'}),
+    defineField({ name: 'email', title: 'Email', type: 'string', group: 'contact' }),
+    defineField({ name: 'phone', title: 'Phone', type: 'string', group: 'contact' }),
     defineField({
       name: 'linkedin',
       title: 'LinkedIn URL',
@@ -140,11 +160,11 @@ export const lawyerType = defineType({
     {
       title: 'Sort Order',
       name: 'orderAsc',
-      by: [{field: 'order', direction: 'asc'}, {field: 'name', direction: 'asc'}],
+      by: [{ field: 'order', direction: 'asc' }, { field: 'name', direction: 'asc' }],
     },
-    {title: 'Name', name: 'nameAsc', by: [{field: 'name', direction: 'asc'}]},
+    { title: 'Name', name: 'nameAsc', by: [{ field: 'name', direction: 'asc' }] },
   ],
   preview: {
-    select: {title: 'name', subtitle: 'role', media: 'photo'},
+    select: { title: 'name', subtitle: 'role', media: 'photo' },
   },
 })

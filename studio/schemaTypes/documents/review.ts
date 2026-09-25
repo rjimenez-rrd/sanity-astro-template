@@ -1,5 +1,6 @@
 // customer review schema
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
+import { PublishStampInput } from '../../components/inputs/PublishStampInput'
 
 export const reviewType = defineType({
   name: 'review',
@@ -29,6 +30,23 @@ export const reviewType = defineType({
       type: 'number',
       validation: (Rule) => Rule.required().min(1).max(5),
       initialValue: 5,
+    }),
+    defineField({
+      name: 'publishedAt',
+      title: 'First Published',
+      type: 'datetime',
+      description: 'Set the first time it is published.',
+      // Stamped by the Publish action (actions/publishWithDate.ts).
+      readOnly: true,
+      components: { input: PublishStampInput },
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Last Updated',
+      type: 'datetime',
+      description: 'Set every time it is published.',
+      readOnly: true,
+      components: { input: PublishStampInput },
     }),
   ],
 })

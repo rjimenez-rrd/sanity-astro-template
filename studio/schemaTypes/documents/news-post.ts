@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {DocumentsIcon} from '@sanity/icons'
+import { PublishStampInput } from '../../components/inputs/PublishStampInput'
 
 /** A news article, published at /news/<slug>. */
 export const newsPostType = defineType({
@@ -28,15 +29,15 @@ export const newsPostType = defineType({
       options: {source: 'title', maxLength: 96},
       validation: (rule) => rule.required(),
     }),
-    defineField({
-      name: 'publishedAt',
-      title: 'Date',
-      type: 'date',
-      group: 'content',
-      description: 'Shown on the card and the article. Newest first in lists.',
-      initialValue: () => new Date().toISOString().slice(0, 10),
-      validation: (rule) => rule.required(),
-    }),
+    // defineField({
+    //   name: 'publishedAt',
+    //   title: 'Date',
+    //   type: 'date',
+    //   group: 'content',
+    //   description: 'Shown on the card and the article. Newest first in lists.',
+    //   initialValue: () => new Date().toISOString().slice(0, 10),
+    //   validation: (rule) => rule.required(),
+    // }),
     defineField({
       name: 'category',
       title: 'Category',
@@ -68,6 +69,25 @@ export const newsPostType = defineType({
       type: 'pageBuilder',
       group: 'content',
       description: 'The article itself, built from Containers like any page.',
+    }),
+    defineField({
+      name: 'publishedAt',
+      title: 'First Published',
+      type: 'datetime',
+      group: 'content',
+      description: 'Set the first time it is published.',
+      // Stamped by the Publish action (actions/publishWithDate.ts).
+      readOnly: true,
+      components: { input: PublishStampInput },
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Last Updated',
+      type: 'datetime',
+      group: 'content',
+      description: 'Set every time it is published.',
+      readOnly: true,
+      components: { input: PublishStampInput },
     }),
     defineField({
       name: 'seo',

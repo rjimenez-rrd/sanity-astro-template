@@ -12,7 +12,7 @@ export function PublishStampInput(props: StringInputProps) {
   return (
   <Stack gap={4}>
     <Text size={1} weight="semibold">
-      {props.id === 'publishedAt' ? 'First Published' : 'Last Updated'}
+      {props.id === 'publishedAt' ? 'Published' : 'Last Updated'}
     </Text>
     <Card padding={3} radius={2} border tone="transparent">
       <Text size={1} muted={!props.value}>
