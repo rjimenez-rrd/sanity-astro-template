@@ -22,7 +22,8 @@
     "build:studio": "cd studio && npm run build",
     "deploy:studio": "cd studio && sanity deploy",
     "validate": "sanity-template-validate",
-    "seed": "cd frontend && npm run seed",
+    "seed": "cd studio && npm run seed --",
+    "seed:export": "cd studio && npm run seed:export",
     "typegen": "cd studio && npx sanity schema extract --enforce-required-fields && npx sanity typegen generate"
   },
   "workspaces": [

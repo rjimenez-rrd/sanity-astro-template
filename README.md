@@ -53,10 +53,19 @@ Fill in your Sanity project ID and dataset in both files.
 Create the read token in [Sanity Manage](https://sanity.io/manage) → API → Tokens,
 with **Viewer** permissions.
 
-### 3. Seed demo content (optional)
+### 3. Seed content (optional)
 
 ```bash
-npm run seed
+npm run seed                          # asks which dataset to import into
+npm run seed -- --dataset staging     # or name it
+```
+
+Imports `studio/seed/content.tar.gz`: the site's published content and images.
+Documents with the same ID are replaced, so it's safe to run again. To refresh
+the snapshot from the current dataset:
+
+```bash
+npm run seed:export
 ```
 
 ### 4. Run

@@ -9,7 +9,9 @@
     "start": "sanity start",
     "build": "sanity build",
     "deploy": "sanity deploy",
-    "deploy-graphql": "sanity graphql deploy"
+    "deploy-graphql": "sanity graphql deploy",
+    "seed": "sanity dataset import seed/content.tar.gz --replace",
+    "seed:export": "sanity exec scripts/seed-export.ts --with-user-token"
   },
   "keywords": [
     "sanity"
