@@ -1,0 +1,58 @@
+---
+/**
+ * Prev · 1 … 4 [5] 6 … 12 · Next, as plain links — every page is a real URL,
+ * so it works without JavaScript and crawlers can follow it to each page.
+ */
+import {listPageHref, pageRange} from '@/lib/pagination'
+
+interface Props {
+  current: number
+  total: number
+  /** The list's page 1 URL; later pages are <base>/page/<n>. */
+  base: string
+}
+
+const {current, total, base} = Astro.props
+const range = pageRange(current, total)
+
+const cell =
+  'flex h-10 min-w-10 items-center justify-center border px-3 text-[15px] transition-colors'
+const idle = `${cell} border-border text-foreground hover:border-primary hover:text-primary`
+const disabled = `${cell} border-border text-muted opacity-50`
+---
+
+{
+  total > 1 && (
+    <nav aria-label="Pagination" class="mt-12 flex flex-wrap items-center justify-center gap-2 font-display">
+      {current > 1 ? (
+        <a href={listPageHref(base, current - 1)} rel="prev" class={idle}>
+          ‹ Prev
+        </a>
+      ) : (
+        <span class={disabled} aria-hidden="true">‹ Prev</span>
+      )}
+
+      {range.map((p) =>
+        p === 'gap' ? (
+          <span class="px-1 text-muted" aria-hidden="true">…</span>
+        ) : p === current ? (
+          <span aria-current="page" class={`${cell} border-primary bg-primary text-primary-foreground`}>
+            {p}
+          </span>
+        ) : (
+          <a href={listPageHref(base, p)} class={idle} aria-label={`Page ${p}`}>
+            {p}
+          </a>
+        ),
+      )}
+
+      {current < total ? (
+        <a href={listPageHref(base, current + 1)} rel="next" class={idle}>
+          Next ›
+        </a>
+      ) : (
+        <span class={disabled} aria-hidden="true">Next ›</span>
+      )}
+    </nav>
+  )
+}

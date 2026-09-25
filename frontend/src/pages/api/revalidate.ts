@@ -1,5 +1,7 @@
 import type {APIRoute} from 'astro'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
+import {getClient} from '@/sanity/lib/client'
+import {listPageHref} from '@/lib/pagination'
 
 export const prerender = false
 
@@ -32,23 +34,43 @@ export const POST: APIRoute = async ({request, url}) => {
 
   const paths = new Set<string>()
 
+  /**
+   * A paginated card list also lives at <base>/page/2, /3, …, each cached on
+   * its own, and adding or removing a practice area shifts every page. The
+   * page size is per block, so the page count isn't known here — but it can't
+   * exceed one page per practice area, so refresh up to that. A page past the
+   * real end just re-renders its 404.
+   */
+  const addListPages = async (base: string) => {
+    const total = await getClient(false)
+      .fetch<number>('count(*[_type == "practiceArea" && defined(slug.current)])')
+      .catch(() => 0)
+    for (let n = 2; n <= total; n++) paths.add(listPageHref(base, n))
+  }
+
   switch (body._type) {
     case 'homePage':
       paths.add('/')
       break
     case 'page':
-      if (body.slug?.current) paths.add(`/${body.slug.current}`)
+      if (body.slug?.current) {
+        paths.add(`/${body.slug.current}`)
+        // Any page can hold a paginated grid; its later pages change with it.
+        await addListPages(`/${body.slug.current}`)
+      }
       paths.add('/') // nav/footer might reference pages
       break
     case 'practiceArea':
       if (body.slug?.current) paths.add(`/${body.slug.current}`)
       paths.add('/practice-areas')
+      await addListPages('/practice-areas')
       break
     case 'siteSettings':
       // Header, footer and nav are on every page. There is no wildcard purge,
       // so refresh the fixed entry points and let the rest expire normally.
       paths.add('/')
       paths.add('/practice-areas')
+      await addListPages('/practice-areas')
       break
     default:
       paths.add('/')

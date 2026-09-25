@@ -29,6 +29,7 @@ import {testimonialCarouselType} from './testimonial-carousel'
 import {imageGalleryType} from './image-gallery'
 import {lawyerCardsType} from './lawyer-cards'
 import {practiceAreaCardsType} from './practice-area-cards'
+import {practiceAreaGridType} from './practice-area-grid'
 import {newsCardsType} from './news-cards'
 import {caseResultCardsType} from './case-result-cards'
 import {pageBuilderType} from './page-builder'
@@ -67,6 +68,7 @@ export {
   imageGalleryType,
   lawyerCardsType,
   practiceAreaCardsType,
+  practiceAreaGridType,
   newsCardsType,
   caseResultCardsType,
   tocBlockType,
@@ -107,6 +109,7 @@ export const blockTypes = [
   imageGalleryType,
   lawyerCardsType,
   practiceAreaCardsType,
+  practiceAreaGridType,
   newsCardsType,
   caseResultCardsType,
   tocBlockType,

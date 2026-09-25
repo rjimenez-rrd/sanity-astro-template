@@ -76,6 +76,7 @@ const contentMembers = () => [
   defineArrayMember({type: 'imageGallery'}),
   defineArrayMember({type: 'lawyerCards'}),
   defineArrayMember({type: 'practiceAreaCards'}),
+  defineArrayMember({type: 'practiceAreaGrid'}),
   defineArrayMember({type: 'newsCards'}),
   defineArrayMember({type: 'caseResultCards'}),
   defineArrayMember({type: 'tocBlock'}),

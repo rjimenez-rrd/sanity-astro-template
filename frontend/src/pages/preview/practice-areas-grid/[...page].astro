@@ -1,0 +1,58 @@
+---
+/**
+ * Design preview for the Practice Area Grid block, with 23 hardcoded practice
+ * areas at the defaults — 10 per page, 5 columns — so there are three pages
+ * to click through. Mirrors the real routing: /preview/practice-areas-grid is
+ * page 1, /preview/practice-areas-grid/page/2 and /3 the rest.
+ */
+export const prerender = false
+
+import Base from '@/layouts/Base.astro'
+import PracticeAreaGrid from '@/components/page-builder/blocks/PracticeAreaGrid.astro'
+import type {PracticeAreaGridData} from '@/types/sanity'
+import {findPaginatedList, pageCount} from '@/lib/pagination'
+
+const IMAGE = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}}
+const NAMES = [
+  'Bicycle Accident', 'Brain Injury', 'Bus Accident', 'Car Accident', 'Construction Accident',
+  'Dog Bite', 'Elevator Accident', 'Lead Poisoning', 'Medical Malpractice', 'Motorcycle Accident',
+  'Nursing Home Abuse', 'Pedestrian Accident', 'Personal Injury', 'Premises Liability',
+  'Product Liability', 'Rideshare Accident', 'Scaffolding Accident', 'Slip and Fall',
+  'Spinal Cord Injury', 'Truck Accident', 'Uber Accident', 'Workers Compensation', 'Wrongful Death',
+]
+const areas = NAMES.map((title, i) => ({
+  _id: `preview-${i}`,
+  title,
+  slug: {current: title.toLowerCase().replace(/\s+/g, '-')},
+  coverImage: IMAGE,
+}))
+
+const data = {
+  _type: 'practiceAreaGrid',
+  title: 'Practice Areas',
+  subtitle: '23 practice areas, 10 per page.',
+  perPage: 10,
+  columns: '5',
+  practiceAreas: areas,
+} as unknown as PracticeAreaGridData
+
+// The real route's checks, step for step (pages/[slug]/page/[page].astro).
+const rest = Astro.params.page
+const match = rest?.match(/^page\/(.+)$/)
+if (rest && !match) return Astro.rewrite('/404')
+const n = match ? Number(match[1]) : 1
+if (match && (!Number.isInteger(n) || n < 1 || String(n) !== match[1])) return Astro.rewrite('/404')
+if (match && n === 1) return Astro.redirect('/preview/practice-areas-grid', 301)
+const list = findPaginatedList([data])
+if (!list || n > pageCount(list.items, list.perPage)) return Astro.rewrite('/404')
+Astro.locals.listPage = n
+---
+
+<Base title="Practice Areas grid — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · practiceAreaGrid
+    </p>
+    <PracticeAreaGrid data={data} />
+  </main>
+</Base>

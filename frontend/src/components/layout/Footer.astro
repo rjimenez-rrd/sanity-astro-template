@@ -52,17 +52,19 @@ const directionsHref = (office: (typeof offices)[number]) =>
 
 <footer class="bg-foreground font-display text-white">
   <div class={`mx-auto ${maxWidthClass} px-4 py-12 md:px-8`}>
-    {/* Phone, logo, social: stacked and centered on phones, one row from lg. */}
+    {/* Stacked on phones: logo, phone, social. From tablet (md) up, one row:
+        phone, logo, social — the logo's order-first only applies while
+        stacked. Tablet draws the row a size smaller than desktop. */}
     <div
-      class="flex flex-col items-center gap-8 text-center lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-10 lg:text-left"
+      class="flex flex-col items-center gap-8 text-center md:grid md:grid-cols-[1fr_auto_1fr] md:gap-6 md:text-left lg:gap-10"
     >
       <div>
-        {phoneLabel && <p class="text-[15px] uppercase text-secondary-hover">{phoneLabel}</p>}
+        {phoneLabel && <p class="text-[15px] uppercase text-secondary-hover md:text-[13px] lg:text-[15px]">{phoneLabel}</p>}
         {
           phoneText && (
             <a
               href={phone ? toTelHref(phone) : undefined}
-              class="text-3xl italic transition-colors hover:text-secondary-hover"
+              class="text-3xl italic transition-colors hover:text-secondary-hover md:text-xl lg:text-3xl"
             >
               {phoneText}
             </a>
@@ -70,14 +72,14 @@ const directionsHref = (office: (typeof offices)[number]) =>
         }
       </div>
 
-      <a href="/" class="inline-flex justify-center">
+      <a href="/" class="order-first flex w-full justify-center md:order-none md:w-auto">
         {
           logo?.asset ? (
             <SanityImage
               value={logo}
               alt={stegaClean(logo.alt) || siteName}
-              width={400}
-              class={`h-12 w-auto ${invertLogo ? 'brightness-0 invert' : ''}`}
+              width={800}
+              class={`h-auto w-full md:h-8 md:w-auto lg:h-12 ${invertLogo ? 'brightness-0 invert' : ''}`}
             />
           ) : (
             <span class="text-2xl font-bold">{siteName}</span>
@@ -87,7 +89,7 @@ const directionsHref = (office: (typeof offices)[number]) =>
 
       {
         socialLinks.length > 0 && (
-          <div class="flex gap-4 lg:justify-end">
+          <div class="flex gap-4 md:justify-end">
             {socialLinks.map((link) => {
               const platform = stegaClean(link.platform)!
               const path = SOCIAL_ICONS[platform]
@@ -97,10 +99,10 @@ const directionsHref = (office: (typeof offices)[number]) =>
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={platform}
-                  class="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-secondary-hover text-foreground transition-colors hover:bg-white"
+                  class="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-secondary-hover text-foreground transition-colors hover:bg-white md:h-9 md:w-9 lg:h-[42px] lg:w-[42px]"
                 >
                   {path ? (
-                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <svg class="h-6 w-6 md:h-5 md:w-5 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path d={path} />
                     </svg>
                   ) : (
@@ -116,8 +118,8 @@ const directionsHref = (office: (typeof offices)[number]) =>
 
     {
       nav.length > 0 && (
-        <nav class="mt-10 border-y border-white/10 py-4" aria-label="Footer">
-          <ul class="flex flex-wrap justify-center gap-x-10 gap-y-3 text-[15px] lg:gap-x-20">
+        <nav class="mt-10 border-y border-primary py-4 lg:border-white/10" aria-label="Footer">
+          <ul class="flex flex-wrap justify-center gap-x-5 gap-y-3 text-[15px] md:justify-around lg:justify-center lg:gap-x-20">
             {nav.map((link) => (
               <li>
                 <a href={link.href} class="transition-colors hover:text-secondary-hover">
@@ -130,23 +132,28 @@ const directionsHref = (office: (typeof offices)[number]) =>
       )
     }
 
+    {/* Offices: one column on mobile (≤767px, the project's mobile breakpoint),
+        five from there up. On tablet each address is centred vertically, so
+        every Get Directions link lines up along the bottom of the row. */}
     {
       offices.length > 0 && (
-        <div class="mt-10 grid grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:text-left md:grid-cols-3 lg:grid-cols-5">
+        <div class="mt-10 grid grid-cols-1 gap-10 text-center md:grid-cols-5 md:text-left">
           {offices.map((office) => {
             const href = directionsHref(office)
             return (
-              <div>
+              <div class="md:flex md:flex-col lg:block">
                 <h3 class="text-xl font-semibold">{office.name}</h3>
                 {office.address && (
-                  <p class="mt-4 whitespace-pre-line text-[15px] leading-relaxed">{office.address}</p>
+                  <p class="mx-auto mt-4 w-fit whitespace-pre-line text-left text-[15px] leading-relaxed md:mx-0 md:flex md:w-auto md:flex-1 md:items-center lg:block">
+                    {office.address}
+                  </p>
                 )}
                 {href && (
                   <a
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="mt-3 inline-block text-[15px] text-secondary-hover transition-colors hover:text-white"
+                    class="mt-3 inline-block text-[15px] text-secondary-hover transition-colors hover:text-white md:self-start"
                   >
                     Get Directions
                   </a>

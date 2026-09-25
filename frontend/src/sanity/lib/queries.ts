@@ -43,6 +43,24 @@ const newsCardFragment = /* groq */ `
   coverImage { ${imageFragment} }
 `
 
+// Everything a practice area card shows. Shared by the Practice Area Cards
+// block (picked or all) and PRACTICE_AREAS_QUERY, so the card reads the same
+// data wherever it appears.
+const practiceAreaCardFragment = /* groq */ `
+  _id, title, cardTitle, slug,
+  coverImage { ${imageFragment} }
+`
+
+// Both practice-area blocks: the picked ones in their picked order, or —
+// nothing picked — every practice area A–Z, so a new one appears without
+// editing the block. Placed after the spread, it replaces the bare references.
+const practiceAreasPickedOrAllFragment = /* groq */ `
+  "practiceAreas": select(
+    count(practiceAreas) > 0 => practiceAreas[]-> { ${practiceAreaCardFragment} },
+    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { ${practiceAreaCardFragment} }
+  )
+`
+
 const heroFragment = /* groq */ `
   _type == "heroSection" => {
     ...,
@@ -123,12 +141,17 @@ const contentTypesFragment = /* groq */ `
       },
       ${blockStylesFragment}
     },
+    // Two conditions sharing one fragment, not one _type in [...] check:
+    // TypeGen only narrows ==, and with in it typed practiceAreas as possibly
+    // the bare references the spread brings in.
     _type == "practiceAreaCards" => {
       ...,
-      practiceAreas[]-> {
-        _id, title, cardTitle, slug,
-        coverImage { ${imageFragment} }
-      },
+      ${practiceAreasPickedOrAllFragment},
+      ${blockStylesFragment}
+    },
+    _type == "practiceAreaGrid" => {
+      ...,
+      ${practiceAreasPickedOrAllFragment},
       ${blockStylesFragment}
     },
     // Picked posts in their picked order, or the newest ones — optionally from
@@ -210,8 +233,7 @@ export const PAGE_SLUGS_QUERY = defineQuery(/* groq */ `
 
 export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
   *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {
-    _id, title, cardTitle, slug,
-    coverImage { ${imageFragment} }
+    ${practiceAreaCardFragment}
   }
 `)
 

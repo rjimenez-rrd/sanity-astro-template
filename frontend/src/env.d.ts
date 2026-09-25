@@ -21,5 +21,10 @@ declare namespace App {
     isDraft: boolean
     /** Live Content API tags for every query this request ran. */
     syncTags: string[]
+    /**
+     * Which page of a paginated card list to show. Set by
+     * pages/[slug]/page/[page].astro; unset means page 1.
+     */
+    listPage?: number
   }
 }

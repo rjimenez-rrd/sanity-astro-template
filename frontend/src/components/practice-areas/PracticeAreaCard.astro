@@ -16,9 +16,16 @@ interface Props {
    * — and the usual crop from there up.
    */
   mobileAspect?: 'card' | 'wide'
+  /**
+   * Stretch to the height of the grid row, with the name bar taking the
+   * slack — so a name that wraps to two lines doesn't leave its neighbours'
+   * bars shorter and the row ragged. Only a grid needs it; a carousel's cards
+   * sit in a flex row that already sizes them.
+   */
+  fillHeight?: boolean
 }
 
-const {area, align = 'center', stackWords = false, mobileAspect = 'card'} = Astro.props
+const {area, align = 'center', stackWords = false, mobileAspect = 'card', fillHeight = false} = Astro.props
 const slug = stegaClean(area.slug?.current)
 
 /**
@@ -41,7 +48,10 @@ const label = custom
 
 {
   slug && (
-    <a href={`/${slug}`} class="group block overflow-hidden">
+    <a
+      href={`/${slug}`}
+      class={`group overflow-hidden ${fillHeight ? 'flex h-full flex-col' : 'block'}`}
+    >
       <div
         class={`overflow-hidden bg-foreground/10 ${
           mobileAspect === 'wide' ? 'aspect-[16/6] md:aspect-[11/10]' : 'aspect-[11/10]'
@@ -61,7 +71,7 @@ const label = custom
       <h2
         class={`whitespace-pre-line bg-practice-card px-6 py-3 font-display text-2xl font-semibold text-white ${
           align === 'left' ? 'text-left' : 'text-center'
-        }`}
+        } ${fillHeight ? `flex flex-1 items-center ${align === 'left' ? 'justify-start' : 'justify-center'}` : ''}`}
       >
         {label}
       </h2>

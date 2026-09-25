@@ -72,6 +72,8 @@ export default defineConfig({
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
           {route: '/news/:slug', filter: '_type == "newsPost" && slug.current == $slug'},
           {route: '/:slug', filter: '_type in ["page", "practiceArea"] && slug.current == $slug'},
+          // Later pages of a paginated card list are the same document.
+          {route: '/:slug/page/:page', filter: '_type in ["page", "practiceArea"] && slug.current == $slug'},
         ]),
       },
       previewUrl: {

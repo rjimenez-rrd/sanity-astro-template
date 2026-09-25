@@ -29,8 +29,8 @@ export const practiceAreaCardsType = defineType({
       name: 'practiceAreas',
       title: 'Practice Areas',
       type: 'array',
-      description: 'Pick the practice areas to show, in the order they should appear.',
-      validation: (rule) => rule.required().min(1),
+      description:
+        'Leave empty to show every practice area, A–Z — new ones appear automatically. Pick some to choose which appear and in what order.',
       of: [defineArrayMember({type: 'reference', to: [{type: 'practiceArea'}]})],
     }),
     defineField({
@@ -98,7 +98,7 @@ export const practiceAreaCardsType = defineType({
       const count = practiceAreas?.length ?? 0
       return {
         title: title || 'Practice Area Cards',
-        subtitle: `${count} practice area${count === 1 ? '' : 's'}`,
+        subtitle: count ? `${count} practice area${count === 1 ? '' : 's'}` : 'All practice areas',
         media: first ?? ThLargeIcon,
       }
     },
