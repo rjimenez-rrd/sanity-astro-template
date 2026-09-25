@@ -12,6 +12,7 @@ import {openInPresentation} from './actions/openInPresentation'
 import {openInBrowser} from './actions/openInBrowser'
 import {PUBLISH_DATE_TYPES, withPublishDate} from './actions/publishWithDate'
 import {singletonTypes, singletonActions} from './schemaTypes/constants'
+import {LAST_EDITED_TYPES, StampLastEditor} from './actions/stampLastEditor'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID!
 const dataset = process.env.SANITY_STUDIO_DATASET!
@@ -105,8 +106,10 @@ export default defineConfig({
       const actions = PUBLISH_DATE_TYPES.has(context.schemaType)
         ? filtered.map((action) => (action.action === 'publish' ? withPublishDate(action) : action))
         : filtered
+      // Buttonless: records the last editor for the list row.
+      const stamp = LAST_EDITED_TYPES.has(context.schemaType) ? [StampLastEditor] : []
       // Appended after the filter so singletons keep it too.
-      return [...actions, openInPresentation, openInBrowser]
+      return [...actions, openInPresentation, openInBrowser, ...stamp]
     },
     newDocumentOptions: (prev) =>
       prev.filter((item) => !singletonTypes.has(item.templateId)),

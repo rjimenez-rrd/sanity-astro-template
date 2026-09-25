@@ -19,14 +19,16 @@ const PLACED = [
   ...SINGLETONS,
 ]
 
+const NEWEST_FIRST = [{ field: 'publishedAt', direction: 'desc' as const }]
+
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Dashboard')
+    .title('The Sanders Law Firm')
     .items([
       // Grouped by what an editor is trying to do, not by how the schema is
       // built: the pages they edit daily first, configuration last. A titled
       // divider labels the group beneath it.
-      S.divider().title('Singletons'),
+      S.divider().title('Main'),
 
       S.listItem()
         .title('Home Page')
@@ -39,15 +41,54 @@ export const structure: StructureResolver = (S) =>
         ),
 
       S.divider().title('Content'),
-      S.documentTypeListItem('page').title('Pages'),
-      // S.listItem()
-      //   .title('Pages')
-      //   .schemaType('page')
-      //   .child(
-      //     S.documentTypeList('page')
-      //       .title('Pages')
-      //       .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }]), // newest first
-      //   ),
+      // Lists query through the Studio's drafts perspective, which rewrites
+      // every _id to the published one, so `_id in path("drafts.**")` never
+      // matches. _originalId keeps the real id, telling a draft apart. But the
+      // same filter also drives the list's live listener, which sees raw
+      // documents without _originalId: there `!defined(_originalId)` lets
+      // every page through, so any change (a delete too) refreshes the list.
+      S.listItem()
+        .title('Pages')
+        .id('pages')
+        .schemaType('page')
+        .child(
+          S.list()
+            .title('Pages')
+            .items([
+              S.listItem()
+                .title('All Pages')
+                .id('pages-all')
+                .schemaType('page')
+                .child(
+                  S.documentTypeList('page')
+                    .title('All Pages')
+                    .defaultOrdering(NEWEST_FIRST),
+                ),
+              S.listItem()
+                .title('Published')
+                .id('pages-published')
+                .schemaType('page')
+                .child(
+                  S.documentList()
+                    .title('Published')
+                    .schemaType('page')
+                    .filter('_type == "page" && (!defined(_originalId) || !(_originalId in path("drafts.**")))')
+                    .defaultOrdering(NEWEST_FIRST),
+                ),
+              // Never published, or live with edits not yet published.
+              S.listItem()
+                .title('Drafts')
+                .id('pages-drafts')
+                .schemaType('page')
+                .child(
+                  S.documentList()
+                    .title('Drafts')
+                    .schemaType('page')
+                    .filter('_type == "page" && (!defined(_originalId) || _originalId in path("drafts.**"))')
+                    .defaultOrdering(NEWEST_FIRST),
+                ),
+            ]),
+        ),
       S.documentTypeListItem('practiceArea').title('Practice Areas'),
       S.documentTypeListItem('review').title('Reviews'),
       S.documentTypeListItem('lawyer').title('Lawyers'),

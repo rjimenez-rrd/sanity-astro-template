@@ -22,9 +22,6 @@ const {sections, documentId, documentType} = Astro.props
   ) : (
     sections.map((section) => {
       const type = stegaClean(section._type)
-      if (type === 'heroSection') {
-        return <HeroSection data={section as Extract<PageBuilderBlock, {_type: 'heroSection'}>} />
-      }
       if (type === 'gridRow') {
         return (
           <Container
