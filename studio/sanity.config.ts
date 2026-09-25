@@ -10,6 +10,7 @@ import {schemaTypes} from './schemaTypes'
 import {structure} from './structure'
 import {openInPresentation} from './actions/openInPresentation'
 import {openInBrowser} from './actions/openInBrowser'
+import {PUBLISH_DATE_TYPES, withPublishDate} from './actions/publishWithDate'
 import {singletonTypes, singletonActions} from './schemaTypes/constants'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID!
@@ -97,9 +98,13 @@ export default defineConfig({
 
   document: {
     actions: (input, context) => {
-      const actions = singletonTypes.has(context.schemaType)
+      const filtered = singletonTypes.has(context.schemaType)
         ? input.filter(({action}) => action && singletonActions.has(action))
         : input
+      // Pages get their publishedAt stamped on first publish.
+      const actions = PUBLISH_DATE_TYPES.has(context.schemaType)
+        ? filtered.map((action) => (action.action === 'publish' ? withPublishDate(action) : action))
+        : filtered
       // Appended after the filter so singletons keep it too.
       return [...actions, openInPresentation, openInBrowser]
     },

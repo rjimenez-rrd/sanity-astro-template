@@ -15,7 +15,6 @@ export const openInPresentation: DocumentActionComponent = (props: DocumentActio
       if (path) {
         window.location.href = `/presentation?preview=${encodeURIComponent(path)}`
       }
-      props.onComplete()
     },
   }
 }

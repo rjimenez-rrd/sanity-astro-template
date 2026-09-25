@@ -1,6 +1,7 @@
 // Case result: the source for the case result cards in the page builder.
 import {defineField, defineType, defineArrayMember} from 'sanity'
 import {TrendUpwardIcon} from '@sanity/icons'
+import {PublishStampInput} from '../../components/inputs/PublishStampInput'
 
 export const caseResultType = defineType({
   name: 'caseResult',
@@ -50,6 +51,23 @@ export const caseResultType = defineType({
       type: 'number',
       description: 'Lower numbers come first where results are listed automatically.',
     }),
+    defineField({
+          name: 'publishedAt',
+          title: 'First Published',
+          type: 'datetime',
+          description: 'Set the first time it is published.',
+          // Stamped by the Publish action (actions/publishWithDate.ts).
+          readOnly: true,
+          components: { input: PublishStampInput },
+        }),
+        defineField({
+          name: 'updatedAt',
+          title: 'Last Updated',
+          type: 'datetime',
+          description: 'Set every time it is published.',
+          readOnly: true,
+          components: { input: PublishStampInput },
+        }),
   ],
   orderings: [
     {

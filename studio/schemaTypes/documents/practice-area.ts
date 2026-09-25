@@ -1,6 +1,7 @@
 import {defineType, defineField} from 'sanity'
 import {CaseIcon} from '@sanity/icons'
 import {rootSlugField} from '../fields/rootSlug'
+import {PublishStampInput} from '../../components/inputs/PublishStampInput'
 
 /**
  * A practice area: its own page at /<slug>, built with the Page Builder like
@@ -30,6 +31,25 @@ export const practiceAreaType = defineType({
       title: 'Page Builder',
       type: 'pageBuilder',
       group: 'content',
+    }),
+    defineField({
+      name: 'publishedAt',
+      title: 'First Published',
+      type: 'datetime',
+      group: 'content',
+      description: 'Set the first time it is published.',
+      // Stamped by the Publish action (actions/publishWithDate.ts).
+      readOnly: true,
+      components: {input: PublishStampInput},
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Last Updated',
+      type: 'datetime',
+      group: 'content',
+      description: 'Set every time it is published.',
+      readOnly: true,
+      components: {input: PublishStampInput},
     }),
     defineField({
       name: 'cardTitle',

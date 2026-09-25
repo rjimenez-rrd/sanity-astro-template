@@ -37,7 +37,6 @@ export const openInBrowser: DocumentActionComponent = (props: DocumentActionProp
           window.open(`${ORIGIN}/api/draft-mode/enable?dev=1&redirect=${encodeURIComponent(path)}`, '_blank', 'noopener')
         }
       }
-      props.onComplete()
     },
   }
 }

@@ -445,7 +445,7 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
-export type BackgroundImage = {
+export type Icon = {
   asset?: SanityImageAssetReference;
   media?: unknown; // Unable to locate the referenced type "media" in schema
   hotspot?: SanityImageHotspot;
@@ -453,54 +453,9 @@ export type BackgroundImage = {
   _type: "image";
 };
 
-export type Icon = {
+export type BackgroundImage = {
   asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "icon.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type TabImageImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "tabImage.image.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type LogoItemImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "logoItem.image.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type AccordionPanelIcon = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "accordionPanel.icon.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type FeatureCardIcon = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "featureCard.icon.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type Cta = {
-  label?: string;
-  href?: string;
-};
-
-export type GalleryImageImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "galleryImage.image.media" in schema
+  media?: unknown; // Unable to locate the referenced type "image.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -760,6 +715,51 @@ export type GridColumnContainerWrap = {
   desktop?: "nowrap" | "wrap";
   tablet?: "nowrap" | "wrap";
   mobile?: "nowrap" | "wrap";
+};
+
+export type FeatureCardIcon = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "featureCard.icon.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type Cta = {
+  label?: string;
+  href?: string;
+};
+
+export type GalleryImageImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "galleryImage.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type LogoItemImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "logoItem.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type TabIcon = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "tab.icon.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type TabImageImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "tabImage.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
 };
 
 export type GridColumnDesign = {
@@ -3932,76 +3932,31 @@ export type NestedContainer = {
     content?: Array<
       | ({
           _key: string;
-        } & RichTextBlock)
-      | ({
-          _key: string;
-        } & ImageBlock)
-      | ({
-          _key: string;
-        } & CallToAction)
-      | ({
-          _key: string;
-        } & ExternalVideo)
-      | ({
-          _key: string;
-        } & YoutubeVideo)
-      | ({
-          _key: string;
-        } & TabbedContent)
-      | ({
-          _key: string;
         } & Accordion)
-      | ({
-          _key: string;
-        } & SpacerDivider)
-      | ({
-          _key: string;
-        } & CountdownTimer)
-      | ({
-          _key: string;
-        } & IconText)
-      | ({
-          _key: string;
-        } & ButtonGroup)
-      | ({
-          _key: string;
-        } & StatMetric)
-      | ({
-          _key: string;
-        } & TestimonialQuote)
       | ({
           _key: string;
         } & AlertNotice)
       | ({
           _key: string;
-        } & PricingCard)
+        } & CallToAction)
       | ({
           _key: string;
-        } & SocialEmbed)
+        } & ButtonGroup)
       | ({
           _key: string;
-        } & LogoRow)
-      | ({
-          _key: string;
-        } & MapEmbed)
+        } & CaseResultCards)
       | ({
           _key: string;
         } & CodeBlock)
       | ({
           _key: string;
+        } & CountdownTimer)
+      | ({
+          _key: string;
         } & HtmlBlock)
       | ({
           _key: string;
-        } & DataTable)
-      | ({
-          _key: string;
-        } & LottieAnimation)
-      | ({
-          _key: string;
-        } & FormBlock)
-      | ({
-          _key: string;
-        } & FormCta)
+        } & ExternalVideo)
       | ({
           _key: string;
         } & FaqBlock)
@@ -4010,7 +3965,16 @@ export type NestedContainer = {
         } & FeatureCardGrid)
       | ({
           _key: string;
-        } & TestimonialCarousel)
+        } & FormBlock)
+      | ({
+          _key: string;
+        } & FormCta)
+      | ({
+          _key: string;
+        } & IconText)
+      | ({
+          _key: string;
+        } & ImageBlock)
       | ({
           _key: string;
         } & ImageGallery)
@@ -4019,19 +3983,55 @@ export type NestedContainer = {
         } & LawyerCards)
       | ({
           _key: string;
+        } & LogoRow)
+      | ({
+          _key: string;
+        } & LottieAnimation)
+      | ({
+          _key: string;
+        } & MapEmbed)
+      | ({
+          _key: string;
+        } & NewsCards)
+      | ({
+          _key: string;
         } & PracticeAreaCards)
       | ({
           _key: string;
         } & PracticeAreaGrid)
       | ({
           _key: string;
-        } & NewsCards)
+        } & PricingCard)
       | ({
           _key: string;
-        } & CaseResultCards)
+        } & RichTextBlock)
+      | ({
+          _key: string;
+        } & SocialEmbed)
+      | ({
+          _key: string;
+        } & SpacerDivider)
+      | ({
+          _key: string;
+        } & StatMetric)
+      | ({
+          _key: string;
+        } & TabbedContent)
+      | ({
+          _key: string;
+        } & DataTable)
       | ({
           _key: string;
         } & TocBlock)
+      | ({
+          _key: string;
+        } & TestimonialCarousel)
+      | ({
+          _key: string;
+        } & TestimonialQuote)
+      | ({
+          _key: string;
+        } & YoutubeVideo)
     >;
     design?: GridColumnDesign;
     blockStyles?: BlockStyles;
@@ -4057,76 +4057,34 @@ export type GridRow = {
     content?: Array<
       | ({
           _key: string;
-        } & RichTextBlock)
-      | ({
-          _key: string;
-        } & ImageBlock)
-      | ({
-          _key: string;
-        } & CallToAction)
-      | ({
-          _key: string;
-        } & ExternalVideo)
-      | ({
-          _key: string;
-        } & YoutubeVideo)
-      | ({
-          _key: string;
-        } & TabbedContent)
-      | ({
-          _key: string;
         } & Accordion)
-      | ({
-          _key: string;
-        } & SpacerDivider)
-      | ({
-          _key: string;
-        } & CountdownTimer)
-      | ({
-          _key: string;
-        } & IconText)
-      | ({
-          _key: string;
-        } & ButtonGroup)
-      | ({
-          _key: string;
-        } & StatMetric)
-      | ({
-          _key: string;
-        } & TestimonialQuote)
       | ({
           _key: string;
         } & AlertNotice)
       | ({
           _key: string;
-        } & PricingCard)
+        } & CallToAction)
       | ({
           _key: string;
-        } & SocialEmbed)
+        } & ButtonGroup)
       | ({
           _key: string;
-        } & LogoRow)
-      | ({
-          _key: string;
-        } & MapEmbed)
+        } & CaseResultCards)
       | ({
           _key: string;
         } & CodeBlock)
       | ({
           _key: string;
+        } & NestedContainer)
+      | ({
+          _key: string;
+        } & CountdownTimer)
+      | ({
+          _key: string;
         } & HtmlBlock)
       | ({
           _key: string;
-        } & DataTable)
-      | ({
-          _key: string;
-        } & LottieAnimation)
-      | ({
-          _key: string;
-        } & FormBlock)
-      | ({
-          _key: string;
-        } & FormCta)
+        } & ExternalVideo)
       | ({
           _key: string;
         } & FaqBlock)
@@ -4135,7 +4093,16 @@ export type GridRow = {
         } & FeatureCardGrid)
       | ({
           _key: string;
-        } & TestimonialCarousel)
+        } & FormBlock)
+      | ({
+          _key: string;
+        } & FormCta)
+      | ({
+          _key: string;
+        } & IconText)
+      | ({
+          _key: string;
+        } & ImageBlock)
       | ({
           _key: string;
         } & ImageGallery)
@@ -4144,22 +4111,55 @@ export type GridRow = {
         } & LawyerCards)
       | ({
           _key: string;
+        } & LogoRow)
+      | ({
+          _key: string;
+        } & LottieAnimation)
+      | ({
+          _key: string;
+        } & MapEmbed)
+      | ({
+          _key: string;
+        } & NewsCards)
+      | ({
+          _key: string;
         } & PracticeAreaCards)
       | ({
           _key: string;
         } & PracticeAreaGrid)
       | ({
           _key: string;
-        } & NewsCards)
+        } & PricingCard)
       | ({
           _key: string;
-        } & CaseResultCards)
+        } & RichTextBlock)
+      | ({
+          _key: string;
+        } & SocialEmbed)
+      | ({
+          _key: string;
+        } & SpacerDivider)
+      | ({
+          _key: string;
+        } & StatMetric)
+      | ({
+          _key: string;
+        } & TabbedContent)
+      | ({
+          _key: string;
+        } & DataTable)
       | ({
           _key: string;
         } & TocBlock)
       | ({
           _key: string;
-        } & NestedContainer)
+        } & TestimonialCarousel)
+      | ({
+          _key: string;
+        } & TestimonialQuote)
+      | ({
+          _key: string;
+        } & YoutubeVideo)
     >;
     design?: ColumnsGridColumnDesign;
     blockStyles?: BlockStyles;
@@ -4738,7 +4738,7 @@ export type Accordion = {
   subtitle?: string;
   panels: Array<{
     title: string;
-    icon?: AccordionPanelIcon;
+    icon?: Icon;
     content: BlockContent;
     _type: "accordionPanel";
     _key: string;
@@ -4754,7 +4754,7 @@ export type TabbedContent = {
   subtitle?: string;
   tabs: Array<{
     label: string;
-    icon?: Icon;
+    icon?: TabIcon;
     content: Array<
       | ({
           _key: string;
@@ -5085,6 +5085,8 @@ export type PracticeArea = {
   _rev: string;
   title: string;
   slug: Slug;
+  publishedAt?: string;
+  updatedAt?: string;
   pageBuilder?: PageBuilder;
   cardTitle?: string;
   coverImage?: {
@@ -5230,6 +5232,8 @@ export type Page = {
   slug: Slug;
   pageBuilder?: PageBuilder;
   seo?: Seo;
+  publishedAt?: string;
+  updatedAt?: string;
 };
 
 export type Table = {
@@ -5441,14 +5445,8 @@ export type AllSanitySchemaTypes =
   | ContainerGapMobile
   | ContainerWrap
   | SanityImageAssetReference
-  | BackgroundImage
   | Icon
-  | TabImageImage
-  | LogoItemImage
-  | AccordionPanelIcon
-  | FeatureCardIcon
-  | Cta
-  | GalleryImageImage
+  | BackgroundImage
   | NestedContainerContainerWidth
   | ContainerWidthDesktop
   | ContainerWidthTablet
@@ -5486,6 +5484,12 @@ export type AllSanitySchemaTypes =
   | GridColumnContainerGapTablet
   | GridColumnContainerGapMobile
   | GridColumnContainerWrap
+  | FeatureCardIcon
+  | Cta
+  | GalleryImageImage
+  | LogoItemImage
+  | TabIcon
+  | TabImageImage
   | GridColumnDesign
   | DesignBackground
   | Normal
@@ -5924,7 +5928,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 panels: Array<{
                   title: string;
-                  icon?: AccordionPanelIcon;
+                  icon?: Icon;
                   content: BlockContent;
                   _type: "accordionPanel";
                   _key: string;
@@ -7092,7 +7096,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         panels: Array<{
                           title: string;
-                          icon?: AccordionPanelIcon;
+                          icon?: Icon;
                           content: BlockContent;
                           _type: "accordionPanel";
                           _key: string;
@@ -8814,7 +8818,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         tabs: Array<{
                           label: string;
-                          icon?: Icon;
+                          icon?: TabIcon;
                           content: Array<
                             | ({
                                 _key: string;
@@ -9708,7 +9712,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 tabs: Array<{
                   label: string;
-                  icon?: Icon;
+                  icon?: TabIcon;
                   content: Array<
                     | ({
                         _key: string;
@@ -10090,7 +10094,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 panels: Array<{
                   title: string;
-                  icon?: AccordionPanelIcon;
+                  icon?: Icon;
                   content: BlockContent;
                   _type: "accordionPanel";
                   _key: string;
@@ -11258,7 +11262,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         panels: Array<{
                           title: string;
-                          icon?: AccordionPanelIcon;
+                          icon?: Icon;
                           content: BlockContent;
                           _type: "accordionPanel";
                           _key: string;
@@ -12980,7 +12984,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         tabs: Array<{
                           label: string;
-                          icon?: Icon;
+                          icon?: TabIcon;
                           content: Array<
                             | ({
                                 _key: string;
@@ -13874,7 +13878,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 tabs: Array<{
                   label: string;
-                  icon?: Icon;
+                  icon?: TabIcon;
                   content: Array<
                     | ({
                         _key: string;
@@ -14238,7 +14242,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 panels: Array<{
                   title: string;
-                  icon?: AccordionPanelIcon;
+                  icon?: Icon;
                   content: BlockContent;
                   _type: "accordionPanel";
                   _key: string;
@@ -15406,7 +15410,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         panels: Array<{
                           title: string;
-                          icon?: AccordionPanelIcon;
+                          icon?: Icon;
                           content: BlockContent;
                           _type: "accordionPanel";
                           _key: string;
@@ -17128,7 +17132,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         tabs: Array<{
                           label: string;
-                          icon?: Icon;
+                          icon?: TabIcon;
                           content: Array<
                             | ({
                                 _key: string;
@@ -18022,7 +18026,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 tabs: Array<{
                   label: string;
-                  icon?: Icon;
+                  icon?: TabIcon;
                   content: Array<
                     | ({
                         _key: string;
@@ -18386,7 +18390,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 panels: Array<{
                   title: string;
-                  icon?: AccordionPanelIcon;
+                  icon?: Icon;
                   content: BlockContent;
                   _type: "accordionPanel";
                   _key: string;
@@ -19554,7 +19558,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         panels: Array<{
                           title: string;
-                          icon?: AccordionPanelIcon;
+                          icon?: Icon;
                           content: BlockContent;
                           _type: "accordionPanel";
                           _key: string;
@@ -21276,7 +21280,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         subtitle?: string;
                         tabs: Array<{
                           label: string;
-                          icon?: Icon;
+                          icon?: TabIcon;
                           content: Array<
                             | ({
                                 _key: string;
@@ -22170,7 +22174,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 subtitle?: string;
                 tabs: Array<{
                   label: string;
-                  icon?: Icon;
+                  icon?: TabIcon;
                   content: Array<
                     | ({
                         _key: string;
@@ -22566,7 +22570,7 @@ export type PAGE_QUERY_RESULT =
                 subtitle?: string;
                 panels: Array<{
                   title: string;
-                  icon?: AccordionPanelIcon;
+                  icon?: Icon;
                   content: BlockContent;
                   _type: "accordionPanel";
                   _key: string;
@@ -23734,7 +23738,7 @@ export type PAGE_QUERY_RESULT =
                         subtitle?: string;
                         panels: Array<{
                           title: string;
-                          icon?: AccordionPanelIcon;
+                          icon?: Icon;
                           content: BlockContent;
                           _type: "accordionPanel";
                           _key: string;
@@ -25456,7 +25460,7 @@ export type PAGE_QUERY_RESULT =
                         subtitle?: string;
                         tabs: Array<{
                           label: string;
-                          icon?: Icon;
+                          icon?: TabIcon;
                           content: Array<
                             | ({
                                 _key: string;
@@ -26350,7 +26354,7 @@ export type PAGE_QUERY_RESULT =
                 subtitle?: string;
                 tabs: Array<{
                   label: string;
-                  icon?: Icon;
+                  icon?: TabIcon;
                   content: Array<
                     | ({
                         _key: string;
@@ -26716,7 +26720,7 @@ export type PAGE_QUERY_RESULT =
                 subtitle?: string;
                 panels: Array<{
                   title: string;
-                  icon?: AccordionPanelIcon;
+                  icon?: Icon;
                   content: BlockContent;
                   _type: "accordionPanel";
                   _key: string;
@@ -27884,7 +27888,7 @@ export type PAGE_QUERY_RESULT =
                         subtitle?: string;
                         panels: Array<{
                           title: string;
-                          icon?: AccordionPanelIcon;
+                          icon?: Icon;
                           content: BlockContent;
                           _type: "accordionPanel";
                           _key: string;
@@ -29606,7 +29610,7 @@ export type PAGE_QUERY_RESULT =
                         subtitle?: string;
                         tabs: Array<{
                           label: string;
-                          icon?: Icon;
+                          icon?: TabIcon;
                           content: Array<
                             | ({
                                 _key: string;
@@ -30500,7 +30504,7 @@ export type PAGE_QUERY_RESULT =
                 subtitle?: string;
                 tabs: Array<{
                   label: string;
-                  icon?: Icon;
+                  icon?: TabIcon;
                   content: Array<
                     | ({
                         _key: string;
@@ -31126,7 +31130,7 @@ export type NEWS_POST_QUERY_RESULT = {
             subtitle?: string;
             panels: Array<{
               title: string;
-              icon?: AccordionPanelIcon;
+              icon?: Icon;
               content: BlockContent;
               _type: "accordionPanel";
               _key: string;
@@ -32294,7 +32298,7 @@ export type NEWS_POST_QUERY_RESULT = {
                     subtitle?: string;
                     panels: Array<{
                       title: string;
-                      icon?: AccordionPanelIcon;
+                      icon?: Icon;
                       content: BlockContent;
                       _type: "accordionPanel";
                       _key: string;
@@ -34008,7 +34012,7 @@ export type NEWS_POST_QUERY_RESULT = {
                     subtitle?: string;
                     tabs: Array<{
                       label: string;
-                      icon?: Icon;
+                      icon?: TabIcon;
                       content: Array<
                         | ({
                             _key: string;
@@ -34901,7 +34905,7 @@ export type NEWS_POST_QUERY_RESULT = {
             subtitle?: string;
             tabs: Array<{
               label: string;
-              icon?: Icon;
+              icon?: TabIcon;
               content: Array<
                 | ({
                     _key: string;
@@ -35252,7 +35256,7 @@ export type SEARCH_QUERY_RESULT = Array<
       title: string;
       slug: string;
       excerpt: null;
-      publishedAt: null;
+      publishedAt: string | null;
     }
   | {
       _id: string;
@@ -35260,7 +35264,7 @@ export type SEARCH_QUERY_RESULT = Array<
       title: string;
       slug: string;
       excerpt: null;
-      publishedAt: null;
+      publishedAt: string | null;
     }
 >;
 

@@ -1,5 +1,5 @@
-import type {StructureResolver} from 'sanity/structure'
-import {CogIcon, DocumentsIcon, HomeIcon} from '@sanity/icons'
+import type { StructureResolver } from 'sanity/structure'
+import { CogIcon, DocumentsIcon, HomeIcon } from '@sanity/icons'
 
 const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
 
@@ -27,7 +27,7 @@ export const structure: StructureResolver = (S) =>
       // built: the pages they edit daily first, configuration last. A titled
       // divider labels the group beneath it.
       S.divider().title('Singletons'),
-      
+
       S.listItem()
         .title('Home Page')
         .icon(HomeIcon)
@@ -40,6 +40,14 @@ export const structure: StructureResolver = (S) =>
 
       S.divider().title('Content'),
       S.documentTypeListItem('page').title('Pages'),
+      // S.listItem()
+      //   .title('Pages')
+      //   .schemaType('page')
+      //   .child(
+      //     S.documentTypeList('page')
+      //       .title('Pages')
+      //       .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }]), // newest first
+      //   ),
       S.documentTypeListItem('practiceArea').title('Practice Areas'),
       S.documentTypeListItem('review').title('Reviews'),
       S.documentTypeListItem('lawyer').title('Lawyers'),
