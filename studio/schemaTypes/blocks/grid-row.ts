@@ -38,48 +38,51 @@ const createColumn = () => ({
 const usesGridTemplate = (parent: ContainerParent) =>
   parent?.container?.layoutType === 'grid'
 
-/** Every block a column can hold, shared by both container types. */
-const contentMembers = () => [
-  // Rich text & media
-  defineArrayMember({type: 'richTextBlock'}),
-  defineArrayMember({type: 'imageBlock'}),
-  defineArrayMember({type: 'callToAction'}),
-  defineArrayMember({type: 'externalVideo'}),
-  defineArrayMember({type: 'youtubeVideo'}),
-  // Interactive
-  defineArrayMember({type: 'tabbedContent'}),
-  defineArrayMember({type: 'accordion'}),
-  defineArrayMember({type: 'spacerDivider'}),
-  defineArrayMember({type: 'countdownTimer'}),
-  // Display
-  defineArrayMember({type: 'iconText'}),
-  defineArrayMember({type: 'buttonGroup'}),
-  defineArrayMember({type: 'statMetric'}),
-  defineArrayMember({type: 'testimonialQuote'}),
-  defineArrayMember({type: 'alertNotice'}),
-  defineArrayMember({type: 'pricingCard'}),
-  // Embeds & data
-  defineArrayMember({type: 'socialEmbed'}),
-  defineArrayMember({type: 'logoRow'}),
-  defineArrayMember({type: 'mapEmbed'}),
-  defineArrayMember({type: 'codeBlock'}),
-  defineArrayMember({type: 'htmlBlock'}),
-  defineArrayMember({type: 'dataTable'}),
-  defineArrayMember({type: 'lottieAnimation'}),
-  // Forms & FAQ
-  defineArrayMember({type: 'formBlock'}),
-  defineArrayMember({type: 'formCta'}),
-  defineArrayMember({type: 'faqBlock'}),
-  // Grids & galleries
-  defineArrayMember({type: 'featureCardGrid'}),
-  defineArrayMember({type: 'testimonialCarousel'}),
-  defineArrayMember({type: 'imageGallery'}),
-  defineArrayMember({type: 'lawyerCards'}),
-  defineArrayMember({type: 'practiceAreaCards'}),
-  defineArrayMember({type: 'practiceAreaGrid'}),
-  defineArrayMember({type: 'newsCards'}),
-  defineArrayMember({type: 'caseResultCards'}),
-  defineArrayMember({type: 'tocBlock'}),
+/**
+ * Every block a column can hold, A–Z by the name the insert menu shows, so a
+ * block is found by its name rather than by knowing which group it was in.
+ * Keep new blocks in order — the trailing comment is that name.
+ *
+ * An Inner Container ("Column") is offered only in a top-level Container's
+ * columns — nesting stops at one level, since the page query can't recurse —
+ * which is why it is a parameter.
+ */
+const contentMembers = (withColumn: boolean) => [
+  defineArrayMember({type: 'accordion'}), // Accordion
+  defineArrayMember({type: 'alertNotice'}), // Alert / Notice
+  defineArrayMember({type: 'callToAction'}), // Button
+  defineArrayMember({type: 'buttonGroup'}), // Button Group
+  defineArrayMember({type: 'caseResultCards'}), // Case Results
+  defineArrayMember({type: 'codeBlock'}), // Code Block
+  ...(withColumn ? [defineArrayMember({type: 'nestedContainer'})] : []), // Column
+  defineArrayMember({type: 'countdownTimer'}), // Countdown Timer
+  defineArrayMember({type: 'htmlBlock'}), // Custom HTML
+  defineArrayMember({type: 'externalVideo'}), // External Video
+  defineArrayMember({type: 'faqBlock'}), // FAQ
+  defineArrayMember({type: 'featureCardGrid'}), // Feature Card Grid
+  defineArrayMember({type: 'formBlock'}), // Form
+  defineArrayMember({type: 'formCta'}), // Form CTA
+  defineArrayMember({type: 'iconText'}), // Icon + Text
+  defineArrayMember({type: 'imageBlock'}), // Image
+  defineArrayMember({type: 'imageGallery'}), // Image Gallery
+  defineArrayMember({type: 'lawyerCards'}), // Lawyer Cards
+  defineArrayMember({type: 'logoRow'}), // Logo Row
+  defineArrayMember({type: 'lottieAnimation'}), // Lottie Animation
+  defineArrayMember({type: 'mapEmbed'}), // Map Embed
+  defineArrayMember({type: 'newsCards'}), // News Cards
+  defineArrayMember({type: 'practiceAreaCards'}), // Practice Area Cards
+  defineArrayMember({type: 'practiceAreaGrid'}), // Practice Area Grid
+  defineArrayMember({type: 'pricingCard'}), // Pricing Card
+  defineArrayMember({type: 'richTextBlock'}), // Rich Text
+  defineArrayMember({type: 'socialEmbed'}), // Social Embed
+  defineArrayMember({type: 'spacerDivider'}), // Spacer / Divider
+  defineArrayMember({type: 'statMetric'}), // Stat / Metric
+  defineArrayMember({type: 'tabbedContent'}), // Tabbed Content
+  defineArrayMember({type: 'dataTable'}), // Table
+  defineArrayMember({type: 'tocBlock'}), // Table of Contents
+  defineArrayMember({type: 'testimonialCarousel'}), // Testimonial Carousel
+  defineArrayMember({type: 'testimonialQuote'}), // Testimonial Quote
+  defineArrayMember({type: 'youtubeVideo'}), // YouTube Video
 ]
 
 /**
@@ -161,13 +164,7 @@ function defineContainerType({nested}: {nested: boolean}) {
                 title: 'Content',
                 type: 'array',
                 group: 'layout',
-                of: nested
-                  ? contentMembers()
-                  : [
-                      ...contentMembers(),
-                      // Layout
-                      defineArrayMember({type: 'nestedContainer'}),
-                    ],
+                of: contentMembers(!nested),
                 options: {
                   insertMenu: {
                     views: [{name: 'grid'}],
