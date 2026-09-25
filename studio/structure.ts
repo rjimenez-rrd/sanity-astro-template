@@ -15,7 +15,7 @@ const PLACED = [
   'caseResult',
   'newsPost',
   'newsCategory',
-  'formCtaSection',
+  'ctaForm',
   ...SINGLETONS,
 ]
 
@@ -66,7 +66,7 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.documentTypeListItem('caseResult').title('Case Results'),
-      S.documentTypeListItem('formCtaSection').title('Form CTAs'),
+      S.documentTypeListItem('ctaForm').title('CTA Forms'),
 
       // Any document type not placed above, so a new one still shows up.
       ...S.documentTypeListItems().filter(

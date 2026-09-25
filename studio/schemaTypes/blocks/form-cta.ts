@@ -31,7 +31,7 @@ export const formCtaType = defineType({
       name: 'cta',
       title: 'Form CTA',
       type: 'reference',
-      to: [{type: 'formCtaSection'}],
+      to: [{type: 'ctaForm'}],
       description: 'Pick one from Form CTAs, or create a new one here. Edits there show on every page using it.',
       validation: (rule) =>
         rule.custom((value, context) => {

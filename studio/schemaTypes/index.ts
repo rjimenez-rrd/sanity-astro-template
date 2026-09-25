@@ -19,7 +19,7 @@ import {reviewType} from './documents/review'
 import {lawyerType} from './documents/lawyer'
 import {newsPostType} from './documents/news-post'
 import {newsCategoryType} from './documents/news-category'
-import {formCtaSectionType} from './documents/form-cta'
+import {ctaFormType} from './documents/form-cta'
 import {caseResultType} from './documents/case-result'
 
 const objectTypes: SchemaTypeDefinition[] = [
@@ -42,7 +42,7 @@ const documentTypes: SchemaTypeDefinition[] = [
   lawyerType,
   newsPostType,
   newsCategoryType,
-  formCtaSectionType,
+  ctaFormType,
   caseResultType,
 ]
 

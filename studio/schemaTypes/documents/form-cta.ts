@@ -9,9 +9,9 @@ import {ColorStringInput} from '../../components/inputs/ColorStringInput'
  * updates together. The form is a regular Form block, with every field,
  * submit and message option that block has.
  */
-export const formCtaSectionType = defineType({
-  name: 'formCtaSection',
-  title: 'Form CTA',
+export const ctaFormType = defineType({
+  name: 'ctaForm',
+  title: 'CTA Form',
   type: 'document',
   icon: EnvelopeIcon,
   groups: [

@@ -4374,16 +4374,16 @@ export type FaqBlock = {
   blockStyles?: BlockStyles;
 };
 
-export type FormCtaSectionReference = {
+export type CtaFormReference = {
   _ref: string;
   _type: "reference";
   _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "formCtaSection";
+  [internalGroqTypeReferenceTo]?: "ctaForm";
 };
 
 export type FormCta = {
   _type: "formCta";
-  cta?: FormCtaSectionReference;
+  cta?: CtaFormReference;
   blockStyles?: BlockStyles;
   eyebrow?: string;
   heading?: string;
@@ -4959,11 +4959,13 @@ export type CaseResult = {
     } & PracticeAreaReference
   >;
   order?: number;
+  publishedAt?: string;
+  updatedAt?: string;
 };
 
-export type FormCtaSection = {
+export type CtaForm = {
   _id: string;
-  _type: "formCtaSection";
+  _type: "ctaForm";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
@@ -4994,7 +4996,6 @@ export type NewsPost = {
   _rev: string;
   title: string;
   slug: Slug;
-  publishedAt: string;
   category?: NewsCategoryReference;
   coverImage: {
     asset?: SanityImageAssetReference;
@@ -5006,6 +5007,8 @@ export type NewsPost = {
   };
   excerpt?: string;
   pageBuilder?: PageBuilder;
+  publishedAt?: string;
+  updatedAt?: string;
   seo?: Seo;
 };
 
@@ -5017,6 +5020,8 @@ export type NewsCategory = {
   _rev: string;
   title: string;
   slug: Slug;
+  publishedAt?: string;
+  updatedAt?: string;
 };
 
 export type Slug = {
@@ -5045,6 +5050,8 @@ export type Lawyer = {
   shortBio?: string;
   bio?: BlockContent;
   order?: number;
+  publishedAt?: string;
+  updatedAt?: string;
   practiceAreas?: Array<
     {
       _key: string;
@@ -5075,6 +5082,8 @@ export type Review = {
   title?: string;
   reviewText: string;
   rating: number;
+  publishedAt?: string;
+  updatedAt?: string;
 };
 
 export type PracticeArea = {
@@ -5085,9 +5094,9 @@ export type PracticeArea = {
   _rev: string;
   title: string;
   slug: Slug;
+  pageBuilder?: PageBuilder;
   publishedAt?: string;
   updatedAt?: string;
-  pageBuilder?: PageBuilder;
   cardTitle?: string;
   coverImage?: {
     asset?: SanityImageAssetReference;
@@ -5231,9 +5240,9 @@ export type Page = {
   title: string;
   slug: Slug;
   pageBuilder?: PageBuilder;
-  seo?: Seo;
   publishedAt?: string;
   updatedAt?: string;
+  seo?: Seo;
 };
 
 export type Table = {
@@ -5817,7 +5826,7 @@ export type AllSanitySchemaTypes =
   | TestimonialCarousel
   | FeatureCardGrid
   | FaqBlock
-  | FormCtaSectionReference
+  | CtaFormReference
   | FormCta
   | FormBlock
   | HeroSection
@@ -5853,7 +5862,7 @@ export type AllSanitySchemaTypes =
   | LinkInternal
   | BlockContent
   | CaseResult
-  | FormCtaSection
+  | CtaForm
   | NewsPost
   | NewsCategory
   | Slug
@@ -5892,7 +5901,7 @@ export type HOME_PAGE_QUERY_RESULT =
     }
   | {
       _id: "homePage";
-      _type: "formCtaSection";
+      _type: "ctaForm";
       seo: null;
       pageBuilder: null;
     }
@@ -6568,7 +6577,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "formCta";
                 cta: {
                   _id: string;
-                  _type: "formCtaSection";
+                  _type: "ctaForm";
                   _createdAt: string;
                   _updatedAt: string;
                   _rev: string;
@@ -7738,7 +7747,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "formCta";
                         cta: {
                           _id: string;
-                          _type: "formCtaSection";
+                          _type: "ctaForm";
                           _createdAt: string;
                           _updatedAt: string;
                           _rev: string;
@@ -8304,7 +8313,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           _id: string;
                           title: string;
                           slug: string;
-                          publishedAt: string;
+                          publishedAt: string | null;
                           category: string | null;
                           coverImage: {
                             asset: {
@@ -9205,7 +9214,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   _id: string;
                   title: string;
                   slug: string;
-                  publishedAt: string;
+                  publishedAt: string | null;
                   category: string | null;
                   coverImage: {
                     asset: {
@@ -10734,7 +10743,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "formCta";
                 cta: {
                   _id: string;
-                  _type: "formCtaSection";
+                  _type: "ctaForm";
                   _createdAt: string;
                   _updatedAt: string;
                   _rev: string;
@@ -11904,7 +11913,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "formCta";
                         cta: {
                           _id: string;
-                          _type: "formCtaSection";
+                          _type: "ctaForm";
                           _createdAt: string;
                           _updatedAt: string;
                           _rev: string;
@@ -12470,7 +12479,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           _id: string;
                           title: string;
                           slug: string;
-                          publishedAt: string;
+                          publishedAt: string | null;
                           category: string | null;
                           coverImage: {
                             asset: {
@@ -13371,7 +13380,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   _id: string;
                   title: string;
                   slug: string;
-                  publishedAt: string;
+                  publishedAt: string | null;
                   category: string | null;
                   coverImage: {
                     asset: {
@@ -14882,7 +14891,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "formCta";
                 cta: {
                   _id: string;
-                  _type: "formCtaSection";
+                  _type: "ctaForm";
                   _createdAt: string;
                   _updatedAt: string;
                   _rev: string;
@@ -16052,7 +16061,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "formCta";
                         cta: {
                           _id: string;
-                          _type: "formCtaSection";
+                          _type: "ctaForm";
                           _createdAt: string;
                           _updatedAt: string;
                           _rev: string;
@@ -16618,7 +16627,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           _id: string;
                           title: string;
                           slug: string;
-                          publishedAt: string;
+                          publishedAt: string | null;
                           category: string | null;
                           coverImage: {
                             asset: {
@@ -17519,7 +17528,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   _id: string;
                   title: string;
                   slug: string;
-                  publishedAt: string;
+                  publishedAt: string | null;
                   category: string | null;
                   coverImage: {
                     asset: {
@@ -19030,7 +19039,7 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "formCta";
                 cta: {
                   _id: string;
-                  _type: "formCtaSection";
+                  _type: "ctaForm";
                   _createdAt: string;
                   _updatedAt: string;
                   _rev: string;
@@ -20200,7 +20209,7 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "formCta";
                         cta: {
                           _id: string;
-                          _type: "formCtaSection";
+                          _type: "ctaForm";
                           _createdAt: string;
                           _updatedAt: string;
                           _rev: string;
@@ -20766,7 +20775,7 @@ export type HOME_PAGE_QUERY_RESULT =
                           _id: string;
                           title: string;
                           slug: string;
-                          publishedAt: string;
+                          publishedAt: string | null;
                           category: string | null;
                           coverImage: {
                             asset: {
@@ -21667,7 +21676,7 @@ export type HOME_PAGE_QUERY_RESULT =
                   _id: string;
                   title: string;
                   slug: string;
-                  publishedAt: string;
+                  publishedAt: string | null;
                   category: string | null;
                   coverImage: {
                     asset: {
@@ -23210,7 +23219,7 @@ export type PAGE_QUERY_RESULT =
                 _type: "formCta";
                 cta: {
                   _id: string;
-                  _type: "formCtaSection";
+                  _type: "ctaForm";
                   _createdAt: string;
                   _updatedAt: string;
                   _rev: string;
@@ -24380,7 +24389,7 @@ export type PAGE_QUERY_RESULT =
                         _type: "formCta";
                         cta: {
                           _id: string;
-                          _type: "formCtaSection";
+                          _type: "ctaForm";
                           _createdAt: string;
                           _updatedAt: string;
                           _rev: string;
@@ -24946,7 +24955,7 @@ export type PAGE_QUERY_RESULT =
                           _id: string;
                           title: string;
                           slug: string;
-                          publishedAt: string;
+                          publishedAt: string | null;
                           category: string | null;
                           coverImage: {
                             asset: {
@@ -25847,7 +25856,7 @@ export type PAGE_QUERY_RESULT =
                   _id: string;
                   title: string;
                   slug: string;
-                  publishedAt: string;
+                  publishedAt: string | null;
                   category: string | null;
                   coverImage: {
                     asset: {
@@ -27360,7 +27369,7 @@ export type PAGE_QUERY_RESULT =
                 _type: "formCta";
                 cta: {
                   _id: string;
-                  _type: "formCtaSection";
+                  _type: "ctaForm";
                   _createdAt: string;
                   _updatedAt: string;
                   _rev: string;
@@ -28530,7 +28539,7 @@ export type PAGE_QUERY_RESULT =
                         _type: "formCta";
                         cta: {
                           _id: string;
-                          _type: "formCtaSection";
+                          _type: "ctaForm";
                           _createdAt: string;
                           _updatedAt: string;
                           _rev: string;
@@ -29096,7 +29105,7 @@ export type PAGE_QUERY_RESULT =
                           _id: string;
                           title: string;
                           slug: string;
-                          publishedAt: string;
+                          publishedAt: string | null;
                           category: string | null;
                           coverImage: {
                             asset: {
@@ -29997,7 +30006,7 @@ export type PAGE_QUERY_RESULT =
                   _id: string;
                   title: string;
                   slug: string;
-                  publishedAt: string;
+                  publishedAt: string | null;
                   category: string | null;
                   coverImage: {
                     asset: {
@@ -31054,7 +31063,7 @@ export type NEWS_LIST_QUERY_RESULT = Array<{
   _id: string;
   title: string;
   slug: string;
-  publishedAt: string;
+  publishedAt: string | null;
   category: string | null;
   coverImage: {
     asset: {
@@ -31082,7 +31091,7 @@ export type NEWS_POST_QUERY_RESULT = {
   _type: "newsPost";
   title: string;
   slug: string;
-  publishedAt: string;
+  publishedAt: string | null;
   excerpt: string | null;
   category: string | null;
   coverImage: {
@@ -31770,7 +31779,7 @@ export type NEWS_POST_QUERY_RESULT = {
             _type: "formCta";
             cta: {
               _id: string;
-              _type: "formCtaSection";
+              _type: "ctaForm";
               _createdAt: string;
               _updatedAt: string;
               _rev: string;
@@ -32938,7 +32947,7 @@ export type NEWS_POST_QUERY_RESULT = {
                     _type: "formCta";
                     cta: {
                       _id: string;
-                      _type: "formCtaSection";
+                      _type: "ctaForm";
                       _createdAt: string;
                       _updatedAt: string;
                       _rev: string;
@@ -33504,7 +33513,7 @@ export type NEWS_POST_QUERY_RESULT = {
                       _id: string;
                       title: string;
                       slug: string;
-                      publishedAt: string;
+                      publishedAt: string | null;
                       category: string | null;
                       coverImage: {
                         asset: {
@@ -34399,7 +34408,7 @@ export type NEWS_POST_QUERY_RESULT = {
               _id: string;
               title: string;
               slug: string;
-              publishedAt: string;
+              publishedAt: string | null;
               category: string | null;
               coverImage: {
                 asset: {
@@ -35248,7 +35257,7 @@ export type SEARCH_QUERY_RESULT = Array<
       title: string;
       slug: string;
       excerpt: string | null;
-      publishedAt: string;
+      publishedAt: string | null;
     }
   | {
       _id: string;
