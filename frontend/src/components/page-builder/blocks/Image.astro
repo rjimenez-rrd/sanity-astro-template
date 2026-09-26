@@ -7,6 +7,9 @@ interface Props {
 }
 
 const {data} = Astro.props
+// "Load First" in the Studio: eager and high priority for an image visible
+// without scrolling; lazy (the default) everywhere else.
+const priority = Boolean(data.priority)
 ---
 
 {/* <figure> only earns its place when there is a caption to pair with the image. */}
@@ -14,10 +17,10 @@ const {data} = Astro.props
   data.image?.asset &&
     (data.caption ? (
       <figure>
-        <SanityImage value={data.image} class="w-full rounded-lg object-cover" />
+        <SanityImage value={data.image} class="w-full rounded-lg object-cover" priority={priority} />
         <figcaption class="mt-3 text-center text-sm text-muted">{data.caption}</figcaption>
       </figure>
     ) : (
-      <SanityImage value={data.image} class="w-full rounded-lg object-cover" />
+      <SanityImage value={data.image} class="w-full rounded-lg object-cover" priority={priority} />
     ))
 }

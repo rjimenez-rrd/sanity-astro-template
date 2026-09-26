@@ -76,6 +76,7 @@ const contentTypesFragment = /* groq */ `
     _type == "imageBlock" => {
       image { ${imageFragment} },
       caption,
+      priority,
       ${blockStylesFragment}
     },
     _type == "richTextBlock" => {

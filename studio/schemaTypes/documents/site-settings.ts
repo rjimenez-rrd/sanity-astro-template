@@ -3,6 +3,18 @@ import {CogIcon} from '@sanity/icons'
 import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 import {LogoInput} from '../../components/inputs/LogoInput'
 
+/**
+ * Whether the logo's Studio preview has a white background. Set by the switch
+ * in LogoInput, which is its only control, so it's hidden from the form.
+ * Unset means on.
+ */
+const logoWhiteBackgroundField = defineField({
+  name: 'whiteBackground',
+  title: 'White Background in Preview',
+  type: 'boolean',
+  hidden: true,
+})
+
 export const siteSettingsType = defineType({
   name: 'siteSettings',
   title: 'Site Settings',
@@ -38,6 +50,7 @@ export const siteSettingsType = defineType({
       components: {input: LogoInput},
       fields: [
         defineField({name: 'alt', type: 'string', title: 'Alt Text'}),
+        logoWhiteBackgroundField,
       ],
     }),
     defineField({
@@ -323,7 +336,7 @@ export const siteSettingsType = defineType({
       group: 'footer',
       description: 'A light version for the dark footer. Leave empty to use the main logo in white.',
       components: {input: LogoInput},
-      fields: [defineField({name: 'alt', type: 'string', title: 'Alt Text'})],
+      fields: [defineField({name: 'alt', type: 'string', title: 'Alt Text'}), logoWhiteBackgroundField],
     }),
     defineField({
       name: 'footerPhoneLabel',

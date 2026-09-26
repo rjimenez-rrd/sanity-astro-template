@@ -25,10 +25,9 @@ const SOCIAL_ICONS: Record<string, string> = {
 }
 
 const siteName = settings?.siteName || 'Page Builder'
-const logo = settings?.footerLogo?.asset ? settings.footerLogo : settings?.logo
+const logo = settings?.footerLogo?.asset ? settings.footerLogo : undefined
 // The main logo is drawn for a light header; turned white, it reads on the
 // dark footer. A dedicated footer logo is shown as uploaded.
-const invertLogo = !settings?.footerLogo?.asset
 
 const phone = stegaClean(settings?.phone)
 const phoneText = settings?.footerPhoneText || (phone ? formatPhoneNumber(phone) : undefined)
@@ -79,7 +78,7 @@ const directionsHref = (office: (typeof offices)[number]) =>
               value={logo}
               alt={stegaClean(logo.alt) || siteName}
               width={800}
-              class={`h-auto w-full md:h-8 md:w-auto lg:h-12 ${invertLogo ? 'brightness-0 invert' : ''}`}
+              class={`h-auto w-full md:h-8 md:w-auto lg:h-12`}
             />
           ) : (
             <span class="text-2xl font-bold">{siteName}</span>
