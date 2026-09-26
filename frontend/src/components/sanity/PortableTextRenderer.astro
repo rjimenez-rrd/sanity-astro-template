@@ -10,6 +10,7 @@ import PtLink from '@/components/portable-text/PtLink.astro'
 import PtImage from '@/components/portable-text/PtImage.astro'
 import PtCallToAction from '@/components/portable-text/PtCallToAction.astro'
 import PtParagraph from '@/components/portable-text/PtParagraph.astro'
+import PtSiteInfo from '@/components/portable-text/PtSiteInfo.astro'
 
 interface Props {
   value?: PortableTextBlock[] | Array<Record<string, unknown>> | null
@@ -22,6 +23,8 @@ const components: SomePortableTextComponents = {
   type: {
     image: PtImage,
     callToAction: PtCallToAction,
+    // Inline, inside a block's text rather than between blocks.
+    siteInfo: PtSiteInfo,
   },
   mark: {
     link: PtLink,

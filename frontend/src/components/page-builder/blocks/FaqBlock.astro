@@ -2,6 +2,7 @@
 import {toPlainText} from '@portabletext/toolkit'
 import PortableTextRenderer from '@/components/sanity/PortableTextRenderer.astro'
 import type {FaqBlockData} from '@/types/sanity'
+import {fillSiteInfo, getSiteInfo, type SiteInfo} from '@/sanity/lib/siteInfo'
 
 interface Props {
   data: FaqBlockData
@@ -11,7 +12,7 @@ const {data} = Astro.props
 
 type FaqItem = FaqBlockData['items'][number]
 
-function buildJsonLd(items: FaqItem[]) {
+function buildJsonLd(items: FaqItem[], siteInfo: SiteInfo) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -22,7 +23,8 @@ function buildJsonLd(items: FaqItem[]) {
         name: item.question,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: item.answer ? toPlainText(item.answer) : '',
+          // Inline Site Info (e.g. the phone) filled in, not dropped.
+          text: item.answer ? toPlainText(fillSiteInfo(item.answer, siteInfo)) : '',
         },
       })),
   }
@@ -36,7 +38,10 @@ const items = data.items || []
 // `name` on <details> makes the group exclusive natively — the browser closes
 // the sibling for us, which is exactly what allowMultipleOpen: false meant.
 const groupName = allowMultipleOpen ? undefined : `faq-${items[0]?._key ?? 'group'}`
-const jsonLd = enableSchema && items.length > 0 ? JSON.stringify(buildJsonLd(items)) : null
+const jsonLd =
+  enableSchema && items.length > 0
+    ? JSON.stringify(buildJsonLd(items, await getSiteInfo(Astro.locals)))
+    : null
 ---
 
 {

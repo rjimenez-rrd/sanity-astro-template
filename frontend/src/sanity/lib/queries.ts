@@ -237,6 +237,11 @@ export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
   }
 `)
 
+/** Site Settings values that rich text shows inline (siteInfo). */
+export const SITE_INFO_QUERY = defineQuery(/* groq */ `
+  *[_id == "siteSettings"][0] { phone }
+`)
+
 export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
   *[_id == "siteSettings"][0] {
     siteName, tagline,

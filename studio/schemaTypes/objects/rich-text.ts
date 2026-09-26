@@ -52,6 +52,8 @@ export const blockContentType = defineType({
           },
         ],
       },
+      // Inline, mid-sentence: Site Settings values such as the phone.
+      of: [defineArrayMember({type: 'siteInfo'})],
     }),
     // Blocks embedded mid-article. Each one also needs an adapter in
     // frontend components/portable-text/ and an entry in PortableTextRenderer's

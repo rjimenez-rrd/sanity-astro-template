@@ -6,6 +6,7 @@ import {blockContentType} from './objects/rich-text'
 import {linkInternalType, linkExternalType, pageSlugType, linkSitePageType} from './objects/link'
 import {youtubeVideoType, externalVideoType} from './blocks/video'
 import {seoType} from './objects/seo'
+import {siteInfoType} from './objects/site-info'
 
 // Blocks (page builder)
 import {blockTypes} from './blocks'
@@ -30,6 +31,7 @@ const objectTypes: SchemaTypeDefinition[] = [
   pageSlugType,
   linkSitePageType,
   seoType,
+  siteInfoType,
 ]
 
 const documentTypes: SchemaTypeDefinition[] = [

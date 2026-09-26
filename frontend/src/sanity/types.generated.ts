@@ -4864,6 +4864,11 @@ export type CallToAction = {
   blockStyles?: BlockStyles;
 };
 
+export type SiteInfo = {
+  _type: "siteInfo";
+  key: "phone";
+};
+
 export type Seo = {
   _type: "seo";
   metaTitle?: string;
@@ -4912,12 +4917,17 @@ export type LinkInternal = {
 
 export type BlockContent = Array<
   | {
-      children?: Array<{
-        marks?: Array<string>;
-        text?: string;
-        _type: "span";
-        _key: string;
-      }>;
+      children?: Array<
+        | {
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }
+        | ({
+            _key: string;
+          } & SiteInfo)
+      >;
       style?: "normal" | "paragraph" | "h1" | "h2" | "h3" | "h4" | "blockquote";
       listItem?: "bullet" | "number";
       markDefs?: Array<{
@@ -5242,6 +5252,11 @@ export type Page = {
   pageBuilder?: PageBuilder;
   publishedAt?: string;
   updatedAt?: string;
+  lastEditedBy?: {
+    id?: string;
+    name?: string;
+    image?: string;
+  };
   seo?: Seo;
 };
 
@@ -5854,6 +5869,7 @@ export type AllSanitySchemaTypes =
   | ImageBlock
   | RichTextBlock
   | CallToAction
+  | SiteInfo
   | Seo
   | LinkSitePage
   | PageSlug
@@ -8562,12 +8578,17 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "richTextBlock";
                         content: Array<
                           | {
-                              children?: Array<{
-                                marks?: Array<string>;
-                                text?: string;
-                                _type: "span";
-                                _key: string;
-                              }>;
+                              children?: Array<
+                                | ({
+                                    _key: string;
+                                  } & SiteInfo)
+                                | {
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }
+                              >;
                               style?:
                                 | "blockquote"
                                 | "h1"
@@ -9462,12 +9483,17 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "richTextBlock";
                 content: Array<
                   | {
-                      children?: Array<{
-                        marks?: Array<string>;
-                        text?: string;
-                        _type: "span";
-                        _key: string;
-                      }>;
+                      children?: Array<
+                        | ({
+                            _key: string;
+                          } & SiteInfo)
+                        | {
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }
+                      >;
                       style?:
                         | "blockquote"
                         | "h1"
@@ -12728,12 +12754,17 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "richTextBlock";
                         content: Array<
                           | {
-                              children?: Array<{
-                                marks?: Array<string>;
-                                text?: string;
-                                _type: "span";
-                                _key: string;
-                              }>;
+                              children?: Array<
+                                | ({
+                                    _key: string;
+                                  } & SiteInfo)
+                                | {
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }
+                              >;
                               style?:
                                 | "blockquote"
                                 | "h1"
@@ -13628,12 +13659,17 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "richTextBlock";
                 content: Array<
                   | {
-                      children?: Array<{
-                        marks?: Array<string>;
-                        text?: string;
-                        _type: "span";
-                        _key: string;
-                      }>;
+                      children?: Array<
+                        | ({
+                            _key: string;
+                          } & SiteInfo)
+                        | {
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }
+                      >;
                       style?:
                         | "blockquote"
                         | "h1"
@@ -16876,12 +16912,17 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "richTextBlock";
                         content: Array<
                           | {
-                              children?: Array<{
-                                marks?: Array<string>;
-                                text?: string;
-                                _type: "span";
-                                _key: string;
-                              }>;
+                              children?: Array<
+                                | ({
+                                    _key: string;
+                                  } & SiteInfo)
+                                | {
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }
+                              >;
                               style?:
                                 | "blockquote"
                                 | "h1"
@@ -17776,12 +17817,17 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "richTextBlock";
                 content: Array<
                   | {
-                      children?: Array<{
-                        marks?: Array<string>;
-                        text?: string;
-                        _type: "span";
-                        _key: string;
-                      }>;
+                      children?: Array<
+                        | ({
+                            _key: string;
+                          } & SiteInfo)
+                        | {
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }
+                      >;
                       style?:
                         | "blockquote"
                         | "h1"
@@ -21024,12 +21070,17 @@ export type HOME_PAGE_QUERY_RESULT =
                         _type: "richTextBlock";
                         content: Array<
                           | {
-                              children?: Array<{
-                                marks?: Array<string>;
-                                text?: string;
-                                _type: "span";
-                                _key: string;
-                              }>;
+                              children?: Array<
+                                | ({
+                                    _key: string;
+                                  } & SiteInfo)
+                                | {
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }
+                              >;
                               style?:
                                 | "blockquote"
                                 | "h1"
@@ -21924,12 +21975,17 @@ export type HOME_PAGE_QUERY_RESULT =
                 _type: "richTextBlock";
                 content: Array<
                   | {
-                      children?: Array<{
-                        marks?: Array<string>;
-                        text?: string;
-                        _type: "span";
-                        _key: string;
-                      }>;
+                      children?: Array<
+                        | ({
+                            _key: string;
+                          } & SiteInfo)
+                        | {
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }
+                      >;
                       style?:
                         | "blockquote"
                         | "h1"
@@ -25204,12 +25260,17 @@ export type PAGE_QUERY_RESULT =
                         _type: "richTextBlock";
                         content: Array<
                           | {
-                              children?: Array<{
-                                marks?: Array<string>;
-                                text?: string;
-                                _type: "span";
-                                _key: string;
-                              }>;
+                              children?: Array<
+                                | ({
+                                    _key: string;
+                                  } & SiteInfo)
+                                | {
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }
+                              >;
                               style?:
                                 | "blockquote"
                                 | "h1"
@@ -26104,12 +26165,17 @@ export type PAGE_QUERY_RESULT =
                 _type: "richTextBlock";
                 content: Array<
                   | {
-                      children?: Array<{
-                        marks?: Array<string>;
-                        text?: string;
-                        _type: "span";
-                        _key: string;
-                      }>;
+                      children?: Array<
+                        | ({
+                            _key: string;
+                          } & SiteInfo)
+                        | {
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }
+                      >;
                       style?:
                         | "blockquote"
                         | "h1"
@@ -29354,12 +29420,17 @@ export type PAGE_QUERY_RESULT =
                         _type: "richTextBlock";
                         content: Array<
                           | {
-                              children?: Array<{
-                                marks?: Array<string>;
-                                text?: string;
-                                _type: "span";
-                                _key: string;
-                              }>;
+                              children?: Array<
+                                | ({
+                                    _key: string;
+                                  } & SiteInfo)
+                                | {
+                                    marks?: Array<string>;
+                                    text?: string;
+                                    _type: "span";
+                                    _key: string;
+                                  }
+                              >;
                               style?:
                                 | "blockquote"
                                 | "h1"
@@ -30254,12 +30325,17 @@ export type PAGE_QUERY_RESULT =
                 _type: "richTextBlock";
                 content: Array<
                   | {
-                      children?: Array<{
-                        marks?: Array<string>;
-                        text?: string;
-                        _type: "span";
-                        _key: string;
-                      }>;
+                      children?: Array<
+                        | ({
+                            _key: string;
+                          } & SiteInfo)
+                        | {
+                            marks?: Array<string>;
+                            text?: string;
+                            _type: "span";
+                            _key: string;
+                          }
+                      >;
                       style?:
                         | "blockquote"
                         | "h1"
@@ -30879,6 +30955,18 @@ export type PRACTICE_AREAS_QUERY_RESULT = Array<{
     crop: SanityImageCrop | null;
   } | null;
 }>;
+
+// Source: ../frontend/src/sanity/lib/queries.ts
+// Variable: SITE_INFO_QUERY
+// Query: *[_id == "siteSettings"][0] { phone }
+export type SITE_INFO_QUERY_RESULT =
+  | {
+      phone: null;
+    }
+  | {
+      phone: string | null;
+    }
+  | null;
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -33761,12 +33849,17 @@ export type NEWS_POST_QUERY_RESULT = {
                     _type: "richTextBlock";
                     content: Array<
                       | {
-                          children?: Array<{
-                            marks?: Array<string>;
-                            text?: string;
-                            _type: "span";
-                            _key: string;
-                          }>;
+                          children?: Array<
+                            | ({
+                                _key: string;
+                              } & SiteInfo)
+                            | {
+                                marks?: Array<string>;
+                                text?: string;
+                                _type: "span";
+                                _key: string;
+                              }
+                          >;
                           style?:
                             | "blockquote"
                             | "h1"
@@ -34656,12 +34749,17 @@ export type NEWS_POST_QUERY_RESULT = {
             _type: "richTextBlock";
             content: Array<
               | {
-                  children?: Array<{
-                    marks?: Array<string>;
-                    text?: string;
-                    _type: "span";
-                    _key: string;
-                  }>;
+                  children?: Array<
+                    | ({
+                        _key: string;
+                      } & SiteInfo)
+                    | {
+                        marks?: Array<string>;
+                        text?: string;
+                        _type: "span";
+                        _key: string;
+                      }
+                  >;
                   style?:
                     | "blockquote"
                     | "h1"
@@ -35285,6 +35383,7 @@ declare module "@sanity/client" {
     '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {\n    _id, _type, title, slug,\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // A picked Form CTA document; older blocks carry their own content, which\n    // the spread keeps for the component to fall back on.\n    _type == "formCta" => {\n      ...,\n      "cta": cta-> { ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } },\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Two conditions sharing one fragment, not one _type in [...] check:\n    // TypeGen only narrows ==, and with in it typed practiceAreas as possibly\n    // the bare references the spread brings in.\n    _type == "practiceAreaCards" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaGrid" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // A picked Form CTA document; older blocks carry their own content, which\n    // the spread keeps for the component to fall back on.\n    _type == "formCta" => {\n      ...,\n      "cta": cta-> { ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } },\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Two conditions sharing one fragment, not one _type in [...] check:\n    // TypeGen only narrows ==, and with in it typed practiceAreas as possibly\n    // the bare references the spread brings in.\n    _type == "practiceAreaCards" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaGrid" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type in ["page", "practiceArea"] && defined(slug.current)] {\n    "slug": slug.current\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {\n    \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n\n  }\n': PRACTICE_AREAS_QUERY_RESULT;
+    '\n  *[_id == "siteSettings"][0] { phone }\n': SITE_INFO_QUERY_RESULT;
     '\n  *[_id == "siteSettings"][0] {\n    siteName, tagline,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    theme {\n      primary, secondary, accent, foreground, background, muted, border,\n      headingFont, bodyFont\n    },\n    socialLinks[] { _key, platform, url },\n    mainNav[] {\n      _key, _type, label, href, isButton,\n      _type == "navDropdown" => {\n        items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n      }\n    },\n    headerSearch, searchHeading, searchPlaceholder,\n    headerExtraLink { label, href },\n    footerLogo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    footerPhoneLabel, footerPhoneText,\n    footerNav[] { _key, label, href },\n    footerOffices[] { _key, name, address, directionsUrl },\n    footerDisclaimerTitle, footerDisclaimer, footerCopyright,\n    footerLegalLinks[] { _key, label, href }\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_type == "newsPost" && defined(slug.current)] | order(publishedAt desc) {\n    \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n\n  }\n': NEWS_LIST_QUERY_RESULT;
     '\n  *[_type == "newsPost" && slug.current == $slug][0] {\n    _id, _type, title, "slug": slug.current, publishedAt, excerpt,\n    "category": category->title,\n    coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // A picked Form CTA document; older blocks carry their own content, which\n    // the spread keeps for the component to fall back on.\n    _type == "formCta" => {\n      ...,\n      "cta": cta-> { ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } },\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Two conditions sharing one fragment, not one _type in [...] check:\n    // TypeGen only narrows ==, and with in it typed practiceAreas as possibly\n    // the bare references the spread brings in.\n    _type == "practiceAreaCards" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaGrid" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },\n        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      lawyers[]-> {\n        _id, name, role, shortBio,\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // A picked Form CTA document; older blocks carry their own content, which\n    // the spread keeps for the component to fall back on.\n    _type == "formCta" => {\n      ...,\n      "cta": cta-> { ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } },\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      caseResults[]-> {\n        _id, amount, summary, resultType\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Two conditions sharing one fragment, not one _type in [...] check:\n    // TypeGen only narrows ==, and with in it typed practiceAreas as possibly\n    // the bare references the spread brings in.\n    _type == "practiceAreaCards" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaGrid" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { \n  _id, title, cardTitle, slug,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': NEWS_POST_QUERY_RESULT;

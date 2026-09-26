@@ -1,0 +1,30 @@
+---
+/**
+ * A Site Settings value placed mid-sentence in rich text (studio
+ * site-info.ts). The value comes from Site Settings at render time, so
+ * changing it there updates every page. A phone renders as a tel: link.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import type {Props as PtProps} from 'astro-portabletext/types'
+import {getSiteInfo, type SiteInfo} from '@/sanity/lib/siteInfo'
+
+type Props = PtProps<{_type: string; key?: string}>
+
+const {node} = Astro.props
+const info = await getSiteInfo(Astro.locals)
+const key = stegaClean(node.key) as keyof SiteInfo | undefined
+const value = key ? info[key] : undefined
+// tel: wants digits only: (555) 123-4567 -> 5551234567, keeping a leading +.
+const tel = key === 'phone' && value ? stegaClean(value).replace(/[^\d+]/g, '') : ''
+---
+
+{
+  value &&
+    (tel ? (
+      <a href={`tel:${tel}`} class="whitespace-nowrap underline underline-offset-2 hover:text-primary/80">
+        {value}
+      </a>
+    ) : (
+      value
+    ))
+}

@@ -322,6 +322,7 @@ export const siteSettingsType = defineType({
       type: 'image',
       group: 'footer',
       description: 'A light version for the dark footer. Leave empty to use the main logo in white.',
+      components: {input: LogoInput},
       fields: [defineField({name: 'alt', type: 'string', title: 'Alt Text'})],
     }),
     defineField({
