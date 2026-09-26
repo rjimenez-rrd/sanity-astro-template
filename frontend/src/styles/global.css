@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/montserrat";
+/* Bundled rather than fetched from Google Fonts: the search overlay (on every
+   page) and the Form CTA's font choices (FormCta.astro) use them. @font-face
+   costs nothing until text actually uses the font. */
+@import "@fontsource/libre-baskerville/400.css";
+@import "@fontsource/bebas-neue/400.css";
+@import "@fontsource/playfair-display/400.css";
+@import "@fontsource/lora/400.css";
+@import "@fontsource/oswald/400.css";
+@import "@fontsource/anton/400.css";
 
 :root {
   --font-inter: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;

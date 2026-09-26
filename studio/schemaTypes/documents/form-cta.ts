@@ -9,6 +9,10 @@ import {ColorStringInput} from '../../components/inputs/ColorStringInput'
  * updates together. The form is a regular Form block, with every field,
  * submit and message option that block has.
  */
+/** Fonts bundled with the site that a Form CTA can use (see FormCta.astro). */
+const HEADING_FONTS = ['Libre Baskerville', 'Playfair Display', 'Lora', 'Montserrat', 'Inter']
+const OUTLINE_FONTS = ['Bebas Neue', 'Oswald', 'Anton', 'Montserrat']
+
 export const ctaFormType = defineType({
   name: 'ctaForm',
   title: 'CTA Form',
@@ -87,14 +91,19 @@ export const ctaFormType = defineType({
       title: 'Heading Font',
       type: 'string',
       group: 'style',
-      description: 'Any Google Font. Leave empty for Libre Baskerville.',
+      description: 'Leave empty for Libre Baskerville.',
+      // Each is bundled with the site (frontend global.css), so none is
+      // fetched from Google Fonts. Adding one: install its @fontsource
+      // package, import it in global.css and map it in FormCta.astro.
+      options: {list: HEADING_FONTS},
     }),
     defineField({
       name: 'outlineFont',
       title: 'Outline Text Font',
       type: 'string',
       group: 'style',
-      description: 'Any Google Font. Leave empty for Bebas Neue.',
+      description: 'Leave empty for Bebas Neue.',
+      options: {list: OUTLINE_FONTS},
     }),
   ],
   preview: {

@@ -4994,8 +4994,9 @@ export type CtaForm = {
   };
   outlineText?: string;
   backgroundColor?: string;
-  headingFont?: string;
-  outlineFont?: string;
+  headingFont?:
+    "Libre Baskerville" | "Playfair Display" | "Lora" | "Montserrat" | "Inter";
+  outlineFont?: "Bebas Neue" | "Oswald" | "Anton" | "Montserrat";
 };
 
 export type NewsPost = {
@@ -6620,8 +6621,14 @@ export type HOME_PAGE_QUERY_RESULT =
                   } | null;
                   outlineText?: string;
                   backgroundColor?: string;
-                  headingFont?: string;
-                  outlineFont?: string;
+                  headingFont?:
+                    | "Inter"
+                    | "Libre Baskerville"
+                    | "Lora"
+                    | "Montserrat"
+                    | "Playfair Display";
+                  outlineFont?:
+                    "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                 } | null;
                 blockStyles: {
                   padding: Padding | null;
@@ -7790,8 +7797,14 @@ export type HOME_PAGE_QUERY_RESULT =
                           } | null;
                           outlineText?: string;
                           backgroundColor?: string;
-                          headingFont?: string;
-                          outlineFont?: string;
+                          headingFont?:
+                            | "Inter"
+                            | "Libre Baskerville"
+                            | "Lora"
+                            | "Montserrat"
+                            | "Playfair Display";
+                          outlineFont?:
+                            "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                         } | null;
                         blockStyles: {
                           padding: Padding | null;
@@ -10796,8 +10809,14 @@ export type HOME_PAGE_QUERY_RESULT =
                   } | null;
                   outlineText?: string;
                   backgroundColor?: string;
-                  headingFont?: string;
-                  outlineFont?: string;
+                  headingFont?:
+                    | "Inter"
+                    | "Libre Baskerville"
+                    | "Lora"
+                    | "Montserrat"
+                    | "Playfair Display";
+                  outlineFont?:
+                    "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                 } | null;
                 blockStyles: {
                   padding: Padding | null;
@@ -11966,8 +11985,14 @@ export type HOME_PAGE_QUERY_RESULT =
                           } | null;
                           outlineText?: string;
                           backgroundColor?: string;
-                          headingFont?: string;
-                          outlineFont?: string;
+                          headingFont?:
+                            | "Inter"
+                            | "Libre Baskerville"
+                            | "Lora"
+                            | "Montserrat"
+                            | "Playfair Display";
+                          outlineFont?:
+                            "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                         } | null;
                         blockStyles: {
                           padding: Padding | null;
@@ -14954,8 +14979,14 @@ export type HOME_PAGE_QUERY_RESULT =
                   } | null;
                   outlineText?: string;
                   backgroundColor?: string;
-                  headingFont?: string;
-                  outlineFont?: string;
+                  headingFont?:
+                    | "Inter"
+                    | "Libre Baskerville"
+                    | "Lora"
+                    | "Montserrat"
+                    | "Playfair Display";
+                  outlineFont?:
+                    "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                 } | null;
                 blockStyles: {
                   padding: Padding | null;
@@ -16124,8 +16155,14 @@ export type HOME_PAGE_QUERY_RESULT =
                           } | null;
                           outlineText?: string;
                           backgroundColor?: string;
-                          headingFont?: string;
-                          outlineFont?: string;
+                          headingFont?:
+                            | "Inter"
+                            | "Libre Baskerville"
+                            | "Lora"
+                            | "Montserrat"
+                            | "Playfair Display";
+                          outlineFont?:
+                            "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                         } | null;
                         blockStyles: {
                           padding: Padding | null;
@@ -19112,8 +19149,14 @@ export type HOME_PAGE_QUERY_RESULT =
                   } | null;
                   outlineText?: string;
                   backgroundColor?: string;
-                  headingFont?: string;
-                  outlineFont?: string;
+                  headingFont?:
+                    | "Inter"
+                    | "Libre Baskerville"
+                    | "Lora"
+                    | "Montserrat"
+                    | "Playfair Display";
+                  outlineFont?:
+                    "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                 } | null;
                 blockStyles: {
                   padding: Padding | null;
@@ -20282,8 +20325,14 @@ export type HOME_PAGE_QUERY_RESULT =
                           } | null;
                           outlineText?: string;
                           backgroundColor?: string;
-                          headingFont?: string;
-                          outlineFont?: string;
+                          headingFont?:
+                            | "Inter"
+                            | "Libre Baskerville"
+                            | "Lora"
+                            | "Montserrat"
+                            | "Playfair Display";
+                          outlineFont?:
+                            "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                         } | null;
                         blockStyles: {
                           padding: Padding | null;
@@ -23302,8 +23351,14 @@ export type PAGE_QUERY_RESULT =
                   } | null;
                   outlineText?: string;
                   backgroundColor?: string;
-                  headingFont?: string;
-                  outlineFont?: string;
+                  headingFont?:
+                    | "Inter"
+                    | "Libre Baskerville"
+                    | "Lora"
+                    | "Montserrat"
+                    | "Playfair Display";
+                  outlineFont?:
+                    "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                 } | null;
                 blockStyles: {
                   padding: Padding | null;
@@ -24472,8 +24527,14 @@ export type PAGE_QUERY_RESULT =
                           } | null;
                           outlineText?: string;
                           backgroundColor?: string;
-                          headingFont?: string;
-                          outlineFont?: string;
+                          headingFont?:
+                            | "Inter"
+                            | "Libre Baskerville"
+                            | "Lora"
+                            | "Montserrat"
+                            | "Playfair Display";
+                          outlineFont?:
+                            "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                         } | null;
                         blockStyles: {
                           padding: Padding | null;
@@ -27462,8 +27523,14 @@ export type PAGE_QUERY_RESULT =
                   } | null;
                   outlineText?: string;
                   backgroundColor?: string;
-                  headingFont?: string;
-                  outlineFont?: string;
+                  headingFont?:
+                    | "Inter"
+                    | "Libre Baskerville"
+                    | "Lora"
+                    | "Montserrat"
+                    | "Playfair Display";
+                  outlineFont?:
+                    "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                 } | null;
                 blockStyles: {
                   padding: Padding | null;
@@ -28632,8 +28699,14 @@ export type PAGE_QUERY_RESULT =
                           } | null;
                           outlineText?: string;
                           backgroundColor?: string;
-                          headingFont?: string;
-                          outlineFont?: string;
+                          headingFont?:
+                            | "Inter"
+                            | "Libre Baskerville"
+                            | "Lora"
+                            | "Montserrat"
+                            | "Playfair Display";
+                          outlineFont?:
+                            "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                         } | null;
                         blockStyles: {
                           padding: Padding | null;
@@ -31894,8 +31967,13 @@ export type NEWS_POST_QUERY_RESULT = {
               } | null;
               outlineText?: string;
               backgroundColor?: string;
-              headingFont?: string;
-              outlineFont?: string;
+              headingFont?:
+                | "Inter"
+                | "Libre Baskerville"
+                | "Lora"
+                | "Montserrat"
+                | "Playfair Display";
+              outlineFont?: "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
             } | null;
             blockStyles: {
               padding: Padding | null;
@@ -33062,8 +33140,14 @@ export type NEWS_POST_QUERY_RESULT = {
                       } | null;
                       outlineText?: string;
                       backgroundColor?: string;
-                      headingFont?: string;
-                      outlineFont?: string;
+                      headingFont?:
+                        | "Inter"
+                        | "Libre Baskerville"
+                        | "Lora"
+                        | "Montserrat"
+                        | "Playfair Display";
+                      outlineFont?:
+                        "Anton" | "Bebas Neue" | "Montserrat" | "Oswald";
                     } | null;
                     blockStyles: {
                       padding: Padding | null;

@@ -20,24 +20,32 @@ interface Props {
 const {data: block} = Astro.props
 const data = block.cta ?? block
 
-/** A Google Font name, or the fallback when it's empty or not a plain name. */
-const font = (value: string | null | undefined, fallback: string) => {
-  const name = stegaClean(value)?.trim()
-  return name && /^[A-Za-z0-9 ]+$/.test(name) ? name : fallback
+/**
+ * The fonts a Form CTA can pick (studio form-cta.ts), each bundled in
+ * global.css so nothing is fetched from Google Fonts. Anything else, such as
+ * a name typed before these were a list, falls back to the default.
+ */
+const SERIF = 'ui-serif, Georgia, serif'
+const CONDENSED = 'Impact, sans-serif'
+const FONTS: Record<string, string> = {
+  'Libre Baskerville': `'Libre Baskerville', ${SERIF}`,
+  'Playfair Display': `'Playfair Display', ${SERIF}`,
+  Lora: `'Lora', ${SERIF}`,
+  Montserrat: 'var(--font-montserrat)',
+  Inter: 'var(--font-inter)',
+  'Bebas Neue': `'Bebas Neue', ${CONDENSED}`,
+  Oswald: `'Oswald', ${CONDENSED}`,
+  Anton: `'Anton', ${CONDENSED}`,
 }
-const headingFont = font(data.headingFont, 'Libre Baskerville')
-const outlineFont = font(data.outlineFont, 'Bebas Neue')
-const fontsHref = `https://fonts.googleapis.com/css2?${[headingFont, outlineFont]
-  .filter((name, i, all) => all.indexOf(name) === i)
-  .map((name) => `family=${name.replace(/ /g, '+')}`)
-  .join('&')}&display=swap`
+const fontStack = (value: string | null | undefined, fallback: string) =>
+  FONTS[stegaClean(value)?.trim() ?? ''] ?? FONTS[fallback]
+const headingFont = fontStack(data.headingFont, 'Libre Baskerville')
+const outlineFont = fontStack(data.outlineFont, 'Bebas Neue')
 
 // Empty means no color of its own, so the container's background (color,
 // image, overlay) shows through.
 const background = stegaClean(data.backgroundColor)
 ---
-
-<link rel="stylesheet" href={fontsHref} />
 
 <section class="relative w-full overflow-hidden text-white" style={background ? `background-color:${background}` : undefined}>
   {/* px-5: the Container sets the width, but the text and form still keep
@@ -51,7 +59,7 @@ const background = stegaClean(data.backgroundColor)
         data.heading && (
           <h2
             class="mt-1 max-w-[9em] whitespace-pre-line text-[clamp(2.5rem,4.5vw,3.875rem)] leading-[1.02]"
-            style={`font-family:'${headingFont}', ui-serif, Georgia, serif`}
+            style={`font-family:${headingFont}`}
           >
             {data.heading}
           </h2>
@@ -75,7 +83,7 @@ const background = stegaClean(data.backgroundColor)
           <p
             aria-hidden="true"
             class="pointer-events-none absolute top-8 right-0 whitespace-pre-line text-right text-[clamp(3.5rem,7vw,6.5rem)] uppercase leading-[0.85] text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.55)] lg:top-[20%]"
-            style={`font-family:'${outlineFont}', Impact, sans-serif`}
+            style={`font-family:${outlineFont}`}
           >
             {data.outlineText}
           </p>
