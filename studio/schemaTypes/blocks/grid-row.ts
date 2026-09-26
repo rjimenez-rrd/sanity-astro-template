@@ -70,6 +70,7 @@ const contentMembers = (withColumn: boolean) => [
   defineArrayMember({type: 'lottieAnimation'}), // Lottie Animation
   defineArrayMember({type: 'mapEmbed'}), // Map Embed
   defineArrayMember({type: 'newsCards'}), // News Cards
+  defineArrayMember({type: 'phoneBlock'}), // Phone
   defineArrayMember({type: 'practiceAreaCards'}), // Practice Area Cards
   defineArrayMember({type: 'practiceAreaGrid'}), // Practice Area Grid
   defineArrayMember({type: 'pricingCard'}), // Pricing Card

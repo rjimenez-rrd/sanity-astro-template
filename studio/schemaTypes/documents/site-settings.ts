@@ -53,11 +53,31 @@ export const siteSettingsType = defineType({
         logoWhiteBackgroundField,
       ],
     }),
+    // The phone shown across the site: header, footer, Phone blocks and the
+    // inline phone in rich text all read these three. The footer* names are
+    // from when only the footer used them; kept so no data has to move.
     defineField({
       name: 'phone',
       title: 'Phone Number',
       type: 'string',
       group: 'branding',
+      description: 'The number that gets dialed, e.g. 5165913208.',
+    }),
+    defineField({
+      name: 'footerPhoneText',
+      title: 'Phone Display Text',
+      type: 'string',
+      group: 'branding',
+      description:
+        'How the number reads everywhere, e.g. (833) SANDERS. It still dials the Phone Number. Leave empty to show that number, formatted.',
+    }),
+    defineField({
+      name: 'footerPhoneLabel',
+      title: 'Phone Label',
+      type: 'string',
+      group: 'branding',
+      description: 'The small line above the phone, e.g. Free Consultation 24/7.',
+      initialValue: 'Free Consultation 24/7',
     }),
     defineField({
       name: 'theme',
@@ -337,22 +357,6 @@ export const siteSettingsType = defineType({
       description: 'A light version for the dark footer. Leave empty to use the main logo in white.',
       components: {input: LogoInput},
       fields: [defineField({name: 'alt', type: 'string', title: 'Alt Text'}), logoWhiteBackgroundField],
-    }),
-    defineField({
-      name: 'footerPhoneLabel',
-      title: 'Phone Label',
-      type: 'string',
-      group: 'footer',
-      description: 'The small line above the phone number.',
-      initialValue: 'Free Consultation 24/7',
-    }),
-    defineField({
-      name: 'footerPhoneText',
-      title: 'Phone Display Text',
-      type: 'string',
-      group: 'footer',
-      description:
-        'How the number reads, e.g. (833) SANDERS. It still dials the Phone Number from Branding. Leave empty to show that number.',
     }),
     defineField({
       name: 'footerNav',

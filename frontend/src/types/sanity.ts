@@ -48,6 +48,7 @@ export type CountdownTimerData = Extract<ContentBlock, {_type: 'countdownTimer'}
 export type IconTextData = Extract<ContentBlock, {_type: 'iconText'}>
 export type ButtonGroupData = Extract<ContentBlock, {_type: 'buttonGroup'}>
 export type StatMetricData = Extract<ContentBlock, {_type: 'statMetric'}>
+export type PhoneBlockData = Extract<ContentBlock, {_type: 'phoneBlock'}>
 export type TestimonialQuoteData = Extract<ContentBlock, {_type: 'testimonialQuote'}>
 export type AlertNoticeData = Extract<ContentBlock, {_type: 'alertNotice'}>
 export type PricingCardData = Extract<ContentBlock, {_type: 'pricingCard'}>

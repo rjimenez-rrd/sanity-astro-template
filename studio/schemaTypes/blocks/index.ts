@@ -32,6 +32,7 @@ import {practiceAreaCardsType} from './practice-area-cards'
 import {practiceAreaGridType} from './practice-area-grid'
 import {newsCardsType} from './news-cards'
 import {caseResultCardsType} from './case-result-cards'
+import {phoneBlockType} from './phone-block'
 import {pageBuilderType} from './page-builder'
 import { youtubeVideoType, externalVideoType } from './video'
 
@@ -71,6 +72,7 @@ export {
   practiceAreaGridType,
   newsCardsType,
   caseResultCardsType,
+  phoneBlockType,
   tocBlockType,
   gridRowType,
   nestedContainerType,
@@ -112,6 +114,7 @@ export const blockTypes = [
   practiceAreaGridType,
   newsCardsType,
   caseResultCardsType,
+  phoneBlockType,
   tocBlockType,
   gridRowType,
   nestedContainerType,

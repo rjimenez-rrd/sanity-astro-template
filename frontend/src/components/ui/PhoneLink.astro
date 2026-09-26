@@ -1,0 +1,34 @@
+---
+/**
+ * The site's phone as a link that dials it. Every phone on the site renders
+ * through here — header, footer, Phone blocks and inline rich text — so the
+ * text and the tel: link can't disagree. Styling comes from the caller.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import {toTelHref} from '@/lib/formatPhoneNumber'
+
+interface Props {
+  /** The number to dial, from Site Settings. */
+  phone?: string | null
+  /** The words to show (lib/phone.ts phoneText). */
+  text?: string | null
+  class?: string
+  style?: string
+}
+
+const {phone, text, class: className, style} = Astro.props
+const href = toTelHref(stegaClean(phone))
+---
+
+{
+  text &&
+    (href ? (
+      <a href={href} class={className} style={style}>
+        {text}
+      </a>
+    ) : (
+      <span class={className} style={style}>
+        {text}
+      </span>
+    ))
+}

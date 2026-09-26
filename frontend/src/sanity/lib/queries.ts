@@ -238,9 +238,9 @@ export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
   }
 `)
 
-/** Site Settings values that rich text shows inline (siteInfo). */
+/** The site's phone from Site Settings, for inline rich text and Phone blocks. */
 export const SITE_INFO_QUERY = defineQuery(/* groq */ `
-  *[_id == "siteSettings"][0] { phone }
+  *[_id == "siteSettings"][0] { phone, "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel }
 `)
 
 export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `

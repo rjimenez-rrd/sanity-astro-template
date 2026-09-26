@@ -11,6 +11,7 @@
 import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import FormBlock from './FormBlock.astro'
+import {fontStack} from '@/lib/fonts'
 import type {FormCtaData} from '@/types/sanity'
 
 interface Props {
@@ -20,27 +21,12 @@ interface Props {
 const {data: block} = Astro.props
 const data = block.cta ?? block
 
-/**
- * The fonts a Form CTA can pick (studio form-cta.ts), each bundled in
- * global.css so nothing is fetched from Google Fonts. Anything else, such as
- * a name typed before these were a list, falls back to the default.
- */
-const SERIF = 'ui-serif, Georgia, serif'
-const CONDENSED = 'Impact, sans-serif'
-const FONTS: Record<string, string> = {
-  'Libre Baskerville': `'Libre Baskerville', ${SERIF}`,
-  'Playfair Display': `'Playfair Display', ${SERIF}`,
-  Lora: `'Lora', ${SERIF}`,
-  Montserrat: 'var(--font-montserrat)',
-  Inter: 'var(--font-inter)',
-  'Bebas Neue': `'Bebas Neue', ${CONDENSED}`,
-  Oswald: `'Oswald', ${CONDENSED}`,
-  Anton: `'Anton', ${CONDENSED}`,
-}
-const fontStack = (value: string | null | undefined, fallback: string) =>
-  FONTS[stegaClean(value)?.trim() ?? ''] ?? FONTS[fallback]
-const headingFont = fontStack(data.headingFont, 'Libre Baskerville')
-const outlineFont = fontStack(data.outlineFont, 'Bebas Neue')
+// Only the bundled fonts (lib/fonts.ts); anything else, such as a name typed
+// before these were a list, falls back to the default.
+const pick = (value: string | null | undefined, fallback: string) =>
+  fontStack(stegaClean(value)) ?? fontStack(fallback)!
+const headingFont = pick(data.headingFont, 'Libre Baskerville')
+const outlineFont = pick(data.outlineFont, 'Bebas Neue')
 
 // Empty means no color of its own, so the container's background (color,
 // image, overlay) shows through.

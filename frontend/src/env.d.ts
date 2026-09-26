@@ -26,7 +26,7 @@ declare namespace App {
      * pages/[slug]/page/[page].astro; unset means page 1.
      */
     listPage?: number
-    /** Site Settings values for inline rich text, fetched once per request. */
-    siteInfo?: Promise<{phone?: string | null}>
+    /** The site's phone for inline rich text and Phone blocks, fetched once per request. */
+    siteInfo?: Promise<{phone?: string | null; phoneText?: string | null; phoneLabel?: string | null}>
   }
 }

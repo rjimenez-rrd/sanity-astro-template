@@ -2,7 +2,7 @@
 @import "@fontsource-variable/inter";
 @import "@fontsource-variable/montserrat";
 /* Bundled rather than fetched from Google Fonts: the search overlay (on every
-   page) and the Form CTA's font choices (FormCta.astro) use them. @font-face
+   page), the Form CTA's font choices and Text Styles (lib/fonts.ts) use them. @font-face
    costs nothing until text actually uses the font. */
 @import "@fontsource/libre-baskerville/400.css";
 @import "@fontsource/bebas-neue/400.css";
@@ -10,6 +10,12 @@
 @import "@fontsource/lora/400.css";
 @import "@fontsource/oswald/400.css";
 @import "@fontsource/anton/400.css";
+/* Bold for the fonts that have one, so a Text Style's Bold is real rather
+   than faked by the browser. Bebas Neue and Anton come in one weight. */
+@import "@fontsource/libre-baskerville/700.css";
+@import "@fontsource/playfair-display/700.css";
+@import "@fontsource/lora/700.css";
+@import "@fontsource/oswald/700.css";
 
 :root {
   --font-inter: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;

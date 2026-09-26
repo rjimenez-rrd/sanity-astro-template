@@ -7,6 +7,7 @@ import {linkInternalType, linkExternalType, pageSlugType, linkSitePageType} from
 import {youtubeVideoType, externalVideoType} from './blocks/video'
 import {seoType} from './objects/seo'
 import {siteInfoType} from './objects/site-info'
+import {textStyleType} from './objects/text-style'
 
 // Blocks (page builder)
 import {blockTypes} from './blocks'
@@ -32,6 +33,7 @@ const objectTypes: SchemaTypeDefinition[] = [
   linkSitePageType,
   seoType,
   siteInfoType,
+  textStyleType,
 ]
 
 const documentTypes: SchemaTypeDefinition[] = [

@@ -2,12 +2,14 @@ import type {PortableTextBlock} from '@portabletext/types'
 import {getClient} from './client'
 import {sanityFetch} from './live'
 import {SITE_INFO_QUERY} from './queries'
+import {phoneText} from '@/lib/phone'
 
-export type SiteInfo = {phone?: string | null}
+export type SiteInfo = {phone?: string | null; phoneText?: string | null; phoneLabel?: string | null}
 
 /**
- * The Site Settings values rich text can place inline (studio site-info.ts).
- * Fetched once per request, however many times a page uses them.
+ * The site's phone from Site Settings, for inline rich text (studio
+ * site-info.ts) and Phone blocks. Fetched once per request, however many
+ * times a page uses it.
  */
 export function getSiteInfo(locals: App.Locals): Promise<SiteInfo> {
   locals.siteInfo ??= sanityFetch(getClient(locals.isDraft), locals, SITE_INFO_QUERY).then(
@@ -29,9 +31,16 @@ export function fillSiteInfo<T>(blocks: T[], info: SiteInfo): T[] {
       ...block,
       children: children.map((child) =>
         child._type === 'siteInfo'
-          ? {_type: 'span', _key: child._key, marks: [], text: info[(child as {key?: string}).key as keyof SiteInfo] ?? ''}
+          ? {_type: 'span', _key: child._key, marks: [], text: siteInfoText(info, (child as {key?: string}).key)}
           : child,
       ),
     }
   })
+}
+
+/** What an inline Site Info shows for its key: 'phone' reads as displayed, 'phoneNumber' as the number. */
+export function siteInfoText(info: SiteInfo, key: string | null | undefined): string {
+  if (key === 'phone') return phoneText(info, 'display')
+  if (key === 'phoneNumber') return phoneText(info, 'number')
+  return ''
 }

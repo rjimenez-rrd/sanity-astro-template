@@ -1,7 +1,8 @@
 ---
 import { stegaClean } from "@sanity/client/stega";
 import SanityImage from "@/components/sanity/SanityImage.astro";
-import { formatPhoneNumber } from "@/lib/formatPhoneNumber";
+import PhoneLink from "@/components/ui/PhoneLink.astro";
+import { phoneText } from "@/lib/phone";
 import type { SiteSettings, NavLink, NavDropdown } from "@/types/sanity";
 import { getMaxWidthClass } from "@/lib/maxWidth";
 import SearchOverlay from "@/components/search/SearchOverlay.astro";
@@ -19,6 +20,9 @@ const maxWidthClass = getMaxWidthClass();
 const siteName = settings?.siteName || "Page Builder";
 const nav = settings?.mainNav ?? [];
 const phone = settings?.phone;
+// Site Settings → Branding, shared with the footer and every Phone block.
+const phoneDisplay = phoneText({ phone, phoneText: settings?.footerPhoneText });
+const phoneLabel = settings?.footerPhoneLabel;
 // On unless an editor turned it off; older settings have no value yet.
 const showSearch = settings?.headerSearch !== false;
 const extraLink = settings?.headerExtraLink;
@@ -59,11 +63,9 @@ const current = (on: boolean, link = true) =>
 
 <header>
   <div class="bg-primary py-4 flex items-center justify-center font-display text-sm sm:text-base md:text-xl font-normal uppercase leading-[30px] tracking-[0.09px] text-white flex-wrap gap-2 md:gap-4">
-    <div>Free consultation 24/7</div>
+    {phoneLabel && <div>{phoneLabel}</div>}
     <div>
-      <a href={`tel:${phone}`} class="text-md sm:text-lg md:text-2xl">
-        (833) SANDERS
-      </a>
+      <PhoneLink phone={phone} text={phoneDisplay} class="text-md sm:text-lg md:text-2xl" />
     </div>
   </div>
   <div

@@ -1,7 +1,8 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
-import {formatPhoneNumber, toTelHref} from '@/lib/formatPhoneNumber'
+import PhoneLink from '@/components/ui/PhoneLink.astro'
+import {phoneText} from '@/lib/phone'
 import {getMaxWidthClass} from '@/lib/maxWidth'
 import type {SiteSettings} from '@/types/sanity'
 
@@ -29,8 +30,9 @@ const logo = settings?.footerLogo?.asset ? settings.footerLogo : undefined
 // The main logo is drawn for a light header; turned white, it reads on the
 // dark footer. A dedicated footer logo is shown as uploaded.
 
-const phone = stegaClean(settings?.phone)
-const phoneText = settings?.footerPhoneText || (phone ? formatPhoneNumber(phone) : undefined)
+// Site Settings → Branding, shared with the header and every Phone block.
+const phone = settings?.phone
+const phoneDisplay = phoneText({phone, phoneText: settings?.footerPhoneText})
 const phoneLabel = settings?.footerPhoneLabel
 
 const socialLinks = (settings?.socialLinks ?? []).filter(
@@ -59,16 +61,11 @@ const directionsHref = (office: (typeof offices)[number]) =>
     >
       <div>
         {phoneLabel && <p class="text-[15px] uppercase text-secondary-hover md:text-[13px] lg:text-[15px]">{phoneLabel}</p>}
-        {
-          phoneText && (
-            <a
-              href={phone ? toTelHref(phone) : undefined}
-              class="text-3xl italic transition-colors hover:text-secondary-hover md:text-xl lg:text-3xl"
-            >
-              {phoneText}
-            </a>
-          )
-        }
+        <PhoneLink
+          phone={phone}
+          text={phoneDisplay}
+          class="text-3xl italic transition-colors md:text-xl lg:text-3xl"
+        />
       </div>
 
       <a href="/" class="order-first flex w-full justify-center md:order-none md:w-auto">
@@ -143,7 +140,7 @@ const directionsHref = (office: (typeof offices)[number]) =>
               <div class="md:flex md:flex-col lg:block">
                 <h3 class="text-xl font-semibold">{office.name}</h3>
                 {office.address && (
-                  <p class="mx-auto mt-4 w-fit whitespace-pre-line text-left text-[15px] leading-relaxed md:mx-0 md:flex md:w-auto md:flex-1 md:items-center lg:block">
+                  <p class="mx-auto mt-4 w-fit whitespace-pre-line text-left text-[15px] hover:text-secondary-hover leading-relaxed md:mx-0 md:flex md:w-auto md:flex-1 md:items-center lg:block">
                     {office.address}
                   </p>
                 )}
@@ -185,7 +182,7 @@ const directionsHref = (office: (typeof offices)[number]) =>
           <ul class="flex flex-wrap justify-center divide-x divide-secondary-hover/50">
             {legalLinks.map((link) => (
               <li class="px-5 first:pl-0 last:pr-0">
-                <a href={link.href} class="transition-colors hover:text-secondary-hover">
+                <a href={link.href} class="transition-colors">
                   {link.label}
                 </a>
               </li>
