@@ -1,5 +1,5 @@
 import type { StructureResolver } from 'sanity/structure'
-import { CogIcon, DocumentsIcon, HomeIcon, PublishIcon, EditIcon, ThListIcon, StarFilledIcon, ComposeIcon } from '@sanity/icons'
+import { CogIcon, DocumentsIcon, HomeIcon, PublishIcon, EditIcon, ThListIcon, StarFilledIcon, ComposeIcon, DocumentTextIcon, UsersIcon } from '@sanity/icons'
 
 const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
 
@@ -93,9 +93,9 @@ export const structure: StructureResolver = (S) =>
                 ),
             ]),
         ),
-      S.documentTypeListItem('practiceArea').title('Practice Areas'),
+      S.documentTypeListItem('practiceArea').title('Practice Areas').icon(DocumentTextIcon),
       S.documentTypeListItem('review').title('Reviews').icon(StarFilledIcon),
-      S.documentTypeListItem('lawyer').title('Lawyers'),
+      S.documentTypeListItem('lawyer').title('Lawyers').icon(UsersIcon),
       // Categories only exist to label posts, so they live inside News rather
       // than beside it.
       S.listItem()
