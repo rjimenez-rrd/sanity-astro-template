@@ -1,12 +1,7 @@
 import {defineType, defineField} from 'sanity'
 import {MobileDeviceIcon} from '@sanity/icons'
 import {SiteInfoPreview} from '../../components/previews/SiteInfoPreview'
-
-/** Site Settings values an editor can drop into rich text. */
-export const SITE_INFO_KEYS = [
-  {title: 'Phone, as displayed, e.g. (833) SANDERS', value: 'phone'},
-  {title: 'Phone number, e.g. (516) 591-3208', value: 'phoneNumber'},
-]
+import {PhoneTextInput} from '../../components/inputs/PhoneTextInput'
 
 /**
  * A Site Settings value placed inline in rich text, mid-sentence like a word.
@@ -23,10 +18,12 @@ export const siteInfoType = defineType({
       name: 'key',
       title: 'Show',
       type: 'string',
-      options: {list: SITE_INFO_KEYS, layout: 'radio'},
-      initialValue: 'phone',
+      // Which wording of the phone: 'main', 'number' or a More Phone Texts
+      // _key. Older saves say 'phone' (main) or 'phoneNumber' (number).
+      initialValue: 'main',
+      components: {input: PhoneTextInput},
       validation: (rule) => rule.required(),
-      description: 'Filled in from Site Settings → Branding, so it stays the same everywhere. Both dial the Phone Number.',
+      description: 'Which wording, from Site Settings → Branding, so it stays the same everywhere. Every one dials the Phone Number.',
     }),
   ],
   // The key rides along as the title; SiteInfoPreview swaps in the value.

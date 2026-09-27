@@ -1,5 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {MobileDeviceIcon} from '@sanity/icons'
+import {PhoneTextInput} from '../../components/inputs/PhoneTextInput'
 
 /**
  * The firm's phone, placed anywhere a block can go. The number, its display
@@ -22,15 +23,9 @@ export const phoneBlockType = defineType({
       title: 'Show',
       type: 'string',
       group: 'content',
-      initialValue: 'display',
-      options: {
-        list: [
-          {title: 'As displayed, e.g. (833) SANDERS', value: 'display'},
-          {title: 'The number, e.g. (516) 591-3208', value: 'number'},
-        ],
-        layout: 'radio',
-      },
-      description: 'Both dial the Phone Number from Site Settings.',
+      initialValue: 'main',
+      components: {input: PhoneTextInput},
+      description: 'Which wording, from Site Settings → Branding. Every one dials the Phone Number.',
     }),
     defineField({
       name: 'showLabel',
@@ -77,7 +72,7 @@ export const phoneBlockType = defineType({
       return {
         title: 'Phone',
         subtitle: [
-          show === 'number' ? 'Number' : 'As displayed',
+          show === 'number' || show === 'phoneNumber' ? 'Number' : !show || show === 'main' || show === 'display' ? 'Main text' : 'Other text',
           showLabel === false ? 'no label' : label || 'Site Settings label',
         ].join(' · '),
         media: MobileDeviceIcon,

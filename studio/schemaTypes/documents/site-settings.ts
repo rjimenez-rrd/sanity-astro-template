@@ -65,11 +65,43 @@ export const siteSettingsType = defineType({
     }),
     defineField({
       name: 'footerPhoneText',
-      title: 'Phone Display Text',
+      title: 'Main Phone Text',
       type: 'string',
       group: 'branding',
       description:
-        'How the number reads everywhere, e.g. (833) SANDERS. It still dials the Phone Number. Leave empty to show that number, formatted.',
+        'How the number reads, e.g. (833) SANDERS. The header and footer use this one, and it\'s the default everywhere else. It still dials the Phone Number. Leave empty to show that number, formatted.',
+    }),
+    defineField({
+      name: 'phoneTexts',
+      title: 'More Phone Texts',
+      type: 'array',
+      group: 'branding',
+      description:
+        'Other ways to word the phone, e.g. "Call (833) Sanders". Phone blocks and inline phones can pick any of them. All dial the Phone Number.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'phoneText',
+          title: 'Phone Text',
+          fields: [
+            defineField({
+              name: 'name',
+              title: 'Name',
+              type: 'string',
+              description: 'Only for the Studio, to pick it by, e.g. "Call to action".',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'text',
+              title: 'Text',
+              type: 'string',
+              description: 'What the site shows, e.g. Call (833) Sanders.',
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {select: {title: 'text', subtitle: 'name'}},
+        }),
+      ],
     }),
     defineField({
       name: 'footerPhoneLabel',

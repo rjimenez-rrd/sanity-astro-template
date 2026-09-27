@@ -4,7 +4,12 @@ import {sanityFetch} from './live'
 import {SITE_INFO_QUERY} from './queries'
 import {phoneText} from '@/lib/phone'
 
-export type SiteInfo = {phone?: string | null; phoneText?: string | null; phoneLabel?: string | null}
+export type SiteInfo = {
+  phone?: string | null
+  phoneText?: string | null
+  phoneLabel?: string | null
+  phoneTexts?: {_key: string; text?: string | null}[] | null
+}
 
 /**
  * The site's phone from Site Settings, for inline rich text (studio
@@ -38,9 +43,7 @@ export function fillSiteInfo<T>(blocks: T[], info: SiteInfo): T[] {
   })
 }
 
-/** What an inline Site Info shows for its key: 'phone' reads as displayed, 'phoneNumber' as the number. */
+/** What an inline phone shows for its saved choice (see lib/phone.ts phoneText). */
 export function siteInfoText(info: SiteInfo, key: string | null | undefined): string {
-  if (key === 'phone') return phoneText(info, 'display')
-  if (key === 'phoneNumber') return phoneText(info, 'number')
-  return ''
+  return phoneText(info, key)
 }

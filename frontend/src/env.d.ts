@@ -27,6 +27,6 @@ declare namespace App {
      */
     listPage?: number
     /** The site's phone for inline rich text and Phone blocks, fetched once per request. */
-    siteInfo?: Promise<{phone?: string | null; phoneText?: string | null; phoneLabel?: string | null}>
+    siteInfo?: Promise<import('@/sanity/lib/siteInfo').SiteInfo>
   }
 }

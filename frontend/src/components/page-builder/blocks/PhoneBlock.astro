@@ -5,7 +5,6 @@
  * here, through each Text Style. Block Styles (padding, alignment, ...) are
  * applied around it by BlockRenderer.
  */
-import {stegaClean} from '@sanity/client/stega'
 import PhoneLink from '@/components/ui/PhoneLink.astro'
 import {phoneText} from '@/lib/phone'
 import {textStyleAttr} from '@/lib/textStyle'
@@ -18,7 +17,8 @@ interface Props {
 
 const {data} = Astro.props
 const info = await getSiteInfo(Astro.locals)
-const text = phoneText(info, stegaClean(data.show) === 'number' ? 'number' : 'display')
+// The Main text, the number or one of More Phone Texts (lib/phone.ts).
+const text = phoneText(info, data.show)
 const label = data.showLabel === false ? undefined : data.label?.trim() || info.phoneLabel
 ---
 
