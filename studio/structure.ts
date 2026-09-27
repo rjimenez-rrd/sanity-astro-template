@@ -1,5 +1,5 @@
 import type { StructureResolver } from 'sanity/structure'
-import { CogIcon, DocumentsIcon, HomeIcon } from '@sanity/icons'
+import { CogIcon, DocumentsIcon, HomeIcon, PublishIcon, EditIcon, ThListIcon, StarFilledIcon, ComposeIcon } from '@sanity/icons'
 
 const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
 
@@ -51,6 +51,7 @@ export const structure: StructureResolver = (S) =>
         .title('Pages')
         .id('pages')
         .schemaType('page')
+        .icon(DocumentsIcon)
         .child(
           S.list()
             .title('Pages')
@@ -59,6 +60,7 @@ export const structure: StructureResolver = (S) =>
                 .title('All Pages')
                 .id('pages-all')
                 .schemaType('page')
+                .icon(DocumentsIcon)
                 .child(
                   S.documentTypeList('page')
                     .title('All Pages')
@@ -68,6 +70,7 @@ export const structure: StructureResolver = (S) =>
                 .title('Published')
                 .id('pages-published')
                 .schemaType('page')
+                .icon(PublishIcon)
                 .child(
                   S.documentList()
                     .title('Published')
@@ -80,6 +83,7 @@ export const structure: StructureResolver = (S) =>
                 .title('Drafts')
                 .id('pages-drafts')
                 .schemaType('page')
+                .icon(EditIcon)
                 .child(
                   S.documentList()
                     .title('Drafts')
@@ -90,14 +94,14 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.documentTypeListItem('practiceArea').title('Practice Areas'),
-      S.documentTypeListItem('review').title('Reviews'),
+      S.documentTypeListItem('review').title('Reviews').icon(StarFilledIcon),
       S.documentTypeListItem('lawyer').title('Lawyers'),
       // Categories only exist to label posts, so they live inside News rather
       // than beside it.
       S.listItem()
         .title('News')
         .id('news')
-        .icon(DocumentsIcon)
+        .icon(ThListIcon)
         .child(
           S.list()
             .title('News')
@@ -107,7 +111,7 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.documentTypeListItem('caseResult').title('Case Results'),
-      S.documentTypeListItem('ctaForm').title('CTA Forms'),
+      S.documentTypeListItem('ctaForm').title('CTA Forms').icon(ComposeIcon),
 
       // Any document type not placed above, so a new one still shows up.
       ...S.documentTypeListItems().filter(
