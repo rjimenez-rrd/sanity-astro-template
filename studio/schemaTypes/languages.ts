@@ -11,7 +11,7 @@ export const LANGUAGES = [
 export const DEFAULT_LANGUAGE = LANGUAGES[0].id
 
 /** Document types that have a version per language. */
-export const TRANSLATED_TYPES = ['page', 'practiceArea', 'homePage']
+export const TRANSLATED_TYPES = ['page', 'practiceArea', 'homePage', 'ctaForm']
 
 /**
  * The Home Page is a singleton, so each language's version has a fixed id

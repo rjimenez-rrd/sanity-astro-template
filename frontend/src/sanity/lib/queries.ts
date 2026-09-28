@@ -89,6 +89,26 @@ const reviewFragment = /* groq */ `
   "reviewText": select($language == "es" => coalesce(reviewTextEs, reviewText), reviewText)
 `
 
+// A form's fields. A select set to "Practice Areas" gets every practice area's
+// title A–Z as its options, in the page's language — or English, while there
+// are no practice areas in it yet — instead of the ones typed in.
+const PRACTICE_AREA_TITLES = (language: string) => /* groq */ `
+  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == ${language}]
+    | order(title asc))[].title
+`
+const formFieldsFragment = /* groq */ `
+  fields[] {
+    ...,
+    "options": select(
+      optionsSource == "practiceAreas"
+        && count(*[_type == "practiceArea" && coalesce(language, "en") == $language]) > 0
+        => ${PRACTICE_AREA_TITLES('$language')},
+      optionsSource == "practiceAreas" => ${PRACTICE_AREA_TITLES('"en"')},
+      options
+    )
+  }
+`
+
 // Per-type projections for the blocks in a column.
 const contentTypesFragment = /* groq */ `
     _type == "imageBlock" => {
@@ -150,9 +170,20 @@ const contentTypesFragment = /* groq */ `
     },
     // A picked Form CTA document; older blocks carry their own content, which
     // the spread keeps for the component to fall back on.
+    _type == "formBlock" => { ${formFieldsFragment} },
     _type == "formCta" => {
       ...,
-      "cta": cta-> { ..., image { ${imageFragment} } },
+      // The picked CTA, or on a Spanish page its Spanish translation when
+      // there is one (^ is the block, so ^.cta is the picked reference).
+      "cta": coalesce(
+        select($language != "en" =>
+          *[_type == "translation.metadata" && references(^.cta._ref)][0]
+            .translations[language == $language][0].value-> {
+              ..., image { ${imageFragment} }, form { ..., ${formFieldsFragment} }
+            }
+        ),
+        cta-> { ..., image { ${imageFragment} }, form { ..., ${formFieldsFragment} } }
+      ),
       image { ${imageFragment} },
       ${blockStylesFragment}
     },

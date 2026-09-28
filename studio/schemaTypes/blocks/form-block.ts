@@ -86,12 +86,29 @@ export const formBlockType = defineType({
               initialValue: false,
             }),
             defineField({
+              name: 'optionsSource',
+              title: 'Options From',
+              type: 'string',
+              description:
+                'Practice Areas: every practice area, A–Z, kept up to date automatically — in Spanish on Spanish pages.',
+              initialValue: 'manual',
+              options: {
+                list: [
+                  {title: 'Typed below', value: 'manual'},
+                  {title: 'Practice Areas', value: 'practiceAreas'},
+                ],
+                layout: 'radio',
+                direction: 'horizontal',
+              },
+              hidden: ({parent}) => parent?.type !== 'select',
+            }),
+            defineField({
               name: 'options',
               title: 'Options',
               type: 'array',
               description: 'For select fields only',
               of: [defineArrayMember({type: 'string'})],
-              hidden: ({parent}) => parent?.type !== 'select',
+              hidden: ({parent}) => parent?.type !== 'select' || parent?.optionsSource === 'practiceAreas',
             }),
             defineField({
               name: 'width',

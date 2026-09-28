@@ -162,7 +162,20 @@ export const structure: StructureResolver = (S) =>
             ]),
         ),
       S.documentTypeListItem('caseResult').title('Case Results'),
-      S.documentTypeListItem('ctaForm').title('CTA Forms').icon(ComposeIcon),
+      S.listItem()
+        .title('CTA Forms')
+        .id('cta-forms')
+        .schemaType('ctaForm')
+        .icon(ComposeIcon)
+        .child(
+          S.list()
+            .title('CTA Forms')
+            .items([
+              S.documentTypeListItem('ctaForm').title('All CTA Forms').icon(ComposeIcon),
+              S.divider().title('By language'),
+              ...languageLists(S, 'ctaForm', 'CTA Forms'),
+            ]),
+        ),
 
       // Any document type not placed above, so a new one still shows up.
       ...S.documentTypeListItems().filter(

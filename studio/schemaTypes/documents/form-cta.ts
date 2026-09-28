@@ -26,6 +26,14 @@ export const ctaFormType = defineType({
   ],
   fields: [
     defineField({
+      name: 'language',
+      type: 'string',
+      // Set by the Translations menu. A Form CTA block points at the English
+      // one; Spanish pages show its Spanish translation instead.
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: 'name',
       title: 'Name',
       type: 'string',
@@ -107,9 +115,11 @@ export const ctaFormType = defineType({
     }),
   ],
   preview: {
-    select: {title: 'name', subtitle: 'heading', media: 'image'},
-    prepare({title, subtitle, media}) {
-      return {title: title || 'Form CTA', subtitle, media: media ?? EnvelopeIcon}
+    select: {title: 'name', subtitle: 'heading', media: 'image', language: 'language'},
+    prepare({title, subtitle, media, language}) {
+      // Tells the English and Spanish versions apart where both are listed.
+      const tag = language === 'es' ? ' (Español)' : ''
+      return {title: `${title || 'Form CTA'}${tag}`, subtitle, media: media ?? EnvelopeIcon}
     },
   },
 })

@@ -11,6 +11,7 @@
 import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import FormBlock from './FormBlock.astro'
+import type {ComponentProps} from 'astro/types'
 import {fontStack} from '@/lib/fonts'
 import type {FormCtaData} from '@/types/sanity'
 
@@ -19,7 +20,12 @@ interface Props {
 }
 
 const {data: block} = Astro.props
-const data = block.cta ?? block
+// The query may swap in the CTA's Spanish translation; typegen only knows it's
+// some translated document, so check it really is a CTA.
+const cta = block.cta?._type === 'ctaForm' ? block.cta : null
+const data = cta ?? block
+// A CTA's form comes from the query (select options filled in) and an older
+// block's from the block itself; the same form either way, typed differently.
 
 // Only the bundled fonts (lib/fonts.ts); anything else, such as a name typed
 // before these were a list, falls back to the default.
@@ -55,7 +61,7 @@ const background = stegaClean(data.backgroundColor)
       {
         data.form && (
           <div class="mt-7">
-            <FormBlock data={data.form} formStyle="dark" />
+            <FormBlock data={data.form as ComponentProps<typeof FormBlock>['data']} formStyle="dark" />
           </div>
         )
       }

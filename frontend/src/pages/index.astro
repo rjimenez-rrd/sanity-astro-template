@@ -22,7 +22,7 @@ const [page, settings] = await Promise.all([
 // The home in each language that has one: {en: '/', es: '/es'}.
 Astro.locals.language = language
 Astro.locals.alternates = Object.fromEntries(
-  [language, ...(page?.translations ?? []).map((t) => languageOf(t?.language))].map((lang) => [
+  [language, ...(page?.translations ?? []).map((t: {language?: string | null} | null) => languageOf(t?.language))].map((lang) => [
     lang,
     homePath(lang),
   ]),
