@@ -70,6 +70,9 @@ const UI = {
     pageNotFoundText: 'The page you are looking for does not exist or has been moved.',
     backHome: 'Back to home',
     switchToDefault: 'English',
+    Settlement: 'Settlement',
+    Verdict: 'Verdict',
+    Award: 'Award',
   },
   es: {
     getDirections: 'Cómo llegar',
@@ -77,10 +80,21 @@ const UI = {
     pageNotFoundText: 'La página que busca no existe o se ha movido.',
     backHome: 'Volver al inicio',
     switchToDefault: 'English',
+    // Case result types, keyed by the value the Studio stores.
+    Settlement: 'Acuerdo',
+    Verdict: 'Veredicto',
+    Award: 'Indemnización',
   },
 } satisfies Record<Language, Record<string, string>>
 
 /** A built-in word in a language, e.g. t('es', 'getDirections') -> 'Cómo llegar'. */
 export function t(language: Language | undefined, key: keyof (typeof UI)['en']): string {
   return UI[language ?? DEFAULT_LANGUAGE][key]
+}
+
+/** A value from a fixed Studio list (e.g. a case result's type) in a language, or itself if unknown. */
+export function label(language: Language | undefined, value: string | null | undefined): string {
+  const clean = stegaClean(value ?? '')
+  const words: Record<string, string> = UI[language ?? DEFAULT_LANGUAGE]
+  return words[clean] ?? clean
 }

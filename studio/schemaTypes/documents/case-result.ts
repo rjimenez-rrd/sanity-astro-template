@@ -24,6 +24,13 @@ export const caseResultType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'summaryEs',
+      title: 'Summary (Español)',
+      type: 'string',
+      description:
+        'Shown on Spanish pages instead of the Summary, e.g. Caída por las escaleras resulta en múltiples cirugías. Leave empty to show the English.',
+    }),
+    defineField({
       name: 'resultType',
       title: 'Result Type',
       type: 'string',

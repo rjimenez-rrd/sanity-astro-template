@@ -1,6 +1,7 @@
 ---
 import CardCarousel from '@/components/ui/CardCarousel.astro'
 import type {CaseResultCardsData} from '@/types/sanity'
+import {label} from '@/lib/i18n'
 
 interface Props {
   data: CaseResultCardsData
@@ -27,7 +28,7 @@ const results = (data.caseResults ?? []).filter((result) => result?.amount)
       <article class="flex h-full flex-col items-center justify-center border border-border bg-card px-8 py-14 text-center">
         {showResultType && result.resultType && (
           <p class="font-display mb-3 text-xs font-semibold uppercase tracking-widest text-muted">
-            {result.resultType}
+            {label(Astro.locals.language, result.resultType)}
           </p>
         )}
         <p class="font-display text-5xl font-extrabold leading-none text-primary md:text-6xl">

@@ -147,8 +147,10 @@ const contentTypesFragment = /* groq */ `
     },
     _type == "caseResultCards" => {
       ...,
+      // On a Spanish page, the Spanish summary when there is one.
       caseResults[]-> {
-        _id, amount, summary, resultType
+        _id, amount, resultType,
+        "summary": select($language == "es" => coalesce(summaryEs, summary), summary)
       },
       ${blockStylesFragment}
     },
