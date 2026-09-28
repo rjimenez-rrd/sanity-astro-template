@@ -130,8 +130,11 @@ const contentTypesFragment = /* groq */ `
     },
     _type == "lawyerCards" => {
       ...,
+      // On a Spanish page, the Spanish role and bio when there are ones.
       lawyers[]-> {
-        _id, name, role, shortBio,
+        _id, name,
+        "role": select($language == "es" => coalesce(roleEs, role), role),
+        "shortBio": select($language == "es" => coalesce(shortBioEs, shortBio), shortBio),
         "slug": slug.current,
         photo { ${imageFragment} }
       },

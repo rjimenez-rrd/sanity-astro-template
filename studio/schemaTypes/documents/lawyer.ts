@@ -12,6 +12,7 @@ export const lawyerType = defineType({
     { name: 'profile', title: 'Profile', default: true },
     { name: 'credentials', title: 'Credentials' },
     { name: 'contact', title: 'Contact' },
+    { name: 'spanish', title: 'Español' },
   ],
   fields: [
     defineField({
@@ -61,6 +62,28 @@ export const lawyerType = defineType({
       title: 'Full Bio',
       type: 'blockContent',
       group: 'profile',
+    }),
+    // Spanish versions, shown on /es/ pages. Empty ones fall back to English;
+    // the name, photo and everything else are shared.
+    defineField({
+      name: 'roleEs',
+      title: 'Role (Español)',
+      type: 'string',
+      group: 'spanish',
+      description: 'e.g. Socio Principal. Leave empty to show the English role.',
+    }),
+    defineField({
+      name: 'shortBioEs',
+      title: 'Short Bio (Español)',
+      type: 'text',
+      rows: 3,
+      group: 'spanish',
+    }),
+    defineField({
+      name: 'bioEs',
+      title: 'Full Bio (Español)',
+      type: 'blockContent',
+      group: 'spanish',
     }),
     defineField({
       name: 'order',
