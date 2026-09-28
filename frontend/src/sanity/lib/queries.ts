@@ -81,6 +81,14 @@ const heroFragment = /* groq */ `
   }
 `
 
+// A review in the page's language: on Spanish pages the Spanish title and
+// text when there are ones. The client's name and the rating are shared.
+const reviewFragment = /* groq */ `
+  _id, clientName, rating,
+  "title": select($language == "es" => coalesce(titleEs, title), title),
+  "reviewText": select($language == "es" => coalesce(reviewTextEs, reviewText), reviewText)
+`
+
 // Per-type projections for the blocks in a column.
 const contentTypesFragment = /* groq */ `
     _type == "imageBlock" => {
@@ -123,8 +131,8 @@ const contentTypesFragment = /* groq */ `
     _type == "testimonialCarousel" => {
       ...,
       "reviews": select(
-        count(reviews) > 0 => reviews[]-> { _id, clientName, title, reviewText, rating },
-        *[_type == "review"] | order(_createdAt desc) { _id, clientName, title, reviewText, rating }
+        count(reviews) > 0 => reviews[]-> { ${reviewFragment} },
+        *[_type == "review"] | order(_createdAt desc) { ${reviewFragment} }
       ),
       ${blockStylesFragment}
     },

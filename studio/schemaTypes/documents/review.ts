@@ -24,6 +24,19 @@ export const reviewType = defineType({
       type: 'text',
       validation: (Rule) => Rule.required(),
     }),
+    // Spanish versions, shown on /es/ pages; empty ones fall back to the
+    // English. The client's name and the rating are shared.
+    defineField({
+      name: 'titleEs',
+      title: 'Title (Español)',
+      type: 'string',
+    }),
+    defineField({
+      name: 'reviewTextEs',
+      title: 'Review Text (Español)',
+      type: 'text',
+      description: 'Leave empty to show the English review on Spanish pages.',
+    }),
     defineField({
       name: 'rating',
       title: 'Rating',

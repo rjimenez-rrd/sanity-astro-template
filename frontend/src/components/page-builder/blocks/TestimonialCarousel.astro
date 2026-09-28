@@ -1,5 +1,6 @@
 ---
 import type {TestimonialCarouselData} from '@/types/sanity'
+import {starsLabel} from '@/lib/i18n'
 
 interface Props {
   data: TestimonialCarouselData
@@ -91,7 +92,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
               aria-hidden={i >= testimonials.length ? 'true' : undefined}
             >
               {t.rating && (
-                <div class="mb-8 flex gap-1" aria-label={`${t.rating} out of 5 stars`}>
+                <div class="mb-8 flex gap-1" aria-label={starsLabel(Astro.locals.language, t.rating)}>
                   {Array.from({length: 5}, (_, i) => (
                     <svg
                       class={`h-9 w-9 ${i < t.rating! ? 'text-practice-card' : 'text-border'}`}

@@ -98,3 +98,8 @@ export function label(language: Language | undefined, value: string | null | und
   const words: Record<string, string> = UI[language ?? DEFAULT_LANGUAGE]
   return words[clean] ?? clean
 }
+
+/** The screen-reader label for a star rating, e.g. "4 out of 5 stars". */
+export function starsLabel(language: Language | undefined, rating: number): string {
+  return (language ?? DEFAULT_LANGUAGE) === 'es' ? `${rating} de 5 estrellas` : `${rating} out of 5 stars`
+}
