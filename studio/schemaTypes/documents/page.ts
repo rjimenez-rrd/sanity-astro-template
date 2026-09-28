@@ -19,6 +19,13 @@ export const pageType = defineType({
   ],
   fields: [
     defineField({
+      name: 'language',
+      type: 'string',
+      // Set by the Translations menu (@sanity/document-internationalization).
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
@@ -34,6 +41,8 @@ export const pageType = defineType({
     }),
     defineField({
       name: 'publishedAt',
+      // Not copied into a new translation: it starts unpublished.
+      options: {documentInternationalization: {exclude: true}},
       title: 'First Published',
       type: 'datetime',
       group: 'content',
@@ -44,6 +53,8 @@ export const pageType = defineType({
     }),
     defineField({
       name: 'updatedAt',
+      // Not copied into a new translation: it starts unpublished.
+      options: {documentInternationalization: {exclude: true}},
       title: 'Last Updated',
       type: 'datetime',
       group: 'content',
@@ -53,6 +64,8 @@ export const pageType = defineType({
     }),
     defineField({
       name: 'lastEditedBy',
+      // Not copied into a new translation: it starts unpublished.
+      options: {documentInternationalization: {exclude: true}},
       title: 'Last Edited By',
       type: 'object',
       // Set on edit by actions/stampLastEditor.ts; only the list row shows it.

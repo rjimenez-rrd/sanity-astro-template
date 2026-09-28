@@ -2,6 +2,7 @@
 import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import type {PracticeAreaListItem} from '@/types/sanity'
+import {localizedPath} from '@/lib/i18n'
 
 interface Props {
   area: PracticeAreaListItem
@@ -49,7 +50,7 @@ const label = custom
 {
   slug && (
     <a
-      href={`/${slug}`}
+      href={localizedPath(slug!, area.language)}
       class={`group overflow-hidden ${fillHeight ? 'flex h-full flex-col' : 'block'}`}
     >
       <div

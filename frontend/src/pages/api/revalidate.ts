@@ -2,6 +2,7 @@ import type {APIRoute} from 'astro'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {getClient} from '@/sanity/lib/client'
 import {listPageHref} from '@/lib/pagination'
+import {DEFAULT_LANGUAGE, homePath, languageOf, localizedPath} from '@/lib/i18n'
 
 export const prerender = false
 
@@ -29,7 +30,9 @@ export const POST: APIRoute = async ({request, url}) => {
     return json({message: 'Invalid signature'}, 401)
   }
 
-  const body = JSON.parse(raw) as {_type?: string; slug?: {current?: string}}
+  // language: add it to the webhook's projection ({_type, slug, language}) so
+  // Spanish pages clear /es/<slug>; without it, pages count as English.
+  const body = JSON.parse(raw) as {_type?: string; slug?: {current?: string}; language?: string}
   if (!body?._type) return json({message: 'Bad request'}, 400)
 
   const paths = new Set<string>()
@@ -54,14 +57,19 @@ export const POST: APIRoute = async ({request, url}) => {
       break
     case 'page':
       if (body.slug?.current) {
-        paths.add(`/${body.slug.current}`)
+        const path = localizedPath(body.slug.current, body.language)
+        paths.add(path)
         // Any page can hold a paginated grid; its later pages change with it.
-        await addListPages(`/${body.slug.current}`)
+        await addListPages(path)
+        // The Spanish home is the Spanish page "inicio", served at /es.
+        if (languageOf(body.language) !== DEFAULT_LANGUAGE && body.slug.current === 'inicio') {
+          paths.add(homePath(body.language))
+        }
       }
       paths.add('/') // nav/footer might reference pages
       break
     case 'practiceArea':
-      if (body.slug?.current) paths.add(`/${body.slug.current}`)
+      if (body.slug?.current) paths.add(localizedPath(body.slug.current, body.language))
       paths.add('/practice-areas')
       await addListPages('/practice-areas')
       break

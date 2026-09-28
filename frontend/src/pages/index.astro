@@ -7,11 +7,12 @@ import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
 import {HOME_PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 import {buildSeo} from '@/lib/seo'
+import {DEFAULT_LANGUAGE} from '@/lib/i18n'
 
 const client = getClient(Astro.locals.isDraft)
 
 const [page, settings] = await Promise.all([
-  sanityFetch(client, Astro.locals, HOME_PAGE_QUERY),
+  sanityFetch(client, Astro.locals, HOME_PAGE_QUERY, {language: DEFAULT_LANGUAGE}),
   sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
 ])
 

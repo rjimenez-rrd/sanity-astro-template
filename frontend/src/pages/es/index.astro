@@ -1,0 +1,31 @@
+---
+export const prerender = false
+
+import Site from '@/layouts/Site.astro'
+import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
+import {buildSeo} from '@/lib/seo'
+import {loadPage} from '@/lib/pageRoute'
+
+/**
+ * The Spanish home: the Spanish Page with the slug "inicio". The Home Page
+ * singleton has no language versions, so this is where Spanish visitors land.
+ * Until that page exists, /es goes to the English home instead of a 404.
+ */
+const HOME_SLUG = 'inicio'
+
+const {page, settings} = await loadPage(Astro, HOME_SLUG, 'es')
+if (!page) return Astro.redirect('/', 302)
+
+// /es is its address; /es/inicio would be the same page twice.
+Astro.locals.alternates = {...Astro.locals.alternates, es: '/es'}
+
+const seo = buildSeo(page.seo, {title: page.title})
+---
+
+<Site settings={settings} {...seo}>
+  <SectionRenderer
+    sections={page.pageBuilder}
+    documentId={page._id}
+    documentType={page._type}
+  />
+</Site>

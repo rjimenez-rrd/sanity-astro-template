@@ -5,6 +5,7 @@ import {visionTool} from '@sanity/vision'
 import {colorInput} from '@sanity/color-input'
 import {table} from '@sanity/table'
 import {media} from 'sanity-plugin-media'
+import {documentInternationalization} from '@sanity/document-internationalization'
 
 import {schemaTypes} from './schemaTypes'
 import {structure} from './structure'
@@ -13,6 +14,14 @@ import {openInBrowser} from './actions/openInBrowser'
 import {PUBLISH_DATE_TYPES, withPublishDate} from './actions/publishWithDate'
 import {singletonTypes, singletonActions} from './schemaTypes/constants'
 import {LAST_EDITED_TYPES, StampLastEditor} from './actions/stampLastEditor'
+import {DEFAULT_LANGUAGE, LANGUAGES, TRANSLATED_TYPES} from './schemaTypes/languages'
+
+/** /about-us for the default language, /es/sobre-nosotros for the others. */
+const localizedPath = (slug: string, language?: string) =>
+  !language || language === DEFAULT_LANGUAGE ? `/${slug}` : `/${language}/${slug}`
+
+/** GROQ: a document's language, treating ones from before languages as the default. */
+const LANGUAGE_IS = (id: string) => `coalesce(language, "${DEFAULT_LANGUAGE}") == "${id}"`
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID!
 const dataset = process.env.SANITY_STUDIO_DATASET!
@@ -40,10 +49,10 @@ export default defineConfig({
             locations: [{title: 'Home', href: '/'}],
           }),
           page: defineLocations({
-            select: {title: 'title', slug: 'slug.current'},
+            select: {title: 'title', slug: 'slug.current', language: 'language'},
             resolve: (doc) => ({
               locations: doc?.slug
-                ? [{title: doc.title || 'Untitled page', href: `/${doc.slug}`}]
+                ? [{title: doc.title || 'Untitled page', href: localizedPath(doc.slug, doc.language)}]
                 : [],
             }),
           }),
@@ -59,11 +68,14 @@ export default defineConfig({
             }),
           }),
           practiceArea: defineLocations({
-            select: {title: 'title', slug: 'slug.current'},
+            select: {title: 'title', slug: 'slug.current', language: 'language'},
             resolve: (doc) => ({
               locations: doc?.slug
                 ? [
-                    {title: doc.title || 'Untitled practice area', href: `/${doc.slug}`},
+                    {
+                      title: doc.title || 'Untitled practice area',
+                      href: localizedPath(doc.slug, doc.language),
+                    },
                     {title: 'Practice Areas', href: '/practice-areas'},
                   ]
                 : [],
@@ -73,9 +85,20 @@ export default defineConfig({
         mainDocuments: defineDocuments([
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
           {route: '/news/:slug', filter: '_type == "newsPost" && slug.current == $slug'},
-          {route: '/:slug', filter: '_type in ["page", "practiceArea"] && slug.current == $slug'},
+          // Other languages first, so /es/… isn't read as a slug "es".
+          ...LANGUAGES.filter((l) => l.id !== DEFAULT_LANGUAGE).map((l) => ({
+            route: `/${l.id}/:slug`,
+            filter: `_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_IS(l.id)}`,
+          })),
+          {
+            route: '/:slug',
+            filter: `_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_IS(DEFAULT_LANGUAGE)}`,
+          },
           // Later pages of a paginated card list are the same document.
-          {route: '/:slug/page/:page', filter: '_type in ["page", "practiceArea"] && slug.current == $slug'},
+          {
+            route: '/:slug/page/:page',
+            filter: `_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_IS(DEFAULT_LANGUAGE)}`,
+          },
         ]),
       },
       previewUrl: {
@@ -85,6 +108,16 @@ export default defineConfig({
         },
       },
     }),
+    /**
+     * Translations: a menu on each Page and Practice Area to create or open
+     * its version in another language. Creating one copies the document, so
+     * the layout is already there and only the words need translating.
+     */
+    documentInternationalization({
+      supportedLanguages: [...LANGUAGES],
+      schemaTypes: TRANSLATED_TYPES,
+      languageField: 'language',
+    }),
     visionTool(),
     media(),
     colorInput(),
@@ -93,8 +126,12 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+    // The plain Page / Practice Area templates would create documents with no
+    // language; the plugin's per-language ones ("Page (English)") replace them.
     templates: (prev) =>
-      prev.filter((t) => !singletonTypes.has(t.schemaType ?? t.id)),
+      prev.filter(
+        (t) => !singletonTypes.has(t.schemaType ?? t.id) && !TRANSLATED_TYPES.includes(t.id),
+      ),
   },
 
   document: {

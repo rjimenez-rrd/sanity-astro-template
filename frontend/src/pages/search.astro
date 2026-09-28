@@ -8,6 +8,7 @@ import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
 import {SEARCH_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 import {getMaxWidthClass} from '@/lib/maxWidth'
+import {localizedPath} from '@/lib/i18n'
 
 const client = getClient(Astro.locals.isDraft)
 
@@ -32,7 +33,7 @@ const TYPE_LABELS: Record<string, string> = {
 }
 const hrefFor = (result: (typeof results)[number]) => {
   const slug = stegaClean(result.slug)
-  return stegaClean(result._type) === 'newsPost' ? `/news/${slug}` : `/${slug}`
+  return stegaClean(result._type) === 'newsPost' ? `/news/${slug}` : localizedPath(slug!, result.language)
 }
 
 const maxWidthClass = getMaxWidthClass()

@@ -9,12 +9,13 @@ import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
 import {NEWS_POST_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 import {buildSeo} from '@/lib/seo'
+import {DEFAULT_LANGUAGE} from '@/lib/i18n'
 
 const {slug} = Astro.params
 const client = getClient(Astro.locals.isDraft)
 
 const [post, settings] = await Promise.all([
-  sanityFetch(client, Astro.locals, NEWS_POST_QUERY, {slug}),
+  sanityFetch(client, Astro.locals, NEWS_POST_QUERY, {slug, language: DEFAULT_LANGUAGE}),
   sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
 ])
 

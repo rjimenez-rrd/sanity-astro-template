@@ -3,18 +3,13 @@ export const prerender = false
 
 import Site from '@/layouts/Site.astro'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
-import {getClient} from '@/sanity/lib/client'
-import {sanityFetch} from '@/sanity/lib/live'
-import {PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 import {buildSeo} from '@/lib/seo'
+import {DEFAULT_LANGUAGE} from '@/lib/i18n'
+import {loadPage} from '@/lib/pageRoute'
 
+// A page in the default language. Other languages: es/[slug].astro.
 const {slug} = Astro.params
-const client = getClient(Astro.locals.isDraft)
-
-const [page, settings] = await Promise.all([
-  sanityFetch(client, Astro.locals, PAGE_QUERY, {slug}),
-  sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
-])
+const {page, settings} = await loadPage(Astro, slug!, DEFAULT_LANGUAGE)
 
 if (!page) return Astro.rewrite('/404')
 

@@ -19,6 +19,7 @@
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",
     "@sanity/color-input": "^6.0.4",
+    "@sanity/document-internationalization": "^6.2.38",
     "@sanity/icons": "^3.7.4",
     "@sanity/table": "^2.0.1",
     "@sanity/ui": "^3.1.14",

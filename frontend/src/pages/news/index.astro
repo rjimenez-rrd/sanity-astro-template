@@ -9,13 +9,14 @@ import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
 import {NEWS_LIST_QUERY, PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 import {getMaxWidthClass} from '@/lib/maxWidth'
+import {DEFAULT_LANGUAGE} from '@/lib/i18n'
 
 const client = getClient(Astro.locals.isDraft)
 
 const [posts, settings, page] = await Promise.all([
   sanityFetch(client, Astro.locals, NEWS_LIST_QUERY),
   sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
-  sanityFetch(client, Astro.locals, PAGE_QUERY, {slug: 'news'}),
+  sanityFetch(client, Astro.locals, PAGE_QUERY, {slug: 'news', language: DEFAULT_LANGUAGE}),
 ])
 
 const maxWidthClass = getMaxWidthClass()

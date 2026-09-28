@@ -1,5 +1,12 @@
 import {defineQuery} from 'groq'
 
+/**
+ * A document in the requested language ($language). Documents from before
+ * languages existed have none and count as the default, English — keep "en"
+ * in step with DEFAULT_LANGUAGE in lib/i18n.ts.
+ */
+const LANGUAGE_MATCHES = /* groq */ `coalesce(language, "en") == $language`
+
 const imageFragment = /* groq */ `
   asset->{
     _id,
@@ -27,11 +34,12 @@ const seoFragment = /* groq */ `
   }
 `
 
-// Internal links store a bare reference; the href needs the target's slug.
+// Internal links store a bare reference; the href needs the target's slug,
+// and its language for the /es/ prefix.
 const linkFragment = /* groq */ `
   link[] {
     ...,
-    _type == "linkInternal" => { "reference": reference->{ slug } }
+    _type == "linkInternal" => { "reference": reference->{ slug, language } }
   }
 `
 
@@ -47,17 +55,19 @@ const newsCardFragment = /* groq */ `
 // block (picked or all) and PRACTICE_AREAS_QUERY, so the card reads the same
 // data wherever it appears.
 const practiceAreaCardFragment = /* groq */ `
-  _id, title, cardTitle, slug,
+  _id, title, cardTitle, slug, language,
   coverImage { ${imageFragment} }
 `
 
 // Both practice-area blocks: the picked ones in their picked order, or —
-// nothing picked — every practice area A–Z, so a new one appears without
-// editing the block. Placed after the spread, it replaces the bare references.
+// nothing picked — every practice area in the page's language ($language)
+// A–Z, so a new one appears without editing the block. Placed after the
+// spread, it replaces the bare references.
 const practiceAreasPickedOrAllFragment = /* groq */ `
   "practiceAreas": select(
     count(practiceAreas) > 0 => practiceAreas[]-> { ${practiceAreaCardFragment} },
-    *[_type == "practiceArea" && defined(slug.current)] | order(title asc) { ${practiceAreaCardFragment} }
+    *[_type == "practiceArea" && defined(slug.current) && ${LANGUAGE_MATCHES}]
+      | order(title asc) { ${practiceAreaCardFragment} }
   )
 `
 
@@ -216,11 +226,15 @@ export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
   }
 `)
 
-// Pages and practice areas share the root (/<slug>); the Studio keeps their
-// slugs unique across both types.
+// Pages and practice areas share the root (/<slug>, or /es/<slug>); the
+// Studio keeps their slugs unique across both types within a language.
+// "translations" is the same page in the other languages, for the header's
+// language link and the hreflang tags.
 export const PAGE_QUERY = defineQuery(/* groq */ `
-  *[_type in ["page", "practiceArea"] && slug.current == $slug][0] {
-    _id, _type, title, slug,
+  *[_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_MATCHES}][0] {
+    _id, _type, title, slug, language,
+    "translations": *[_type == "translation.metadata" && references(^._id)][0]
+      .translations[].value->{ language, "slug": slug.current },
     ${seoFragment},
     ${pageBuilderFragment}
   }
@@ -228,12 +242,13 @@ export const PAGE_QUERY = defineQuery(/* groq */ `
 
 export const PAGE_SLUGS_QUERY = defineQuery(/* groq */ `
   *[_type in ["page", "practiceArea"] && defined(slug.current)] {
-    "slug": slug.current
+    "slug": slug.current, language
   }
 `)
 
 export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
-  *[_type == "practiceArea" && defined(slug.current)] | order(title asc) {
+  *[_type == "practiceArea" && defined(slug.current) && ${LANGUAGE_MATCHES}]
+    | order(title asc) {
     ${practiceAreaCardFragment}
   }
 `)
@@ -304,6 +319,6 @@ export const SEARCH_QUERY = defineQuery(/* groq */ `
     ] match $terms]
   | score(boost(title match $terms, 3), boost(cardTitle match $terms, 2), excerpt match $terms)
   | order(_score desc) [0...30] {
-    _id, _type, title, "slug": slug.current, excerpt, publishedAt
+    _id, _type, title, "slug": slug.current, language, excerpt, publishedAt
   }
 `)

@@ -1,8 +1,9 @@
 import {stegaClean} from '@sanity/client/stega'
+import {localizedPath} from '@/lib/i18n'
 
 interface LinkInternal {
   _type: 'linkInternal'
-  reference?: {slug?: {current?: string}} | null
+  reference?: {slug?: {current?: string}; language?: string | null} | null
 }
 
 interface LinkExternal {
@@ -54,8 +55,12 @@ export function resolveHref(linkItems: LinkItem[]): {
       return ext.url ? {href: ext.url, isExternal: Boolean(ext.newWindow), missing: false} : none
     }
     case 'linkInternal': {
-      const slug = (item as LinkInternal).reference?.slug?.current
-      return slug ? {href: `/${slug}`, isExternal: false, missing: false} : none
+      const reference = (item as LinkInternal).reference
+      const slug = reference?.slug?.current
+      // A Spanish page links to /es/<slug>.
+      return slug
+        ? {href: localizedPath(slug, reference?.language), isExternal: false, missing: false}
+        : none
     }
     case 'pageSlug': {
       // Editors type it either way ("about" or "/about"), per the field's hint.

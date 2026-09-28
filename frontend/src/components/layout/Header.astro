@@ -7,6 +7,7 @@ import type { SiteSettings, NavLink, NavDropdown } from "@/types/sanity";
 import { getMaxWidthClass } from "@/lib/maxWidth";
 import SearchOverlay from "@/components/search/SearchOverlay.astro";
 import CaretDown from "@/components/icons/CaretDown.astro";
+import { DEFAULT_LANGUAGE } from "@/lib/i18n";
 
 interface Props {
   settings: SiteSettings | null;
@@ -26,6 +27,21 @@ const phoneLabel = settings?.footerPhoneLabel;
 // On unless an editor turned it off; older settings have no value yet.
 const showSearch = settings?.headerSearch !== false;
 const extraLink = settings?.headerExtraLink;
+
+/**
+ * The extra link doubles as the language switch. On an English page it keeps
+ * its label ("Spanish") and goes to this page's Spanish version, or to its own
+ * link (/es) when there's no translation. On a Spanish page it reads "English"
+ * and goes back to the English version, or the English home.
+ */
+const language = Astro.locals.language ?? DEFAULT_LANGUAGE;
+const alternates = Astro.locals.alternates ?? {};
+const languageLink =
+  language === DEFAULT_LANGUAGE
+    ? extraLink?.href
+      ? { label: extraLink.label, href: alternates.es ?? extraLink.href, lang: "es" }
+      : undefined
+    : { label: "English", href: alternates.en ?? "/", lang: "en" };
 
 const CLOSE_PATH = "M6 18L18 6M6 6l12 12";
 const BURGER_PATH = "M4 6h16M4 12h16M4 18h16";
@@ -179,7 +195,7 @@ const current = (on: boolean, link = true) =>
       {/* Right side: search and the extra link (e.g. Spanish) at every size,
           then the menu button below lg. */}
       <div class="flex items-center gap-4 sm:gap-7 lg:gap-10">
-      {(showSearch || extraLink?.href) && (
+      {(showSearch || languageLink) && (
         <div class="flex items-center gap-4 font-display sm:gap-7 lg:gap-10">
           {showSearch && (
             <button
@@ -194,9 +210,13 @@ const current = (on: boolean, link = true) =>
               </svg>
             </button>
           )}
-          {extraLink?.href && (
-            <a href={extraLink.href} class="text-sm text-foreground transition-colors hover:text-secondary-hover sm:text-base lg:text-sm">
-              {extraLink.label}
+          {languageLink && (
+            <a
+              href={languageLink.href}
+              hreflang={languageLink.lang}
+              class="text-sm text-foreground transition-colors hover:text-secondary-hover sm:text-base lg:text-sm"
+            >
+              {languageLink.label}
             </a>
           )}
         </div>

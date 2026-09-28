@@ -26,6 +26,10 @@ declare namespace App {
      * pages/[slug]/page/[page].astro; unset means page 1.
      */
     listPage?: number
+    /** The page's language. Set by the page routes; unset means the default. */
+    language?: import('@/lib/i18n').Language
+    /** The same page in each language that has it, e.g. {en: '/about-us', es: '/es/sobre-nosotros'}. */
+    alternates?: import('@/lib/i18n').Alternates
     /** The site's phone for inline rich text and Phone blocks, fetched once per request. */
     siteInfo?: Promise<import('@/sanity/lib/siteInfo').SiteInfo>
   }

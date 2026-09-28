@@ -1,5 +1,6 @@
-import type { StructureResolver } from 'sanity/structure'
-import { CogIcon, DocumentsIcon, HomeIcon, PublishIcon, EditIcon, ThListIcon, StarFilledIcon, ComposeIcon, DocumentTextIcon, UsersIcon } from '@sanity/icons'
+import type { StructureBuilder, StructureResolver } from 'sanity/structure'
+import { CogIcon, DocumentsIcon, HomeIcon, PublishIcon, EditIcon, ThListIcon, StarFilledIcon, ComposeIcon, DocumentTextIcon, UsersIcon, TranslateIcon } from '@sanity/icons'
+import { DEFAULT_LANGUAGE, LANGUAGES } from './schemaTypes/languages'
 
 const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
 
@@ -16,10 +17,35 @@ const PLACED = [
   'newsPost',
   'newsCategory',
   'ctaForm',
+  // The Translations plugin's links between language versions; not edited directly.
+  'translation.metadata',
   ...SINGLETONS,
 ]
 
 const NEWEST_FIRST = [{ field: 'publishedAt', direction: 'desc' as const }]
+
+/**
+ * One list per language for a translated type. Documents from before
+ * languages existed have none and count as the default. "+" in a list creates
+ * a document already in that language.
+ */
+const languageLists = (S: StructureBuilder, type: string, plural: string) =>
+  LANGUAGES.map((language) =>
+    S.listItem()
+      .title(language.title)
+      .id(`${type}-${language.id}`)
+      .schemaType(type)
+      .icon(TranslateIcon)
+      .child(
+        S.documentList()
+          .title(`${plural} (${language.title})`)
+          .schemaType(type)
+          .filter(`_type == $type && coalesce(language, $defaultLanguage) == $language`)
+          .params({ type, language: language.id, defaultLanguage: DEFAULT_LANGUAGE })
+          .initialValueTemplates([S.initialValueTemplateItem(`${type}-${language.id}`)])
+          .defaultOrdering(NEWEST_FIRST),
+      ),
+  )
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -91,9 +117,24 @@ export const structure: StructureResolver = (S) =>
                     .filter('_type == "page" && (!defined(_originalId) || _originalId in path("drafts.**"))')
                     .defaultOrdering(NEWEST_FIRST),
                 ),
+              S.divider().title('By language'),
+              ...languageLists(S, 'page', 'Pages'),
             ]),
         ),
-      S.documentTypeListItem('practiceArea').title('Practice Areas').icon(DocumentTextIcon),
+      S.listItem()
+        .title('Practice Areas')
+        .id('practice-areas')
+        .schemaType('practiceArea')
+        .icon(DocumentTextIcon)
+        .child(
+          S.list()
+            .title('Practice Areas')
+            .items([
+              S.documentTypeListItem('practiceArea').title('All Practice Areas').icon(DocumentTextIcon),
+              S.divider().title('By language'),
+              ...languageLists(S, 'practiceArea', 'Practice Areas'),
+            ]),
+        ),
       S.documentTypeListItem('review').title('Reviews').icon(StarFilledIcon),
       S.documentTypeListItem('lawyer').title('Lawyers').icon(UsersIcon),
       // Categories only exist to label posts, so they live inside News rather
