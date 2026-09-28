@@ -3,4 +3,6 @@ import type {BlockProps} from 'astro-portabletext/types'
 type Props = BlockProps
 ---
 
-<p class="leading-relaxed font-display text-lg"><slot /></p>
+{/* 1.125em, not text-lg: the same 18px by default, and relative to the block.
+    A Size set in Block Styles makes it exactly that size (global.css). */}
+<p class="leading-relaxed font-display text-[1.125em]"><slot /></p>

@@ -67,9 +67,16 @@ function parseRules(css: string): Rule[] {
   return rules
 }
 
-/** `&:hover` → `SEL:hover`; `.child` → `SEL .child`. */
+/**
+ * `&:hover` → `SEL:hover`; `.child` → `SEL .child`. `selector` is Elementor's
+ * word for the element itself, so `selector:hover` and `selector .child` work
+ * the same as `&:hover` and `& .child` (no HTML element is called selector).
+ */
 function scopeSelector(selector: string, scope: string): string | undefined {
-  const parts = selector.split(',').map((s) => s.trim())
+  const parts = selector
+    .replace(/(^|[^\w-])selector(?![\w-])/g, '$1&')
+    .split(',')
+    .map((s) => s.trim())
   const scoped: string[] = []
 
   for (const part of parts) {

@@ -165,6 +165,11 @@ const emitted = (re: RegExp) =>
 
 const hasPadding = emitted(/^(padding-|--p[trbl]-(tablet|mobile)$)/)
 const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
+// Typography -> Heading Font: global.css sets the block's headings to it.
+const hasHeadingFont = emitted(/^--pb-heading-font$/)
+// Typography -> Size: global.css sizes a Rich Text block's headings and
+// paragraphs to it.
+const hasFontSize = emitted(/^(font-size|--fs-(tablet|mobile))$/)
 
 /**
  * A configured height sizes the wrapper, but an image or iframe inside it keeps
@@ -217,6 +222,8 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
         data-pb-overlay={own.overlay ? '' : undefined}
         data-pb-pad={hasPadding ? '' : undefined}
         data-pb-mar={hasMargin ? '' : undefined}
+        data-pb-hfont={hasHeadingFont ? '' : undefined}
+        data-pb-fs={hasFontSize ? '' : undefined}
         data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       />
@@ -228,6 +235,8 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
         class={cssClasses}
         data-pb-pad={hasPadding ? '' : undefined}
         data-pb-mar={hasMargin ? '' : undefined}
+        data-pb-hfont={hasHeadingFont ? '' : undefined}
+        data-pb-fs={hasFontSize ? '' : undefined}
         data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       >

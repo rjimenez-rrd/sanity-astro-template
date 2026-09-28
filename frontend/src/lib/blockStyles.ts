@@ -1,3 +1,5 @@
+import {fontStack} from './fonts'
+
 export interface BlockStyles {
   padding?: {
     top?: string | null; right?: string | null; bottom?: string | null; left?: string | null
@@ -28,6 +30,7 @@ export interface BlockStyles {
     fontSizeTablet?: string | null
     fontSizeMobile?: string | null
     textColor?: string | null
+    headingFont?: string | null
   } | null
   effects?: {shadow?: string | null; opacity?: number | null; overflow?: string | null} | null
 }
@@ -205,6 +208,9 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
 
     const color = bs.typography.textColor?.trim()
     if (color && CSS_COLOR.test(color)) styles['color'] = color
+
+    // Read by the [data-pb-hfont] rule in global.css; only bundled fonts pass.
+    styles['--pb-heading-font'] = fontStack(bs.typography.headingFont)
   }
 
   // Effects

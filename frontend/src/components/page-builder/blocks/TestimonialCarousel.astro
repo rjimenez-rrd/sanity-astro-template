@@ -1,6 +1,6 @@
 ---
 import type {TestimonialCarouselData} from '@/types/sanity'
-import {starsLabel} from '@/lib/i18n'
+import {starsLabel, t as translate} from '@/lib/i18n'
 
 interface Props {
   data: TestimonialCarouselData
@@ -57,6 +57,10 @@ const STAR_PATH =
   'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'
 const PREV_PATH = 'M15 19l-7-7 7-7'
 const NEXT_PATH = 'M9 5l7 7-7 7'
+
+// Text sizes below are in em, relative to the block's own size: the same as
+// before by default (1.125em of 16px = text-lg), and Block Styles ->
+// Typography -> Size scales the whole carousel. rem sizes ignored it.
 ---
 
 {
@@ -69,7 +73,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       data-count={String(testimonials.length)}
     >
       {data.title && (
-        <h2 class="mb-8 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h2 class="mb-8 text-[1.5em] font-bold leading-[1.333] tracking-tight text-foreground sm:text-[1.875em] sm:leading-[1.2]">
           {data.title}
         </h2>
       )}
@@ -110,18 +114,20 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
                   the text actually overflows, so short reviews get no button. */}
               <p
                 data-review-text
-                class="line-clamp-5 font-display text-lg italic leading-relaxed text-foreground md:text-xl"
+                class="line-clamp-5 font-display text-[1.125em] italic leading-relaxed text-foreground md:text-[1.25em]"
               >
                 {t.reviewText}
               </p>
               <button
                 type="button"
                 data-review-toggle
+                data-show-more={translate(Astro.locals.language, 'showMore')}
+                data-show-less={translate(Astro.locals.language, 'showLess')}
                 aria-expanded="false"
-                class="mt-4 self-start font-display text-lg text-practice-card hover:underline md:text-xl"
+                class="mt-4 self-start font-display text-[1.125em] leading-[1.556] text-practice-card hover:underline md:text-[1.25em] md:leading-[1.4]"
                 hidden
               >
-                Show More
+                {translate(Astro.locals.language, 'showMore')}
               </button>
 
               {/* mt-auto pins the rule and the name to the bottom, so they line
@@ -129,7 +135,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
               <div class="mt-auto pt-8">
                 <hr class="border-t border-primary" />
                 {t.clientName && (
-                  <p class="mt-6 font-display text-lg font-bold text-foreground">{t.clientName}</p>
+                  <p class="mt-6 font-display text-[1.125em] font-bold leading-[1.556] text-foreground">{t.clientName}</p>
                 )}
               </div>
             </div>
@@ -274,7 +280,8 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
         const expand = button.getAttribute('aria-expanded') !== 'true'
         text.classList.toggle('line-clamp-5', !expand)
         button.setAttribute('aria-expanded', String(expand))
-        button.textContent = expand ? 'Show Less' : 'Show More'
+        // The words come from the page's language (lib/i18n.ts), set on the button.
+        button.textContent = (expand ? button.dataset.showLess : button.dataset.showMore) ?? ''
       })
     })
 

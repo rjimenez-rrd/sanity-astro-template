@@ -5,6 +5,7 @@
    page), the Form CTA's font choices and Text Styles (lib/fonts.ts) use them. @font-face
    costs nothing until text actually uses the font. */
 @import "@fontsource/libre-baskerville/400.css";
+@import "@fontsource/baskervville/400.css";
 @import "@fontsource/bebas-neue/400.css";
 @import "@fontsource/playfair-display/400.css";
 @import "@fontsource/lora/400.css";
@@ -13,6 +14,7 @@
 /* Bold for the fonts that have one, so a Text Style's Bold is real rather
    than faked by the browser. Bebas Neue and Anton come in one weight. */
 @import "@fontsource/libre-baskerville/700.css";
+@import "@fontsource/baskervville/700.css";
 @import "@fontsource/playfair-display/700.css";
 @import "@fontsource/lora/700.css";
 @import "@fontsource/oswald/700.css";
@@ -319,4 +321,43 @@ h2, h3 {
   z-index: -1;
   pointer-events: none;
   background-color: var(--pb-overlay);
+}
+
+/*
+ * Block Styles -> Typography -> Heading Font: the block's headings take the
+ * picked font, set by blockStyles.ts as --pb-heading-font; its other text
+ * keeps the theme fonts. Unlayered, so it beats the headings' font-display
+ * utility class.
+ */
+[data-pb-hfont] :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--pb-heading-font);
+}
+
+/*
+ * Block Styles -> Typography -> Size on a Rich Text block sizes all of its
+ * text: headings and paragraphs take the block's size (1em) instead of their
+ * built-in ones, per device like everything else — the --fs-tablet/--fs-mobile
+ * rules above change the block's size and these follow it. A big heading and
+ * normal text go in separate blocks. data-pb-fs is set by BlockRenderer.
+ */
+.prose[data-pb-fs] :is(h1, h2, h3, h4, h5, h6, p),
+[data-pb-fs] .prose :is(h1, h2, h3, h4, h5, h6, p) {
+  font-size: 1em;
+}
+.prose[data-pb-fs] :is(h1, h2, h3, h4, h5, h6),
+[data-pb-fs] .prose :is(h1, h2, h3, h4, h5, h6) {
+  /* The built-in line heights were set for the built-in sizes. */
+  line-height: 1.1;
+}
+
+/*
+ * A linked column (Advanced -> Link) is covered by one stretched link. Its own
+ * interactive bits sit above that, so a button or form in it still works. In
+ * the components layer, so an element's own position utility (absolute…) wins.
+ */
+@layer components {
+  [data-pb-link] :where(a, button, input, select, textarea, label, iframe, video, summary):not([data-pb-link-overlay]) {
+    position: relative;
+    z-index: 2;
+  }
 }

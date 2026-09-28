@@ -223,6 +223,9 @@ export const blockStylesType = defineType({
         defineField({name: 'fontSizeTablet', title: 'Size (tablet)', type: 'string'}),
         defineField({name: 'fontSizeMobile', title: 'Size (mobile)', type: 'string'}),
         defineField({name: 'textColor', title: 'Color', type: 'string'}),
+        // Only the block's headings (H1–H6) change; its other text keeps the
+        // theme fonts. One of the bundled fonts (fonts.ts).
+        defineField({name: 'headingFont', title: 'Heading Font', type: 'string'}),
       ],
     }),
     defineField({

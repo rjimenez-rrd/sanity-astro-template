@@ -70,6 +70,8 @@ const UI = {
     pageNotFoundText: 'The page you are looking for does not exist or has been moved.',
     backHome: 'Back to home',
     switchToDefault: 'English',
+    showMore: 'Show More',
+    showLess: 'Show Less',
     Settlement: 'Settlement',
     Verdict: 'Verdict',
     Award: 'Award',
@@ -80,6 +82,8 @@ const UI = {
     pageNotFoundText: 'La página que busca no existe o se ha movido.',
     backHome: 'Volver al inicio',
     switchToDefault: 'English',
+    showMore: 'Ver más',
+    showLess: 'Ver menos',
     // Case result types, keyed by the value the Studio stores.
     Settlement: 'Acuerdo',
     Verdict: 'Veredicto',

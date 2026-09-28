@@ -192,6 +192,29 @@ export function directionFor(container: ContainerSettings | undefined, variant: 
   )
 }
 
+/**
+ * A percentage width minus the column's share of the gap, so columns whose
+ * widths add up to 100% fit on one line with the gap between them: with a
+ * 24px gap, two 50% columns are each calc(50% - 12px). Without it, a wrapping
+ * row can't fit 50% + gap + 50% and puts every column on its own line. The
+ * share is gap × (1 - width), which is exact for equal columns and close for
+ * mixed ones. Only percentages; px widths are left as set.
+ */
+function withGapShare(width: string, host: ContainerSettings, device: Device): string {
+  const percent = /^(\d+(?:\.\d+)?)%$/.exec(width)
+  if (!percent) return width
+  const gap = resolve(
+    host.gap as Responsive<{column?: number | null; unit?: string | null}> | undefined,
+    device,
+  ).value
+  const column = num(gap?.column, 0, 1000)
+  if (!column) return width
+  const unit = gap?.unit && SIZE_UNITS.has(gap.unit) ? gap.unit : 'px'
+  const share = 1 - Number(percent[1]) / 100
+  if (share <= 0) return width
+  return `calc(${width} - ${Math.round(column * share * 1000) / 1000}${unit})`
+}
+
 export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder()): CssBuilder {
   const {key, variant, container: c = {}, gridTemplate, zIndex, order, visibility, parent, itemOf} = input
   // What this element is an item of, and which way that container runs by
@@ -303,7 +326,8 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
       const clip = num(width.value?.size, 0, 10000) === 0 ? 'hidden' : undefined
       let rule: Declarations | undefined
       if (parentDirection.startsWith('row')) {
-        if (w) rule = {flex: `0 1 ${w}`, 'max-width': w, width: 'auto', overflow: clip}
+        const fit = w ? withGapShare(w, host, device) : undefined
+        if (fit) rule = {flex: `0 1 ${fit}`, 'max-width': fit, width: 'auto', overflow: clip}
       } else if (w && width.own) {
         // Stacked, a column only narrows if this device asks for it; an
         // inherited desktop width would squeeze it on mobile otherwise.

@@ -12,6 +12,7 @@ import {
   visibilityField,
 } from '../fields/container'
 import {designField} from '../fields/design'
+import {linkField} from '../fields/fields'
 
 const LAYOUT_OPTIONS = [
   {title: 'Full Width', value: 'full'},
@@ -175,6 +176,12 @@ function defineContainerType({nested}: {nested: boolean}) {
               designField(),
               styleField(),
               advancedField(),
+              {
+                ...linkField('link', 'Link'),
+                group: 'advanced',
+                description:
+                  'Makes the whole column clickable. Buttons and links inside it still go to their own pages.',
+              },
               visibilityField(),
             ],
             preview: {

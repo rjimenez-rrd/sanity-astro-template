@@ -7,6 +7,7 @@ export const BUNDLED_FONTS = [
   'Inter',
   'Montserrat',
   'Libre Baskerville',
+  'Baskervville',
   'Playfair Display',
   'Lora',
   'Bebas Neue',

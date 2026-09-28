@@ -2,6 +2,7 @@ import {useCallback, useState} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Card, Flex, Text, Stack} from '@sanity/ui'
 import {ColorInput, CompactSelect} from './BorderStyleInput'
+import {BUNDLED_FONTS} from '../../schemaTypes/fonts'
 
 // Desktop-first, matching spacing and the max-width rules in global.css.
 const BREAKPOINTS = [
@@ -89,7 +90,8 @@ export function TypographyInput(props: ObjectInputProps) {
   const hasValues = !!(
     ALIGN_FIELDS.some((f) => vals[f]) ||
     FONT_SIZE_FIELDS.some((f) => vals[f]) ||
-    vals.textColor
+    vals.textColor ||
+    vals.headingFont
   )
 
   const handleClear = useCallback(() => {
@@ -97,6 +99,7 @@ export function TypographyInput(props: ObjectInputProps) {
       ...ALIGN_FIELDS.map((f) => unset([f])),
       ...FONT_SIZE_FIELDS.map((f) => unset([f])),
       unset(['textColor']),
+      unset(['headingFont']),
     ])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onChange])
@@ -264,6 +267,19 @@ export function TypographyInput(props: ObjectInputProps) {
             value={vals.textColor}
             placeholder="#333"
             onChange={(v) => handleChange('textColor', v)}
+          />
+        </Flex>
+
+        {/* Headings only (H1–H6 in this block); its paragraphs keep the theme font. */}
+        <Flex align="center" gap={2}>
+          <Text size={1} muted style={{whiteSpace: 'nowrap'}}>
+            Heading font
+          </Text>
+          <CompactSelect
+            value={vals.headingFont}
+            placeholder="Theme default"
+            options={BUNDLED_FONTS.map((font) => ({title: font, value: font}))}
+            onChange={(v) => handleChange('headingFont', v)}
           />
         </Flex>
       </Stack>

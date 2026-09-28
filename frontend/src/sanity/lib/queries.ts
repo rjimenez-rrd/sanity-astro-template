@@ -241,6 +241,7 @@ const contentFragment = /* groq */ `
     _type == "nestedContainer" => {
       columns[] {
         _key, ...,
+        ${linkFragment},
         ${innerContentFragment},
         ${blockStylesFragment}
       }
@@ -255,6 +256,7 @@ const pageBuilderFragment = /* groq */ `
     ${heroFragment},
     columns[] {
       _key, ...,
+      ${linkFragment},
       ${contentFragment},
       ${blockStylesFragment}
     },

@@ -18,6 +18,7 @@ import {
 } from '@/lib/containerStyles'
 import {elementStyle, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs} from '@/lib/animation'
+import {resolveHref, type LinkItem} from '@/lib/links'
 import {designOverrides, type DesignSettings} from '@/lib/design'
 import type {ContainerBlockData, NestedContainerData} from '@/types/sanity'
 
@@ -124,6 +125,10 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
   const advanced = clean(column.advanced)
   const design = clean(column.design)
   const path = key && rowPath ? `${rowPath}.columns[_key=="${key}"]` : undefined
+  // Advanced -> Link: the whole column clickable (see the overlay link below).
+  const linkItems = ((column as {link?: unknown[]}).link ?? []) as LinkItem[]
+  const link = resolveHref(linkItems)
+  const linkTitle = stegaClean((linkItems[0] as {title?: string} | undefined)?.title)?.trim()
   return {
     design,
     column,
@@ -138,6 +143,9 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
     zIndex: advanced?.zIndex,
     visibility: clean(column.visibility),
     animation: animationAttrs(advanced?.motion),
+    href: link.missing ? undefined : link.href,
+    external: link.isExternal,
+    linkLabel: linkTitle || stegaClean(column.label)?.trim() || undefined,
   }
 })
 
@@ -196,8 +204,9 @@ const Element = nested ? 'div' : 'section'
         const content = col.column.content ?? []
         return (
           <div
-            class={col.classes}
+            class={[col.classes, col.href && 'relative cursor-pointer'].filter(Boolean).join(' ') || undefined}
             id={col.id}
+            data-pb-link={col.href ? '' : undefined}
             data-pb={col.key}
             data-sanity={col.sanity}
             data-pb-label={col.label}
@@ -207,6 +216,21 @@ const Element = nested ? 'div' : 'section'
             style={col.style}
             {...col.animation}
           >
+            {/* A linked column: an empty link stretched over it, so the whole
+                column is clickable without wrapping its buttons and links in
+                another link (not allowed in HTML). global.css lifts those above
+                it, so they still go to their own pages. In the Studio preview
+                it lets clicks through, so the column's blocks stay editable. */}
+            {col.href && (
+              <a
+                href={col.href}
+                target={col.external ? '_blank' : undefined}
+                rel={col.external ? 'noopener noreferrer' : undefined}
+                aria-label={col.linkLabel}
+                class={`absolute inset-0 z-[1] cursor-pointer ${editing ? 'pointer-events-none' : ''}`}
+                data-pb-link-overlay
+              />
+            )}
             {content.map((block) => (
               <BlockRenderer
                 block={block}

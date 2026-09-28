@@ -10,6 +10,7 @@ const FONTS: Record<string, string> = {
   Inter: 'var(--font-inter)',
   Montserrat: 'var(--font-montserrat)',
   'Libre Baskerville': `'Libre Baskerville', ${SERIF}`,
+  Baskervville: `'Baskervville', ${SERIF}`,
   'Playfair Display': `'Playfair Display', ${SERIF}`,
   Lora: `'Lora', ${SERIF}`,
   'Bebas Neue': `'Bebas Neue', ${CONDENSED}`,
