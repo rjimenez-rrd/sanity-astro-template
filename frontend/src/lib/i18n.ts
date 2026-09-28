@@ -58,3 +58,29 @@ export function alternatesOf(
   if (slug) out[languageOf(page.language)] = localizedPath(slug, page.language)
   return out
 }
+
+/**
+ * Words written into the site's code rather than set in the Studio, per
+ * language. Everything editors write lives in Site Settings and the pages.
+ */
+const UI = {
+  en: {
+    getDirections: 'Get Directions',
+    pageNotFound: 'Page not found',
+    pageNotFoundText: 'The page you are looking for does not exist or has been moved.',
+    backHome: 'Back to home',
+    switchToDefault: 'English',
+  },
+  es: {
+    getDirections: 'Cómo llegar',
+    pageNotFound: 'Página no encontrada',
+    pageNotFoundText: 'La página que busca no existe o se ha movido.',
+    backHome: 'Volver al inicio',
+    switchToDefault: 'English',
+  },
+} satisfies Record<Language, Record<string, string>>
+
+/** A built-in word in a language, e.g. t('es', 'getDirections') -> 'Cómo llegar'. */
+export function t(language: Language | undefined, key: keyof (typeof UI)['en']): string {
+  return UI[language ?? DEFAULT_LANGUAGE][key]
+}

@@ -5,6 +5,7 @@ import PhoneLink from '@/components/ui/PhoneLink.astro'
 import {phoneText} from '@/lib/phone'
 import {getMaxWidthClass} from '@/lib/maxWidth'
 import type {SiteSettings} from '@/types/sanity'
+import {homePath, t} from '@/lib/i18n'
 
 interface Props {
   settings: SiteSettings | null
@@ -68,7 +69,7 @@ const directionsHref = (office: (typeof offices)[number]) =>
         />
       </div>
 
-      <a href="/" class="order-first flex w-full justify-center md:order-none md:w-auto">
+      <a href={homePath(Astro.locals.language)} class="order-first flex w-full justify-center md:order-none md:w-auto">
         {
           logo?.asset ? (
             <SanityImage
@@ -151,7 +152,7 @@ const directionsHref = (office: (typeof offices)[number]) =>
                     rel="noopener noreferrer"
                     class="mt-3 inline-block text-[15px] text-secondary-hover transition-colors hover:text-white md:self-start"
                   >
-                    Get Directions
+                    {t(Astro.locals.language, 'getDirections')}
                   </a>
                 )}
               </div>

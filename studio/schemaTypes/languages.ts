@@ -11,4 +11,14 @@ export const LANGUAGES = [
 export const DEFAULT_LANGUAGE = LANGUAGES[0].id
 
 /** Document types that have a version per language. */
-export const TRANSLATED_TYPES = ['page', 'practiceArea']
+export const TRANSLATED_TYPES = ['page', 'practiceArea', 'homePage']
+
+/**
+ * The Home Page is a singleton, so each language's version has a fixed id
+ * rather than the random one a new translation would get: the Studio opens it
+ * from the sidebar, the site serves it at / and /es.
+ */
+export const HOME_PAGE_IDS: Record<string, string> = {
+  en: 'homePage',
+  es: 'homePage-es',
+}

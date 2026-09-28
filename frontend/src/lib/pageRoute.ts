@@ -1,7 +1,8 @@
 import type {AstroGlobal} from 'astro'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
-import {PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
+import {PAGE_QUERY} from '@/sanity/lib/queries'
+import {getSiteSettings} from '@/lib/siteSettings'
 import {alternatesOf, type Language} from '@/lib/i18n'
 
 /**
@@ -15,7 +16,7 @@ export async function loadPage(Astro: AstroGlobal, slug: string, language: Langu
   const client = getClient(Astro.locals.isDraft)
   const [page, settings] = await Promise.all([
     sanityFetch(client, Astro.locals, PAGE_QUERY, {slug, language}),
-    sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
+    getSiteSettings(Astro.locals, language),
   ])
 
   Astro.locals.language = language

@@ -8,6 +8,13 @@ export const homePageType = defineType({
   icon: HomeIcon,
   fields: [
     defineField({
+      name: 'language',
+      type: 'string',
+      // English for homePage, Spanish for homePage-es (languages.ts).
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: 'pageBuilder',
       title: 'Page Builder',
       type: 'pageBuilder',
@@ -21,9 +28,10 @@ export const homePageType = defineType({
     
   ],
   preview: {
-    prepare() {
+    select: {language: 'language'},
+    prepare({language}: {language?: string}) {
       return {
-        title: 'Home Page',
+        title: language === 'es' ? 'Home Page (Español)' : 'Home Page',
         media: HomeIcon,
       }
     },

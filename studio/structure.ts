@@ -1,8 +1,8 @@
 import type { StructureBuilder, StructureResolver } from 'sanity/structure'
 import { CogIcon, DocumentsIcon, HomeIcon, PublishIcon, EditIcon, ThListIcon, StarFilledIcon, ComposeIcon, DocumentTextIcon, UsersIcon, TranslateIcon } from '@sanity/icons'
-import { DEFAULT_LANGUAGE, LANGUAGES } from './schemaTypes/languages'
+import { DEFAULT_LANGUAGE, HOME_PAGE_IDS, LANGUAGES } from './schemaTypes/languages'
 
-const SINGLETONS = ['siteSettings', 'homePage', 'media.tag']
+const SINGLETONS = ['siteSettings', 'siteSettingsEs', 'homePage', 'media.tag']
 
 /**
  * Types given an explicit item below. The catch-all at the end skips these, so
@@ -64,6 +64,16 @@ export const structure: StructureResolver = (S) =>
             .schemaType('homePage')
             .documentId('homePage')
             .title('Home Page'),
+        ),
+      // The Home Page's Spanish translation, served at /es.
+      S.listItem()
+        .title('Home Page (Español)')
+        .icon(HomeIcon)
+        .child(
+          S.document()
+            .schemaType('homePage')
+            .documentId(HOME_PAGE_IDS.es)
+            .title('Home Page (Español)'),
         ),
 
       S.divider().title('Content'),
@@ -172,5 +182,15 @@ export const structure: StructureResolver = (S) =>
             .schemaType('siteSettings')
             .documentId('siteSettings')
             .title('Site Settings'),
+        ),
+      // The Spanish words for the header, menus and footer on /es/ pages.
+      S.listItem()
+        .title('Site Settings (Español)')
+        .icon(TranslateIcon)
+        .child(
+          S.document()
+            .schemaType('siteSettingsEs')
+            .documentId('siteSettingsEs')
+            .title('Site Settings (Español)'),
         ),
     ])

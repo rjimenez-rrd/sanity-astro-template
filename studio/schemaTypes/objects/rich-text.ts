@@ -37,9 +37,13 @@ export const blockContentType = defineType({
                 name: 'href',
                 type: 'url',
                 title: 'URL',
+                description:
+                  'A page on this site as a path (/about-us, /es/sobre-nosotros), or a full address (https://…, mailto:, tel:).',
+                // allowRelative: paths on this site, including Spanish /es/… ones.
                 validation: (rule) =>
                   rule.uri({
                     scheme: ['http', 'https', 'mailto', 'tel'],
+                    allowRelative: true,
                   }),
               }),
               defineField({

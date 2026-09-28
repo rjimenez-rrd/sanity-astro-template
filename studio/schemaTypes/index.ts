@@ -16,6 +16,7 @@ import {blockTypes} from './blocks'
 import {pageType} from './documents/page'
 import {homePageType} from './documents/home-page'
 import {siteSettingsType, footerLinkType} from './documents/site-settings'
+import {siteSettingsEsType} from './documents/site-settings-es'
 import {practiceAreaType} from './documents/practice-area'
 import {reviewType} from './documents/review'
 import {lawyerType} from './documents/lawyer'
@@ -40,6 +41,7 @@ const documentTypes: SchemaTypeDefinition[] = [
   pageType,
   homePageType,
   siteSettingsType,
+  siteSettingsEsType,
   footerLinkType,
   practiceAreaType,
   reviewType,

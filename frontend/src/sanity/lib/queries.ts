@@ -218,9 +218,14 @@ const pageBuilderFragment = /* groq */ `
   }
 `
 
+// The Home Page in a language: homePage in English, homePage-es in Spanish
+// (its translation, studio languages.ts). "translations" lists which
+// languages have one, for the header's language link and hreflang.
 export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
-  *[_id == "homePage"][0] {
-    _id, _type,
+  *[_type == "homePage" && ${LANGUAGE_MATCHES}][0] {
+    _id, _type, language,
+    "translations": *[_type == "translation.metadata" && references(^._id)][0]
+      .translations[].value->{ language },
     ${seoFragment},
     ${pageBuilderFragment}
   }
@@ -261,9 +266,29 @@ export const SITE_INFO_QUERY = defineQuery(/* groq */ `
   }
 `)
 
+// Site Settings fields whose words change with the language. Shared by the
+// English settings and the Spanish ones (studio site-settings-es.ts), so both
+// come back in the same shape and the Spanish can fill in over the English.
+const siteTextFragment = /* groq */ `
+  tagline,
+  mainNav[] {
+    _key, _type, label, href, isButton,
+    _type == "navDropdown" => {
+      items[] { _key, label, href, description, icon { ${imageFragment} } }
+    }
+  },
+  searchHeading, searchPlaceholder,
+  headerExtraLink { label, href },
+  footerPhoneLabel, footerPhoneText,
+  footerNav[] { _key, label, href },
+  footerOffices[] { _key, name, address, directionsUrl },
+  footerDisclaimerTitle, footerDisclaimer, footerCopyright,
+  footerLegalLinks[] { _key, label, href }
+`
+
 export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
   *[_id == "siteSettings"][0] {
-    siteName, tagline,
+    siteName,
     logo { ${imageFragment} },
     phone,
     theme {
@@ -271,20 +296,26 @@ export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
       headingFont, bodyFont
     },
     socialLinks[] { _key, platform, url },
-    mainNav[] {
-      _key, _type, label, href, isButton,
-      _type == "navDropdown" => {
-        items[] { _key, label, href, description, icon { ${imageFragment} } }
-      }
-    },
-    headerSearch, searchHeading, searchPlaceholder,
-    headerExtraLink { label, href },
+    headerSearch,
     footerLogo { ${imageFragment} },
-    footerPhoneLabel, footerPhoneText,
-    footerNav[] { _key, label, href },
-    footerOffices[] { _key, name, address, directionsUrl },
-    footerDisclaimerTitle, footerDisclaimer, footerCopyright,
-    footerLegalLinks[] { _key, label, href }
+    ${siteTextFragment}
+  }
+`)
+
+/** The Spanish words for the header, menus and footer on /es/ pages. */
+export const SITE_SETTINGS_ES_QUERY = defineQuery(/* groq */ `
+  *[_id == "siteSettingsEs"][0] {
+    ${siteTextFragment}
+  }
+`)
+
+/**
+ * Each set of pages that are translations of one another, as language + slug,
+ * so a menu link to an English page can switch to its Spanish version.
+ */
+export const PAGE_TRANSLATIONS_QUERY = defineQuery(/* groq */ `
+  *[_type == "translation.metadata"] {
+    "pages": translations[].value->{ language, "slug": slug.current }
   }
 `)
 

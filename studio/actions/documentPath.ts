@@ -5,7 +5,8 @@ import {DEFAULT_LANGUAGE} from '../schemaTypes/languages'
  * sanity.config.ts; shared by the actions that open a document on the site.
  */
 const PATHS: Record<string, (doc: Record<string, any> | null) => string | undefined> = {
-  homePage: () => '/',
+  // The Spanish home (homePage-es) is /es.
+  homePage: (doc) => (doc?.language && doc.language !== DEFAULT_LANGUAGE ? `/${doc.language}` : '/'),
   page: (doc) => rootPath(doc),
   practiceArea: (doc) => rootPath(doc),
 }

@@ -14,7 +14,7 @@ import {openInBrowser} from './actions/openInBrowser'
 import {PUBLISH_DATE_TYPES, withPublishDate} from './actions/publishWithDate'
 import {singletonTypes, singletonActions} from './schemaTypes/constants'
 import {LAST_EDITED_TYPES, StampLastEditor} from './actions/stampLastEditor'
-import {DEFAULT_LANGUAGE, LANGUAGES, TRANSLATED_TYPES} from './schemaTypes/languages'
+import {DEFAULT_LANGUAGE, HOME_PAGE_IDS, LANGUAGES, TRANSLATED_TYPES} from './schemaTypes/languages'
 
 /** /about-us for the default language, /es/sobre-nosotros for the others. */
 const localizedPath = (slug: string, language?: string) =>
@@ -45,8 +45,15 @@ export default defineConfig({
       resolve: {
         locations: {
           homePage: defineLocations({
-            message: 'This document is used on the home page',
-            locations: [{title: 'Home', href: '/'}],
+            select: {language: 'language'},
+            resolve: (doc) => ({
+              message: 'This document is used on the home page',
+              locations: [
+                doc?.language && doc.language !== DEFAULT_LANGUAGE
+                  ? {title: 'Inicio', href: `/${doc.language}`}
+                  : {title: 'Home', href: '/'},
+              ],
+            }),
           }),
           page: defineLocations({
             select: {title: 'title', slug: 'slug.current', language: 'language'},
@@ -84,6 +91,7 @@ export default defineConfig({
         },
         mainDocuments: defineDocuments([
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
+          {route: '/es', filter: `_id in ["${HOME_PAGE_IDS.es}", "drafts.${HOME_PAGE_IDS.es}"]`},
           {route: '/news/:slug', filter: '_type == "newsPost" && slug.current == $slug'},
           // Other languages first, so /es/… isn't read as a slug "es".
           ...LANGUAGES.filter((l) => l.id !== DEFAULT_LANGUAGE).map((l) => ({

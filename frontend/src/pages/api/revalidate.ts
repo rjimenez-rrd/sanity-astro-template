@@ -2,7 +2,7 @@ import type {APIRoute} from 'astro'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {getClient} from '@/sanity/lib/client'
 import {listPageHref} from '@/lib/pagination'
-import {DEFAULT_LANGUAGE, homePath, languageOf, localizedPath} from '@/lib/i18n'
+import {homePath, localizedPath} from '@/lib/i18n'
 
 export const prerender = false
 
@@ -53,7 +53,8 @@ export const POST: APIRoute = async ({request, url}) => {
 
   switch (body._type) {
     case 'homePage':
-      paths.add('/')
+      // homePage-es (Spanish) is /es.
+      paths.add(homePath(body.language))
       break
     case 'page':
       if (body.slug?.current) {
@@ -61,10 +62,6 @@ export const POST: APIRoute = async ({request, url}) => {
         paths.add(path)
         // Any page can hold a paginated grid; its later pages change with it.
         await addListPages(path)
-        // The Spanish home is the Spanish page "inicio", served at /es.
-        if (languageOf(body.language) !== DEFAULT_LANGUAGE && body.slug.current === 'inicio') {
-          paths.add(homePath(body.language))
-        }
       }
       paths.add('/') // nav/footer might reference pages
       break
