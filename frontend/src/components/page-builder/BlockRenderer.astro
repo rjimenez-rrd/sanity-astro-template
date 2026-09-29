@@ -122,17 +122,29 @@ const sizedStyles = autoFillsHeight
   : rawStyles
 
 /**
- * Full Width on a Button means the width of its column, so any width set in
- * Size & Alignment is dropped for it. The button fills its wrapper, so leaving
- * a 200px width there would have it fill 200px and quietly contradict the
- * toggle — turn Full Width off to go back to a sized button.
+ * Full Width on a Button means the width of its column on the devices checked,
+ * so a width set in Size & Alignment gives way there. The button fills its
+ * wrapper, so leaving a 200px width on it would have it fill 200px and
+ * quietly contradict the checkbox. Desktop-first: the desktop width is the
+ * base, so a full device below it gets 100% to override what it inherits.
  */
-const ignoresWidth = type === 'callToAction' && (block as {fullWidth?: boolean}).fullWidth === true
+const fullOn = new Set(
+  type === 'callToAction' ? (stegaClean((block as {fullWidthOn?: string[]}).fullWidthOn) ?? []) : [],
+)
+const size = sizedStyles?.size
 const styles =
-  ignoresWidth && sizedStyles?.size
+  fullOn.size > 0 && size
     ? {
         ...sizedStyles,
-        size: {...sizedStyles.size, width: null, widthTablet: null, widthMobile: null},
+        size: {
+          ...size,
+          width: fullOn.has('desktop') ? null : size.width,
+          widthTablet: fullOn.has('tablet') && (size.width || size.widthTablet) ? '100%' : size.widthTablet,
+          widthMobile:
+            fullOn.has('mobile') && (size.width || size.widthTablet || size.widthMobile)
+              ? '100%'
+              : size.widthMobile,
+        },
       }
     : sizedStyles
 const animation = animationAttrs(styles?.motion)

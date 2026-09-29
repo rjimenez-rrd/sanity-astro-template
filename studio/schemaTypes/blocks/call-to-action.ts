@@ -66,11 +66,20 @@ export const callToActionType = defineType({
       types: ['linkInternal', 'linkSitePage', 'linkExternal', 'pageSlug'],
     }),
     defineField({
-      name: 'fullWidth',
+      name: 'fullWidthOn',
       title: 'Full Width',
-      type: 'boolean',
-      description: 'Stretch the button across its column instead of sizing it to the label.',
-      initialValue: false,
+      type: 'array',
+      description:
+        'Stretch the button across its column on the devices checked; on the others it sizes to its label.',
+      of: [{type: 'string'}],
+      options: {
+        list: [
+          {title: 'Desktop', value: 'desktop'},
+          {title: 'Tablet', value: 'tablet'},
+          {title: 'Mobile', value: 'mobile'},
+        ],
+        layout: 'grid',
+      },
     }),
     defineField({
       name: 'blockStyles',

@@ -59,7 +59,26 @@ const cleanVariant = stegaClean(data.variant) || 'primary'
  * label as it always has.
  */
 const hasWidth = Boolean(stegaClean(data.blockStyles?.size?.width))
-const fillsWidth = data.fullWidth === true || hasWidth
+// Full Width, per device: the devices checked in the Studio.
+const fullOn = new Set(stegaClean(data.fullWidthOn) ?? [])
+const fills = (device: 'desktop' | 'tablet' | 'mobile') => hasWidth || fullOn.has(device)
+
+/**
+ * Per device, the site's breakpoints (desktop > 1024px, tablet 768–1024px,
+ * mobile < 768px) as Tailwind variants. Written out in full so Tailwind finds
+ * every class in the source.
+ */
+const WIDTH_CLASSES = {
+  desktop: {fill: 'min-[1025px]:block min-[1025px]:w-full', fit: 'min-[1025px]:inline-block min-[1025px]:w-fit'},
+  tablet: {
+    fill: 'min-[768px]:max-[1024px]:block min-[768px]:max-[1024px]:w-full',
+    fit: 'min-[768px]:max-[1024px]:inline-block min-[768px]:max-[1024px]:w-fit',
+  },
+  mobile: {fill: 'max-[767px]:block max-[767px]:w-full', fit: 'max-[767px]:inline-block max-[767px]:w-fit'},
+}
+const widthClasses = (['desktop', 'tablet', 'mobile'] as const)
+  .map((device) => WIDTH_CLASSES[device][fills(device) ? 'fill' : 'fit'])
+  .join(' ')
 
 /**
  * w-fit, not just inline-block: a button with no Block Styles sits directly in
@@ -68,7 +87,7 @@ const fillsWidth = data.fullWidth === true || hasWidth
  * stretch while still following the column's own alignment, so Full Width off
  * really does mean sized to the label.
  */
-const baseClasses = `relative ${fillsWidth ? 'block w-full' : 'inline-block w-fit'} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
+const baseClasses = `relative ${widthClasses} px-6 py-3 rounded-[3px] font-semibold transition-colors duration-200 text-center text-lg`
 // Always the Variant's classes: the custom colors above override only the
 // parts that are set, so the rest still comes from the Variant.
 const colorClasses = VARIANT_CLASSES[cleanVariant] || VARIANT_CLASSES.primary

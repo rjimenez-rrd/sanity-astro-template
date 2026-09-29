@@ -4942,7 +4942,7 @@ export type CallToAction = {
         _key: string;
       } & PageSlug)
   >;
-  fullWidth?: boolean;
+  fullWidthOn?: Array<string>;
   blockStyles?: BlockStyles;
 };
 
@@ -6290,7 +6290,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                     slug: string;
                   }
               >;
-              fullWidth?: boolean;
+              fullWidthOn?: Array<string>;
               blockStyles?: BlockStyles;
             }>;
             alignment?: "center" | "left" | "right";
@@ -6370,7 +6370,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                   slug: string;
                 }
             >;
-            fullWidth?: boolean;
+            fullWidthOn?: Array<string>;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -7609,7 +7609,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                             slug: string;
                           }
                       >;
-                      fullWidth?: boolean;
+                      fullWidthOn?: Array<string>;
                       blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
@@ -7689,7 +7689,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                           slug: string;
                         }
                     >;
-                    fullWidth?: boolean;
+                    fullWidthOn?: Array<string>;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -9083,7 +9083,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                             slug: string;
                           }
                       >;
-                      fullWidth?: boolean;
+                      fullWidthOn?: Array<string>;
                       blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
@@ -9197,7 +9197,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                                 slug: string;
                               }
                           >;
-                          fullWidth?: boolean;
+                          fullWidthOn?: Array<string>;
                           blockStyles?: BlockStyles;
                         }
                       | {
@@ -10060,7 +10060,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                     slug: string;
                   }
               >;
-              fullWidth?: boolean;
+              fullWidthOn?: Array<string>;
               blockStyles?: BlockStyles;
             } | null;
             isHighlighted?: boolean;
@@ -10173,7 +10173,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                         slug: string;
                       }
                   >;
-                  fullWidth?: boolean;
+                  fullWidthOn?: Array<string>;
                   blockStyles?: BlockStyles;
                 }
               | {
@@ -10914,7 +10914,7 @@ export type PAGE_QUERY_RESULT =
                         slug: string;
                       }
                   >;
-                  fullWidth?: boolean;
+                  fullWidthOn?: Array<string>;
                   blockStyles?: BlockStyles;
                 }>;
                 alignment?: "center" | "left" | "right";
@@ -10994,7 +10994,7 @@ export type PAGE_QUERY_RESULT =
                       slug: string;
                     }
                 >;
-                fullWidth?: boolean;
+                fullWidthOn?: Array<string>;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -12234,7 +12234,7 @@ export type PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
-                          fullWidth?: boolean;
+                          fullWidthOn?: Array<string>;
                           blockStyles?: BlockStyles;
                         }>;
                         alignment?: "center" | "left" | "right";
@@ -12314,7 +12314,7 @@ export type PAGE_QUERY_RESULT =
                               slug: string;
                             }
                         >;
-                        fullWidth?: boolean;
+                        fullWidthOn?: Array<string>;
                         blockStyles: {
                           padding: Padding | null;
                           margin: Margin | null;
@@ -13713,7 +13713,7 @@ export type PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
-                          fullWidth?: boolean;
+                          fullWidthOn?: Array<string>;
                           blockStyles?: BlockStyles;
                         } | null;
                         isHighlighted?: boolean;
@@ -13827,7 +13827,7 @@ export type PAGE_QUERY_RESULT =
                                     slug: string;
                                   }
                               >;
-                              fullWidth?: boolean;
+                              fullWidthOn?: Array<string>;
                               blockStyles?: BlockStyles;
                             }
                           | {
@@ -14695,7 +14695,7 @@ export type PAGE_QUERY_RESULT =
                         slug: string;
                       }
                   >;
-                  fullWidth?: boolean;
+                  fullWidthOn?: Array<string>;
                   blockStyles?: BlockStyles;
                 } | null;
                 isHighlighted?: boolean;
@@ -14808,7 +14808,7 @@ export type PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
-                      fullWidth?: boolean;
+                      fullWidthOn?: Array<string>;
                       blockStyles?: BlockStyles;
                     }
                   | {
@@ -15545,7 +15545,7 @@ export type PAGE_QUERY_RESULT =
                         slug: string;
                       }
                   >;
-                  fullWidth?: boolean;
+                  fullWidthOn?: Array<string>;
                   blockStyles?: BlockStyles;
                 }>;
                 alignment?: "center" | "left" | "right";
@@ -15625,7 +15625,7 @@ export type PAGE_QUERY_RESULT =
                       slug: string;
                     }
                 >;
-                fullWidth?: boolean;
+                fullWidthOn?: Array<string>;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -16865,7 +16865,7 @@ export type PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
-                          fullWidth?: boolean;
+                          fullWidthOn?: Array<string>;
                           blockStyles?: BlockStyles;
                         }>;
                         alignment?: "center" | "left" | "right";
@@ -16945,7 +16945,7 @@ export type PAGE_QUERY_RESULT =
                               slug: string;
                             }
                         >;
-                        fullWidth?: boolean;
+                        fullWidthOn?: Array<string>;
                         blockStyles: {
                           padding: Padding | null;
                           margin: Margin | null;
@@ -18344,7 +18344,7 @@ export type PAGE_QUERY_RESULT =
                                 slug: string;
                               }
                           >;
-                          fullWidth?: boolean;
+                          fullWidthOn?: Array<string>;
                           blockStyles?: BlockStyles;
                         } | null;
                         isHighlighted?: boolean;
@@ -18458,7 +18458,7 @@ export type PAGE_QUERY_RESULT =
                                     slug: string;
                                   }
                               >;
-                              fullWidth?: boolean;
+                              fullWidthOn?: Array<string>;
                               blockStyles?: BlockStyles;
                             }
                           | {
@@ -19326,7 +19326,7 @@ export type PAGE_QUERY_RESULT =
                         slug: string;
                       }
                   >;
-                  fullWidth?: boolean;
+                  fullWidthOn?: Array<string>;
                   blockStyles?: BlockStyles;
                 } | null;
                 isHighlighted?: boolean;
@@ -19439,7 +19439,7 @@ export type PAGE_QUERY_RESULT =
                             slug: string;
                           }
                       >;
-                      fullWidth?: boolean;
+                      fullWidthOn?: Array<string>;
                       blockStyles?: BlockStyles;
                     }
                   | {
@@ -20640,7 +20640,7 @@ export type NEWS_POST_QUERY_RESULT = {
                     slug: string;
                   }
               >;
-              fullWidth?: boolean;
+              fullWidthOn?: Array<string>;
               blockStyles?: BlockStyles;
             }>;
             alignment?: "center" | "left" | "right";
@@ -20720,7 +20720,7 @@ export type NEWS_POST_QUERY_RESULT = {
                   slug: string;
                 }
             >;
-            fullWidth?: boolean;
+            fullWidthOn?: Array<string>;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -21959,7 +21959,7 @@ export type NEWS_POST_QUERY_RESULT = {
                             slug: string;
                           }
                       >;
-                      fullWidth?: boolean;
+                      fullWidthOn?: Array<string>;
                       blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
@@ -22039,7 +22039,7 @@ export type NEWS_POST_QUERY_RESULT = {
                           slug: string;
                         }
                     >;
-                    fullWidth?: boolean;
+                    fullWidthOn?: Array<string>;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -23433,7 +23433,7 @@ export type NEWS_POST_QUERY_RESULT = {
                             slug: string;
                           }
                       >;
-                      fullWidth?: boolean;
+                      fullWidthOn?: Array<string>;
                       blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
@@ -23547,7 +23547,7 @@ export type NEWS_POST_QUERY_RESULT = {
                                 slug: string;
                               }
                           >;
-                          fullWidth?: boolean;
+                          fullWidthOn?: Array<string>;
                           blockStyles?: BlockStyles;
                         }
                       | {
@@ -24410,7 +24410,7 @@ export type NEWS_POST_QUERY_RESULT = {
                     slug: string;
                   }
               >;
-              fullWidth?: boolean;
+              fullWidthOn?: Array<string>;
               blockStyles?: BlockStyles;
             } | null;
             isHighlighted?: boolean;
@@ -24523,7 +24523,7 @@ export type NEWS_POST_QUERY_RESULT = {
                         slug: string;
                       }
                   >;
-                  fullWidth?: boolean;
+                  fullWidthOn?: Array<string>;
                   blockStyles?: BlockStyles;
                 }
               | {
