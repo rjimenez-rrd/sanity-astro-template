@@ -176,6 +176,13 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
   if (bs.borderRadius) {
     const {topLeft, topRight, bottomRight, bottomLeft} = bs.borderRadius
     styles['border-radius'] = `${topLeft || '0'} ${topRight || '0'} ${bottomRight || '0'} ${bottomLeft || '0'}`
+    // Also offered to what's inside: the wrapper doesn't clip its content, so
+    // an image would otherwise cover the rounded corners. Blocks opt in (e.g.
+    // Image.astro). Only when a corner is set, so a cleared radius keeps each
+    // block's own default.
+    if (topLeft || topRight || bottomRight || bottomLeft) {
+      styles['--pb-radius'] = styles['border-radius']
+    }
   }
 
   // Background
