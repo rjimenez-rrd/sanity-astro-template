@@ -36,6 +36,12 @@ interface Props {
   quality?: number
   /** Eager-loads and raises fetch priority — use for above-the-fold images only. */
   priority?: boolean
+  /**
+   * Starts downloading with the page instead of waiting to be scrolled near,
+   * at normal priority — for a large image further down that shouldn't pop
+   * in late, without competing with the images at the top.
+   */
+  eager?: boolean
   /** Absolutely fills the nearest positioned ancestor. */
   fill?: boolean
   densities?: number[]
@@ -50,6 +56,7 @@ const {
   sizes,
   quality = 75,
   priority = false,
+  eager = false,
   fill = false,
   densities = [1, 2],
 } = Astro.props
@@ -110,7 +117,7 @@ const finalClass = [fillClass, className].filter(Boolean).join(' ') || undefined
       height={fill ? undefined : computedHeight}
       alt={altText}
       class={finalClass}
-      loading={priority ? 'eager' : 'lazy'}
+      loading={priority || eager ? 'eager' : 'lazy'}
       decoding={priority ? 'sync' : 'async'}
       fetchpriority={priority ? 'high' : undefined}
       style={

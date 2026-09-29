@@ -84,10 +84,11 @@ const background = stegaClean(data.backgroundColor)
       {
         data.image?.asset && (
           <SanityImage
+            eager
             value={data.image}
             alt={stegaClean(data.image.alt) || ''}
             width={900}
-            sizes="100vw, 600px"
+            sizes="(max-width: 1023px) 100vw, 600px"
             class="relative z-10 block max-h-[720px] w-auto lg:max-h-full"
           />
         )

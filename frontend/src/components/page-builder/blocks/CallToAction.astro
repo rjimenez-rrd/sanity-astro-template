@@ -53,15 +53,22 @@ const cleanVariant = stegaClean(data.variant) || 'primary'
 
 /**
  * A plain inline-block link sizes to its label and ignores the width around
- * it, so stretching is opt-in: either Full Width, or a width set in Block
- * Styles -> Size & Alignment, which the button then fills instead of sitting
- * at its natural size inside a wider wrapper. Untouched, it still hugs the
- * label as it always has.
+ * it, so stretching is opt-in, per device: either Full Width, or a width set
+ * in Block Styles -> Size & Alignment for that device (or inherited from a
+ * larger one), which the button then fills instead of sitting at its natural
+ * size inside a wider wrapper. Untouched, it still hugs the label.
  */
-const hasWidth = Boolean(stegaClean(data.blockStyles?.size?.width))
+// A Size & Alignment width, per device, desktop-first like the width itself:
+// Tablet falls back to Desktop, Mobile to Tablet then Desktop.
+const size = stegaClean(data.blockStyles?.size)
+const widthFor = {
+  desktop: size?.width,
+  tablet: size?.widthTablet || size?.width,
+  mobile: size?.widthMobile || size?.widthTablet || size?.width,
+}
 // Full Width, per device: the devices checked in the Studio.
 const fullOn = new Set(stegaClean(data.fullWidthOn) ?? [])
-const fills = (device: 'desktop' | 'tablet' | 'mobile') => hasWidth || fullOn.has(device)
+const fills = (device: 'desktop' | 'tablet' | 'mobile') => Boolean(widthFor[device]) || fullOn.has(device)
 
 /**
  * Per device, the site's breakpoints (desktop > 1024px, tablet 768–1024px,
