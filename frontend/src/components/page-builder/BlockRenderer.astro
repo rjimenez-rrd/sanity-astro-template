@@ -170,6 +170,9 @@ const hasHeadingFont = emitted(/^--pb-heading-font$/)
 // Typography -> Size: global.css sizes a Rich Text block's headings and
 // paragraphs to it.
 const hasFontSize = emitted(/^(font-size|--fs-(tablet|mobile))$/)
+// Size & Alignment -> Width: global.css stops a row from stretching the block
+// past it (a row shares its space evenly among blocks with no width).
+const hasWidth = emitted(/^(width|--w-(tablet|mobile))$/)
 
 /**
  * A configured height sizes the wrapper, but an image or iframe inside it keeps
@@ -224,6 +227,7 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
         data-pb-mar={hasMargin ? '' : undefined}
         data-pb-hfont={hasHeadingFont ? '' : undefined}
         data-pb-fs={hasFontSize ? '' : undefined}
+        data-pb-w={hasWidth ? '' : undefined}
         data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       />
@@ -237,6 +241,7 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
         data-pb-mar={hasMargin ? '' : undefined}
         data-pb-hfont={hasHeadingFont ? '' : undefined}
         data-pb-fs={hasFontSize ? '' : undefined}
+        data-pb-w={hasWidth ? '' : undefined}
         data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       >

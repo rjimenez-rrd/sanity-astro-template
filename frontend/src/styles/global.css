@@ -361,3 +361,14 @@ h2, h3 {
     z-index: 2;
   }
 }
+
+/*
+ * A block with a Width (Size & Alignment) keeps it inside a row. A row shares
+ * its space evenly among its items (flex: 1 1 0%, lib/container.ts), which
+ * would otherwise stretch or squeeze every block to the same size whatever
+ * width was set. It may still shrink, proportionally, when the widths don't
+ * all fit (a phone). More specific than the row's [data-pb-inner="…"] > *.
+ */
+[data-pb-inner] > [data-pb-w] {
+  flex: 0 1 auto;
+}
