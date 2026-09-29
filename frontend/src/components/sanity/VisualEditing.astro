@@ -10,9 +10,10 @@
   import {primeReloadBaseline, reloadWhenChanged} from '@/lib/reloadWhenChanged'
 
   // Pages are server-rendered, so showing an edit means re-requesting the page.
-  // Studio sends a mutation event per keystroke; waiting for a pause in typing
-  // avoids reloading mid-word.
-  const MUTATION_DEBOUNCE_MS = 800
+  // Studio sends a mutation event per keystroke; waiting for a short pause in
+  // typing avoids reloading mid-word. Kept short: this wait is pure delay
+  // before an edit shows, on top of the render itself (~0.5s).
+  const MUTATION_DEBOUNCE_MS = 350
   let reloadTimer: ReturnType<typeof setTimeout> | undefined
   primeReloadBaseline()
 

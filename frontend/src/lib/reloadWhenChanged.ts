@@ -5,8 +5,10 @@
  * reloading straight away would render the old content and never retry.
  * Browser-only.
  */
-const POLL_INTERVAL_MS = 400
-const POLL_ATTEMPTS = 12
+// Checked often but for as long as before (~5s): a change usually shows on
+// the first or second fetch, and every interval here is added delay.
+const POLL_INTERVAL_MS = 150
+const POLL_ATTEMPTS = 32
 
 const currentUrl = () => location.pathname + location.search
 
