@@ -1,0 +1,30 @@
+---
+/**
+ * Design preview for the Link List block: four rows, the first standing for
+ * the page being viewed (its slug is this preview's own path, so it's the
+ * highlighted one), the rest outlined.
+ */
+import Base from '@/layouts/Base.astro'
+import LinkList from '@/components/page-builder/blocks/LinkList.astro'
+import type {LinkListData} from '@/types/sanity'
+
+const link = (title: string, slug: string) => ({_id: slug, title, slug, language: 'en'})
+
+const data = {
+  _key: 'preview',
+  _type: 'linkList',
+  source: 'practiceAreas',
+  links: [
+    link('Personal Injury', 'preview/link-list'),
+    link('Car Accidents', 'car-accident'),
+    link('Medical Malpractice', 'medical-malpractice'),
+    link('Workers’ Compensation', 'workers-compensation'),
+  ],
+} as unknown as LinkListData
+---
+
+<Base title="Link List preview" noIndex>
+  <main class="mx-auto max-w-md p-8">
+    <LinkList data={data} />
+  </main>
+</Base>

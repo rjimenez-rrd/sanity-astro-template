@@ -67,6 +67,7 @@ const contentMembers = (withColumn: boolean) => [
   defineArrayMember({type: 'imageBlock'}), // Image
   defineArrayMember({type: 'imageGallery'}), // Image Gallery
   defineArrayMember({type: 'lawyerCards'}), // Lawyer Cards
+  defineArrayMember({type: 'linkList'}), // Link List
   defineArrayMember({type: 'logoRow'}), // Logo Row
   defineArrayMember({type: 'lottieAnimation'}), // Lottie Animation
   defineArrayMember({type: 'mapEmbed'}), // Map Embed

@@ -171,6 +171,17 @@ const contentTypesFragment = /* groq */ `
     // A picked Form CTA document; older blocks carry their own content, which
     // the spread keeps for the component to fall back on.
     _type == "formBlock" => { ${formFieldsFragment} },
+    // Picked pages in their order, or every practice area in the page's
+    // language A–Z.
+    _type == "linkList" => {
+      ...,
+      "links": select(
+        source == "manual" => items[]-> { _id, title, "slug": slug.current, language },
+        *[_type == "practiceArea" && defined(slug.current) && ${LANGUAGE_MATCHES}]
+          | order(title asc) { _id, title, "slug": slug.current, language }
+      ),
+      ${blockStylesFragment}
+    },
     _type == "formCta" => {
       ...,
       // The picked CTA, or on a Spanish page its Spanish translation when

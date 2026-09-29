@@ -1,0 +1,80 @@
+---
+/**
+ * Link List: a stack of full-width link rows, each with its name and an arrow
+ * in a circle — e.g. the practice areas beside a practice area page. The row
+ * for the page being viewed is filled in; the others are outlined and fill in
+ * on hover.
+ *
+ * Sizes are in em, so Block Styles -> Typography -> Size scales the whole
+ * list, and the rows use a Heading Font when the block sets one.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import {localizedPath} from '@/lib/i18n'
+import type {LinkListData} from '@/types/sanity'
+
+interface Props {
+  data: LinkListData
+}
+
+const {data} = Astro.props
+
+// originPathname: a page shown in place of a missing one still matches the
+// address the visitor opened.
+const normalize = (path: string) => path.replace(/\/+$/, '') || '/'
+const current = normalize(Astro.originPathname)
+
+const links = (data.links ?? [])
+  .map((link) => {
+    const slug = stegaClean(link?.slug)
+    if (!link || !slug) return null
+    const href = localizedPath(slug, link.language)
+    return {key: link._id, title: link.title, href, active: normalize(href) === current}
+  })
+  .filter((link): link is NonNullable<typeof link> => link !== null)
+
+const ARROW_PATH = 'M5 12h14M13 6l6 6-6 6'
+---
+
+{
+  links.length > 0 && (
+    <nav aria-label={stegaClean(data.title) || undefined}>
+      {data.title && (
+        <h3 class="mb-5 font-display text-[1.5em] font-bold leading-tight text-foreground">{data.title}</h3>
+      )}
+      <ul class="flex flex-col gap-5">
+        {links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={link.active ? 'page' : undefined}
+              class:list={[
+                'group flex items-center justify-between gap-4 rounded-[2px] border border-primary px-[1.25em] py-[1.1em] transition-colors duration-200',
+                link.active
+                  ? 'bg-primary text-white'
+                  : 'text-foreground hover:bg-primary hover:text-white',
+              ]}
+            >
+              <span class="font-display text-[1.625em] leading-tight [font-family:var(--pb-heading-font,var(--font-montserrat))]">
+                {link.title}
+              </span>
+              {/* Filled white on the current row and on hover; outlined otherwise. */}
+              <span
+                class:list={[
+                  'flex h-[3em] w-[3em] shrink-0 items-center justify-center rounded-full transition-colors duration-200',
+                  link.active
+                    ? 'bg-white text-primary'
+                    : 'border-2 border-primary text-primary group-hover:border-white group-hover:bg-white',
+                ]}
+                aria-hidden="true"
+              >
+                <svg class="h-[1.4em] w-[1.4em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d={ARROW_PATH} />
+                </svg>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
