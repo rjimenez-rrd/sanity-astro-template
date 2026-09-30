@@ -1,8 +1,8 @@
 import {useState} from 'react'
 import {set, unset, type ObjectInputProps} from 'sanity'
-import {ControlRow, IconToggleGroup, type IconOption} from '../container/controls'
-import {AlignCenterIcon, AlignEndIcon, AlignStartIcon, AlignStretchIcon} from '../container/icons'
-import {resolveResponsive, type Device, type Responsive} from '../container/responsive'
+import {ControlRow, IconToggleGroup, type IconOption} from '../../controls/controls'
+import {AlignCenterIcon, AlignEndIcon, AlignStartIcon, AlignStretchIcon} from '../../controls/icons'
+import {resolveResponsive, type Device, type Responsive} from '../../controls/responsive'
 
 const OPTIONS: IconOption[] = [
   {value: 'flex-start', title: 'Start', icon: <AlignStartIcon />},

@@ -1,6 +1,7 @@
 import {defineField} from 'sanity'
-import {StyleInput} from '../../components/container/StyleInput'
-import {BareField} from '../../components/inputs/BareField'
+import {StyleInput} from '../../components/tabs/style/StyleInput'
+import {BareField} from '../../components/controls/BareField'
+import {StyleEffectsInput} from '../../components/tabs/style/StyleEffectsInput'
 
 /*
  * Data for the Elementor-style Style tab. One custom input renders all of it;
@@ -276,5 +277,46 @@ export function styleField({
           ]
         : []),
     ],
+  })
+}
+
+/**
+ * Below the Style panel: typography and effects, plus any background or
+ * border saved before the Style panel existed (so those stay editable).
+ */
+/** Nothing set, however deep: empty strings, objects of empties, empty lists. */
+function isEmptyDeep(value: unknown): boolean {
+  if (value === undefined || value === null || value === '') return true
+  if (Array.isArray(value)) return value.every(isEmptyDeep)
+  if (typeof value === 'object') {
+    return Object.entries(value as object).every(([k, v]) => k.startsWith('_') || isEmptyDeep(v))
+  }
+  return false
+}
+
+export function styleEffectsField({
+  keepBorder = false,
+  legacyOnly = false,
+}: {
+  keepBorder?: boolean
+  /**
+   * For containers and columns: their Style tab matches Elementor's
+   * (Background, Background Overlay, Border), so this panel is only shown
+   * while it still holds values saved before — they keep working, and can be
+   * seen and cleared. Blocks (Image, Video) keep it as their styles.
+   */
+  legacyOnly?: boolean
+} = {}) {
+  return defineField({
+    name: 'blockStyles',
+    title: 'Typography & Effects',
+    type: 'blockStyles',
+    group: 'style',
+    ...(legacyOnly && {hidden: ({value}: {value?: unknown}) => isEmptyDeep(value)}),
+    // keepBorder: Border and Border Radius stay here, always shown, for a
+    // block that uses them instead of the Style panel's (styleField's
+    // hideBorder). The Image block does, so its saved corners keep working.
+    ...(keepBorder && {options: {keepBorder} as never}),
+    components: {input: StyleEffectsInput},
   })
 }

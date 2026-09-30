@@ -1,7 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {ColorWheelIcon, CogIcon, EyeOpenIcon, ImageIcon} from '@sanity/icons'
-import {advancedField, styleEffectsField, visibilityField} from '../fields/container'
-import {styleField} from '../fields/style'
+import {advancedField, styleEffectsField, styleField, visibilityField} from '../tabs'
 
 export const imageBlockType = defineType({
   name: 'imageBlock',

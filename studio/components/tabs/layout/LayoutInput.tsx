@@ -10,7 +10,7 @@ import {
   SliderInput,
   UnitSelect,
   type IconOption,
-} from './controls'
+} from '../../controls/controls'
 import {
   AlignCenterIcon,
   AlignEndIcon,
@@ -24,9 +24,9 @@ import {
   JustifyStartIcon,
   NoWrapIcon,
   WrapIcon,
-} from './icons'
-import {resolveResponsive, type Device, type Responsive} from './responsive'
-import {COLUMN_CONTAINER_DEFAULTS, ROW_CONTAINER_DEFAULTS} from './defaults'
+} from '../../controls/icons'
+import {resolveResponsive, type Device, type Responsive} from '../../controls/responsive'
+import {COLUMN_CONTAINER_DEFAULTS, ROW_CONTAINER_DEFAULTS} from './layoutDefaults'
 
 type Size = {size?: number; unit?: string}
 type Gap = {column?: number; row?: number; unit?: string}

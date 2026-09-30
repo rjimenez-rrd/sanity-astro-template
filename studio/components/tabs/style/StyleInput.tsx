@@ -2,7 +2,7 @@ import {useCallback, useState, type ReactNode} from 'react'
 import {FormInput, type FormPatch, type ObjectInputProps, set, setIfMissing, unset} from 'sanity'
 import {Box, Button, Card, Flex, Select, Stack, Switch, Text, TextInput} from '@sanity/ui'
 import {EditIcon, ImagesIcon, PlayIcon} from '@sanity/icons'
-import {ColorPicker} from '../color/ColorPicker'
+import {ColorPicker} from '../../color/ColorPicker'
 import {
   ControlRow,
   DimensionsInput,
@@ -12,9 +12,9 @@ import {
   StateTabs,
   UnitSelect,
   type Sides,
-} from './controls'
-import {BrushIcon, GradientIcon} from './icons'
-import {resolveResponsive, type Device, type Responsive} from './responsive'
+} from '../../controls/controls'
+import {BrushIcon, GradientIcon} from '../../controls/icons'
+import {resolveResponsive, type Device, type Responsive} from '../../controls/responsive'
 
 type State = 'normal' | 'hover'
 type Path = (string | number)[]
@@ -97,7 +97,7 @@ const EDGES: {value: Edge; title: string}[] = [
   {value: 'bottom', title: 'Bottom'},
 ]
 
-/** Keep in step with studio fields/style.ts SHAPE_TYPES and frontend lib/shapeDividers.ts. */
+/** Keep in step with studio schemaTypes/tabs/style.ts SHAPE_TYPES and frontend lib/shapeDividers.ts. */
 const SHAPES: [string, string][] = [
   ['mountains', 'Mountains'],
   ['zigzag', 'Zigzag'],

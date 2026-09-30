@@ -2,9 +2,9 @@ import {useCallback, useState} from 'react'
 import {set, unset, type ObjectInputProps} from 'sanity'
 import {Stack, TextInput} from '@sanity/ui'
 import {EllipsisVerticalIcon} from '@sanity/icons'
-import {ControlRow, IconToggleGroup, type IconOption} from '../container/controls'
-import {OrderEndIcon, OrderStartIcon} from '../container/icons'
-import {resolveResponsive, type Device, type Responsive} from '../container/responsive'
+import {ControlRow, IconToggleGroup, type IconOption} from '../../controls/controls'
+import {OrderEndIcon, OrderStartIcon} from '../../controls/icons'
+import {resolveResponsive, type Device, type Responsive} from '../../controls/responsive'
 
 /** The values Start and End stand for; the renderer clamps order to ±99. */
 const START = -99

@@ -1,6 +1,6 @@
 import {Select} from '@sanity/ui'
 import {set, type StringInputProps} from 'sanity'
-import {formatPhone, usePhoneSettings} from '../phoneSettings'
+import {formatPhone, usePhoneSettings} from './phoneSettings'
 
 /**
  * Picks which wording of the site's phone to show: the Main Phone Text, one

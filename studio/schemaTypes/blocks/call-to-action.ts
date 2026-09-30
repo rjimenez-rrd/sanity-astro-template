@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {LaunchIcon} from '@sanity/icons'
-import {linkField} from '../fields/fields'
+import {linkField} from '../fields/common'
 import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 import {ButtonInput} from '../../components/inputs/ButtonInput'
 

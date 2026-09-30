@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {PlayIcon} from '@sanity/icons'
-import {advancedField, styleEffectsField, visibilityField} from '../fields/container'
+import {advancedField, styleEffectsField, visibilityField} from '../tabs'
 
 export const youtubeVideoType = defineType({
   name: 'youtubeVideo',

@@ -2,8 +2,8 @@ import {useState} from 'react'
 import {set, unset, type ObjectInputProps} from 'sanity'
 import {Flex, Stack, Text, TextInput} from '@sanity/ui'
 import {CloseCircleIcon, CollapseIcon, EllipsisVerticalIcon, ExpandIcon} from '@sanity/icons'
-import {ControlRow, IconToggleGroup, type IconOption} from '../container/controls'
-import {resolveResponsive, type Device, type Responsive} from '../container/responsive'
+import {ControlRow, IconToggleGroup, type IconOption} from '../../controls/controls'
+import {resolveResponsive, type Device, type Responsive} from '../../controls/responsive'
 
 type Mode = 'none' | 'grow' | 'shrink' | 'custom'
 type SizeValue = {mode?: Mode; grow?: number; shrink?: number}

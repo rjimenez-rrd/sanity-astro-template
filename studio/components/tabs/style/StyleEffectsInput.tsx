@@ -1,5 +1,5 @@
 import {type ObjectInputProps} from 'sanity'
-import {BlockStylesPreview} from '../previews/BlockStylesPreview'
+import {BlockStylesPreview} from '../../previews/BlockStylesPreview'
 
 /**
  * The Advanced tab has spacing, motion and the CSS hooks (ID, classes, Custom

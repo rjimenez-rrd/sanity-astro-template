@@ -1,18 +1,18 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {DashboardIcon, SplitVerticalIcon} from '@sanity/icons'
 import {randomKey} from '@sanity/util/content'
-import {LayoutPickerInput} from '../../components/inputs/LayoutPickerInput'
-import {ColumnsInput} from '../../components/inputs/ColumnsInput'
-import {COLUMN_CONTAINER_DEFAULTS} from '../../components/container/defaults'
+import {LayoutPickerInput} from '../../components/tabs/layout/LayoutPickerInput'
+import {ColumnsInput} from '../../components/tabs/layout/ColumnsInput'
+import {COLUMN_CONTAINER_DEFAULTS} from '../../components/tabs/layout/layoutDefaults'
 import {
-  CONTAINER_GROUPS,
+  CONTAINER_TABS,
   advancedField,
   layoutField,
   styleEffectsField,
+  styleField,
   visibilityField,
-} from '../fields/container'
-import {styleField} from '../fields/style'
-import {linkField} from '../fields/fields'
+} from '../tabs'
+import {linkField} from '../fields/common'
 
 const LAYOUT_OPTIONS = [
   {title: 'Full Width', value: 'full'},
@@ -102,7 +102,7 @@ function defineContainerType({nested}: {nested: boolean}) {
     title: kind,
     type: 'object',
     icon: nested ? SplitVerticalIcon : DashboardIcon,
-    groups: CONTAINER_GROUPS,
+    groups: CONTAINER_TABS,
     fields: [
       // --- Layout tab ---
       defineField({
@@ -152,7 +152,7 @@ function defineContainerType({nested}: {nested: boolean}) {
             type: 'object',
             name: 'gridColumn',
             title: 'Column',
-            groups: CONTAINER_GROUPS,
+            groups: CONTAINER_TABS,
             fields: [
               defineField({
                 name: 'label',

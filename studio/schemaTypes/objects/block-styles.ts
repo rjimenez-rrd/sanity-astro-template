@@ -1,14 +1,14 @@
 import {defineType, defineField} from 'sanity'
-import {motionField} from '../fields/motion'
+import {motionField} from '../tabs/motion'
 import {BlockStylesPreview} from '../../components/previews/BlockStylesPreview'
-import {SpacingInput} from '../../components/inputs/SpacingInput'
-import {SizeInput} from '../../components/inputs/SizeInput'
-import {BorderRadiusInput} from '../../components/inputs/BorderRadiusInput'
-import {BorderStyleInput} from '../../components/inputs/BorderStyleInput'
-import {TypographyInput} from '../../components/inputs/TypographyInput'
-import {EffectsInput} from '../../components/inputs/EffectsInput'
-import {BackgroundInput} from '../../components/inputs/BackgroundInput'
-import {CustomCssInput} from '../../components/inputs/CustomCssInput'
+import {SpacingInput} from '../../components/block-styles/SpacingInput'
+import {SizeInput} from '../../components/block-styles/SizeInput'
+import {BorderRadiusInput} from '../../components/block-styles/BorderRadiusInput'
+import {BorderStyleInput} from '../../components/block-styles/BorderStyleInput'
+import {TypographyInput} from '../../components/block-styles/TypographyInput'
+import {EffectsInput} from '../../components/block-styles/EffectsInput'
+import {BackgroundInput} from '../../components/block-styles/BackgroundInput'
+import {CustomCssInput} from '../../components/block-styles/CustomCssInput'
 
 /**
  * Free-form CSS, scoped to this element when it renders. Declarations with no

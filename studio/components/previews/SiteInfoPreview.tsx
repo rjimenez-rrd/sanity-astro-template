@@ -1,5 +1,5 @@
 import type {PreviewProps} from 'sanity'
-import {phoneChoiceText, usePhoneSettings} from '../phoneSettings'
+import {phoneChoiceText, usePhoneSettings} from '../inputs/phoneSettings'
 
 /**
  * Shows an inline phone chip in rich text as the words it stands for, e.g.
