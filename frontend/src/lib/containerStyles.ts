@@ -45,6 +45,18 @@ export const clean = <T,>(value: T): T => (value ? (stegaClean(value) as T) : va
  * minus whatever the Style panel or Advanced tab now sets. Inline styles would
  * otherwise beat the Style panel's scoped CSS.
  */
+/**
+ * Advanced spacing over the older Block Styles, side by side: a side set on
+ * the Advanced tab wins, and the others keep their older value instead of all
+ * being dropped the moment one Advanced side is set.
+ */
+function mergeSides<T extends Record<string, unknown>>(legacy: T | null | undefined, advanced: T | null | undefined) {
+  if (!advanced) return legacy
+  if (!legacy) return advanced
+  const own = Object.entries(advanced).filter(([, v]) => v !== undefined && v !== null && v !== '')
+  return {...legacy, ...Object.fromEntries(own)} as T
+}
+
 export function mergeStyles(
   blockStyles: unknown,
   advanced: ContainerAdvanced | null | undefined,
@@ -55,8 +67,8 @@ export function mergeStyles(
   const owned = designOverrides(design)
   const merged: BlockStyles = {
     ...base,
-    padding: adv?.padding ?? base.padding,
-    margin: adv?.margin ?? base.margin,
+    padding: mergeSides(base.padding, adv?.padding),
+    margin: mergeSides(base.margin, adv?.margin),
   }
   if (owned.background) merged.background = null
   else if (owned.overlay && merged.background) merged.background = {...merged.background, overlay: null}

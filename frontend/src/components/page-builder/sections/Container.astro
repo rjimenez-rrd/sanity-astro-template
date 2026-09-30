@@ -168,6 +168,7 @@ const Element = nested ? 'div' : 'section'
   data-sanity={rowPath ? sanityAttr(rowPath) : undefined}
   data-pb-label={rowLabel}
   data-pb-overlay={rowStyle.overlay ? '' : undefined}
+  data-pb-hfont={rowStyle.headingFont ? '' : undefined}
   data-pb-nested={nested ? '' : undefined}
   {...animationAttrs(rowAdvanced?.motion)}
 >
@@ -186,6 +187,7 @@ const Element = nested ? 'div' : 'section'
             data-pb-col={editing ? '' : undefined}
             data-pb-inner={col.container ? col.key : undefined}
             data-pb-overlay={col.overlay ? '' : undefined}
+            data-pb-hfont={col.headingFont ? '' : undefined}
             style={col.style}
             {...col.animation}
           >

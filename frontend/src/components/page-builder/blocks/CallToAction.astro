@@ -1,4 +1,5 @@
 ---
+import {fullWidthDevices} from '@/lib/fullWidth'
 import {stegaClean} from '@sanity/client/stega'
 import {resolveHref, type LinkItem} from '@/lib/links'
 import type {CallToActionData} from '@/types/sanity'
@@ -67,7 +68,7 @@ const widthFor = {
   mobile: size?.widthMobile || size?.widthTablet || size?.width,
 }
 // Full Width, per device: the devices checked in the Studio.
-const fullOn = new Set(stegaClean(data.fullWidthOn) ?? [])
+const fullOn = new Set(fullWidthDevices(data))
 const fills = (device: 'desktop' | 'tablet' | 'mobile') => Boolean(widthFor[device]) || fullOn.has(device)
 
 /**

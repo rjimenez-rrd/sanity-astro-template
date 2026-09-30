@@ -81,6 +81,10 @@ export const callToActionType = defineType({
         layout: 'grid',
       },
     }),
+    // Before Full Width was per device it was one on/off switch. Kept, hidden,
+    // so buttons saved then don't show as an unknown field; the site treats
+    // true as full width on every device until Full Width is set.
+    defineField({name: 'fullWidth', type: 'boolean', hidden: true}),
     defineField({
       name: 'blockStyles',
       title: 'Block Styles',

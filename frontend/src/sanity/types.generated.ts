@@ -5742,6 +5742,7 @@ export type CallToAction = {
       } & PageSlug)
   >;
   fullWidthOn?: Array<string>;
+  fullWidth?: boolean;
   blockStyles?: BlockStyles;
 };
 
@@ -7168,6 +7169,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                   }
               >;
               fullWidthOn?: Array<string>;
+              fullWidth?: boolean;
               blockStyles?: BlockStyles;
             }>;
             alignment?: "center" | "left" | "right";
@@ -7248,6 +7250,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                 }
             >;
             fullWidthOn?: Array<string>;
+            fullWidth?: boolean;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -8490,6 +8493,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                           }
                       >;
                       fullWidthOn?: Array<string>;
+                      fullWidth?: boolean;
                       blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
@@ -8570,6 +8574,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                         }
                     >;
                     fullWidthOn?: Array<string>;
+                    fullWidth?: boolean;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -9967,6 +9972,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                           }
                       >;
                       fullWidthOn?: Array<string>;
+                      fullWidth?: boolean;
                       blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
@@ -10081,6 +10087,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                               }
                           >;
                           fullWidthOn?: Array<string>;
+                          fullWidth?: boolean;
                           blockStyles?: BlockStyles;
                         }
                       | {
@@ -10944,6 +10951,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                   }
               >;
               fullWidthOn?: Array<string>;
+              fullWidth?: boolean;
               blockStyles?: BlockStyles;
             } | null;
             isHighlighted?: boolean;
@@ -11057,6 +11065,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                       }
                   >;
                   fullWidthOn?: Array<string>;
+                  fullWidth?: boolean;
                   blockStyles?: BlockStyles;
                 }
               | {
@@ -11798,6 +11807,7 @@ export type PAGE_QUERY_RESULT =
                       }
                   >;
                   fullWidthOn?: Array<string>;
+                  fullWidth?: boolean;
                   blockStyles?: BlockStyles;
                 }>;
                 alignment?: "center" | "left" | "right";
@@ -11878,6 +11888,7 @@ export type PAGE_QUERY_RESULT =
                     }
                 >;
                 fullWidthOn?: Array<string>;
+                fullWidth?: boolean;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -13121,6 +13132,7 @@ export type PAGE_QUERY_RESULT =
                               }
                           >;
                           fullWidthOn?: Array<string>;
+                          fullWidth?: boolean;
                           blockStyles?: BlockStyles;
                         }>;
                         alignment?: "center" | "left" | "right";
@@ -13201,6 +13213,7 @@ export type PAGE_QUERY_RESULT =
                             }
                         >;
                         fullWidthOn?: Array<string>;
+                        fullWidth?: boolean;
                         blockStyles: {
                           padding: Padding | null;
                           margin: Margin | null;
@@ -14603,6 +14616,7 @@ export type PAGE_QUERY_RESULT =
                               }
                           >;
                           fullWidthOn?: Array<string>;
+                          fullWidth?: boolean;
                           blockStyles?: BlockStyles;
                         } | null;
                         isHighlighted?: boolean;
@@ -14717,6 +14731,7 @@ export type PAGE_QUERY_RESULT =
                                   }
                               >;
                               fullWidthOn?: Array<string>;
+                              fullWidth?: boolean;
                               blockStyles?: BlockStyles;
                             }
                           | {
@@ -15585,6 +15600,7 @@ export type PAGE_QUERY_RESULT =
                       }
                   >;
                   fullWidthOn?: Array<string>;
+                  fullWidth?: boolean;
                   blockStyles?: BlockStyles;
                 } | null;
                 isHighlighted?: boolean;
@@ -15698,6 +15714,7 @@ export type PAGE_QUERY_RESULT =
                           }
                       >;
                       fullWidthOn?: Array<string>;
+                      fullWidth?: boolean;
                       blockStyles?: BlockStyles;
                     }
                   | {
@@ -16435,6 +16452,7 @@ export type PAGE_QUERY_RESULT =
                       }
                   >;
                   fullWidthOn?: Array<string>;
+                  fullWidth?: boolean;
                   blockStyles?: BlockStyles;
                 }>;
                 alignment?: "center" | "left" | "right";
@@ -16515,6 +16533,7 @@ export type PAGE_QUERY_RESULT =
                     }
                 >;
                 fullWidthOn?: Array<string>;
+                fullWidth?: boolean;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -17758,6 +17777,7 @@ export type PAGE_QUERY_RESULT =
                               }
                           >;
                           fullWidthOn?: Array<string>;
+                          fullWidth?: boolean;
                           blockStyles?: BlockStyles;
                         }>;
                         alignment?: "center" | "left" | "right";
@@ -17838,6 +17858,7 @@ export type PAGE_QUERY_RESULT =
                             }
                         >;
                         fullWidthOn?: Array<string>;
+                        fullWidth?: boolean;
                         blockStyles: {
                           padding: Padding | null;
                           margin: Margin | null;
@@ -19240,6 +19261,7 @@ export type PAGE_QUERY_RESULT =
                               }
                           >;
                           fullWidthOn?: Array<string>;
+                          fullWidth?: boolean;
                           blockStyles?: BlockStyles;
                         } | null;
                         isHighlighted?: boolean;
@@ -19354,6 +19376,7 @@ export type PAGE_QUERY_RESULT =
                                   }
                               >;
                               fullWidthOn?: Array<string>;
+                              fullWidth?: boolean;
                               blockStyles?: BlockStyles;
                             }
                           | {
@@ -20222,6 +20245,7 @@ export type PAGE_QUERY_RESULT =
                       }
                   >;
                   fullWidthOn?: Array<string>;
+                  fullWidth?: boolean;
                   blockStyles?: BlockStyles;
                 } | null;
                 isHighlighted?: boolean;
@@ -20335,6 +20359,7 @@ export type PAGE_QUERY_RESULT =
                           }
                       >;
                       fullWidthOn?: Array<string>;
+                      fullWidth?: boolean;
                       blockStyles?: BlockStyles;
                     }
                   | {
@@ -20931,36 +20956,48 @@ export type PRACTICE_AREAS_QUERY_RESULT = Array<{
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: SITE_INFO_QUERY
-// Query: *[_id == "siteSettings"][0] {    phone, "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel,    "phoneTexts": phoneTexts[] { _key, text }  }
-export type SITE_INFO_QUERY_RESULT =
-  | {
-      phone: null;
-      phoneText: null;
-      phoneLabel: null;
-      phoneTexts: null;
-    }
-  | {
-      phone: null;
-      phoneText: string | null;
-      phoneLabel: string | null;
-      phoneTexts: null;
-    }
-  | {
-      phone: string | null;
-      phoneText: null;
-      phoneLabel: null;
-      phoneTexts: null;
-    }
-  | {
-      phone: string | null;
-      phoneText: string | null;
-      phoneLabel: string | null;
-      phoneTexts: Array<{
-        _key: string;
-        text: string;
-      }> | null;
-    }
-  | null;
+// Query: {  "en": *[_id == "siteSettings"][0] {    phone, "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel,    "phoneTexts": phoneTexts[] { _key, text }  },  "es": *[_id == "siteSettingsEs"][0] { "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel }}
+export type SITE_INFO_QUERY_RESULT = {
+  en:
+    | {
+        phone: null;
+        phoneText: null;
+        phoneLabel: null;
+        phoneTexts: null;
+      }
+    | {
+        phone: null;
+        phoneText: string | null;
+        phoneLabel: string | null;
+        phoneTexts: null;
+      }
+    | {
+        phone: string | null;
+        phoneText: null;
+        phoneLabel: null;
+        phoneTexts: null;
+      }
+    | {
+        phone: string | null;
+        phoneText: string | null;
+        phoneLabel: string | null;
+        phoneTexts: Array<{
+          _key: string;
+          text: string;
+        }> | null;
+      }
+    | null;
+  es:
+    | {
+        phoneText: null;
+        phoneLabel: null;
+      }
+    | {
+        phoneText: string | null;
+        phoneLabel: string | null;
+      }
+    | null;
+};
 
 // Source: ../frontend/src/sanity/lib/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -21536,6 +21573,7 @@ export type NEWS_POST_QUERY_RESULT = {
                   }
               >;
               fullWidthOn?: Array<string>;
+              fullWidth?: boolean;
               blockStyles?: BlockStyles;
             }>;
             alignment?: "center" | "left" | "right";
@@ -21616,6 +21654,7 @@ export type NEWS_POST_QUERY_RESULT = {
                 }
             >;
             fullWidthOn?: Array<string>;
+            fullWidth?: boolean;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -22858,6 +22897,7 @@ export type NEWS_POST_QUERY_RESULT = {
                           }
                       >;
                       fullWidthOn?: Array<string>;
+                      fullWidth?: boolean;
                       blockStyles?: BlockStyles;
                     }>;
                     alignment?: "center" | "left" | "right";
@@ -22938,6 +22978,7 @@ export type NEWS_POST_QUERY_RESULT = {
                         }
                     >;
                     fullWidthOn?: Array<string>;
+                    fullWidth?: boolean;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -24335,6 +24376,7 @@ export type NEWS_POST_QUERY_RESULT = {
                           }
                       >;
                       fullWidthOn?: Array<string>;
+                      fullWidth?: boolean;
                       blockStyles?: BlockStyles;
                     } | null;
                     isHighlighted?: boolean;
@@ -24449,6 +24491,7 @@ export type NEWS_POST_QUERY_RESULT = {
                               }
                           >;
                           fullWidthOn?: Array<string>;
+                          fullWidth?: boolean;
                           blockStyles?: BlockStyles;
                         }
                       | {
@@ -25312,6 +25355,7 @@ export type NEWS_POST_QUERY_RESULT = {
                   }
               >;
               fullWidthOn?: Array<string>;
+              fullWidth?: boolean;
               blockStyles?: BlockStyles;
             } | null;
             isHighlighted?: boolean;
@@ -25425,6 +25469,7 @@ export type NEWS_POST_QUERY_RESULT = {
                       }
                   >;
                   fullWidthOn?: Array<string>;
+                  fullWidth?: boolean;
                   blockStyles?: BlockStyles;
                 }
               | {
@@ -26023,7 +26068,7 @@ declare module "@sanity/client" {
     '\n  *[_type in ["page", "practiceArea"] && slug.current == $slug && coalesce(language, "en") == $language][0] {\n    _id, _type, title, slug, language,\n    "translations": *[_type == "translation.metadata" && references(^._id)][0]\n      .translations[].value->{ language, "slug": slug.current },\n    \n  seo {\n    metaTitle, metaDescription, noIndex,\n    ogImage { asset->{ _id, url } }\n  }\n,\n    \n  pageBuilder[] {\n    _key, _type, ...,\n    \n  _type == "heroSection" => {\n    ...,\n    buttons[] { _key, _type, ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n, \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n },\n    mediaImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    backgroundImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n    columns[] {\n      _key, ...,\n      \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n,\n      \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      priority,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { \n  _id, clientName, rating,\n  "title": select($language == "es" => coalesce(titleEs, title), title),\n  "reviewText": select($language == "es" => coalesce(reviewTextEs, reviewText), reviewText)\n },\n        *[_type == "review"] | order(_createdAt desc) { \n  _id, clientName, rating,\n  "title": select($language == "es" => coalesce(titleEs, title), title),\n  "reviewText": select($language == "es" => coalesce(reviewTextEs, reviewText), reviewText)\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      // On a Spanish page, the Spanish role and bio when there are ones.\n      lawyers[]-> {\n        _id, name,\n        "role": select($language == "es" => coalesce(roleEs, role), role),\n        "shortBio": select($language == "es" => coalesce(shortBioEs, shortBio), shortBio),\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // A picked Form CTA document; older blocks carry their own content, which\n    // the spread keeps for the component to fall back on.\n    _type == "formBlock" => { \n  fields[] {\n    ...,\n    "options": select(\n      optionsSource == "practiceAreas"\n        && count(*[_type == "practiceArea" && coalesce(language, "en") == $language]) > 0\n        => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == $language]\n    | order(title asc))[].title\n,\n      optionsSource == "practiceAreas" => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == "en"]\n    | order(title asc))[].title\n,\n      options\n    )\n  }\n },\n    // Picked pages in their order, or every practice area in the page\'s\n    // language A\u2013Z.\n    _type == "linkList" => {\n      ...,\n      "links": select(\n        source == "manual" => items[]-> { _id, title, "slug": slug.current, language },\n        *[_type == "practiceArea" && defined(slug.current) && coalesce(language, "en") == $language]\n          | order(title asc) { _id, title, "slug": slug.current, language }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "formCta" => {\n      ...,\n      // The picked CTA, or on a Spanish page its Spanish translation when\n      // there is one (^ is the block, so ^.cta is the picked reference).\n      "cta": coalesce(\n        select($language != "en" =>\n          *[_type == "translation.metadata" && references(^.cta._ref)][0]\n            .translations[language == $language][0].value-> {\n              ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, form { ..., \n  fields[] {\n    ...,\n    "options": select(\n      optionsSource == "practiceAreas"\n        && count(*[_type == "practiceArea" && coalesce(language, "en") == $language]) > 0\n        => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == $language]\n    | order(title asc))[].title\n,\n      optionsSource == "practiceAreas" => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == "en"]\n    | order(title asc))[].title\n,\n      options\n    )\n  }\n }\n            }\n        ),\n        cta-> { ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, form { ..., \n  fields[] {\n    ...,\n    "options": select(\n      optionsSource == "practiceAreas"\n        && count(*[_type == "practiceArea" && coalesce(language, "en") == $language]) > 0\n        => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == $language]\n    | order(title asc))[].title\n,\n      optionsSource == "practiceAreas" => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == "en"]\n    | order(title asc))[].title\n,\n      options\n    )\n  }\n } }\n      ),\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      // On a Spanish page, the Spanish summary when there is one.\n      caseResults[]-> {\n        _id, amount, resultType,\n        "summary": select($language == "es" => coalesce(summaryEs, summary), summary)\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Two conditions sharing one fragment, not one _type in [...] check:\n    // TypeGen only narrows ==, and with in it typed practiceAreas as possibly\n    // the bare references the spread brings in.\n    _type == "practiceAreaCards" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current) && coalesce(language, "en") == $language]\n      | order(title asc) { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaGrid" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current) && coalesce(language, "en") == $language]\n      | order(title asc) { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    _type == "nestedContainer" => {\n      columns[] {\n        _key, ...,\n        \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n,\n        \n  content[] {\n    _key, _type, ...,\n    \n    _type == "imageBlock" => {\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      caption,\n      priority,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "richTextBlock" => {\n      // Inline images need their asset dereferenced, or SanityImage has no\n      // dimensions and falls back to a default aspect ratio.\n      content[] {\n        ...,\n        _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n        _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "callToAction" => { \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n },\n    _type == "buttonGroup" => { buttons[] { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n } },\n    _type == "pricingCard" => { cta { ..., \n  link[] {\n    ...,\n    _type == "linkInternal" => { "reference": reference->{ slug, language } }\n  }\n } },\n    _type == "logoRow" => {\n      logos[] { image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, alt, link },\n      grayscale, size,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "testimonialQuote" => {\n      ...,\n      avatar { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "iconText" => {\n      ...,\n      icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Reviews live in their own documents. Picked ones keep the editor\'s order;\n    // an empty pick means every review, newest first. The computed "reviews"\n    // comes after the spread, so it replaces the bare references.\n    _type == "testimonialCarousel" => {\n      ...,\n      "reviews": select(\n        count(reviews) > 0 => reviews[]-> { \n  _id, clientName, rating,\n  "title": select($language == "es" => coalesce(titleEs, title), title),\n  "reviewText": select($language == "es" => coalesce(reviewTextEs, reviewText), reviewText)\n },\n        *[_type == "review"] | order(_createdAt desc) { \n  _id, clientName, rating,\n  "title": select($language == "es" => coalesce(titleEs, title), title),\n  "reviewText": select($language == "es" => coalesce(reviewTextEs, reviewText), reviewText)\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "lawyerCards" => {\n      ...,\n      // On a Spanish page, the Spanish role and bio when there are ones.\n      lawyers[]-> {\n        _id, name,\n        "role": select($language == "es" => coalesce(roleEs, role), role),\n        "shortBio": select($language == "es" => coalesce(shortBioEs, shortBio), shortBio),\n        "slug": slug.current,\n        photo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // A picked Form CTA document; older blocks carry their own content, which\n    // the spread keeps for the component to fall back on.\n    _type == "formBlock" => { \n  fields[] {\n    ...,\n    "options": select(\n      optionsSource == "practiceAreas"\n        && count(*[_type == "practiceArea" && coalesce(language, "en") == $language]) > 0\n        => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == $language]\n    | order(title asc))[].title\n,\n      optionsSource == "practiceAreas" => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == "en"]\n    | order(title asc))[].title\n,\n      options\n    )\n  }\n },\n    // Picked pages in their order, or every practice area in the page\'s\n    // language A\u2013Z.\n    _type == "linkList" => {\n      ...,\n      "links": select(\n        source == "manual" => items[]-> { _id, title, "slug": slug.current, language },\n        *[_type == "practiceArea" && defined(slug.current) && coalesce(language, "en") == $language]\n          | order(title asc) { _id, title, "slug": slug.current, language }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "formCta" => {\n      ...,\n      // The picked CTA, or on a Spanish page its Spanish translation when\n      // there is one (^ is the block, so ^.cta is the picked reference).\n      "cta": coalesce(\n        select($language != "en" =>\n          *[_type == "translation.metadata" && references(^.cta._ref)][0]\n            .translations[language == $language][0].value-> {\n              ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, form { ..., \n  fields[] {\n    ...,\n    "options": select(\n      optionsSource == "practiceAreas"\n        && count(*[_type == "practiceArea" && coalesce(language, "en") == $language]) > 0\n        => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == $language]\n    | order(title asc))[].title\n,\n      optionsSource == "practiceAreas" => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == "en"]\n    | order(title asc))[].title\n,\n      options\n    )\n  }\n }\n            }\n        ),\n        cta-> { ..., image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, form { ..., \n  fields[] {\n    ...,\n    "options": select(\n      optionsSource == "practiceAreas"\n        && count(*[_type == "practiceArea" && coalesce(language, "en") == $language]) > 0\n        => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == $language]\n    | order(title asc))[].title\n,\n      optionsSource == "practiceAreas" => \n  (*[_type == "practiceArea" && defined(title) && coalesce(language, "en") == "en"]\n    | order(title asc))[].title\n,\n      options\n    )\n  }\n } }\n      ),\n      image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "caseResultCards" => {\n      ...,\n      // On a Spanish page, the Spanish summary when there is one.\n      caseResults[]-> {\n        _id, amount, resultType,\n        "summary": select($language == "es" => coalesce(summaryEs, summary), summary)\n      },\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Two conditions sharing one fragment, not one _type in [...] check:\n    // TypeGen only narrows ==, and with in it typed practiceAreas as possibly\n    // the bare references the spread brings in.\n    _type == "practiceAreaCards" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current) && coalesce(language, "en") == $language]\n      | order(title asc) { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    _type == "practiceAreaGrid" => {\n      ...,\n      \n  "practiceAreas": select(\n    count(practiceAreas) > 0 => practiceAreas[]-> { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n    *[_type == "practiceArea" && defined(slug.current) && coalesce(language, "en") == $language]\n      | order(title asc) { \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n  )\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    // Picked posts in their picked order, or the newest ones \u2014 optionally from\n    // one category (^ is the block, so ^.category is its own filter). GROQ\n    // can\'t slice by a field, so it takes 24 and the component keeps "count".\n    _type == "newsCards" => {\n      ...,\n      "posts": select(\n        source == "manual" => newsPosts[]-> { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n },\n        *[_type == "newsPost" && defined(slug.current)\n          && (!defined(^.category) || category._ref == ^.category._ref)]\n          | order(publishedAt desc) [0...24] { \n  _id, title, "slug": slug.current, publishedAt,\n  "category": category->title,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n }\n      ),\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    }\n,\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n        \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n      }\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n,\n      \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n    },\n    \n  blockStyles {\n    padding, margin, size, border, borderRadius,\n    background { color, image { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }, size, overlay },\n    typography, effects, motion,\n    cssId, cssClasses, customCss\n  }\n\n  }\n\n  }\n': PAGE_QUERY_RESULT;
     '\n  *[_type in ["page", "practiceArea"] && defined(slug.current)] {\n    "slug": slug.current, language\n  }\n': PAGE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "practiceArea" && defined(slug.current) && coalesce(language, "en") == $language]\n    | order(title asc) {\n    \n  _id, title, cardTitle, slug, language,\n  coverImage { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n }\n\n  }\n': PRACTICE_AREAS_QUERY_RESULT;
-    '\n  *[_id == "siteSettings"][0] {\n    phone, "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel,\n    "phoneTexts": phoneTexts[] { _key, text }\n  }\n': SITE_INFO_QUERY_RESULT;
+    '{\n  "en": *[_id == "siteSettings"][0] {\n    phone, "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel,\n    "phoneTexts": phoneTexts[] { _key, text }\n  },\n  "es": *[_id == "siteSettingsEs"][0] { "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel }\n}': SITE_INFO_QUERY_RESULT;
     '\n  *[_id == "siteSettings"][0] {\n    siteName,\n    logo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    phone,\n    theme {\n      primary, secondary, accent, foreground, background, muted, border,\n      headingFont, bodyFont\n    },\n    socialLinks[] { _key, platform, url },\n    headerSearch,\n    footerLogo { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n },\n    \n  tagline,\n  mainNav[] {\n    _key, _type, label, href, isButton,\n    _type == "navDropdown" => {\n      items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n    }\n  },\n  searchHeading, searchPlaceholder,\n  headerExtraLink { label, href },\n  footerPhoneLabel, footerPhoneText,\n  footerNav[] { _key, label, href },\n  footerOffices[] { _key, name, address, directionsUrl },\n  footerDisclaimerTitle, footerDisclaimer, footerCopyright,\n  footerLegalLinks[] { _key, label, href }\n\n  }\n': SITE_SETTINGS_QUERY_RESULT;
     '\n  *[_id == "siteSettingsEs"][0] {\n    \n  tagline,\n  mainNav[] {\n    _key, _type, label, href, isButton,\n    _type == "navDropdown" => {\n      items[] { _key, label, href, description, icon { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions { width, height } }\n  },\n  alt,\n  hotspot,\n  crop\n } }\n    }\n  },\n  searchHeading, searchPlaceholder,\n  headerExtraLink { label, href },\n  footerPhoneLabel, footerPhoneText,\n  footerNav[] { _key, label, href },\n  footerOffices[] { _key, name, address, directionsUrl },\n  footerDisclaimerTitle, footerDisclaimer, footerCopyright,\n  footerLegalLinks[] { _key, label, href }\n\n  }\n': SITE_SETTINGS_ES_QUERY_RESULT;
     '\n  *[_type == "translation.metadata"] {\n    "pages": translations[].value->{ language, "slug": slug.current }\n  }\n': PAGE_TRANSLATIONS_QUERY_RESULT;

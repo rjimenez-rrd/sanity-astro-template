@@ -10,7 +10,12 @@ export const prerender = false
 // Draft-aware like every other page, so in Presentation the header and
 // footer show the same unpublished settings as the page you came from; and in
 // the language of the route that sent the visitor here (/es/… is Spanish).
-const language = Astro.locals.language
+// A route that rewrites here before loading its page (a bad /es/…/page/N),
+// or a URL no route matches, hasn't set the language: take it from the
+// address the visitor asked for.
+const requested = Astro.originPathname ?? Astro.url.pathname
+const language = Astro.locals.language ?? (/^\/es(\/|$)/.test(requested) ? 'es' : undefined)
+Astro.locals.language = language
 const settings = await getSiteSettings(Astro.locals, language)
 Astro.response.status = 404
 ---

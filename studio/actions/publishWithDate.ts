@@ -27,6 +27,9 @@ const wrapped = new WeakMap<DocumentActionComponent, DocumentActionComponent>()
  */
 const pendingById = new Map<string, { updatedAt?: string }>()
 
+/** Whether a publish of this document is under way (see stampLastEditor). */
+export const isPublishing = (id: string) => pendingById.has(id)
+
 /**
  * Wraps Sanity's Publish button to stamp two dates before publishing:
  *

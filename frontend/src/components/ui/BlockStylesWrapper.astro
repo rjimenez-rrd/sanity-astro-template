@@ -8,12 +8,14 @@ interface Props extends HTMLAttributes<'div'> {
   blockStyles?: BlockStyles | null
   /** Container hooks for scoped CSS. */
   'data-pb'?: string
+  /** Hand Border Radius to the content (--pb-radius): blocks only, see buildStyles. */
+  radiusVar?: boolean
 }
 
-const {blockStyles, class: className, ...attrs} = Astro.props
+const {blockStyles, radiusVar, class: className, ...attrs} = Astro.props
 
 const clean = blockStyles ? (stegaClean(blockStyles) as BlockStyles) : blockStyles
-const styleString = toStyleString(buildStyles(clean))
+const styleString = toStyleString(buildStyles(clean, {radiusVar}))
 const hasOverlay = Boolean(clean?.background?.overlay && clean?.background?.image?.asset?.url)
 
 // The overlay is absolutely positioned, so the wrapper has to establish the

@@ -30,10 +30,19 @@ export const POST: APIRoute = async ({request, url}) => {
     return json({message: 'Invalid signature'}, 401)
   }
 
-  // language: add it to the webhook's projection ({_type, slug, language}) so
-  // Spanish pages clear /es/<slug>; without it, pages count as English.
-  const body = JSON.parse(raw) as {_type?: string; slug?: {current?: string}; language?: string}
+  // The webhook's projection must be {_id, _type, slug, language} (README):
+  // language sends a Spanish document to /es/…. For a webhook still set up
+  // without it, the Spanish home page is recognised by its id.
+  const body = JSON.parse(raw) as {
+    _id?: string
+    _type?: string
+    slug?: {current?: string}
+    language?: string
+  }
   if (!body?._type) return json({message: 'Bad request'}, 400)
+  const language = body.language ?? (body._id?.replace(/^drafts\./, '') === 'homePage-es' ? 'es' : undefined)
+  // This document's own home: nav and footer might reference it.
+  const home = homePath(language)
 
   const paths = new Set<string>()
 
@@ -54,31 +63,38 @@ export const POST: APIRoute = async ({request, url}) => {
   switch (body._type) {
     case 'homePage':
       // homePage-es (Spanish) is /es.
-      paths.add(homePath(body.language))
+      paths.add(home)
       break
     case 'page':
       if (body.slug?.current) {
-        const path = localizedPath(body.slug.current, body.language)
+        const path = localizedPath(body.slug.current, language)
         paths.add(path)
         // Any page can hold a paginated grid; its later pages change with it.
         await addListPages(path)
       }
-      paths.add('/') // nav/footer might reference pages
+      paths.add(home) // nav/footer might reference pages
       break
     case 'practiceArea':
-      if (body.slug?.current) paths.add(localizedPath(body.slug.current, body.language))
+      if (body.slug?.current) paths.add(localizedPath(body.slug.current, language))
       paths.add('/practice-areas')
       await addListPages('/practice-areas')
+      paths.add(home)
       break
     case 'siteSettings':
-      // Header, footer and nav are on every page. There is no wildcard purge,
+      // Header, footer and nav are on every page — the Spanish ones too, which
+      // take the phone, logo and theme from here. There is no wildcard purge,
       // so refresh the fixed entry points and let the rest expire normally.
       paths.add('/')
+      paths.add(homePath('es'))
       paths.add('/practice-areas')
       await addListPages('/practice-areas')
       break
+    case 'siteSettingsEs':
+      // The Spanish header, footer and nav.
+      paths.add(homePath('es'))
+      break
     default:
-      paths.add('/')
+      paths.add(home)
   }
 
   const origin = import.meta.env.PUBLIC_SITE_URL || url.origin

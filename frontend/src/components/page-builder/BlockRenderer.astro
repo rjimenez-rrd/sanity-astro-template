@@ -14,6 +14,7 @@ import {
 } from '@/lib/container'
 import {buildDesignCss, type DesignSettings} from '@/lib/design'
 import {clean, mergeStyles, type ContainerAdvanced} from '@/lib/containerStyles'
+import {fullWidthDevices} from '@/lib/fullWidth'
 import {scopeCustomCss} from '@/lib/customCss'
 import RichText from './blocks/RichText.astro'
 import Image from './blocks/Image.astro'
@@ -155,25 +156,35 @@ const sizedStyles = autoFillsHeight
  * quietly contradict the checkbox. Desktop-first: the desktop width is the
  * base, so a full device below it gets 100% to override what it inherits.
  */
-const fullOn = new Set(
-  type === 'callToAction' ? (stegaClean((block as {fullWidthOn?: string[]}).fullWidthOn) ?? []) : [],
-)
+const fullOn = new Set(type === 'callToAction' ? fullWidthDevices(block) : [])
 const size = sizedStyles?.size
-const styles =
-  fullOn.size > 0 && size
-    ? {
-        ...sizedStyles,
-        size: {
-          ...size,
-          width: fullOn.has('desktop') ? null : size.width,
-          widthTablet: fullOn.has('tablet') && (size.width || size.widthTablet) ? '100%' : size.widthTablet,
-          widthMobile:
-            fullOn.has('mobile') && (size.width || size.widthTablet || size.widthMobile)
-              ? '100%'
-              : size.widthMobile,
-        },
-      }
-    : sizedStyles
+/**
+ * Each device's width on its own first (tablet inherits desktop, mobile
+ * inherits tablet), then 100% where Full Width is checked. Written back
+ * desktop-first, a smaller device only where it differs from the one above,
+ * since the tablet rule also applies on mobile. Without resolving first, a
+ * full desktop dropped the width tablet/mobile inherit, and a full tablet's
+ * 100% leaked into mobile.
+ */
+const fullWidths = (() => {
+  if (fullOn.size === 0 || !size) return undefined
+  const own = {
+    desktop: size.width || null,
+    tablet: size.widthTablet || size.width || null,
+    mobile: size.widthMobile || size.widthTablet || size.width || null,
+  }
+  if (!own.desktop && !own.tablet && !own.mobile) return undefined
+  const at = (device: keyof typeof own) => (fullOn.has(device) ? '100%' : own[device])
+  const desktop = at('desktop')
+  const tablet = at('tablet')
+  const mobile = at('mobile')
+  return {
+    width: desktop,
+    widthTablet: tablet !== desktop ? (tablet ?? 'auto') : null,
+    widthMobile: mobile !== tablet ? (mobile ?? 'auto') : null,
+  }
+})()
+const styles = fullWidths ? {...sizedStyles, size: {...size, ...fullWidths}} : sizedStyles
 const animation = animationAttrs((advanced?.motion as MotionSettings | undefined) ?? styles?.motion)
 // Class hooks and Custom CSS. Scoped to this block's own key, so a rule an
 // editor writes can only reach this element and its descendants.
@@ -208,7 +219,7 @@ const needsHook = Boolean(cssId || cssClasses || customCss || tabCssText)
 // A wrapper only exists to carry styles, an animation or a class hook.
 const needsWrapper =
   hasBlockStyles(styles) || Object.keys(animation).length > 0 || needsHook
-const own = needsWrapper && SELF_STYLED.has(type) ? elementStyle(styles) : null
+const own = needsWrapper && SELF_STYLED.has(type) ? elementStyle(styles, {radiusVar: true}) : null
 
 /**
  * Blocks ship their own spacing — AlertNotice p-4, PricingCard p-6, headings
@@ -235,7 +246,17 @@ const hasHeadingFont = emitted(/^--pb-heading-font$/)
 const hasFontSize = emitted(/^(font-size|--fs-(tablet|mobile))$/)
 // Size & Alignment -> Width: global.css stops a row from stretching the block
 // past it (a row shares its space evenly among blocks with no width).
-const hasWidth = emitted(/^(width|--w-(tablet|mobile))$/)
+// The largest device a Width applies from. A width carries down (desktop's
+// also applies on tablet and mobile), so this is where it starts; global.css
+// only stops the row sharing its space from that breakpoint down, so a
+// mobile-only width leaves the desktop layout alone.
+const widthFrom = emitted(/^width$/)
+  ? 'desktop'
+  : emitted(/^--w-tablet$/)
+    ? 'tablet'
+    : emitted(/^--w-mobile$/)
+      ? 'mobile'
+      : undefined
 
 /**
  * A configured height sizes the wrapper, but an image or iframe inside it keeps
@@ -295,13 +316,14 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
         data-pb-mar={hasMargin ? '' : undefined}
         data-pb-hfont={hasHeadingFont ? '' : undefined}
         data-pb-fs={hasFontSize ? '' : undefined}
-        data-pb-w={hasWidth ? '' : undefined}
+        data-pb-w={widthFrom}
         data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       />
     ) : needsWrapper ? (
       <BlockStylesWrapper
         blockStyles={styles}
+        radiusVar
         data-pb={blockKey}
         id={cssId}
         class={cssClasses}
@@ -309,7 +331,7 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
         data-pb-mar={hasMargin ? '' : undefined}
         data-pb-hfont={hasHeadingFont ? '' : undefined}
         data-pb-fs={hasFontSize ? '' : undefined}
-        data-pb-w={hasWidth ? '' : undefined}
+        data-pb-w={widthFrom}
         data-pb-h={hasHeight ? heightMode : undefined}
         {...animation}
       >

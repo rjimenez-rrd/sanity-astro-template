@@ -72,15 +72,34 @@ function parseRules(css: string): Rule[] {
  * word for the element itself, so `selector:hover` and `selector .child` work
  * the same as `&:hover` and `& .child` (no HTML element is called selector).
  */
+/**
+ * Whether a selector using `&` would style something other than the element
+ * or its descendants: `&` inside parentheses (`:not(&)` is everything else,
+ * `div:has(&)` its ancestors) or a sibling combinator after it (`& ~ p`,
+ * `& + p`). `div > &`, `.dark &`, `&:hover` and `& .child` all still target
+ * the element itself or what's inside it.
+ */
+function escapesScope(part: string): boolean {
+  if (/\([^()]*&[^()]*\)/.test(part)) return true
+  // Parenthesised arguments are dropped first, so :nth-child(2n+1) isn't
+  // mistaken for a combinator.
+  const outer = part.replace(/\([^()]*\)/g, '')
+  return /&.*[~+]/.test(outer)
+}
+
 function scopeSelector(selector: string, scope: string): string | undefined {
   const parts = selector
-    .replace(/(^|[^\w-])selector(?![\w-])/g, '$1&')
+    // Only where a selector can start (the beginning, or after a space,
+    // combinator, comma or "("), so .selector, #selector and [x=selector]
+    // stay as written.
+    .replace(/(^|[\s,>+~(])selector(?![\w-])/g, '$1&')
     .split(',')
     .map((s) => s.trim())
   const scoped: string[] = []
 
   for (const part of parts) {
     if (!part || UNSAFE_SELECTOR.test(part)) return undefined
+    if (part.includes('&') && escapesScope(part)) return undefined
     scoped.push(part.includes('&') ? part.replaceAll('&', scope) : `${scope} ${part}`)
   }
   return scoped.join(',')

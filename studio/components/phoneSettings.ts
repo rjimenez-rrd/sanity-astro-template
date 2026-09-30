@@ -40,17 +40,34 @@ let current: PhoneSettings | null = null
 const subscribers = new Set<(value: PhoneSettings) => void>()
 let started = false
 
+/**
+ * The draft when there is one (drafts perspective), so a phone text added in
+ * Site Settings shows up in the dropdowns before Site Settings is published.
+ */
+const QUERY =
+  '*[_id == "siteSettings"][0]{phone, "main": footerPhoneText, "texts": coalesce(phoneTexts[]{_key, name, text}, [])}'
+
 function watch(client: ReturnType<typeof useClient>) {
   if (started) return
   started = true
-  const query = '*[_id == "siteSettings"][0]{phone, "main": footerPhoneText, "texts": coalesce(phoneTexts[]{_key, name, text}, [])}'
-  const load = () =>
-    client.fetch<PhoneSettings | null>(query).then((value) => {
-      current = value ?? {texts: []}
-      subscribers.forEach((notify) => notify(current!))
-    })
+  const drafts = client.withConfig({perspective: 'drafts'})
+  const load = (): Promise<void> =>
+    drafts
+      .fetch<PhoneSettings | null>(QUERY)
+      .then((value) => {
+        current = value ?? {texts: []}
+        subscribers.forEach((notify) => notify(current!))
+      })
+      // A failed read (offline, a 5xx) is retried rather than leaving every
+      // phone input disabled until the Studio is reloaded.
+      .catch(() => {
+        setTimeout(load, 5000)
+      })
   load()
-  client.listen(query, {}, {visibility: 'query'}).subscribe(() => load())
+  // Either document changing: the published Site Settings or its draft.
+  client
+    .listen('*[_id in ["siteSettings", "drafts.siteSettings"]]', {}, {visibility: 'query', events: ['mutation', 'reconnect']})
+    .subscribe({next: () => void load(), error: () => undefined})
 }
 
 /** Site Settings' phone, live; null until the first read arrives. */
@@ -60,6 +77,8 @@ export function usePhoneSettings(): PhoneSettings | null {
   useEffect(() => {
     watch(client)
     subscribers.add(setValue)
+    // A read that finished between this render and now wasn't delivered.
+    if (current) setValue(current)
     return () => {
       subscribers.delete(setValue)
     }

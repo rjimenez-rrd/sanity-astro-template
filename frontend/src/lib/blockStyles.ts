@@ -46,6 +46,9 @@ const SHADOW_MAP: Record<string, string> = {
 /** The Border Radius control's "Round" value (studio BorderRadiusInput). */
 const ROUND = '9999px'
 
+/** A corner radius: a bare number plus a unit, or 0. */
+const CSS_RADIUS = /^(0|\d+(\.\d+)?(px|%|em|rem))$/
+
 /** Widths come from editors, so only a bare number plus a known unit reaches CSS. */
 const CSS_SIZE = /^\d+(\.\d+)?(px|%|rem|em|vw)$/
 
@@ -77,7 +80,16 @@ const ALIGN_SELF: Record<string, string> = {
 
 type StyleMap = Record<string, string | number | undefined>
 
-export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
+/**
+ * `radiusVar`: also hand the Border Radius to the element's content as
+ * --pb-radius (see below). Blocks only (BlockRenderer): on a container or
+ * column it would reach every image block inside and round them all to the
+ * container's corners.
+ */
+export function buildStyles(
+  bs: BlockStyles | undefined | null,
+  {radiusVar = false}: {radiusVar?: boolean} = {},
+): StyleMap {
   if (!bs) return {}
 
   const styles: StyleMap = {}
@@ -118,9 +130,11 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
   // Size & alignment — a block narrower than its column needs align-self to sit
   // anywhere but the start of it, since the column stretches items by default.
   if (bs.size) {
+    // `auto` resets a width a larger device set (BlockRenderer uses it when a
+    // button's Full Width applies above but not on this device).
     const width = (raw?: string | null) => {
       const v = raw?.trim()
-      return v && CSS_SIZE.test(v) ? v : undefined
+      return v && (v === 'auto' || CSS_SIZE.test(v)) ? v : undefined
     }
     const base = width(bs.size.width)
     const tablet = width(bs.size.widthTablet)
@@ -177,23 +191,26 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
 
   // Border radius
   if (bs.borderRadius) {
+    // Editor input goes straight into an inline style, so each corner must be
+    // a plain length ("8px", "50%", "0"); anything else is dropped.
+    const corner = (c?: string | null) => {
+      const v = c?.trim()
+      return v && CSS_RADIUS.test(v) ? v : undefined
+    }
     const {topLeft, topRight, bottomRight, bottomLeft} = bs.borderRadius
-    const corners = [topLeft, topRight, bottomRight, bottomLeft]
+    const corners = [topLeft, topRight, bottomRight, bottomLeft].map(corner)
     // "Round" is 9999px. Next to other rounded corners that would make the
     // browser scale every radius down until they fit, which flattens the
     // pixel ones (4px becomes ~0). Mixed like that, Round draws as 50%: still
     // a full curve, and the others keep their size. All-Round stays 9999px,
     // for a pill or circle.
-    const isRound = (c?: string | null) => c === ROUND
+    const isRound = (c?: string) => c === ROUND
     const mixed = corners.some(isRound) && corners.some((c) => c && !isRound(c) && c !== '0')
-    const corner = (c?: string | null) => (mixed && isRound(c) ? '50%' : c || '0')
-    styles['border-radius'] = corners.map(corner).join(' ')
-    // Also offered to what's inside: the wrapper doesn't clip its content, so
-    // an image would otherwise cover the rounded corners. Blocks opt in (e.g.
-    // Image.astro). Only when a corner is set, so a cleared radius keeps each
-    // block's own default.
-    if (topLeft || topRight || bottomRight || bottomLeft) {
-      styles['--pb-radius'] = styles['border-radius']
+    if (corners.some(Boolean)) {
+      styles['border-radius'] = corners.map((c) => (mixed && isRound(c) ? '50%' : c || '0')).join(' ')
+      // Also handed to the block's content: the wrapper doesn't clip it, so an
+      // image would otherwise cover the rounded corners (Image.astro reads it).
+      if (radiusVar) styles['--pb-radius'] = styles['border-radius']
     }
   }
 
@@ -259,12 +276,17 @@ export function hasBlockStyles(bs: BlockStyles | undefined | null): boolean {
  * overlay is drawn by the `[data-pb-overlay]` rule in global.css from the
  * `--pb-overlay` variable, instead of an extra absolutely-positioned div.
  */
-export function elementStyle(bs: BlockStyles | undefined | null): {
+export function elementStyle(
+  bs: BlockStyles | undefined | null,
+  options?: {radiusVar?: boolean},
+): {
   style: string | undefined
   overlay: boolean
+  /** Typography -> Heading Font is set: mark the element data-pb-hfont (global.css). */
+  headingFont: boolean
 } {
-  const styles = buildStyles(bs)
+  const styles = buildStyles(bs, options)
   const overlay = Boolean(bs?.background?.overlay && bs?.background?.image?.asset?.url)
   if (overlay) styles['--pb-overlay'] = bs!.background!.overlay!
-  return {style: toStyleString(styles), overlay}
+  return {style: toStyleString(styles), overlay, headingFont: Boolean(styles['--pb-heading-font'])}
 }

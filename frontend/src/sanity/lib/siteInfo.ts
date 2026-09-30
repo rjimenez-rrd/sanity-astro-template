@@ -3,6 +3,8 @@ import {getClient} from './client'
 import {sanityFetch} from './live'
 import {SITE_INFO_QUERY} from './queries'
 import {phoneText} from '@/lib/phone'
+import {DEFAULT_LANGUAGE, languageOf} from '@/lib/i18n'
+import {stegaClean} from '@sanity/client/stega'
 
 export type SiteInfo = {
   phone?: string | null
@@ -13,13 +15,22 @@ export type SiteInfo = {
 
 /**
  * The site's phone from Site Settings, for inline rich text (studio
- * site-info.ts) and Phone blocks. Fetched once per request, however many
- * times a page uses it.
+ * site-info.ts) and Phone blocks, in the page's language: on a Spanish page
+ * the Spanish settings' label and Main Phone Text replace the English ones
+ * when filled in, as for the header and footer (lib/siteSettings.ts). Fetched
+ * once per request, however many times a page uses it.
  */
 export function getSiteInfo(locals: App.Locals): Promise<SiteInfo> {
-  locals.siteInfo ??= sanityFetch(getClient(locals.isDraft), locals, SITE_INFO_QUERY).then(
-    (info) => info ?? {},
-  )
+  locals.siteInfo ??= sanityFetch(getClient(locals.isDraft), locals, SITE_INFO_QUERY).then((info) => {
+    const english: SiteInfo = info?.en ?? {}
+    if (languageOf(locals.language) === DEFAULT_LANGUAGE || !info?.es) return english
+    const translated = (value?: string | null) => (value && stegaClean(value).trim() ? value : undefined)
+    return {
+      ...english,
+      phoneText: translated(info.es.phoneText) ?? english.phoneText,
+      phoneLabel: translated(info.es.phoneLabel) ?? english.phoneLabel,
+    }
+  })
   return locals.siteInfo
 }
 

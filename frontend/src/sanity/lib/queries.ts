@@ -315,13 +315,17 @@ export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
   }
 `)
 
-/** The site's phone from Site Settings, for inline rich text and Phone blocks. */
-export const SITE_INFO_QUERY = defineQuery(/* groq */ `
-  *[_id == "siteSettings"][0] {
+/**
+ * The site's phone from Site Settings, for inline rich text and Phone blocks,
+ * with the Spanish settings' label and Main Phone Text for Spanish pages.
+ */
+export const SITE_INFO_QUERY = defineQuery(/* groq */ `{
+  "en": *[_id == "siteSettings"][0] {
     phone, "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel,
     "phoneTexts": phoneTexts[] { _key, text }
-  }
-`)
+  },
+  "es": *[_id == "siteSettingsEs"][0] { "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel }
+}`)
 
 // Site Settings fields whose words change with the language. Shared by the
 // English settings and the Spanish ones (studio site-settings-es.ts), so both

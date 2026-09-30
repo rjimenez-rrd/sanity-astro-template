@@ -1,7 +1,10 @@
 import {type ObjectInputProps} from 'sanity'
 import {BlockStylesPreview} from '../previews/BlockStylesPreview'
 
-/** Spacing and motion live on the Advanced tab for containers, as in Elementor. */
+/**
+ * Spacing and motion live on the Advanced tab, as in Elementor. Older values
+ * saved here still show until cleared.
+ */
 const MOVED_TO_ADVANCED = new Set(['padding', 'margin', 'motion'])
 
 /** Replaced by the Style panel above; only shown while they still hold a value. */
@@ -26,7 +29,9 @@ export function ContainerStyleInput(props: ObjectInputProps) {
   const keepBorder = Boolean((props.schemaType.options as {keepBorder?: boolean} | undefined)?.keepBorder)
   const members = props.members.filter((member) => {
     if (member.kind !== 'field') return true
-    if (MOVED_TO_ADVANCED.has(member.name)) return false
+    // Shown while they still hold a value, so saved spacing that still renders
+    // can be seen and cleared; the Advanced tab's own values win side by side.
+    if (MOVED_TO_ADVANCED.has(member.name)) return !isEmpty(current[member.name])
     if (keepBorder && KEPT_BORDER.has(member.name)) return true
     if (REPLACED_BY_STYLE_PANEL.has(member.name)) return !isEmpty(current[member.name])
     return true
