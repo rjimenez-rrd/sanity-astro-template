@@ -49,7 +49,7 @@ export const MEDIA: Record<Device, string | null> = {
   mobile: '@media (max-width: 767px)',
 }
 
-const VISIBILITY_MEDIA: Record<Device, string> = {
+export const VISIBILITY_MEDIA: Record<Device, string> = {
   desktop: '@media (min-width: 1025px)',
   tablet: '@media (min-width: 768px) and (max-width: 1024px)',
   mobile: '@media (max-width: 767px)',

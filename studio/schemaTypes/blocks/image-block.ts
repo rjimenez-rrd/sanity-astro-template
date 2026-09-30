@@ -1,14 +1,25 @@
 import {defineType, defineField} from 'sanity'
-import {ImageIcon} from '@sanity/icons'
+import {ColorWheelIcon, CogIcon, EyeOpenIcon, ImageIcon} from '@sanity/icons'
+import {advancedField, styleField, visibilityField} from '../fields/container'
+import {designField} from '../fields/design'
 
 export const imageBlockType = defineType({
   name: 'imageBlock',
   title: 'Image',
   type: 'object',
   icon: ImageIcon,
+  // The same tabs as a Container, with Content in place of Layout. The site
+  // renders Style, Advanced and Visibility through BlockRenderer.
+  groups: [
+    {name: 'content', title: 'Content', icon: ImageIcon, default: true},
+    {name: 'style', title: 'Style', icon: ColorWheelIcon},
+    {name: 'advanced', title: 'Advanced', icon: CogIcon},
+    {name: 'visibility', title: 'Visibility', icon: EyeOpenIcon},
+  ],
   fields: [
     defineField({
       name: 'image',
+      group: 'content',
       title: 'Image',
       type: 'image',
       options: {hotspot: true},
@@ -19,23 +30,26 @@ export const imageBlockType = defineType({
     }),
     defineField({
       name: 'caption',
+      group: 'content',
       title: 'Caption',
       type: 'string',
     }),
     defineField({
       name: 'priority',
+      group: 'content',
       title: 'Load First',
       type: 'boolean',
       initialValue: false,
       description:
         'Turn on only when this image is visible without scrolling, e.g. at the top of the page. It loads right away instead of when scrolled to, so the page shows sooner. Leave off everywhere else.',
     }),
-    defineField({
-      name: 'blockStyles',
-      title: 'Block Styles',
-      type: 'blockStyles',
-      options: {collapsible: true, collapsed: true},
-    }),
+    // Border and Border Radius stay in Typography & Effects (saved in
+    // blockStyles, where the image's corners already are); the Style panel
+    // keeps background and overlay.
+    designField({hideBorder: true}), // Style: background, overlay
+    styleField({keepBorder: true}), // Style: Typography & Effects, Border, Border Radius
+    advancedField(), // Advanced: margin, padding, z-index, CSS ID/classes, Custom CSS, motion
+    visibilityField(), // Visibility: hide per device
   ],
   preview: {
     select: {media: 'image', alt: 'image.alt', caption: 'caption'},

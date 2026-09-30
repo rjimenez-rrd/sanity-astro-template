@@ -196,7 +196,12 @@ function addBackground(css: CssBuilder, selector: string, bg: BackgroundState | 
   }
 }
 
-function addBorder(css: CssBuilder, selector: string, b: BorderState | null | undefined) {
+function addBorder(
+  css: CssBuilder,
+  selector: string,
+  b: BorderState | null | undefined,
+  radiusVar = false,
+) {
   if (!b) return
   const type = pick(b.type, BORDER_TYPES)
   const sh = b.shadow
@@ -211,9 +216,13 @@ function addBorder(css: CssBuilder, selector: string, b: BorderState | null | un
   for (const device of DEVICES) {
     const width = resolve(b.width, device)
     const radius = resolve(b.radius, device)
+    const r = radius.own ? sides(radius.value) : undefined
     css.add(MEDIA[device], selector, {
       'border-width': type && type !== 'none' && width.own ? sides(width.value) : undefined,
-      'border-radius': radius.own ? sides(radius.value) : undefined,
+      'border-radius': r,
+      // Handed to what's inside, e.g. Image.astro's <img>: the element doesn't
+      // clip its content, so an image would cover the rounded corners.
+      '--pb-radius': radiusVar ? r : undefined,
     })
   }
 }
@@ -240,15 +249,25 @@ export function designOverrides(design: DesignSettings | null | undefined) {
   }
 }
 
-export function buildDesignCss(key: string, design: DesignSettings | null | undefined, css: CssBuilder) {
+/**
+ * `radiusVar`: also set --pb-radius for the block's own content (see
+ * addBorder). Blocks only — on a Container it would reach every image block
+ * inside it and round them all to the container's corners.
+ */
+export function buildDesignCss(
+  key: string,
+  design: DesignSettings | null | undefined,
+  css: CssBuilder,
+  {radiusVar = false}: {radiusVar?: boolean} = {},
+) {
   if (!design) return css
   const outer = `[data-pb="${key}"]`
   const hover = `${outer}:hover`
 
   addBackground(css, outer, design.background?.normal)
   addBackground(css, hover, design.background?.hover)
-  addBorder(css, outer, design.border?.normal)
-  addBorder(css, hover, design.border?.hover)
+  addBorder(css, outer, design.border?.normal, radiusVar)
+  addBorder(css, hover, design.border?.hover, radiusVar)
 
   // Hover transitions, as Elementor applies them to the element itself.
   const bgT = num(design.background?.hover?.transition, 0, 10)

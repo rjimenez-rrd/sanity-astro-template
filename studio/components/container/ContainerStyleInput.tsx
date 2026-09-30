@@ -18,11 +18,16 @@ function isEmpty(value: unknown): boolean {
  * cover. Existing values in the moved fields still render; newer settings
  * take precedence.
  */
+/** Kept, always shown, when the field asks for keepBorder (see styleField). */
+const KEPT_BORDER = new Set(['border', 'borderRadius'])
+
 export function ContainerStyleInput(props: ObjectInputProps) {
   const current = (props.value ?? {}) as Record<string, unknown>
+  const keepBorder = Boolean((props.schemaType.options as {keepBorder?: boolean} | undefined)?.keepBorder)
   const members = props.members.filter((member) => {
     if (member.kind !== 'field') return true
     if (MOVED_TO_ADVANCED.has(member.name)) return false
+    if (keepBorder && KEPT_BORDER.has(member.name)) return true
     if (REPLACED_BY_STYLE_PANEL.has(member.name)) return !isEmpty(current[member.name])
     return true
   })

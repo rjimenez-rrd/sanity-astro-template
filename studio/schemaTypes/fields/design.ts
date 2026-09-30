@@ -155,13 +155,17 @@ function borderState(name: string, extra: {transition?: boolean}) {
 }
 
 /** Style tab: Background, Background Overlay and Border, each with Normal / Hover. */
-export function designField() {
+/**
+ * `hideBorder`: leave out the Border section, for a block whose border lives
+ * in its Block Styles instead (the Image block: see styleField's keepBorder).
+ */
+export function designField({hideBorder = false}: {hideBorder?: boolean} = {}) {
   return defineField({
     name: 'design',
     title: 'Style',
     type: 'object',
     group: 'style',
-    options: flat,
+    options: {...flat, hideBorder} as typeof flat,
     components: {input: ContainerDesignInput},
     fields: [
       defineField({

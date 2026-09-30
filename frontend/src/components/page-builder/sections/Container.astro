@@ -14,12 +14,13 @@ import {
 import {
   buildContainerStyles,
   clean,
+  mergeStyles,
   type ContainerAdvanced,
 } from '@/lib/containerStyles'
-import {elementStyle, type BlockStyles} from '@/lib/blockStyles'
+import {elementStyle} from '@/lib/blockStyles'
 import {animationAttrs} from '@/lib/animation'
 import {resolveHref, type LinkItem} from '@/lib/links'
-import {designOverrides, type DesignSettings} from '@/lib/design'
+import {type DesignSettings} from '@/lib/design'
 import type {ContainerBlockData, NestedContainerData} from '@/types/sanity'
 
 /** A top-level Container, or an Inner Container placed in a column. */
@@ -91,34 +92,6 @@ const sanityAttr = (path: string): string | undefined =>
 const rowContainer = clean(row.container) ?? undefined
 const rowKey = safeKey(stegaClean(row._key))
 const rowPath = basePath ?? (rowKey ? `pageBuilder[_key=="${rowKey}"]` : undefined)
-
-/**
- * Inline styles for a container: the older block styles, minus whatever the
- * Style panel or Advanced tab now sets. Inline styles would otherwise beat the
- * Style panel's scoped CSS.
- */
-function mergeStyles(
-  blockStyles: unknown,
-  advanced: Advanced,
-  design?: DesignSettings | null,
-): BlockStyles | null {
-  const base = (clean(blockStyles) ?? {}) as BlockStyles
-  const adv = clean(advanced)
-  const owned = designOverrides(design)
-  const merged: BlockStyles = {
-    ...base,
-    padding: adv?.padding ?? base.padding,
-    margin: adv?.margin ?? base.margin,
-  }
-  if (owned.background) merged.background = null
-  else if (owned.overlay && merged.background) merged.background = {...merged.background, overlay: null}
-  if (owned.border) {
-    merged.border = null
-    merged.borderRadius = null
-    if (merged.effects) merged.effects = {...merged.effects, shadow: null}
-  }
-  return merged
-}
 
 const columns = ((row.columns ?? []) as Column[]).map((column) => {
   const key = safeKey(stegaClean(column._key))

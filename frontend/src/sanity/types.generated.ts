@@ -115,6 +115,29 @@ export type Motion = {
   delay?: number;
 };
 
+export type Design = {
+  background?: DesignBackground;
+  overlay?: Overlay;
+  border?: DesignBorder;
+};
+
+export type Advanced = {
+  margin?: AdvancedMargin;
+  padding?: AdvancedPadding;
+  zIndex?: number;
+  order?: Order;
+  cssId?: string;
+  cssClasses?: string;
+  customCss?: string;
+  motion?: AdvancedMotion;
+};
+
+export type Visibility = {
+  hideOnDesktop?: boolean;
+  hideOnTablet?: boolean;
+  hideOnMobile?: boolean;
+};
+
 export type Container = {
   layoutType?: "flex" | "grid";
   contentWidth?: "boxed" | "full";
@@ -129,24 +152,24 @@ export type Container = {
   wrap?: NestedContainerContainerWrap;
 };
 
-export type Design = {
+export type NestedContainerDesign = {
   background?: NestedContainerDesignBackground;
-  overlay?: DesignOverlay;
+  overlay?: NestedContainerDesignOverlay;
   border?: NestedContainerDesignBorder;
 };
 
-export type Advanced = {
+export type NestedContainerAdvanced = {
   margin?: NestedContainerAdvancedMargin;
   padding?: NestedContainerAdvancedPadding;
   zIndex?: number;
-  order?: AdvancedOrder;
+  order?: NestedContainerAdvancedOrder;
   cssId?: string;
   cssClasses?: string;
   customCss?: string;
   motion?: NestedContainerAdvancedMotion;
 };
 
-export type Visibility = {
+export type NestedContainerVisibility = {
   hideOnDesktop?: boolean;
   hideOnTablet?: boolean;
   hideOnMobile?: boolean;
@@ -735,44 +758,6 @@ export type FeatureCardIcon = {
 export type Cta = {
   label?: string;
   href?: string;
-};
-
-export type GalleryImageImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "galleryImage.image.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type LogoItemImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "logoItem.image.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type TabIcon = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "tab.icon.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type TabImageImage = {
-  asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "tabImage.image.media" in schema
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  _type: "image";
-};
-
-export type GridColumnDesign = {
-  background?: DesignBackground;
-  overlay?: Overlay;
-  border?: DesignBorder;
 };
 
 export type DesignBackground = {
@@ -1497,17 +1482,6 @@ export type HoverShadow = {
   position?: "outline" | "inset";
 };
 
-export type GridColumnAdvanced = {
-  margin?: AdvancedMargin;
-  padding?: AdvancedPadding;
-  zIndex?: number;
-  order?: Order;
-  cssId?: string;
-  cssClasses?: string;
-  customCss?: string;
-  motion?: AdvancedMotion;
-};
-
 export type AdvancedMargin = {
   top?: string;
   right?: string;
@@ -1559,13 +1533,45 @@ export type AdvancedMotion = {
   delay?: number;
 };
 
-export type GridColumnVisibility = {
-  hideOnDesktop?: boolean;
-  hideOnTablet?: boolean;
-  hideOnMobile?: boolean;
+export type GalleryImageImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "galleryImage.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
 };
 
-export type NestedContainerDesignBackground = {
+export type LogoItemImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "logoItem.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type TabIcon = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "tab.icon.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type TabImageImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "tabImage.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesign = {
+  background?: GridColumnDesignBackground;
+  overlay?: DesignOverlay;
+  border?: GridColumnDesignBorder;
+};
+
+export type GridColumnDesignBackground = {
   normal?: BackgroundNormal;
   hover?: BackgroundHover;
 };
@@ -2123,7 +2129,7 @@ export type OverlayHoverFilters = {
   hue?: number;
 };
 
-export type NestedContainerDesignBorder = {
+export type GridColumnDesignBorder = {
   normal?: DesignBorderNormal;
   hover?: DesignBorderHover;
 };
@@ -2287,7 +2293,18 @@ export type BorderHoverShadow = {
   position?: "outline" | "inset";
 };
 
-export type NestedContainerAdvancedMargin = {
+export type GridColumnAdvanced = {
+  margin?: GridColumnAdvancedMargin;
+  padding?: GridColumnAdvancedPadding;
+  zIndex?: number;
+  order?: AdvancedOrder;
+  cssId?: string;
+  cssClasses?: string;
+  customCss?: string;
+  motion?: GridColumnAdvancedMotion;
+};
+
+export type GridColumnAdvancedMargin = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -2303,7 +2320,7 @@ export type NestedContainerAdvancedMargin = {
   linked?: boolean;
 };
 
-export type NestedContainerAdvancedPadding = {
+export type GridColumnAdvancedPadding = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -2325,7 +2342,7 @@ export type AdvancedOrder = {
   mobile?: number;
 };
 
-export type NestedContainerAdvancedMotion = {
+export type GridColumnAdvancedMotion = {
   animation?:
     | "none"
     | "fadeIn"
@@ -2338,13 +2355,13 @@ export type NestedContainerAdvancedMotion = {
   delay?: number;
 };
 
-export type ColumnsGridColumnDesign = {
-  background?: GridColumnDesignBackground;
-  overlay?: GridColumnDesignOverlay;
-  border?: GridColumnDesignBorder;
+export type GridColumnVisibility = {
+  hideOnDesktop?: boolean;
+  hideOnTablet?: boolean;
+  hideOnMobile?: boolean;
 };
 
-export type GridColumnDesignBackground = {
+export type NestedContainerDesignBackground = {
   normal?: DesignBackgroundNormal;
   hover?: DesignBackgroundHover;
 };
@@ -2590,22 +2607,22 @@ export type DesignBackgroundHoverGradientAngle = {
   mobile?: number;
 };
 
-export type GridColumnDesignOverlay = {
-  normal?: GridColumnDesignOverlayNormal;
-  hover?: GridColumnDesignOverlayHover;
+export type NestedContainerDesignOverlay = {
+  normal?: NestedContainerDesignOverlayNormal;
+  hover?: NestedContainerDesignOverlayHover;
 };
 
-export type GridColumnDesignOverlayNormal = {
+export type NestedContainerDesignOverlayNormal = {
   type?: "classic" | "gradient";
   color?: string;
-  image?: GridColumnDesignOverlayNormalImage;
+  image?: NestedContainerDesignOverlayNormalImage;
   imageTablet?: DesignOverlayNormalImageTablet;
   imageMobile?: DesignOverlayNormalImageMobile;
   imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
   position?: DesignOverlayNormalPosition;
   attachment?: "scroll" | "fixed";
   repeat?: DesignOverlayNormalRepeat;
-  size?: GridColumnDesignOverlayNormalSize;
+  size?: NestedContainerDesignOverlayNormalSize;
   gradient?: DesignOverlayNormalGradient;
   opacity?: OverlayNormalOpacity;
   filters?: OverlayNormalFilters;
@@ -2628,9 +2645,9 @@ export type GridColumnDesignOverlayNormal = {
     | "luminosity";
 };
 
-export type GridColumnDesignOverlayNormalImage = {
+export type NestedContainerDesignOverlayNormalImage = {
   asset?: SanityImageAssetReference;
-  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.normal.image.media" in schema
+  media?: unknown; // Unable to locate the referenced type "nestedContainer.design.overlay.normal.image.media" in schema
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   _type: "image";
@@ -2691,7 +2708,7 @@ export type DesignOverlayNormalRepeat = {
   mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
 };
 
-export type GridColumnDesignOverlayNormalSize = {
+export type NestedContainerDesignOverlayNormalSize = {
   desktop?: "auto" | "cover" | "contain";
   tablet?: "auto" | "cover" | "contain";
   mobile?: "auto" | "cover" | "contain";
@@ -2748,6 +2765,785 @@ export type OverlayNormalFilters = {
   hue?: number;
 };
 
+export type NestedContainerDesignOverlayHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: NestedContainerDesignOverlayHoverImage;
+  imageTablet?: NestedContainerDesignOverlayHoverImageTablet;
+  imageMobile?: NestedContainerDesignOverlayHoverImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: NestedContainerDesignOverlayHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: NestedContainerDesignOverlayHoverRepeat;
+  size?: NestedContainerDesignOverlayHoverSize;
+  gradient?: NestedContainerDesignOverlayHoverGradient;
+  opacity?: DesignOverlayHoverOpacity;
+  filters?: DesignOverlayHoverFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+  transition?: number;
+};
+
+export type NestedContainerDesignOverlayHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "nestedContainer.design.overlay.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type NestedContainerDesignOverlayHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "nestedContainer.design.overlay.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type NestedContainerDesignOverlayHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "nestedContainer.design.overlay.hover.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type NestedContainerDesignOverlayHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type NestedContainerDesignOverlayHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type NestedContainerDesignOverlayHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type NestedContainerDesignOverlayHoverGradient = {
+  color?: string;
+  location?: DesignOverlayHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: DesignOverlayHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: DesignOverlayHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type DesignOverlayHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayHoverFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
+export type NestedContainerDesignBorder = {
+  normal?: NestedContainerDesignBorderNormal;
+  hover?: NestedContainerDesignBorderHover;
+};
+
+export type NestedContainerDesignBorderNormal = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: DesignBorderNormalWidth;
+  color?: string;
+  radius?: BorderNormalRadius;
+  shadow?: BorderNormalShadow;
+};
+
+export type DesignBorderNormalWidth = {
+  linked?: boolean;
+  desktop?: DesignBorderNormalWidthDesktop;
+  tablet?: DesignBorderNormalWidthTablet;
+  mobile?: DesignBorderNormalWidthMobile;
+};
+
+export type DesignBorderNormalWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderNormalWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalRadius = {
+  linked?: boolean;
+  desktop?: BorderNormalRadiusDesktop;
+  tablet?: BorderNormalRadiusTablet;
+  mobile?: BorderNormalRadiusMobile;
+};
+
+export type BorderNormalRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type NestedContainerDesignBorderHover = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: DesignBorderHoverWidth;
+  color?: string;
+  radius?: DesignBorderHoverRadius;
+  shadow?: DesignBorderHoverShadow;
+  transition?: number;
+};
+
+export type DesignBorderHoverWidth = {
+  linked?: boolean;
+  desktop?: DesignBorderHoverWidthDesktop;
+  tablet?: DesignBorderHoverWidthTablet;
+  mobile?: DesignBorderHoverWidthMobile;
+};
+
+export type DesignBorderHoverWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverRadius = {
+  linked?: boolean;
+  desktop?: DesignBorderHoverRadiusDesktop;
+  tablet?: DesignBorderHoverRadiusTablet;
+  mobile?: DesignBorderHoverRadiusMobile;
+};
+
+export type DesignBorderHoverRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type DesignBorderHoverShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type NestedContainerAdvancedMargin = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type NestedContainerAdvancedPadding = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type NestedContainerAdvancedOrder = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type NestedContainerAdvancedMotion = {
+  animation?:
+    | "none"
+    | "fadeIn"
+    | "fadeInUp"
+    | "fadeInDown"
+    | "fadeInLeft"
+    | "fadeInRight"
+    | "zoomIn";
+  duration?: "slow" | "normal" | "fast";
+  delay?: number;
+};
+
+export type ColumnsGridColumnDesign = {
+  background?: ColumnsGridColumnDesignBackground;
+  overlay?: GridColumnDesignOverlay;
+  border?: ColumnsGridColumnDesignBorder;
+};
+
+export type ColumnsGridColumnDesignBackground = {
+  normal?: GridColumnDesignBackgroundNormal;
+  hover?: GridColumnDesignBackgroundHover;
+};
+
+export type GridColumnDesignBackgroundNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridColumnDesignBackgroundNormalImage;
+  imageTablet?: GridColumnDesignBackgroundNormalImageTablet;
+  imageMobile?: GridColumnDesignBackgroundNormalImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridColumnDesignBackgroundNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridColumnDesignBackgroundNormalRepeat;
+  size?: GridColumnDesignBackgroundNormalSize;
+  gradient?: GridColumnDesignBackgroundNormalGradient;
+};
+
+export type GridColumnDesignBackgroundNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.background.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignBackgroundNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.background.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignBackgroundNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.background.normal.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignBackgroundNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridColumnDesignBackgroundNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridColumnDesignBackgroundNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridColumnDesignBackgroundNormalGradient = {
+  color?: string;
+  location?: GridColumnDesignBackgroundNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: GridColumnDesignBackgroundNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GridColumnDesignBackgroundNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridColumnDesignBackgroundNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignBackgroundNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignBackgroundNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignBackgroundHover = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridColumnDesignBackgroundHoverImage;
+  imageTablet?: GridColumnDesignBackgroundHoverImageTablet;
+  imageMobile?: GridColumnDesignBackgroundHoverImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridColumnDesignBackgroundHoverPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridColumnDesignBackgroundHoverRepeat;
+  size?: GridColumnDesignBackgroundHoverSize;
+  gradient?: GridColumnDesignBackgroundHoverGradient;
+  transition?: number;
+};
+
+export type GridColumnDesignBackgroundHoverImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.background.hover.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignBackgroundHoverImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.background.hover.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignBackgroundHoverImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.background.hover.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignBackgroundHoverPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridColumnDesignBackgroundHoverRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridColumnDesignBackgroundHoverSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridColumnDesignBackgroundHoverGradient = {
+  color?: string;
+  location?: GridColumnDesignBackgroundHoverGradientLocation;
+  secondColor?: string;
+  secondLocation?: GridColumnDesignBackgroundHoverGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GridColumnDesignBackgroundHoverGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridColumnDesignBackgroundHoverGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignBackgroundHoverGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignBackgroundHoverGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignOverlay = {
+  normal?: GridColumnDesignOverlayNormal;
+  hover?: GridColumnDesignOverlayHover;
+};
+
+export type GridColumnDesignOverlayNormal = {
+  type?: "classic" | "gradient";
+  color?: string;
+  image?: GridColumnDesignOverlayNormalImage;
+  imageTablet?: GridColumnDesignOverlayNormalImageTablet;
+  imageMobile?: GridColumnDesignOverlayNormalImageMobile;
+  imageResolution?: "full" | "large" | "medium_large" | "medium" | "thumbnail";
+  position?: GridColumnDesignOverlayNormalPosition;
+  attachment?: "scroll" | "fixed";
+  repeat?: GridColumnDesignOverlayNormalRepeat;
+  size?: GridColumnDesignOverlayNormalSize;
+  gradient?: GridColumnDesignOverlayNormalGradient;
+  opacity?: DesignOverlayNormalOpacity;
+  filters?: DesignOverlayNormalFilters;
+  blendMode?:
+    | "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "saturation"
+    | "color"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "luminosity";
+};
+
+export type GridColumnDesignOverlayNormalImage = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.normal.image.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignOverlayNormalImageTablet = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.normal.imageTablet.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignOverlayNormalImageMobile = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "gridColumn.design.overlay.normal.imageMobile.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
+};
+
+export type GridColumnDesignOverlayNormalPosition = {
+  desktop?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  tablet?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  mobile?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridColumnDesignOverlayNormalRepeat = {
+  desktop?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  tablet?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+  mobile?: "no-repeat" | "repeat" | "repeat-x" | "repeat-y";
+};
+
+export type GridColumnDesignOverlayNormalSize = {
+  desktop?: "auto" | "cover" | "contain";
+  tablet?: "auto" | "cover" | "contain";
+  mobile?: "auto" | "cover" | "contain";
+};
+
+export type GridColumnDesignOverlayNormalGradient = {
+  color?: string;
+  location?: GridColumnDesignOverlayNormalGradientLocation;
+  secondColor?: string;
+  secondLocation?: GridColumnDesignOverlayNormalGradientSecondLocation;
+  gradientType?: "linear" | "radial";
+  angle?: GridColumnDesignOverlayNormalGradientAngle;
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+};
+
+export type GridColumnDesignOverlayNormalGradientLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignOverlayNormalGradientSecondLocation = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridColumnDesignOverlayNormalGradientAngle = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayNormalOpacity = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignOverlayNormalFilters = {
+  blur?: number;
+  brightness?: number;
+  contrast?: number;
+  saturate?: number;
+  hue?: number;
+};
+
 export type GridColumnDesignOverlayHover = {
   type?: "classic" | "gradient";
   color?: string;
@@ -2760,8 +3556,8 @@ export type GridColumnDesignOverlayHover = {
   repeat?: GridColumnDesignOverlayHoverRepeat;
   size?: GridColumnDesignOverlayHoverSize;
   gradient?: GridColumnDesignOverlayHoverGradient;
-  opacity?: DesignOverlayHoverOpacity;
-  filters?: DesignOverlayHoverFilters;
+  opacity?: GridColumnDesignOverlayHoverOpacity;
+  filters?: GridColumnDesignOverlayHoverFilters;
   blendMode?:
     | "normal"
     | "multiply"
@@ -2853,11 +3649,11 @@ export type GridColumnDesignOverlayHoverSize = {
 
 export type GridColumnDesignOverlayHoverGradient = {
   color?: string;
-  location?: DesignOverlayHoverGradientLocation;
+  location?: GridColumnDesignOverlayHoverGradientLocation;
   secondColor?: string;
-  secondLocation?: DesignOverlayHoverGradientSecondLocation;
+  secondLocation?: GridColumnDesignOverlayHoverGradientSecondLocation;
   gradientType?: "linear" | "radial";
-  angle?: DesignOverlayHoverGradientAngle;
+  angle?: GridColumnDesignOverlayHoverGradientAngle;
   position?:
     | "center center"
     | "center left"
@@ -2870,31 +3666,31 @@ export type GridColumnDesignOverlayHoverGradient = {
     | "bottom right";
 };
 
-export type DesignOverlayHoverGradientLocation = {
+export type GridColumnDesignOverlayHoverGradientLocation = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
 };
 
-export type DesignOverlayHoverGradientSecondLocation = {
+export type GridColumnDesignOverlayHoverGradientSecondLocation = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
 };
 
-export type DesignOverlayHoverGradientAngle = {
+export type GridColumnDesignOverlayHoverGradientAngle = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
 };
 
-export type DesignOverlayHoverOpacity = {
+export type GridColumnDesignOverlayHoverOpacity = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
 };
 
-export type DesignOverlayHoverFilters = {
+export type GridColumnDesignOverlayHoverFilters = {
   blur?: number;
   brightness?: number;
   contrast?: number;
@@ -2902,27 +3698,27 @@ export type DesignOverlayHoverFilters = {
   hue?: number;
 };
 
-export type GridColumnDesignBorder = {
+export type ColumnsGridColumnDesignBorder = {
   normal?: GridColumnDesignBorderNormal;
   hover?: GridColumnDesignBorderHover;
 };
 
 export type GridColumnDesignBorderNormal = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
-  width?: DesignBorderNormalWidth;
+  width?: GridColumnDesignBorderNormalWidth;
   color?: string;
-  radius?: BorderNormalRadius;
-  shadow?: BorderNormalShadow;
+  radius?: DesignBorderNormalRadius;
+  shadow?: DesignBorderNormalShadow;
 };
 
-export type DesignBorderNormalWidth = {
+export type GridColumnDesignBorderNormalWidth = {
   linked?: boolean;
-  desktop?: DesignBorderNormalWidthDesktop;
-  tablet?: DesignBorderNormalWidthTablet;
-  mobile?: DesignBorderNormalWidthMobile;
+  desktop?: GridColumnDesignBorderNormalWidthDesktop;
+  tablet?: GridColumnDesignBorderNormalWidthTablet;
+  mobile?: GridColumnDesignBorderNormalWidthMobile;
 };
 
-export type DesignBorderNormalWidthDesktop = {
+export type GridColumnDesignBorderNormalWidthDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2930,7 +3726,7 @@ export type DesignBorderNormalWidthDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalWidthTablet = {
+export type GridColumnDesignBorderNormalWidthTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2938,7 +3734,7 @@ export type DesignBorderNormalWidthTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalWidthMobile = {
+export type GridColumnDesignBorderNormalWidthMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2946,14 +3742,14 @@ export type DesignBorderNormalWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalRadius = {
+export type DesignBorderNormalRadius = {
   linked?: boolean;
-  desktop?: BorderNormalRadiusDesktop;
-  tablet?: BorderNormalRadiusTablet;
-  mobile?: BorderNormalRadiusMobile;
+  desktop?: DesignBorderNormalRadiusDesktop;
+  tablet?: DesignBorderNormalRadiusTablet;
+  mobile?: DesignBorderNormalRadiusMobile;
 };
 
-export type BorderNormalRadiusDesktop = {
+export type DesignBorderNormalRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2961,7 +3757,7 @@ export type BorderNormalRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalRadiusTablet = {
+export type DesignBorderNormalRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2969,7 +3765,7 @@ export type BorderNormalRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalRadiusMobile = {
+export type DesignBorderNormalRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2977,7 +3773,7 @@ export type BorderNormalRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalShadow = {
+export type DesignBorderNormalShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -2988,21 +3784,21 @@ export type BorderNormalShadow = {
 
 export type GridColumnDesignBorderHover = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
-  width?: DesignBorderHoverWidth;
+  width?: GridColumnDesignBorderHoverWidth;
   color?: string;
-  radius?: DesignBorderHoverRadius;
-  shadow?: DesignBorderHoverShadow;
+  radius?: GridColumnDesignBorderHoverRadius;
+  shadow?: GridColumnDesignBorderHoverShadow;
   transition?: number;
 };
 
-export type DesignBorderHoverWidth = {
+export type GridColumnDesignBorderHoverWidth = {
   linked?: boolean;
-  desktop?: DesignBorderHoverWidthDesktop;
-  tablet?: DesignBorderHoverWidthTablet;
-  mobile?: DesignBorderHoverWidthMobile;
+  desktop?: GridColumnDesignBorderHoverWidthDesktop;
+  tablet?: GridColumnDesignBorderHoverWidthTablet;
+  mobile?: GridColumnDesignBorderHoverWidthMobile;
 };
 
-export type DesignBorderHoverWidthDesktop = {
+export type GridColumnDesignBorderHoverWidthDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3010,7 +3806,7 @@ export type DesignBorderHoverWidthDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverWidthTablet = {
+export type GridColumnDesignBorderHoverWidthTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3018,7 +3814,7 @@ export type DesignBorderHoverWidthTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverWidthMobile = {
+export type GridColumnDesignBorderHoverWidthMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3026,14 +3822,14 @@ export type DesignBorderHoverWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverRadius = {
+export type GridColumnDesignBorderHoverRadius = {
   linked?: boolean;
-  desktop?: DesignBorderHoverRadiusDesktop;
-  tablet?: DesignBorderHoverRadiusTablet;
-  mobile?: DesignBorderHoverRadiusMobile;
+  desktop?: GridColumnDesignBorderHoverRadiusDesktop;
+  tablet?: GridColumnDesignBorderHoverRadiusTablet;
+  mobile?: GridColumnDesignBorderHoverRadiusMobile;
 };
 
-export type DesignBorderHoverRadiusDesktop = {
+export type GridColumnDesignBorderHoverRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3041,7 +3837,7 @@ export type DesignBorderHoverRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverRadiusTablet = {
+export type GridColumnDesignBorderHoverRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3049,7 +3845,7 @@ export type DesignBorderHoverRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverRadiusMobile = {
+export type GridColumnDesignBorderHoverRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3057,7 +3853,7 @@ export type DesignBorderHoverRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverShadow = {
+export type GridColumnDesignBorderHoverShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -3067,17 +3863,17 @@ export type DesignBorderHoverShadow = {
 };
 
 export type ColumnsGridColumnAdvanced = {
-  margin?: GridColumnAdvancedMargin;
-  padding?: GridColumnAdvancedPadding;
+  margin?: ColumnsGridColumnAdvancedMargin;
+  padding?: ColumnsGridColumnAdvancedPadding;
   zIndex?: number;
   order?: GridColumnAdvancedOrder;
   cssId?: string;
   cssClasses?: string;
   customCss?: string;
-  motion?: GridColumnAdvancedMotion;
+  motion?: ColumnsGridColumnAdvancedMotion;
 };
 
-export type GridColumnAdvancedMargin = {
+export type ColumnsGridColumnAdvancedMargin = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -3093,7 +3889,7 @@ export type GridColumnAdvancedMargin = {
   linked?: boolean;
 };
 
-export type GridColumnAdvancedPadding = {
+export type ColumnsGridColumnAdvancedPadding = {
   top?: string;
   right?: string;
   bottom?: string;
@@ -3115,7 +3911,7 @@ export type GridColumnAdvancedOrder = {
   mobile?: number;
 };
 
-export type GridColumnAdvancedMotion = {
+export type ColumnsGridColumnAdvancedMotion = {
   animation?:
     | "none"
     | "fadeIn"
@@ -3397,8 +4193,8 @@ export type GridRowDesignOverlayNormal = {
   repeat?: GridRowDesignOverlayNormalRepeat;
   size?: GridRowDesignOverlayNormalSize;
   gradient?: GridRowDesignOverlayNormalGradient;
-  opacity?: DesignOverlayNormalOpacity;
-  filters?: DesignOverlayNormalFilters;
+  opacity?: GridRowDesignOverlayNormalOpacity;
+  filters?: GridRowDesignOverlayNormalFilters;
   blendMode?:
     | "normal"
     | "multiply"
@@ -3524,13 +4320,13 @@ export type GridRowDesignOverlayNormalGradientAngle = {
   mobile?: number;
 };
 
-export type DesignOverlayNormalOpacity = {
+export type GridRowDesignOverlayNormalOpacity = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
 };
 
-export type DesignOverlayNormalFilters = {
+export type GridRowDesignOverlayNormalFilters = {
   blur?: number;
   brightness?: number;
   contrast?: number;
@@ -3701,8 +4497,8 @@ export type GridRowDesignBorderNormal = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
   width?: GridRowDesignBorderNormalWidth;
   color?: string;
-  radius?: DesignBorderNormalRadius;
-  shadow?: DesignBorderNormalShadow;
+  radius?: GridRowDesignBorderNormalRadius;
+  shadow?: GridRowDesignBorderNormalShadow;
 };
 
 export type GridRowDesignBorderNormalWidth = {
@@ -3736,14 +4532,14 @@ export type GridRowDesignBorderNormalWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalRadius = {
+export type GridRowDesignBorderNormalRadius = {
   linked?: boolean;
-  desktop?: DesignBorderNormalRadiusDesktop;
-  tablet?: DesignBorderNormalRadiusTablet;
-  mobile?: DesignBorderNormalRadiusMobile;
+  desktop?: GridRowDesignBorderNormalRadiusDesktop;
+  tablet?: GridRowDesignBorderNormalRadiusTablet;
+  mobile?: GridRowDesignBorderNormalRadiusMobile;
 };
 
-export type DesignBorderNormalRadiusDesktop = {
+export type GridRowDesignBorderNormalRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3751,7 +4547,7 @@ export type DesignBorderNormalRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalRadiusTablet = {
+export type GridRowDesignBorderNormalRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3759,7 +4555,7 @@ export type DesignBorderNormalRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalRadiusMobile = {
+export type GridRowDesignBorderNormalRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3767,7 +4563,7 @@ export type DesignBorderNormalRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalShadow = {
+export type GridRowDesignBorderNormalShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -4075,10 +4871,10 @@ export type NestedContainer = {
     _type: "gridColumn";
     _key: string;
   }>;
-  design?: Design;
+  design?: NestedContainerDesign;
   blockStyles?: BlockStyles;
-  advanced?: Advanced;
-  visibility?: Visibility;
+  advanced?: NestedContainerAdvanced;
+  visibility?: NestedContainerVisibility;
 };
 
 export type GridRow = {
@@ -4911,7 +5707,10 @@ export type ImageBlock = {
   };
   caption?: string;
   priority?: boolean;
+  design?: Design;
   blockStyles?: BlockStyles;
+  advanced?: Advanced;
+  visibility?: Visibility;
 };
 
 export type RichTextBlock = {
@@ -5627,10 +6426,13 @@ export type AllSanitySchemaTypes =
   | Typography
   | Effects
   | Motion
-  | Container
   | Design
   | Advanced
   | Visibility
+  | Container
+  | NestedContainerDesign
+  | NestedContainerAdvanced
+  | NestedContainerVisibility
   | GridRowContainer
   | GridRowDesign
   | GridRowAdvanced
@@ -5714,11 +6516,6 @@ export type AllSanitySchemaTypes =
   | GridColumnContainerWrap
   | FeatureCardIcon
   | Cta
-  | GalleryImageImage
-  | LogoItemImage
-  | TabIcon
-  | TabImageImage
-  | GridColumnDesign
   | DesignBackground
   | Normal
   | NormalImage
@@ -5790,13 +6587,16 @@ export type AllSanitySchemaTypes =
   | HoverRadiusTablet
   | HoverRadiusMobile
   | HoverShadow
-  | GridColumnAdvanced
   | AdvancedMargin
   | AdvancedPadding
   | Order
   | AdvancedMotion
-  | GridColumnVisibility
-  | NestedContainerDesignBackground
+  | GalleryImageImage
+  | LogoItemImage
+  | TabIcon
+  | TabImageImage
+  | GridColumnDesign
+  | GridColumnDesignBackground
   | BackgroundNormal
   | BackgroundNormalImage
   | BackgroundNormalImageTablet
@@ -5846,7 +6646,7 @@ export type AllSanitySchemaTypes =
   | OverlayHoverGradientAngle
   | OverlayHoverOpacity
   | OverlayHoverFilters
-  | NestedContainerDesignBorder
+  | GridColumnDesignBorder
   | DesignBorderNormal
   | BorderNormalWidth
   | BorderNormalWidthDesktop
@@ -5867,12 +6667,13 @@ export type AllSanitySchemaTypes =
   | BorderHoverRadiusTablet
   | BorderHoverRadiusMobile
   | BorderHoverShadow
-  | NestedContainerAdvancedMargin
-  | NestedContainerAdvancedPadding
+  | GridColumnAdvanced
+  | GridColumnAdvancedMargin
+  | GridColumnAdvancedPadding
   | AdvancedOrder
-  | NestedContainerAdvancedMotion
-  | ColumnsGridColumnDesign
-  | GridColumnDesignBackground
+  | GridColumnAdvancedMotion
+  | GridColumnVisibility
+  | NestedContainerDesignBackground
   | DesignBackgroundNormal
   | DesignBackgroundNormalImage
   | DesignBackgroundNormalImageTablet
@@ -5895,35 +6696,35 @@ export type AllSanitySchemaTypes =
   | DesignBackgroundHoverGradientLocation
   | DesignBackgroundHoverGradientSecondLocation
   | DesignBackgroundHoverGradientAngle
-  | GridColumnDesignOverlay
-  | GridColumnDesignOverlayNormal
-  | GridColumnDesignOverlayNormalImage
+  | NestedContainerDesignOverlay
+  | NestedContainerDesignOverlayNormal
+  | NestedContainerDesignOverlayNormalImage
   | DesignOverlayNormalImageTablet
   | DesignOverlayNormalImageMobile
   | DesignOverlayNormalPosition
   | DesignOverlayNormalRepeat
-  | GridColumnDesignOverlayNormalSize
+  | NestedContainerDesignOverlayNormalSize
   | DesignOverlayNormalGradient
   | DesignOverlayNormalGradientLocation
   | DesignOverlayNormalGradientSecondLocation
   | DesignOverlayNormalGradientAngle
   | OverlayNormalOpacity
   | OverlayNormalFilters
-  | GridColumnDesignOverlayHover
-  | GridColumnDesignOverlayHoverImage
-  | GridColumnDesignOverlayHoverImageTablet
-  | GridColumnDesignOverlayHoverImageMobile
-  | GridColumnDesignOverlayHoverPosition
-  | GridColumnDesignOverlayHoverRepeat
-  | GridColumnDesignOverlayHoverSize
-  | GridColumnDesignOverlayHoverGradient
+  | NestedContainerDesignOverlayHover
+  | NestedContainerDesignOverlayHoverImage
+  | NestedContainerDesignOverlayHoverImageTablet
+  | NestedContainerDesignOverlayHoverImageMobile
+  | NestedContainerDesignOverlayHoverPosition
+  | NestedContainerDesignOverlayHoverRepeat
+  | NestedContainerDesignOverlayHoverSize
+  | NestedContainerDesignOverlayHoverGradient
   | DesignOverlayHoverGradientLocation
   | DesignOverlayHoverGradientSecondLocation
   | DesignOverlayHoverGradientAngle
   | DesignOverlayHoverOpacity
   | DesignOverlayHoverFilters
-  | GridColumnDesignBorder
-  | GridColumnDesignBorderNormal
+  | NestedContainerDesignBorder
+  | NestedContainerDesignBorderNormal
   | DesignBorderNormalWidth
   | DesignBorderNormalWidthDesktop
   | DesignBorderNormalWidthTablet
@@ -5933,7 +6734,7 @@ export type AllSanitySchemaTypes =
   | BorderNormalRadiusTablet
   | BorderNormalRadiusMobile
   | BorderNormalShadow
-  | GridColumnDesignBorderHover
+  | NestedContainerDesignBorderHover
   | DesignBorderHoverWidth
   | DesignBorderHoverWidthDesktop
   | DesignBorderHoverWidthTablet
@@ -5943,11 +6744,87 @@ export type AllSanitySchemaTypes =
   | DesignBorderHoverRadiusTablet
   | DesignBorderHoverRadiusMobile
   | DesignBorderHoverShadow
+  | NestedContainerAdvancedMargin
+  | NestedContainerAdvancedPadding
+  | NestedContainerAdvancedOrder
+  | NestedContainerAdvancedMotion
+  | ColumnsGridColumnDesign
+  | ColumnsGridColumnDesignBackground
+  | GridColumnDesignBackgroundNormal
+  | GridColumnDesignBackgroundNormalImage
+  | GridColumnDesignBackgroundNormalImageTablet
+  | GridColumnDesignBackgroundNormalImageMobile
+  | GridColumnDesignBackgroundNormalPosition
+  | GridColumnDesignBackgroundNormalRepeat
+  | GridColumnDesignBackgroundNormalSize
+  | GridColumnDesignBackgroundNormalGradient
+  | GridColumnDesignBackgroundNormalGradientLocation
+  | GridColumnDesignBackgroundNormalGradientSecondLocation
+  | GridColumnDesignBackgroundNormalGradientAngle
+  | GridColumnDesignBackgroundHover
+  | GridColumnDesignBackgroundHoverImage
+  | GridColumnDesignBackgroundHoverImageTablet
+  | GridColumnDesignBackgroundHoverImageMobile
+  | GridColumnDesignBackgroundHoverPosition
+  | GridColumnDesignBackgroundHoverRepeat
+  | GridColumnDesignBackgroundHoverSize
+  | GridColumnDesignBackgroundHoverGradient
+  | GridColumnDesignBackgroundHoverGradientLocation
+  | GridColumnDesignBackgroundHoverGradientSecondLocation
+  | GridColumnDesignBackgroundHoverGradientAngle
+  | GridColumnDesignOverlay
+  | GridColumnDesignOverlayNormal
+  | GridColumnDesignOverlayNormalImage
+  | GridColumnDesignOverlayNormalImageTablet
+  | GridColumnDesignOverlayNormalImageMobile
+  | GridColumnDesignOverlayNormalPosition
+  | GridColumnDesignOverlayNormalRepeat
+  | GridColumnDesignOverlayNormalSize
+  | GridColumnDesignOverlayNormalGradient
+  | GridColumnDesignOverlayNormalGradientLocation
+  | GridColumnDesignOverlayNormalGradientSecondLocation
+  | GridColumnDesignOverlayNormalGradientAngle
+  | DesignOverlayNormalOpacity
+  | DesignOverlayNormalFilters
+  | GridColumnDesignOverlayHover
+  | GridColumnDesignOverlayHoverImage
+  | GridColumnDesignOverlayHoverImageTablet
+  | GridColumnDesignOverlayHoverImageMobile
+  | GridColumnDesignOverlayHoverPosition
+  | GridColumnDesignOverlayHoverRepeat
+  | GridColumnDesignOverlayHoverSize
+  | GridColumnDesignOverlayHoverGradient
+  | GridColumnDesignOverlayHoverGradientLocation
+  | GridColumnDesignOverlayHoverGradientSecondLocation
+  | GridColumnDesignOverlayHoverGradientAngle
+  | GridColumnDesignOverlayHoverOpacity
+  | GridColumnDesignOverlayHoverFilters
+  | ColumnsGridColumnDesignBorder
+  | GridColumnDesignBorderNormal
+  | GridColumnDesignBorderNormalWidth
+  | GridColumnDesignBorderNormalWidthDesktop
+  | GridColumnDesignBorderNormalWidthTablet
+  | GridColumnDesignBorderNormalWidthMobile
+  | DesignBorderNormalRadius
+  | DesignBorderNormalRadiusDesktop
+  | DesignBorderNormalRadiusTablet
+  | DesignBorderNormalRadiusMobile
+  | DesignBorderNormalShadow
+  | GridColumnDesignBorderHover
+  | GridColumnDesignBorderHoverWidth
+  | GridColumnDesignBorderHoverWidthDesktop
+  | GridColumnDesignBorderHoverWidthTablet
+  | GridColumnDesignBorderHoverWidthMobile
+  | GridColumnDesignBorderHoverRadius
+  | GridColumnDesignBorderHoverRadiusDesktop
+  | GridColumnDesignBorderHoverRadiusTablet
+  | GridColumnDesignBorderHoverRadiusMobile
+  | GridColumnDesignBorderHoverShadow
   | ColumnsGridColumnAdvanced
-  | GridColumnAdvancedMargin
-  | GridColumnAdvancedPadding
+  | ColumnsGridColumnAdvancedMargin
+  | ColumnsGridColumnAdvancedPadding
   | GridColumnAdvancedOrder
-  | GridColumnAdvancedMotion
+  | ColumnsGridColumnAdvancedMotion
   | ColumnsGridColumnVisibility
   | GridRowDesignBackground
   | GridRowDesignBackgroundNormal
@@ -5984,8 +6861,8 @@ export type AllSanitySchemaTypes =
   | GridRowDesignOverlayNormalGradientLocation
   | GridRowDesignOverlayNormalGradientSecondLocation
   | GridRowDesignOverlayNormalGradientAngle
-  | DesignOverlayNormalOpacity
-  | DesignOverlayNormalFilters
+  | GridRowDesignOverlayNormalOpacity
+  | GridRowDesignOverlayNormalFilters
   | GridRowDesignOverlayHover
   | GridRowDesignOverlayHoverImage
   | GridRowDesignOverlayHoverImageTablet
@@ -6005,11 +6882,11 @@ export type AllSanitySchemaTypes =
   | GridRowDesignBorderNormalWidthDesktop
   | GridRowDesignBorderNormalWidthTablet
   | GridRowDesignBorderNormalWidthMobile
-  | DesignBorderNormalRadius
-  | DesignBorderNormalRadiusDesktop
-  | DesignBorderNormalRadiusTablet
-  | DesignBorderNormalRadiusMobile
-  | DesignBorderNormalShadow
+  | GridRowDesignBorderNormalRadius
+  | GridRowDesignBorderNormalRadiusDesktop
+  | GridRowDesignBorderNormalRadiusTablet
+  | GridRowDesignBorderNormalRadiusMobile
+  | GridRowDesignBorderNormalShadow
   | GridRowDesignBorderHover
   | GridRowDesignBorderHoverWidth
   | GridRowDesignBorderHoverWidthDesktop
@@ -7108,6 +7985,7 @@ export type HOME_PAGE_QUERY_RESULT = {
             };
             caption: string | null;
             priority: boolean | null;
+            design?: Design;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -7142,6 +8020,8 @@ export type HOME_PAGE_QUERY_RESULT = {
               cssClasses: string | null;
               customCss: string | null;
             } | null;
+            advanced?: Advanced;
+            visibility?: Visibility;
           }
         | {
             _key: string;
@@ -8427,6 +9307,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                     };
                     caption: string | null;
                     priority: boolean | null;
+                    design?: Design;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -8461,6 +9342,8 @@ export type HOME_PAGE_QUERY_RESULT = {
                       cssClasses: string | null;
                       customCss: string | null;
                     } | null;
+                    advanced?: Advanced;
+                    visibility?: Visibility;
                   }
                 | {
                     _key: string;
@@ -9716,7 +10599,7 @@ export type HOME_PAGE_QUERY_RESULT = {
               visibility?: GridColumnVisibility;
               _type: "gridColumn";
             }>;
-            design?: Design;
+            design?: NestedContainerDesign;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -9751,8 +10634,8 @@ export type HOME_PAGE_QUERY_RESULT = {
               cssClasses: string | null;
               customCss: string | null;
             } | null;
-            advanced?: Advanced;
-            visibility?: Visibility;
+            advanced?: NestedContainerAdvanced;
+            visibility?: NestedContainerVisibility;
           }
         | {
             _key: string;
@@ -11732,6 +12615,7 @@ export type PAGE_QUERY_RESULT =
                 };
                 caption: string | null;
                 priority: boolean | null;
+                design?: Design;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -11766,6 +12650,8 @@ export type PAGE_QUERY_RESULT =
                   cssClasses: string | null;
                   customCss: string | null;
                 } | null;
+                advanced?: Advanced;
+                visibility?: Visibility;
               }
             | {
                 _key: string;
@@ -13056,6 +13942,7 @@ export type PAGE_QUERY_RESULT =
                         };
                         caption: string | null;
                         priority: boolean | null;
+                        design?: Design;
                         blockStyles: {
                           padding: Padding | null;
                           margin: Margin | null;
@@ -13090,6 +13977,8 @@ export type PAGE_QUERY_RESULT =
                           cssClasses: string | null;
                           customCss: string | null;
                         } | null;
+                        advanced?: Advanced;
+                        visibility?: Visibility;
                       }
                     | {
                         _key: string;
@@ -14351,7 +15240,7 @@ export type PAGE_QUERY_RESULT =
                   visibility?: GridColumnVisibility;
                   _type: "gridColumn";
                 }>;
-                design?: Design;
+                design?: NestedContainerDesign;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -14386,8 +15275,8 @@ export type PAGE_QUERY_RESULT =
                   cssClasses: string | null;
                   customCss: string | null;
                 } | null;
-                advanced?: Advanced;
-                visibility?: Visibility;
+                advanced?: NestedContainerAdvanced;
+                visibility?: NestedContainerVisibility;
               }
             | {
                 _key: string;
@@ -16363,6 +17252,7 @@ export type PAGE_QUERY_RESULT =
                 };
                 caption: string | null;
                 priority: boolean | null;
+                design?: Design;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -16397,6 +17287,8 @@ export type PAGE_QUERY_RESULT =
                   cssClasses: string | null;
                   customCss: string | null;
                 } | null;
+                advanced?: Advanced;
+                visibility?: Visibility;
               }
             | {
                 _key: string;
@@ -17687,6 +18579,7 @@ export type PAGE_QUERY_RESULT =
                         };
                         caption: string | null;
                         priority: boolean | null;
+                        design?: Design;
                         blockStyles: {
                           padding: Padding | null;
                           margin: Margin | null;
@@ -17721,6 +18614,8 @@ export type PAGE_QUERY_RESULT =
                           cssClasses: string | null;
                           customCss: string | null;
                         } | null;
+                        advanced?: Advanced;
+                        visibility?: Visibility;
                       }
                     | {
                         _key: string;
@@ -18982,7 +19877,7 @@ export type PAGE_QUERY_RESULT =
                   visibility?: GridColumnVisibility;
                   _type: "gridColumn";
                 }>;
-                design?: Design;
+                design?: NestedContainerDesign;
                 blockStyles: {
                   padding: Padding | null;
                   margin: Margin | null;
@@ -19017,8 +19912,8 @@ export type PAGE_QUERY_RESULT =
                   cssClasses: string | null;
                   customCss: string | null;
                 } | null;
-                advanced?: Advanced;
-                visibility?: Visibility;
+                advanced?: NestedContainerAdvanced;
+                visibility?: NestedContainerVisibility;
               }
             | {
                 _key: string;
@@ -21458,6 +22353,7 @@ export type NEWS_POST_QUERY_RESULT = {
             };
             caption: string | null;
             priority: boolean | null;
+            design?: Design;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -21492,6 +22388,8 @@ export type NEWS_POST_QUERY_RESULT = {
               cssClasses: string | null;
               customCss: string | null;
             } | null;
+            advanced?: Advanced;
+            visibility?: Visibility;
           }
         | {
             _key: string;
@@ -22777,6 +23675,7 @@ export type NEWS_POST_QUERY_RESULT = {
                     };
                     caption: string | null;
                     priority: boolean | null;
+                    design?: Design;
                     blockStyles: {
                       padding: Padding | null;
                       margin: Margin | null;
@@ -22811,6 +23710,8 @@ export type NEWS_POST_QUERY_RESULT = {
                       cssClasses: string | null;
                       customCss: string | null;
                     } | null;
+                    advanced?: Advanced;
+                    visibility?: Visibility;
                   }
                 | {
                     _key: string;
@@ -24066,7 +24967,7 @@ export type NEWS_POST_QUERY_RESULT = {
               visibility?: GridColumnVisibility;
               _type: "gridColumn";
             }>;
-            design?: Design;
+            design?: NestedContainerDesign;
             blockStyles: {
               padding: Padding | null;
               margin: Margin | null;
@@ -24101,8 +25002,8 @@ export type NEWS_POST_QUERY_RESULT = {
               cssClasses: string | null;
               customCss: string | null;
             } | null;
-            advanced?: Advanced;
-            visibility?: Visibility;
+            advanced?: NestedContainerAdvanced;
+            visibility?: NestedContainerVisibility;
           }
         | {
             _key: string;

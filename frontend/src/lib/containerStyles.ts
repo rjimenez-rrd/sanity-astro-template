@@ -18,7 +18,7 @@ import {
   type Responsive,
   type VisibilitySettings,
 } from './container'
-import {buildDesignCss, type DesignSettings} from './design'
+import {buildDesignCss, designOverrides, type DesignSettings} from './design'
 import {scopeCustomCss} from './customCss'
 import type {BlockStyles} from './blockStyles'
 
@@ -39,6 +39,34 @@ export interface ContainerAdvanced {
  * for a CSS value or an attribute has to have them removed first.
  */
 export const clean = <T,>(value: T): T => (value ? (stegaClean(value) as T) : value)
+
+/**
+ * Inline styles for a container, column or block: the older block styles,
+ * minus whatever the Style panel or Advanced tab now sets. Inline styles would
+ * otherwise beat the Style panel's scoped CSS.
+ */
+export function mergeStyles(
+  blockStyles: unknown,
+  advanced: ContainerAdvanced | null | undefined,
+  design?: DesignSettings | null,
+): BlockStyles | null {
+  const base = (clean(blockStyles) ?? {}) as BlockStyles
+  const adv = clean(advanced)
+  const owned = designOverrides(design)
+  const merged: BlockStyles = {
+    ...base,
+    padding: adv?.padding ?? base.padding,
+    margin: adv?.margin ?? base.margin,
+  }
+  if (owned.background) merged.background = null
+  else if (owned.overlay && merged.background) merged.background = {...merged.background, overlay: null}
+  if (owned.border) {
+    merged.border = null
+    merged.borderRadius = null
+    if (merged.effects) merged.effects = {...merged.effects, shadow: null}
+  }
+  return merged
+}
 
 /** One column, already mapped by the component. */
 export interface ContainerStylesColumn {

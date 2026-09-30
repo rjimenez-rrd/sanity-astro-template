@@ -43,6 +43,9 @@ const SHADOW_MAP: Record<string, string> = {
   xl: '0 20px 25px rgba(0,0,0,0.1)',
 }
 
+/** The Border Radius control's "Round" value (studio BorderRadiusInput). */
+const ROUND = '9999px'
+
 /** Widths come from editors, so only a bare number plus a known unit reaches CSS. */
 const CSS_SIZE = /^\d+(\.\d+)?(px|%|rem|em|vw)$/
 
@@ -175,7 +178,16 @@ export function buildStyles(bs: BlockStyles | undefined | null): StyleMap {
   // Border radius
   if (bs.borderRadius) {
     const {topLeft, topRight, bottomRight, bottomLeft} = bs.borderRadius
-    styles['border-radius'] = `${topLeft || '0'} ${topRight || '0'} ${bottomRight || '0'} ${bottomLeft || '0'}`
+    const corners = [topLeft, topRight, bottomRight, bottomLeft]
+    // "Round" is 9999px. Next to other rounded corners that would make the
+    // browser scale every radius down until they fit, which flattens the
+    // pixel ones (4px becomes ~0). Mixed like that, Round draws as 50%: still
+    // a full curve, and the others keep their size. All-Round stays 9999px,
+    // for a pill or circle.
+    const isRound = (c?: string | null) => c === ROUND
+    const mixed = corners.some(isRound) && corners.some((c) => c && !isRound(c) && c !== '0')
+    const corner = (c?: string | null) => (mixed && isRound(c) ? '50%' : c || '0')
+    styles['border-radius'] = corners.map(corner).join(' ')
     // Also offered to what's inside: the wrapper doesn't clip its content, so
     // an image would otherwise cover the rounded corners. Blocks opt in (e.g.
     // Image.astro). Only when a corner is set, so a cleared radius keeps each

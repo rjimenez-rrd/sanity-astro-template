@@ -205,6 +205,8 @@ const Divider = () => <Box style={{borderTop: '1px solid var(--card-border-color
 export function ContainerDesignInput(props: ObjectInputProps) {
   const {onChange, value} = props
   const v = (value ?? {}) as DesignValue
+  // designField({hideBorder}): the block keeps its border in Block Styles.
+  const hideBorder = Boolean((props.schemaType.options as {hideBorder?: boolean} | undefined)?.hideBorder)
 
   const [device, setDevice] = useState<Device>('desktop')
   const responsive = {device, onDevice: setDevice}
@@ -626,9 +628,11 @@ export function ContainerDesignInput(props: ObjectInputProps) {
       <Section title="Background Overlay" open={open.overlay} onToggle={() => toggle('overlay')}>
         {backgroundControls('overlay', {opacity: true})}
       </Section>
-      <Section title="Border" open={open.border} onToggle={() => toggle('border')}>
-        {borderControls()}
-      </Section>
+      {!hideBorder && (
+        <Section title="Border" open={open.border} onToggle={() => toggle('border')}>
+          {borderControls()}
+        </Section>
+      )}
     </Card>
   )
 }

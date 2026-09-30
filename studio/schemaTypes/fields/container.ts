@@ -131,12 +131,16 @@ export function containerField(variant: ContainerVariant, {item = false}: {item?
  * Below the Style panel: typography and effects, plus any background or
  * border saved before the Style panel existed (so those stay editable).
  */
-export function styleField() {
+export function styleField({keepBorder = false}: {keepBorder?: boolean} = {}) {
   return defineField({
     name: 'blockStyles',
     title: 'Typography & Effects',
     type: 'blockStyles',
     group: 'style',
+    // keepBorder: Border and Border Radius stay here, always shown, for a
+    // block that uses them instead of the Style panel's (designField's
+    // hideBorder). The Image block does, so its saved corners keep working.
+    ...(keepBorder && {options: {keepBorder} as never}),
     components: {input: ContainerStyleInput},
   })
 }

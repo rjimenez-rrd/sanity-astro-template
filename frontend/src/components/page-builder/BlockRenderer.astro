@@ -3,7 +3,17 @@ import {stegaClean} from '@sanity/client/stega'
 import BlockStylesWrapper from '@/components/ui/BlockStylesWrapper.astro'
 import {buildStyles, elementStyle, hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
 import {animationAttrs, type MotionSettings} from '@/lib/animation'
-import {safeCssId, safeCssClasses, safeKey, type ContainerSettings} from '@/lib/container'
+import {
+  CssBuilder,
+  VISIBILITY_MEDIA,
+  safeCssId,
+  safeCssClasses,
+  safeKey,
+  type ContainerSettings,
+  type VisibilitySettings,
+} from '@/lib/container'
+import {buildDesignCss, type DesignSettings} from '@/lib/design'
+import {clean, mergeStyles, type ContainerAdvanced} from '@/lib/containerStyles'
 import {scopeCustomCss} from '@/lib/customCss'
 import RichText from './blocks/RichText.astro'
 import Image from './blocks/Image.astro'
@@ -102,7 +112,24 @@ const SELF_STYLED = new Set(['richTextBlock'])
 const type = stegaClean(block._type)!
 const Component = CONTENT_MAP[type]
 
-const rawStyles = stegaClean(block.blockStyles) as (BlockStyles & {motion?: MotionSettings}) | null
+/**
+ * Blocks with a Container's Style / Advanced / Visibility tabs (e.g. Image)
+ * also carry design, advanced and visibility. Their Advanced padding and
+ * margin, and the Style panel's background and border, take over from the
+ * older Block Styles, as they do on a Container. Blocks without them keep
+ * Block Styles as they are.
+ */
+const tabs = block as {
+  design?: DesignSettings | null
+  advanced?: ContainerAdvanced | null
+  visibility?: VisibilitySettings | null
+}
+const design = clean(tabs.design)
+const advanced = clean(tabs.advanced)
+const visibility = clean(tabs.visibility)
+const rawStyles = (
+  advanced || design ? mergeStyles(block.blockStyles, advanced, design) : stegaClean(block.blockStyles)
+) as (BlockStyles & {motion?: MotionSettings}) | null
 
 /**
  * These types default to matching the tallest column in their row instead of
@@ -147,14 +174,36 @@ const styles =
         },
       }
     : sizedStyles
-const animation = animationAttrs(styles?.motion)
+const animation = animationAttrs((advanced?.motion as MotionSettings | undefined) ?? styles?.motion)
 // Class hooks and Custom CSS. Scoped to this block's own key, so a rule an
 // editor writes can only reach this element and its descendants.
 const blockKey = safeKey(stegaClean(block._key))
-const cssId = safeCssId(styles?.cssId)
-const cssClasses = safeCssClasses(styles?.cssClasses)
-const customCss = blockKey ? scopeCustomCss(styles?.customCss, `[data-pb="${blockKey}"]`) : undefined
-const needsHook = Boolean(cssId || cssClasses || customCss)
+// The Advanced tab wins over Block Styles for these, as on a Container. Both
+// Custom CSS boxes apply, each scoped to this block.
+const cssId = safeCssId(advanced?.cssId ?? styles?.cssId)
+const cssClasses = safeCssClasses(advanced?.cssClasses ?? styles?.cssClasses)
+const customCss = blockKey
+  ? [styles?.customCss, advanced?.customCss]
+      .map((raw) => scopeCustomCss(raw, `[data-pb="${blockKey}"]`))
+      .filter(Boolean)
+      .join('') || undefined
+  : undefined
+
+// Style panel, Visibility and Z-Index, as scoped rules on this block.
+const tabCss = new CssBuilder()
+if (blockKey) {
+  const self = `[data-pb="${blockKey}"]`
+  buildDesignCss(blockKey, design, tabCss, {radiusVar: true})
+  if (visibility?.hideOnDesktop) tabCss.add(VISIBILITY_MEDIA.desktop, self, {display: 'none !important'})
+  if (visibility?.hideOnTablet) tabCss.add(VISIBILITY_MEDIA.tablet, self, {display: 'none !important'})
+  if (visibility?.hideOnMobile) tabCss.add(VISIBILITY_MEDIA.mobile, self, {display: 'none !important'})
+  if (typeof advanced?.zIndex === 'number' && Number.isFinite(advanced.zIndex)) {
+    const z = Math.round(Math.min(9999, Math.max(-9999, advanced.zIndex)))
+    tabCss.add(null, self, {position: 'relative', 'z-index': String(z)})
+  }
+}
+const tabCssText = tabCss.toString()
+const needsHook = Boolean(cssId || cssClasses || customCss || tabCssText)
 
 // A wrapper only exists to carry styles, an animation or a class hook.
 const needsWrapper =
@@ -225,7 +274,12 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
   )
 }
 
-{!isNestedContainer && customCss && <Fragment set:html={`<style>${customCss}</style>`} />}
+{/* Generated rules first, then the editor's Custom CSS, so it wins. */}
+{
+  !isNestedContainer && (tabCssText || customCss) && (
+    <Fragment set:html={`<style>${tabCssText}${customCss ?? ''}</style>`} />
+  )
+}
 
 {
   isNestedContainer ? null : Component ? (
