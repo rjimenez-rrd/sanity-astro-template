@@ -1,6 +1,6 @@
 import {LaunchIcon} from '@sanity/icons'
 import type {DocumentActionComponent, DocumentActionProps} from 'sanity'
-import {documentPath} from './documentPath'
+import {useDocumentPath} from './documentPath'
 
 const ORIGIN = (process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:4321').replace(/\/$/, '')
 
@@ -18,10 +18,9 @@ const IS_LOCAL = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(ORIGIN)
  * If that server can't be reached, it falls back to a tab in this browser.
  */
 export const openInBrowser: DocumentActionComponent = (props: DocumentActionProps) => {
-  if (!IS_LOCAL) return null
-
-  const path = documentPath(props.type, (props.draft ?? props.published) as Record<string, any> | null)
-  if (path === undefined) return null
+  // Hooks first, before any early return.
+  const path = useDocumentPath(props.type, (props.draft ?? props.published) as Record<string, any> | null)
+  if (!IS_LOCAL || path === undefined) return null
 
   return {
     label: 'Open in Chrome',

@@ -27,7 +27,7 @@ const links = (data.links ?? [])
   .map((link) => {
     const slug = stegaClean(link?.slug)
     if (!link || !slug) return null
-    const href = localizedPath(slug, link.language)
+    const href = localizedPath(slug, link.language, link.parents)
     return {key: link._id, title: link.title, href, active: normalize(href) === current}
   })
   .filter((link): link is NonNullable<typeof link> => link !== null)

@@ -1,0 +1,13 @@
+---
+export const prerender = false
+
+import BuilderPage from '@/components/page-builder/BuilderPage.astro'
+import {resolvePage} from '@/lib/pageRoute'
+
+// Spanish pages, /es/…: as ../[...slug].astro, in Spanish.
+const route = await resolvePage(Astro, Astro.params.slug, 'es')
+if (route.kind === 'redirect') return Astro.redirect(route.to, 301)
+if (route.kind === 'notFound') return Astro.rewrite('/404')
+---
+
+<BuilderPage page={route.page} settings={route.settings} language={'es'} listPage={route.listPage} />

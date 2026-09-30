@@ -71,7 +71,9 @@ function isSet(value: unknown): boolean {
  * right language — comes back unchanged.
  */
 function pathTranslator(
-  sets: Array<{pages: Array<{language: string | null; slug: string | null} | null> | null}>,
+  sets: Array<{
+    pages: Array<{language: string | null; slug: string | null; parents?: Array<string | null> | null} | null> | null
+  }>,
   language: Language,
 ) {
   const map = new Map<string, string>()
@@ -80,12 +82,18 @@ function pathTranslator(
     const from = pages?.find((p) => languageOf(p?.language) === DEFAULT_LANGUAGE && p?.slug)
     const to = pages?.find((p) => languageOf(p?.language) === language && p?.slug)
     if (from?.slug && to?.slug) {
-      map.set(localizedPath(stegaClean(from.slug), DEFAULT_LANGUAGE), localizedPath(stegaClean(to.slug), language))
+      map.set(
+        localizedPath(stegaClean(from.slug), DEFAULT_LANGUAGE, from.parents),
+        localizedPath(stegaClean(to.slug), language, to.parents),
+      )
     }
     // The translation's own slug typed without its prefix (/acerca-nosotros in
     // a Spanish menu) would otherwise be a root path that doesn't exist.
     if (to?.slug) {
-      unprefixed.push([localizedPath(stegaClean(to.slug), DEFAULT_LANGUAGE), localizedPath(stegaClean(to.slug), language)])
+      unprefixed.push([
+        localizedPath(stegaClean(to.slug), DEFAULT_LANGUAGE, to.parents),
+        localizedPath(stegaClean(to.slug), language, to.parents),
+      ])
     }
   }
   // Only where no default-language page has that path (a practice area can

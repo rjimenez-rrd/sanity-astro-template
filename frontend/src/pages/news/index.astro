@@ -10,10 +10,11 @@ import {sanityFetch} from '@/sanity/lib/live'
 import {NEWS_LIST_QUERY, PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
 import {getMaxWidthClass} from '@/lib/maxWidth'
 import {DEFAULT_LANGUAGE} from '@/lib/i18n'
+import type {PAGE_QUERY_RESULT} from '@/sanity/types.generated'
 
 const client = getClient(Astro.locals.isDraft)
 
-const [posts, settings, page] = await Promise.all([
+const [posts, settings, newsPages] = await Promise.all([
   sanityFetch(client, Astro.locals, NEWS_LIST_QUERY),
   sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
   sanityFetch(client, Astro.locals, PAGE_QUERY, {slug: 'news', language: DEFAULT_LANGUAGE}),
@@ -21,8 +22,10 @@ const [posts, settings, page] = await Promise.all([
 
 const maxWidthClass = getMaxWidthClass()
 
-// A Studio page with the slug "news" replaces this built-in listing, so
-// editors can build it like any other page and link to it with Internal Link.
+// A top-level Studio page with the slug "news" replaces this built-in listing,
+// so editors can build it like any other page and link to it with Internal
+// Link. Pages called "news" under a Parent Page live elsewhere, so they don't.
+const page = (newsPages as PAGE_QUERY_RESULT).find((candidate) => !candidate.parents?.some(Boolean))
 const seo = page ? buildSeo(page.seo, {title: page.title}) : undefined
 ---
 

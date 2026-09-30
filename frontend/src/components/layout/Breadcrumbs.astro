@@ -1,0 +1,68 @@
+---
+/**
+ * Home › About Us › Our Team, on pages under a Parent Page. Each ancestor
+ * links to its own page; the current page is plain text. Also tells search
+ * engines the trail (schema.org BreadcrumbList), which they can show in
+ * results. Top-level pages have no trail, so nothing renders for them.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import {getMaxWidthClass} from '@/lib/maxWidth'
+import {homePath, localizedPath, t, type Language} from '@/lib/i18n'
+import type {PageData} from '@/types/sanity'
+
+interface Props {
+  page: PageData
+  language: Language
+}
+
+const {page, language} = Astro.props
+
+// Root first; null entries are levels this page doesn't have.
+const ancestors = (page.ancestors ?? []).flatMap((a) =>
+  a?.slug ? [{title: a.title, slug: a.slug}] : [],
+)
+
+// Each ancestor's own address is its slug under the ancestors before it.
+const trail = ancestors.map((ancestor, i) => ({
+  label: ancestor.title || stegaClean(ancestor.slug),
+  href: localizedPath(ancestor.slug, language, ancestors.slice(0, i).map((a) => a.slug)),
+}))
+
+const items = [{label: t(language, 'home'), href: homePath(language)}, ...trail]
+const current = page.title
+
+const absolute = (href: string) => new URL(href, Astro.site ?? Astro.url).href
+const jsonLd =
+  trail.length > 0
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [...items, {label: current, href: Astro.url.pathname}].map((item, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: stegaClean(item.label),
+          item: absolute(item.href),
+        })),
+        // Inside a <script>, so a title can never close the tag.
+      }).replace(/</g, '\\u003c')
+    : undefined
+---
+
+{
+  trail.length > 0 && (
+    <nav aria-label={t(language, 'breadcrumb')} class="bg-background">
+      <ol class={`mx-auto flex ${getMaxWidthClass()} flex-wrap items-center gap-x-2 gap-y-1 px-4 py-3 font-display text-sm md:px-8`}>
+        {items.map((item) => (
+          <li class="flex items-center gap-2">
+            <a href={item.href} class="text-primary transition-colors hover:text-secondary-hover hover:underline">
+              {item.label}
+            </a>
+            <span class="text-muted" aria-hidden="true">›</span>
+          </li>
+        ))}
+        <li aria-current="page" class="text-foreground">{current}</li>
+      </ol>
+    </nav>
+  )
+}
+{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}

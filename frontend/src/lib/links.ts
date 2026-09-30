@@ -1,9 +1,9 @@
 import {stegaClean} from '@sanity/client/stega'
-import {localizedPath} from '@/lib/i18n'
+import {localizedPath, type Parents} from '@/lib/i18n'
 
 interface LinkInternal {
   _type: 'linkInternal'
-  reference?: {slug?: {current?: string}; language?: string | null} | null
+  reference?: {slug?: {current?: string}; language?: string | null; parents?: Parents} | null
 }
 
 interface LinkExternal {
@@ -59,7 +59,7 @@ export function resolveHref(linkItems: LinkItem[]): {
       const slug = reference?.slug?.current
       // A Spanish page links to /es/<slug>.
       return slug
-        ? {href: localizedPath(slug, reference?.language), isExternal: false, missing: false}
+        ? {href: localizedPath(slug, reference?.language, reference?.parents), isExternal: false, missing: false}
         : none
     }
     case 'pageSlug': {

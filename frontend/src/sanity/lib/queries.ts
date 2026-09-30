@@ -7,6 +7,23 @@ import {defineQuery} from 'groq'
  */
 const LANGUAGE_MATCHES = /* groq */ `coalesce(language, "en") == $language`
 
+/**
+ * A page's ancestors' slugs under a Parent Page, root first, for its address:
+ * /parents/slug (lib/i18n.ts localizedPath). A fixed depth — pages can sit at
+ * most three levels under others (studio fields/rootSlug.ts MAX_ANCESTORS) —
+ * and null where the chain ends; localizedPath skips those.
+ */
+const PARENTS_FRAGMENT = /* groq */ `"parents": [
+  parent->parent->parent->slug.current, parent->parent->slug.current, parent->slug.current
+]`
+
+/** The ancestors themselves, root first, for breadcrumbs: title and slug each. */
+const ANCESTORS_FRAGMENT = /* groq */ `"ancestors": [
+  parent->parent->parent->{ title, "slug": slug.current },
+  parent->parent->{ title, "slug": slug.current },
+  parent->{ title, "slug": slug.current }
+]`
+
 const imageFragment = /* groq */ `
   asset->{
     _id,
@@ -46,8 +63,8 @@ const linkFragment = /* groq */ `
     _type == "linkInternal" => {
       "reference": coalesce(
         (*[_type == "translation.metadata" && references(^.reference._ref)][0].translations[].value->)
-          [coalesce(language, "en") == $language][0]{ slug, language },
-        reference->{ slug, language }
+          [coalesce(language, "en") == $language][0]{ slug, language, ${PARENTS_FRAGMENT} },
+        reference->{ slug, language, ${PARENTS_FRAGMENT} }
       )
     }
   }
@@ -65,7 +82,7 @@ const newsCardFragment = /* groq */ `
 // block (picked or all) and PRACTICE_AREAS_QUERY, so the card reads the same
 // data wherever it appears.
 const practiceAreaCardFragment = /* groq */ `
-  _id, title, cardTitle, slug, language,
+  _id, title, cardTitle, slug, language, ${PARENTS_FRAGMENT},
   coverImage { ${imageFragment} }
 `
 
@@ -186,9 +203,9 @@ const contentTypesFragment = /* groq */ `
     _type == "linkList" => {
       ...,
       "links": select(
-        source == "manual" => items[]-> { _id, title, "slug": slug.current, language },
+        source == "manual" => items[]-> { _id, title, "slug": slug.current, language, ${PARENTS_FRAGMENT} },
         *[_type == "practiceArea" && defined(slug.current) && ${LANGUAGE_MATCHES}]
-          | order(title asc) { _id, title, "slug": slug.current, language }
+          | order(title asc) { _id, title, "slug": slug.current, language, ${PARENTS_FRAGMENT} }
       ),
       ${blockStylesFragment}
     },
@@ -298,15 +315,19 @@ export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
   }
 `)
 
-// Pages and practice areas share the root (/<slug>, or /es/<slug>); the
-// Studio keeps their slugs unique across both types within a language.
+// Every page and practice area with this slug in the language: slugs are only
+// unique among siblings (studio fields/rootSlug.ts), so /about-us/faq and
+// /services/faq share "faq", and the route picks the one whose parents match
+// the rest of the address (lib/pageRoute.ts). "ancestors" is for breadcrumbs;
 // "translations" is the same page in the other languages, for the header's
 // language link and the hreflang tags.
 export const PAGE_QUERY = defineQuery(/* groq */ `
-  *[_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_MATCHES}][0] {
+  *[_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_MATCHES}] {
     _id, _type, title, slug, language,
+    ${PARENTS_FRAGMENT},
+    ${ANCESTORS_FRAGMENT},
     "translations": *[_type == "translation.metadata" && references(^._id)][0]
-      .translations[].value->{ language, "slug": slug.current },
+      .translations[].value->{ language, "slug": slug.current, ${PARENTS_FRAGMENT} },
     ${seoFragment},
     ${pageBuilderFragment}
   }
@@ -314,7 +335,7 @@ export const PAGE_QUERY = defineQuery(/* groq */ `
 
 export const PAGE_SLUGS_QUERY = defineQuery(/* groq */ `
   *[_type in ["page", "practiceArea"] && defined(slug.current)] {
-    "slug": slug.current, language
+    "slug": slug.current, language, ${PARENTS_FRAGMENT}
   }
 `)
 
@@ -386,7 +407,7 @@ export const SITE_SETTINGS_ES_QUERY = defineQuery(/* groq */ `
  */
 export const PAGE_TRANSLATIONS_QUERY = defineQuery(/* groq */ `
   *[_type == "translation.metadata"] {
-    "pages": translations[].value->{ language, "slug": slug.current }
+    "pages": translations[].value->{ language, "slug": slug.current, ${PARENTS_FRAGMENT} }
   }
 `)
 
@@ -421,6 +442,6 @@ export const SEARCH_QUERY = defineQuery(/* groq */ `
     ] match $terms]
   | score(boost(title match $terms, 3), boost(cardTitle match $terms, 2), excerpt match $terms)
   | order(_score desc) [0...30] {
-    _id, _type, title, "slug": slug.current, language, excerpt, publishedAt
+    _id, _type, title, "slug": slug.current, language, ${PARENTS_FRAGMENT}, excerpt, publishedAt
   }
 `)

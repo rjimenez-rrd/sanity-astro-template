@@ -24,10 +24,18 @@ export function languageOf(value: string | null | undefined): Language {
   return isLanguage(clean) ? clean : DEFAULT_LANGUAGE
 }
 
-/** /about-us in the default language, /es/sobre-nosotros in the others. */
-export function localizedPath(slug: string, language?: string | null): string {
+/** Ancestors' slugs under a Parent Page, root first; nulls mark where the chain ends. */
+export type Parents = Array<string | null | undefined> | null | undefined
+
+/**
+ * A page's address: /about-us, or under Parent Pages /about-us/our-team, and
+ * the same under /es for Spanish. `parents` is the page's ancestors' slugs,
+ * root first, as the queries' PARENTS_FRAGMENT returns them.
+ */
+export function localizedPath(slug: string, language?: string | null, parents?: Parents): string {
   const lang = languageOf(language)
-  return lang === DEFAULT_LANGUAGE ? `/${slug}` : `/${lang}/${slug}`
+  const path = [...(parents ?? []).map((p) => stegaClean(p)).filter(Boolean), stegaClean(slug)].join('/')
+  return lang === DEFAULT_LANGUAGE ? `/${path}` : `/${lang}/${path}`
 }
 
 /** A language's home: / for the default, /es for the others. */
@@ -45,17 +53,17 @@ export function homePath(language?: string | null): string {
 export type Alternates = Partial<Record<Language, string>>
 
 export function alternatesOf(
-  page: {language?: string | null; slug?: {current?: string | null} | string | null},
-  translations?: Array<{language?: string | null; slug?: string | null} | null> | null,
+  page: {language?: string | null; slug?: {current?: string | null} | string | null; parents?: Parents},
+  translations?: Array<{language?: string | null; slug?: string | null; parents?: Parents} | null> | null,
 ): Alternates {
   const out: Alternates = {}
   for (const t of translations ?? []) {
     const slug = stegaClean(t?.slug)
-    if (slug) out[languageOf(t?.language)] = localizedPath(slug, t?.language)
+    if (slug) out[languageOf(t?.language)] = localizedPath(slug, t?.language, t?.parents)
   }
   const own = typeof page.slug === 'string' ? page.slug : page.slug?.current
   const slug = stegaClean(own)
-  if (slug) out[languageOf(page.language)] = localizedPath(slug, page.language)
+  if (slug) out[languageOf(page.language)] = localizedPath(slug, page.language, page.parents)
   return out
 }
 
@@ -72,6 +80,8 @@ const UI = {
     switchToDefault: 'English',
     showMore: 'Show More',
     showLess: 'Show Less',
+    home: 'Home',
+    breadcrumb: 'Breadcrumb',
     Settlement: 'Settlement',
     Verdict: 'Verdict',
     Award: 'Award',
@@ -84,6 +94,8 @@ const UI = {
     switchToDefault: 'English',
     showMore: 'Ver más',
     showLess: 'Ver menos',
+    home: 'Inicio',
+    breadcrumb: 'Ruta de navegación',
     // Case result types, keyed by the value the Studio stores.
     Settlement: 'Acuerdo',
     Verdict: 'Veredicto',

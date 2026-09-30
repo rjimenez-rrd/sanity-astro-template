@@ -50,7 +50,7 @@ const label = custom
 {
   slug && (
     <a
-      href={localizedPath(slug!, area.language)}
+      href={localizedPath(slug!, area.language, area.parents)}
       class={`group overflow-hidden ${fillHeight ? 'flex h-full flex-col' : 'block'}`}
     >
       <div

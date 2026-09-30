@@ -33,7 +33,7 @@ const TYPE_LABELS: Record<string, string> = {
 }
 const hrefFor = (result: (typeof results)[number]) => {
   const slug = stegaClean(result.slug)
-  return stegaClean(result._type) === 'newsPost' ? `/news/${slug}` : localizedPath(slug!, result.language)
+  return stegaClean(result._type) === 'newsPost' ? `/news/${slug}` : localizedPath(slug!, result.language, result.parents)
 }
 
 const maxWidthClass = getMaxWidthClass()

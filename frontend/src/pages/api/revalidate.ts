@@ -44,6 +44,24 @@ export const POST: APIRoute = async ({request, url}) => {
   // This document's own home: nav and footer might reference it.
   const home = homePath(language)
 
+  /**
+   * A page under Parent Pages lives at /parents/slug, and the parents are other
+   * documents, so they're looked up rather than expected in the webhook body.
+   * (Moving or renaming a parent also moves its subpages; those old cached
+   * addresses expire on their own.)
+   */
+  const pagePath = async (slug: string) => {
+    const parents = body._id
+      ? await getClient(false)
+          .fetch<Array<string | null> | null>(
+            `*[_id == $id][0]{"p": [parent->parent->parent->slug.current, parent->parent->slug.current, parent->slug.current]}.p`,
+            {id: body._id.replace(/^drafts\./, '')},
+          )
+          .catch(() => null)
+      : null
+    return localizedPath(slug, language, parents)
+  }
+
   const paths = new Set<string>()
 
   /**
@@ -67,7 +85,7 @@ export const POST: APIRoute = async ({request, url}) => {
       break
     case 'page':
       if (body.slug?.current) {
-        const path = localizedPath(body.slug.current, language)
+        const path = await pagePath(body.slug.current)
         paths.add(path)
         // Any page can hold a paginated grid; its later pages change with it.
         await addListPages(path)
@@ -75,7 +93,7 @@ export const POST: APIRoute = async ({request, url}) => {
       paths.add(home) // nav/footer might reference pages
       break
     case 'practiceArea':
-      if (body.slug?.current) paths.add(localizedPath(body.slug.current, language))
+      if (body.slug?.current) paths.add(await pagePath(body.slug.current))
       paths.add('/practice-areas')
       await addListPages('/practice-areas')
       paths.add(home)

@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {CaseIcon} from '@sanity/icons'
-import {rootSlugField} from '../fields/rootSlug'
+import {rootSlugField, parentPageField} from '../fields/rootSlug'
 import {PublishStampInput} from '../../components/inputs/PublishStampInput'
 
 /**
@@ -33,6 +33,7 @@ export const practiceAreaType = defineType({
       validation: (rule) => rule.required(),
     }),
     rootSlugField({group: 'content'}),
+    parentPageField({group: 'content'}),
     defineField({
       name: 'pageBuilder',
       title: 'Page Builder',
@@ -91,11 +92,26 @@ export const practiceAreaType = defineType({
     {title: 'Title (A–Z)', name: 'titleAsc', by: [{field: 'title', direction: 'asc'}]},
   ],
   preview: {
-    select: {title: 'title', slug: 'slug.current', media: 'coverImage'},
-    prepare({title, slug, media}: {title?: string; slug?: string; media?: React.ReactNode}) {
+    select: {
+      title: 'title',
+      slug: 'slug.current',
+      media: 'coverImage',
+      // Ancestors' slugs, for the full address under the title.
+      p1: 'parent.slug.current',
+      p2: 'parent.parent.slug.current',
+      p3: 'parent.parent.parent.slug.current',
+    },
+    prepare({title, slug, media, p1, p2, p3}: {
+      title?: string
+      slug?: string
+      media?: React.ReactNode
+      p1?: string
+      p2?: string
+      p3?: string
+    }) {
       return {
         title: title || 'Untitled Practice Area',
-        subtitle: slug ? `/${slug}` : 'No slug',
+        subtitle: slug ? `/${[p3, p2, p1, slug].filter(Boolean).join('/')}` : 'No slug',
         media: media ?? CaseIcon,
       }
     },

@@ -1,6 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { DocumentIcon } from '@sanity/icons'
-import { rootSlugField } from '../fields/rootSlug'
+import { rootSlugField, parentPageField } from '../fields/rootSlug'
 import { PublishStampInput } from '../../components/inputs/PublishStampInput'
 import { lastEditorMedia } from '../../components/previews/LastEditor'
 
@@ -33,6 +33,7 @@ export const pageType = defineType({
       validation: (rule) => rule.required(),
     }),
     rootSlugField({ group: 'content' }),
+    parentPageField({ group: 'content' }),
     defineField({
       name: 'pageBuilder',
       title: 'Page Builder',
@@ -89,6 +90,10 @@ export const pageType = defineType({
       updatedAt: '_updatedAt',
       title: 'title',
       slug: 'slug.current',
+      // Ancestors' slugs, for the full address under the title.
+      p1: 'parent.slug.current',
+      p2: 'parent.parent.slug.current',
+      p3: 'parent.parent.parent.slug.current',
       name: 'lastEditedBy.name',
       image: 'lastEditedBy.image',
     },
@@ -97,6 +102,9 @@ export const pageType = defineType({
       updatedAt,
       title,
       slug,
+      p1,
+      p2,
+      p3,
       name,
       image,
     }: {
@@ -104,10 +112,13 @@ export const pageType = defineType({
       updatedAt?: string
       title?: string
       slug?: string
+      p1?: string
+      p2?: string
+      p3?: string
       name?: string
       image?: string
     }) {
-      const path = slug ? `/${slug}` : 'No slug'
+      const path = slug ? `/${[p3, p2, p1, slug].filter(Boolean).join('/')}` : 'No slug'
       return {
         title: title || 'Untitled Page',
         // First name only, to keep the row short.

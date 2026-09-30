@@ -15,13 +15,43 @@ import {PUBLISH_DATE_TYPES, withPublishDate} from './actions/publishWithDate'
 import {singletonTypes, singletonActions} from './schemaTypes/constants'
 import {LAST_EDITED_TYPES, StampLastEditor} from './actions/stampLastEditor'
 import {DEFAULT_LANGUAGE, HOME_PAGE_IDS, LANGUAGES, TRANSLATED_TYPES} from './schemaTypes/languages'
+import {MAX_ANCESTORS} from './schemaTypes/fields/rootSlug'
+import {pagePath} from './actions/documentPath'
 
 /** /about-us for the default language, /es/sobre-nosotros for the others. */
-const localizedPath = (slug: string, language?: string) =>
-  !language || language === DEFAULT_LANGUAGE ? `/${slug}` : `/${language}/${slug}`
-
 /** GROQ: a document's language, treating ones from before languages as the default. */
 const LANGUAGE_IS = (id: string) => `coalesce(language, "${DEFAULT_LANGUAGE}") == "${id}"`
+
+/** A page's ancestors' slugs, root first, as Presentation's locations select them. */
+const ANCESTOR_SELECT = {
+  p1: 'parent.slug.current',
+  p2: 'parent.parent.slug.current',
+  p3: 'parent.parent.parent.slug.current',
+}
+const ancestorsOf = (doc: {p1?: string; p2?: string; p3?: string}) => [doc.p3, doc.p2, doc.p1]
+
+/**
+ * URL -> page, for every depth: /:slug, /:p1/:slug … /:p3/:p2/:p1/:slug, where
+ * p1 is the parent's slug, p2 the grandparent's, and the chain has to end
+ * there (no further parent). Each also has its /page/:page list pages, listed
+ * first so /about-us/page/2 isn't read as a page "2" under "page".
+ */
+function pageRoutes(prefix: string, language: string) {
+  const routes: {route: string; filter: string}[] = []
+  const lists: typeof routes = []
+  for (let depth = MAX_ANCESTORS; depth >= 0; depth--) {
+    const params = Array.from({length: depth}, (_, i) => `:p${depth - i}`)
+    const chain = Array.from({length: depth}, (_, i) => ` && ${'parent->'.repeat(i + 1)}slug.current == $p${i + 1}`)
+    const filter =
+      `_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_IS(language)}` +
+      chain.join('') +
+      ` && !defined(${'parent->'.repeat(depth)}parent)`
+    const route = [prefix, ...params, ':slug'].join('/')
+    lists.push({route: `${route}/page/:page`, filter})
+    routes.push({route, filter})
+  }
+  return [...lists, ...routes]
+}
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID!
 const dataset = process.env.SANITY_STUDIO_DATASET!
@@ -56,10 +86,10 @@ export default defineConfig({
             }),
           }),
           page: defineLocations({
-            select: {title: 'title', slug: 'slug.current', language: 'language'},
+            select: {title: 'title', slug: 'slug.current', language: 'language', ...ANCESTOR_SELECT},
             resolve: (doc) => ({
               locations: doc?.slug
-                ? [{title: doc.title || 'Untitled page', href: localizedPath(doc.slug, doc.language)}]
+                ? [{title: doc.title || 'Untitled page', href: pagePath(doc.slug, doc.language, ancestorsOf(doc))}]
                 : [],
             }),
           }),
@@ -75,13 +105,13 @@ export default defineConfig({
             }),
           }),
           practiceArea: defineLocations({
-            select: {title: 'title', slug: 'slug.current', language: 'language'},
+            select: {title: 'title', slug: 'slug.current', language: 'language', ...ANCESTOR_SELECT},
             resolve: (doc) => ({
               locations: doc?.slug
                 ? [
                     {
                       title: doc.title || 'Untitled practice area',
-                      href: localizedPath(doc.slug, doc.language),
+                      href: pagePath(doc.slug, doc.language, ancestorsOf(doc)),
                     },
                     {title: 'Practice Areas', href: '/practice-areas'},
                   ]
@@ -93,20 +123,9 @@ export default defineConfig({
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
           {route: '/es', filter: `_id in ["${HOME_PAGE_IDS.es}", "drafts.${HOME_PAGE_IDS.es}"]`},
           {route: '/news/:slug', filter: '_type == "newsPost" && slug.current == $slug'},
-          // Other languages first, so /es/… isn't read as a slug "es".
-          ...LANGUAGES.filter((l) => l.id !== DEFAULT_LANGUAGE).map((l) => ({
-            route: `/${l.id}/:slug`,
-            filter: `_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_IS(l.id)}`,
-          })),
-          {
-            route: '/:slug',
-            filter: `_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_IS(DEFAULT_LANGUAGE)}`,
-          },
-          // Later pages of a paginated card list are the same document.
-          {
-            route: '/:slug/page/:page',
-            filter: `_type in ["page", "practiceArea"] && slug.current == $slug && ${LANGUAGE_IS(DEFAULT_LANGUAGE)}`,
-          },
+          // Other languages first, so /es/… isn't read as a page "es".
+          ...LANGUAGES.filter((l) => l.id !== DEFAULT_LANGUAGE).flatMap((l) => pageRoutes(`/${l.id}`, l.id)),
+          ...pageRoutes('', DEFAULT_LANGUAGE),
         ]),
       },
       previewUrl: {

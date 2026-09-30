@@ -1,0 +1,19 @@
+---
+export const prerender = false
+
+import BuilderPage from '@/components/page-builder/BuilderPage.astro'
+import {resolvePage} from '@/lib/pageRoute'
+import {DEFAULT_LANGUAGE} from '@/lib/i18n'
+
+/**
+ * Every English page and practice area, at any depth under Parent Pages —
+ * /about-us, /about-us/our-team — plus their /page/<n> list pages and
+ * redirects from moved addresses (lib/pageRoute.ts). Spanish: es/[...slug].astro.
+ * Named routes (news/, search, api/…) take precedence over this one.
+ */
+const route = await resolvePage(Astro, Astro.params.slug, DEFAULT_LANGUAGE)
+if (route.kind === 'redirect') return Astro.redirect(route.to, 301)
+if (route.kind === 'notFound') return Astro.rewrite('/404')
+---
+
+<BuilderPage page={route.page} settings={route.settings} language={DEFAULT_LANGUAGE} listPage={route.listPage} />

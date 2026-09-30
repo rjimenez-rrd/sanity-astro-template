@@ -17,7 +17,8 @@ export type SocialLink = NonNullable<SiteSettings['socialLinks']>[number]
 
 // ---------- Pages ----------
 export type HomePage = HOME_PAGE_QUERY_RESULT
-export type PageData = NonNullable<PAGE_QUERY_RESULT>
+// PAGE_QUERY returns every page sharing the slug (lib/pageRoute.ts picks one).
+export type PageData = PAGE_QUERY_RESULT[number]
 
 // ---------- Practice areas ----------
 export type PracticeAreaListItem = PRACTICE_AREAS_QUERY_RESULT[number]
