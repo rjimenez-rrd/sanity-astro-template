@@ -7,11 +7,11 @@ import {COLUMN_CONTAINER_DEFAULTS} from '../../components/container/defaults'
 import {
   CONTAINER_GROUPS,
   advancedField,
-  containerField,
-  styleField,
+  layoutField,
+  styleEffectsField,
   visibilityField,
 } from '../fields/container'
-import {designField} from '../fields/design'
+import {styleField} from '../fields/style'
 import {linkField} from '../fields/fields'
 
 const LAYOUT_OPTIONS = [
@@ -112,7 +112,7 @@ function defineContainerType({nested}: {nested: boolean}) {
         group: 'layout',
         description: 'Shown in the Page Builder list, so you can tell containers apart.',
       }),
-      containerField('row', {item: nested}),
+      layoutField('row', {item: nested}),
 
       defineField({
         name: 'layout',
@@ -161,7 +161,7 @@ function defineContainerType({nested}: {nested: boolean}) {
                 group: 'layout',
                 description: 'Shown in the item list, so you can tell columns apart.',
               }),
-              containerField('column'),
+              layoutField('column'),
               defineField({
                 name: 'content',
                 title: 'Content',
@@ -174,8 +174,8 @@ function defineContainerType({nested}: {nested: boolean}) {
                   },
                 },
               }),
-              designField({sectionFeatures: true}),
-              styleField({legacyOnly: true}),
+              styleField({sectionFeatures: true}),
+              styleEffectsField({legacyOnly: true}),
               advancedField(),
               {
                 ...linkField('link', 'Link'),
@@ -210,8 +210,8 @@ function defineContainerType({nested}: {nested: boolean}) {
 
 
       // --- Style / Advanced / Visibility tabs ---
-      designField({sectionFeatures: true}),
-      styleField({legacyOnly: true}),
+      styleField({sectionFeatures: true}),
+      styleEffectsField({legacyOnly: true}),
       advancedField(),
       visibilityField(),
     ],

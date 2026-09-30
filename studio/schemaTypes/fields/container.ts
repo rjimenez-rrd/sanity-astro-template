@@ -1,10 +1,11 @@
-import {defineField, type FieldProps} from 'sanity'
+import {defineField} from 'sanity'
+import {BareField} from '../../components/inputs/BareField'
 import {OrderInput} from '../../components/inputs/OrderInput'
 import {AlignSelfInput} from '../../components/inputs/AlignSelfInput'
 import {FlexSizeInput} from '../../components/inputs/FlexSizeInput'
 import {CogIcon, ColorWheelIcon, EyeOpenIcon, ThLargeIcon} from '@sanity/icons'
-import {ContainerLayoutInput, type ContainerVariant} from '../../components/container/ContainerLayoutInput'
-import {ContainerStyleInput} from '../../components/container/ContainerStyleInput'
+import {LayoutInput, type ContainerVariant} from '../../components/container/LayoutInput'
+import {StyleEffectsInput} from '../../components/container/StyleEffectsInput'
 import {spacingField, customCssField} from '../objects/block-styles'
 import {motionField} from './motion'
 import {
@@ -18,7 +19,7 @@ import {
  */
 export const CONTAINER_GROUPS = [
   {name: 'layout', title: 'Layout', icon: ThLargeIcon, default: true},
-  {name: 'style',  icon: ColorWheelIcon},
+  {name: 'style', title: 'Style', icon: ColorWheelIcon},
   {name: 'advanced', title: 'Advanced', icon: CogIcon},
   {name: 'visibility', title: 'Visibility', icon: EyeOpenIcon},
 ]
@@ -65,7 +66,7 @@ const FLEX_POSITIONS = ['flex-start', 'center', 'flex-end']
  * `item` marks an inner Column: it sits inside another column, so its Width is
  * its size as an item there (like a column's), not a boxed content width.
  */
-export function containerField(variant: ContainerVariant, {item = false}: {item?: boolean} = {}) {
+export function layoutField(variant: ContainerVariant, {item = false}: {item?: boolean} = {}) {
   return defineField({
     name: 'container',
     title: 'Container',
@@ -73,10 +74,10 @@ export function containerField(variant: ContainerVariant, {item = false}: {item?
     group: 'layout',
     options: {variant, item} as Record<string, unknown>,
     components: {
-      input: ContainerLayoutInput,
-      // ContainerLayoutInput draws its own collapsible "Container" header, so
+      input: LayoutInput,
+      // LayoutInput draws its own collapsible "Container" header, so
       // the default field wrapper would stack a second identical label above it.
-      field: (props: FieldProps) => props.children,
+      field: BareField,
     },
     initialValue: variant === 'row' ? ROW_CONTAINER_DEFAULTS : COLUMN_CONTAINER_DEFAULTS,
     fields: [
@@ -150,7 +151,7 @@ function isEmptyDeep(value: unknown): boolean {
   return false
 }
 
-export function styleField({
+export function styleEffectsField({
   keepBorder = false,
   legacyOnly = false,
 }: {
@@ -170,10 +171,10 @@ export function styleField({
     group: 'style',
     ...(legacyOnly && {hidden: ({value}: {value?: unknown}) => isEmptyDeep(value)}),
     // keepBorder: Border and Border Radius stay here, always shown, for a
-    // block that uses them instead of the Style panel's (designField's
+    // block that uses them instead of the Style panel's (styleField's
     // hideBorder). The Image block does, so its saved corners keep working.
     ...(keepBorder && {options: {keepBorder} as never}),
-    components: {input: ContainerStyleInput},
+    components: {input: StyleEffectsInput},
   })
 }
 
@@ -192,6 +193,8 @@ export function advancedField() {
     type: 'object',
     group: 'advanced',
     options: {collapsible: false},
+    // No "Advanced" heading: the Advanced tab already says it.
+    components: {field: BareField},
     fields: [
       spacingField('margin', 'Margin'),
       spacingField('padding', 'Padding'),
@@ -200,7 +203,7 @@ export function advancedField() {
         title: 'Align Self',
         type: 'object',
         // Draws its own label and device switcher.
-        components: {input: AlignSelfInput, field: (props: FieldProps) => props.children},
+        components: {input: AlignSelfInput, field: BareField},
         fields: DEVICES.map((d) => defineField({name: d, type: 'string'})),
       }),
       defineField({
@@ -211,7 +214,7 @@ export function advancedField() {
         // Start is -99, End is 99, Custom anything between.
         // The control draws its own "Order" label and device switcher, so the
         // default field wrapper would print a second one above it.
-        components: {input: OrderInput, field: (props: FieldProps) => props.children},
+        components: {input: OrderInput, field: BareField},
         fields: [
           defineField({name: 'desktop', title: 'Desktop', type: 'number'}),
           defineField({name: 'tablet', title: 'Tablet', type: 'number'}),
@@ -223,7 +226,7 @@ export function advancedField() {
         title: 'Size',
         type: 'object',
         // None / Grow / Shrink / Custom per device; draws its own label.
-        components: {input: FlexSizeInput, field: (props: FieldProps) => props.children},
+        components: {input: FlexSizeInput, field: BareField},
         fields: DEVICES.map((d) =>
           defineField({
             name: d,
@@ -360,6 +363,7 @@ export function visibilityField() {
     title: 'Visibility',
     type: 'object',
     group: 'visibility',
+    components: {field: BareField},
     fields: [
       toggle('hideOnDesktop', 'Hide On Desktop', 'Screens 1025px and wider.'),
       toggle('hideOnTablet', 'Hide On Tablet', 'Screens 768px to 1024px.'),

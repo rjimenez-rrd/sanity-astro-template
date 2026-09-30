@@ -97,7 +97,7 @@ const EDGES: {value: Edge; title: string}[] = [
   {value: 'bottom', title: 'Bottom'},
 ]
 
-/** Keep in step with studio fields/design.ts SHAPE_TYPES and frontend lib/shapeDividers.ts. */
+/** Keep in step with studio fields/style.ts SHAPE_TYPES and frontend lib/shapeDividers.ts. */
 const SHAPES: [string, string][] = [
   ['mountains', 'Mountains'],
   ['zigzag', 'Zigzag'],
@@ -253,12 +253,12 @@ const IMAGE_FIELD = {desktop: 'image', tablet: 'imageTablet', mobile: 'imageMobi
 
 const Divider = () => <Box style={{borderTop: '1px solid var(--card-border-color)'}} />
 
-export function ContainerDesignInput(props: ObjectInputProps) {
+export function StyleInput(props: ObjectInputProps) {
   const {onChange, value} = props
   const v = (value ?? {}) as DesignValue
-  // designField({hideBorder}): the block keeps its border in Block Styles.
+  // styleField({hideBorder}): the block keeps its border in Block Styles.
   const hideBorder = Boolean((props.schemaType.options as {hideBorder?: boolean} | undefined)?.hideBorder)
-  // designField({sectionFeatures}): containers and columns get video,
+  // styleField({sectionFeatures}): containers and columns get video,
   // slideshow and shape dividers.
   const sectionFeatures = Boolean(
     (props.schemaType.options as {sectionFeatures?: boolean} | undefined)?.sectionFeatures,

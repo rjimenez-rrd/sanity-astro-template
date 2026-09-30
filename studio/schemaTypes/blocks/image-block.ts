@@ -1,7 +1,7 @@
 import {defineType, defineField} from 'sanity'
 import {ColorWheelIcon, CogIcon, EyeOpenIcon, ImageIcon} from '@sanity/icons'
-import {advancedField, styleField, visibilityField} from '../fields/container'
-import {designField} from '../fields/design'
+import {advancedField, styleEffectsField, visibilityField} from '../fields/container'
+import {styleField} from '../fields/style'
 
 export const imageBlockType = defineType({
   name: 'imageBlock',
@@ -46,8 +46,8 @@ export const imageBlockType = defineType({
     // Border and Border Radius stay in Typography & Effects (saved in
     // blockStyles, where the image's corners already are); the Style panel
     // keeps background and overlay.
-    designField({hideBorder: true}), // Style: background, overlay
-    styleField({keepBorder: true}), // Style: Typography & Effects, Border, Border Radius
+    styleField({hideBorder: true}), // Style: background, overlay
+    styleEffectsField({keepBorder: true}), // Style: Typography & Effects, Border, Border Radius
     advancedField(), // Advanced: margin, padding, z-index, CSS ID/classes, Custom CSS, motion
     visibilityField(), // Visibility: hide per device
   ],

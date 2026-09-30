@@ -1,5 +1,6 @@
 import {defineField} from 'sanity'
-import {ContainerDesignInput} from '../../components/container/ContainerDesignInput'
+import {StyleInput} from '../../components/container/StyleInput'
+import {BareField} from '../../components/inputs/BareField'
 
 /*
  * Data for the Elementor-style Style tab. One custom input renders all of it;
@@ -220,14 +221,14 @@ function shapeState(name: string) {
 /** Style tab: Background, Background Overlay and Border, each with Normal / Hover. */
 /**
  * `hideBorder`: leave out the Border section, for a block whose border lives
- * in its Block Styles instead (the Image block: see styleField's keepBorder).
+ * in its Block Styles instead (the Image block: see styleEffectsField's keepBorder).
  */
 /**
  * `sectionFeatures`: containers and columns also get Background Video and
  * Slideshow, and Shape Dividers — they need a section's own markup (a media
  * layer and edge shapes), which blocks don't render.
  */
-export function designField({
+export function styleField({
   hideBorder = false,
   sectionFeatures = false,
 }: {hideBorder?: boolean; sectionFeatures?: boolean} = {}) {
@@ -237,7 +238,8 @@ export function designField({
     type: 'object',
     group: 'style',
     options: {...flat, hideBorder, sectionFeatures} as typeof flat,
-    components: {input: ContainerDesignInput},
+    // No "Style" heading: the Style tab already says it.
+    components: {input: StyleInput, field: BareField},
     fields: [
       defineField({
         name: 'background',

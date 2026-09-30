@@ -108,7 +108,7 @@ const WRAPS: IconOption[] = [
   {value: 'wrap', title: 'Wrap', icon: <WrapIcon />},
 ]
 
-export function ContainerLayoutInput(props: ObjectInputProps) {
+export function LayoutInput(props: ObjectInputProps) {
   const {onChange, value, schemaType} = props
   const options = schemaType.options as {variant?: ContainerVariant; item?: boolean} | undefined
   const variant: ContainerVariant = options?.variant ?? 'row'
