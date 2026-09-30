@@ -15,6 +15,52 @@ const logoWhiteBackgroundField = defineField({
   hidden: true,
 })
 
+/**
+ * Where a menu link goes: a Page picked from the list, or a typed Custom Link.
+ * A picked page's address is built on the site (lib/siteSettings.ts), so it
+ * follows the page if its slug or Parent Page changes, and a Spanish page
+ * gets its /es/ address. The list shows pages in the settings' own language:
+ * English here, Spanish in Site Settings (Español), which reuses these fields.
+ */
+function linkTarget({required}: {required: boolean}) {
+  return [
+    defineField({
+      name: 'page',
+      title: 'Page',
+      type: 'reference',
+      to: [{type: 'page'}, {type: 'practiceArea'}, {type: 'homePage'}],
+      description: 'Pick a page. Its address is filled in for you.',
+      options: {
+        filter: ({document}) => ({
+          filter: 'coalesce(language, "en") == $language',
+          params: {language: document._type === 'siteSettingsEs' ? 'es' : 'en'},
+        }),
+      },
+    }),
+    defineField({
+      name: 'href',
+      title: 'Custom Link',
+      type: 'string',
+      description:
+        'Or a path (e.g. /contact-us) or a full URL, for anything that isn’t a page above. Used only when no Page is picked.',
+      validation: (rule) =>
+        rule.custom((value: string | undefined, {parent}) => {
+          if (value && !/^(\/|https?:\/\/|mailto:|tel:|#)/.test(value.trim())) {
+            return 'Start a path with / (e.g. /contact-us), or use a full URL.'
+          }
+          if (required && !value && !(parent as {page?: unknown})?.page)
+            return 'Pick a Page or add a Custom Link.'
+          return true
+        }),
+    }),
+  ]
+}
+
+/** A menu link's subtitle in the list: the picked page's slug, or the Custom Link. */
+const targetPreview = {pageSlug: 'page.slug.current', pageType: 'page._type', href: 'href'}
+const targetSubtitle = (t: {pageSlug?: string; pageType?: string; href?: string}) =>
+  t.pageType === 'homePage' ? 'Home Page' : t.pageSlug ? `Page: ${t.pageSlug}` : t.href || ''
+
 export const siteSettingsType = defineType({
   name: 'siteSettings',
   title: 'Site Settings',
@@ -69,7 +115,7 @@ export const siteSettingsType = defineType({
       type: 'string',
       group: 'branding',
       description:
-        'How the number reads, e.g. (833) SANDERS. The header and footer use this one, and it\'s the default everywhere else. It still dials the Phone Number. Leave empty to show that number, formatted.',
+        "How the number reads, e.g. (833) SANDERS. The header and footer use this one, and it's the default everywhere else. It still dials the Phone Number. Leave empty to show that number, formatted.",
     }),
     defineField({
       name: 'phoneTexts',
@@ -241,13 +287,7 @@ export const siteSettingsType = defineType({
               type: 'string',
               validation: (rule) => rule.required(),
             }),
-            defineField({
-              name: 'href',
-              title: 'Link',
-              type: 'string',
-              description: 'Internal path (e.g., /about) or external URL',
-              validation: (rule) => rule.required(),
-            }),
+            ...linkTarget({required: true}),
             defineField({
               name: 'isButton',
               title: 'Display as Button',
@@ -257,19 +297,21 @@ export const siteSettingsType = defineType({
             }),
           ],
           preview: {
-            select: {label: 'label', href: 'href', isButton: 'isButton'},
+            select: {label: 'label', isButton: 'isButton', ...targetPreview},
             prepare({
               label,
-              href,
               isButton,
+              ...target
             }: {
               label?: string
-              href?: string
               isButton?: boolean
+              pageSlug?: string
+              pageType?: string
+              href?: string
             }) {
               return {
                 title: label || 'Link',
-                subtitle: `${href || ''}${isButton ? ' (CTA)' : ''}`,
+                subtitle: `${targetSubtitle(target)}${isButton ? ' (CTA)' : ''}`,
               }
             },
           },
@@ -285,13 +327,9 @@ export const siteSettingsType = defineType({
               type: 'string',
               validation: (rule) => rule.required(),
             }),
-            defineField({
-              name: 'href',
-              title: 'Link',
-              type: 'string',
-              description:
-                'Optional. Clicking the label opens this page; hovering still shows the dropdown. Leave empty for a label that only opens the dropdown.',
-            }),
+            // Optional: clicking the label opens this page; hovering still shows
+            // the dropdown. Neither set: the label only opens the dropdown.
+            ...linkTarget({required: false}),
             defineField({
               name: 'items',
               title: 'Dropdown Items',
@@ -308,12 +346,7 @@ export const siteSettingsType = defineType({
                       type: 'string',
                       validation: (rule) => rule.required(),
                     }),
-                    defineField({
-                      name: 'href',
-                      title: 'Link',
-                      type: 'string',
-                      validation: (rule) => rule.required(),
-                    }),
+                    ...linkTarget({required: true}),
                     defineField({
                       name: 'description',
                       title: 'Description',
@@ -326,9 +359,17 @@ export const siteSettingsType = defineType({
                     }),
                   ],
                   preview: {
-                    select: {label: 'label', href: 'href'},
-                    prepare({label, href}: {label?: string; href?: string}) {
-                      return {title: label || 'Item', subtitle: href}
+                    select: {label: 'label', ...targetPreview},
+                    prepare({
+                      label,
+                      ...target
+                    }: {
+                      label?: string
+                      pageSlug?: string
+                      pageType?: string
+                      href?: string
+                    }) {
+                      return {title: label || 'Item', subtitle: targetSubtitle(target)}
                     },
                   },
                 }),
@@ -353,7 +394,8 @@ export const siteSettingsType = defineType({
       title: 'Show Search',
       type: 'boolean',
       group: 'navigation',
-      description: 'The round search button after the menu. It opens a full-screen search over pages, practice areas and news.',
+      description:
+        'The round search button after the menu. It opens a full-screen search over pages, practice areas and news.',
       initialValue: true,
     }),
     defineField({
@@ -386,9 +428,13 @@ export const siteSettingsType = defineType({
       title: 'Footer Logo',
       type: 'image',
       group: 'footer',
-      description: 'A light version for the dark footer. Leave empty to use the main logo in white.',
+      description:
+        'A light version for the dark footer. Leave empty to use the main logo in white.',
       components: {input: LogoInput},
-      fields: [defineField({name: 'alt', type: 'string', title: 'Alt Text'}), logoWhiteBackgroundField],
+      fields: [
+        defineField({name: 'alt', type: 'string', title: 'Alt Text'}),
+        logoWhiteBackgroundField,
+      ],
     }),
     defineField({
       name: 'footerNav',

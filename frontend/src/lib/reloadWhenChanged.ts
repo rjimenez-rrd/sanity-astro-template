@@ -5,10 +5,12 @@
  * reloading straight away would render the old content and never retry.
  * Browser-only.
  */
-// Checked often but for as long as before (~5s): a change usually shows on
-// the first or second fetch, and every interval here is added delay.
+// Checked often, for at most ~5s: a change usually shows on the first or
+// second fetch, and every interval here is added delay. The limit is time,
+// not a count of fetches — each fetch renders the page (~0.5s), so 32 fetches
+// kept a save that changed nothing polling for ~20s.
 const POLL_INTERVAL_MS = 150
-const POLL_ATTEMPTS = 32
+const POLL_FOR_MS = 5000
 
 const currentUrl = () => location.pathname + location.search
 
@@ -41,7 +43,8 @@ export function primeReloadBaseline() {
 export async function reloadWhenChanged() {
   const mine = ++generation
   const before = await getBaseline()
-  for (let attempt = 0; attempt < POLL_ATTEMPTS; attempt++) {
+  const deadline = Date.now() + POLL_FOR_MS
+  while (Date.now() < deadline) {
     // A newer change started its own poll; let that one decide.
     if (mine !== generation) return
     try {

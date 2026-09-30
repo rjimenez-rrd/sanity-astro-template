@@ -6,7 +6,7 @@ import {
   SITE_SETTINGS_ES_QUERY,
   SITE_SETTINGS_QUERY,
 } from '@/sanity/lib/queries'
-import {DEFAULT_LANGUAGE, localizedPath, languageOf, type Language} from '@/lib/i18n'
+import {DEFAULT_LANGUAGE, homePath, localizedPath, languageOf, type Language, type Parents} from '@/lib/i18n'
 import type {SiteSettings} from '@/types/sanity'
 
 /**
@@ -21,7 +21,7 @@ export async function getSiteSettings(
   language: Language = DEFAULT_LANGUAGE,
 ): Promise<SiteSettings | null> {
   const client = getClient(locals.isDraft)
-  if (language === DEFAULT_LANGUAGE) return sanityFetch(client, locals, SITE_SETTINGS_QUERY)
+  if (language === DEFAULT_LANGUAGE) return withPageLinks(await sanityFetch(client, locals, SITE_SETTINGS_QUERY))
 
   const [english, spanish, translations] = await Promise.all([
     sanityFetch(client, locals, SITE_SETTINGS_QUERY),
@@ -39,7 +39,9 @@ export async function getSiteSettings(
   merged.headerExtraLink = spanish?.headerExtraLink ?? null
 
   const localize = pathTranslator(translations ?? [], language)
-  const settings = merged as SiteSettings
+  // Picked pages first: a Spanish page's address is already /es/…; an English
+  // one (a menu left to the English settings) is then switched by localize.
+  const settings = withPageLinks(merged as SiteSettings) as SiteSettings
   // Only hrefs change, so the shape is still SiteSettings; TypeScript can't
   // follow that through the rebuilt menu union, hence the cast.
   return {
@@ -54,6 +56,35 @@ export async function getSiteSettings(
     footerNav: settings.footerNav?.map((link) => ({...link, href: localize(link.href)})) ?? null,
     footerLegalLinks:
       settings.footerLegalLinks?.map((link) => ({...link, href: localize(link.href)})) ?? null,
+  } as SiteSettings
+}
+
+type PickedPage = {_type?: string | null; slug?: string | null; language?: string | null; parents?: Parents} | null
+
+/** A picked Page's address: /slug, /parent/slug, /es/…, or the home page. */
+function pageHref(page: PickedPage | undefined): string | undefined {
+  if (!page) return undefined
+  if (stegaClean(page._type) === 'homePage') return homePath(page.language)
+  const slug = stegaClean(page.slug)
+  return slug ? localizedPath(slug, page.language, page.parents) : undefined
+}
+
+/**
+ * Menu links whose Page is picked get that page's address as their href;
+ * the rest keep their Custom Link.
+ */
+function withPageLinks(settings: SiteSettings | null): SiteSettings | null {
+  if (!settings?.mainNav) return settings
+  const link = <T extends {href?: string | null; page?: PickedPage}>(item: T): T => ({
+    ...item,
+    href: pageHref(item.page) ?? item.href,
+  })
+  return {
+    ...settings,
+    mainNav: settings.mainNav.map((item) => ({
+      ...link(item),
+      ...('items' in item && item.items ? {items: item.items.map(link)} : {}),
+    })),
   } as SiteSettings
 }
 

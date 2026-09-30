@@ -351,6 +351,9 @@ export const SITE_INFO_QUERY = defineQuery(/* groq */ `{
   "es": *[_id == "siteSettingsEs"][0] { "phoneText": footerPhoneText, "phoneLabel": footerPhoneLabel }
 }`)
 
+// A menu link's picked Page: what its address is built from (lib/siteSettings.ts).
+const navPageFragment = /* groq */ `page->{ _type, "slug": slug.current, language, ${PARENTS_FRAGMENT} }`
+
 // Site Settings fields whose words change with the language. Shared by the
 // English settings and the Spanish ones (studio site-settings-es.ts), so both
 // come back in the same shape and the Spanish can fill in over the English.
@@ -358,8 +361,9 @@ const siteTextFragment = /* groq */ `
   tagline,
   mainNav[] {
     _key, _type, label, href, isButton,
+    "page": ${navPageFragment},
     _type == "navDropdown" => {
-      items[] { _key, label, href, description, icon { ${imageFragment} } }
+      items[] { _key, label, href, "page": ${navPageFragment}, description, icon { ${imageFragment} } }
     }
   },
   searchHeading, searchPlaceholder,
