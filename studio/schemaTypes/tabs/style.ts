@@ -42,7 +42,9 @@ function responsiveSides(name: string) {
           type: 'object',
           options: flat,
           fields: [
-            ...['top', 'right', 'bottom', 'left'].map((side) => defineField({name: side, type: 'number'})),
+            ...['top', 'right', 'bottom', 'left'].map((side) =>
+              defineField({name: side, type: 'number'}),
+            ),
             defineField({name: 'unit', type: 'string', options: {list: BORDER_UNITS}}),
           ],
         }),
@@ -76,12 +78,20 @@ const slideshowField = defineField({
     defineField({name: 'images', title: 'Images', type: 'array', of: [{type: 'image'}]}),
     defineField({name: 'loop', title: 'Infinite Loop', type: 'boolean'}),
     defineField({name: 'duration', title: 'Duration (ms)', type: 'number'}),
-    defineField({name: 'transition', type: 'string', options: {list: values(SLIDESHOW_TRANSITIONS)}}),
+    defineField({
+      name: 'transition',
+      type: 'string',
+      options: {list: values(SLIDESHOW_TRANSITIONS)},
+    }),
     defineField({name: 'transitionDuration', title: 'Transition Duration (ms)', type: 'number'}),
     defineField({name: 'size', type: 'string', options: {list: values(BG_SIZES)}}),
     defineField({name: 'position', type: 'string', options: {list: values(BG_POSITIONS)}}),
     defineField({name: 'kenBurns', title: 'Ken Burns Effect', type: 'boolean'}),
-    defineField({name: 'kenBurnsDirection', type: 'string', options: {list: values(KEN_BURNS_DIRECTIONS)}}),
+    defineField({
+      name: 'kenBurnsDirection',
+      type: 'string',
+      options: {list: values(KEN_BURNS_DIRECTIONS)},
+    }),
   ],
 })
 
@@ -105,7 +115,11 @@ function backgroundState(
       // Optional per-device images; empty falls back to the next larger size.
       defineField({name: 'imageTablet', title: 'Image (tablet)', type: 'image'}),
       defineField({name: 'imageMobile', title: 'Image (mobile)', type: 'image'}),
-      defineField({name: 'imageResolution', type: 'string', options: {list: values(IMAGE_RESOLUTIONS)}}),
+      defineField({
+        name: 'imageResolution',
+        type: 'string',
+        options: {list: values(IMAGE_RESOLUTIONS)},
+      }),
       responsiveString('position', values(BG_POSITIONS)),
       defineField({name: 'attachment', type: 'string', options: {list: values(BG_ATTACHMENTS)}}),
       responsiveString('repeat', values(BG_REPEATS)),
@@ -119,7 +133,11 @@ function backgroundState(
           responsiveNumber('location'),
           defineField({name: 'secondColor', type: 'string'}),
           responsiveNumber('secondLocation'),
-          defineField({name: 'gradientType', type: 'string', options: {list: values(GRADIENT_TYPES)}}),
+          defineField({
+            name: 'gradientType',
+            type: 'string',
+            options: {list: values(GRADIENT_TYPES)},
+          }),
           responsiveNumber('angle'),
           defineField({name: 'position', type: 'string', options: {list: values(BG_POSITIONS)}}),
         ],
@@ -163,7 +181,11 @@ function borderState(name: string, extra: {transition?: boolean}) {
           defineField({name: 'vertical', type: 'number'}),
           defineField({name: 'blur', type: 'number'}),
           defineField({name: 'spread', type: 'number'}),
-          defineField({name: 'position', type: 'string', options: {list: values(SHADOW_POSITIONS)}}),
+          defineField({
+            name: 'position',
+            type: 'string',
+            options: {list: values(SHADOW_POSITIONS)},
+          }),
         ],
       }),
       ...(extra.transition ? [defineField({name: 'transition', type: 'number'})] : []),
@@ -199,37 +221,46 @@ function shapeState(name: string) {
  * Slideshow, and Shape Dividers — they need a section's own markup (a media
  * layer and edge shapes), which blocks don't render.
  */
+/**
+ * `borderOnly`: just the Border section, for a block whose own Style tab has
+ * the rest (the Video block).
+ */
 export function styleField({
   hideBorder = false,
   sectionFeatures = false,
-}: {hideBorder?: boolean; sectionFeatures?: boolean} = {}) {
+  borderOnly = false,
+}: {hideBorder?: boolean; sectionFeatures?: boolean; borderOnly?: boolean} = {}) {
   return defineField({
     name: 'design',
     title: 'Style',
     type: 'object',
     group: 'style',
-    options: {...flat, hideBorder, sectionFeatures} as typeof flat,
+    options: {...flat, hideBorder, sectionFeatures, borderOnly} as typeof flat,
     // No "Style" heading: the Style tab already says it.
     components: {input: StyleInput, field: BareField},
     fields: [
-      defineField({
-        name: 'background',
-        type: 'object',
-        options: flat,
-        fields: [
-          backgroundState('normal', {media: sectionFeatures}),
-          backgroundState('hover', {transition: true}),
-        ],
-      }),
-      defineField({
-        name: 'overlay',
-        type: 'object',
-        options: flat,
-        fields: [
-          backgroundState('normal', {opacity: true, effects: true}),
-          backgroundState('hover', {opacity: true, effects: true, transition: true}),
-        ],
-      }),
+      ...(borderOnly
+        ? []
+        : [
+            defineField({
+              name: 'background',
+              type: 'object',
+              options: flat,
+              fields: [
+                backgroundState('normal', {media: sectionFeatures}),
+                backgroundState('hover', {transition: true}),
+              ],
+            }),
+            defineField({
+              name: 'overlay',
+              type: 'object',
+              options: flat,
+              fields: [
+                backgroundState('normal', {opacity: true, effects: true}),
+                backgroundState('hover', {opacity: true, effects: true, transition: true}),
+              ],
+            }),
+          ]),
       defineField({
         name: 'border',
         type: 'object',

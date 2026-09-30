@@ -154,6 +154,10 @@ export type VideoStyle = {
   cssFilters?: CssFilters;
 };
 
+export type VideoDesign = {
+  border?: VideoDesignBorder;
+};
+
 export type VideoAdvanced = {
   margin?: VideoAdvancedMargin;
   padding?: VideoAdvancedPadding;
@@ -1758,6 +1762,170 @@ export type CssFilters = {
   hue?: number;
 };
 
+export type VideoDesignBorder = {
+  normal?: DesignBorderNormal;
+  hover?: DesignBorderHover;
+};
+
+export type DesignBorderNormal = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: BorderNormalWidth;
+  color?: string;
+  radius?: NormalRadius;
+  shadow?: NormalShadow;
+};
+
+export type BorderNormalWidth = {
+  linked?: boolean;
+  desktop?: BorderNormalWidthDesktop;
+  tablet?: BorderNormalWidthTablet;
+  mobile?: BorderNormalWidthMobile;
+};
+
+export type BorderNormalWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderNormalWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalRadius = {
+  linked?: boolean;
+  desktop?: NormalRadiusDesktop;
+  tablet?: NormalRadiusTablet;
+  mobile?: NormalRadiusMobile;
+};
+
+export type NormalRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type NormalShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
+export type DesignBorderHover = {
+  type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
+  width?: BorderHoverWidth;
+  color?: string;
+  radius?: BorderHoverRadius;
+  shadow?: BorderHoverShadow;
+  transition?: number;
+};
+
+export type BorderHoverWidth = {
+  linked?: boolean;
+  desktop?: BorderHoverWidthDesktop;
+  tablet?: BorderHoverWidthTablet;
+  mobile?: BorderHoverWidthMobile;
+};
+
+export type BorderHoverWidthDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverWidthTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverWidthMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverRadius = {
+  linked?: boolean;
+  desktop?: BorderHoverRadiusDesktop;
+  tablet?: BorderHoverRadiusTablet;
+  mobile?: BorderHoverRadiusMobile;
+};
+
+export type BorderHoverRadiusDesktop = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverRadiusTablet = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverRadiusMobile = {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+  unit?: "px" | "%" | "em" | "rem";
+};
+
+export type BorderHoverShadow = {
+  color?: string;
+  horizontal?: number;
+  vertical?: number;
+  blur?: number;
+  spread?: number;
+  position?: "outline" | "inset";
+};
+
 export type VideoAdvancedMargin = {
   top?: string;
   right?: string;
@@ -2445,26 +2613,26 @@ export type OverlayHoverFilters = {
 };
 
 export type GridColumnDesignBorder = {
-  normal?: DesignBorderNormal;
-  hover?: DesignBorderHover;
+  normal?: GridColumnDesignBorderNormal;
+  hover?: GridColumnDesignBorderHover;
 };
 
-export type DesignBorderNormal = {
+export type GridColumnDesignBorderNormal = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
-  width?: BorderNormalWidth;
+  width?: DesignBorderNormalWidth;
   color?: string;
-  radius?: NormalRadius;
-  shadow?: NormalShadow;
+  radius?: BorderNormalRadius;
+  shadow?: BorderNormalShadow;
 };
 
-export type BorderNormalWidth = {
+export type DesignBorderNormalWidth = {
   linked?: boolean;
-  desktop?: BorderNormalWidthDesktop;
-  tablet?: BorderNormalWidthTablet;
-  mobile?: BorderNormalWidthMobile;
+  desktop?: DesignBorderNormalWidthDesktop;
+  tablet?: DesignBorderNormalWidthTablet;
+  mobile?: DesignBorderNormalWidthMobile;
 };
 
-export type BorderNormalWidthDesktop = {
+export type DesignBorderNormalWidthDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2472,7 +2640,7 @@ export type BorderNormalWidthDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalWidthTablet = {
+export type DesignBorderNormalWidthTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2480,7 +2648,7 @@ export type BorderNormalWidthTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalWidthMobile = {
+export type DesignBorderNormalWidthMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2488,14 +2656,14 @@ export type BorderNormalWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type NormalRadius = {
+export type BorderNormalRadius = {
   linked?: boolean;
-  desktop?: NormalRadiusDesktop;
-  tablet?: NormalRadiusTablet;
-  mobile?: NormalRadiusMobile;
+  desktop?: BorderNormalRadiusDesktop;
+  tablet?: BorderNormalRadiusTablet;
+  mobile?: BorderNormalRadiusMobile;
 };
 
-export type NormalRadiusDesktop = {
+export type BorderNormalRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2503,7 +2671,7 @@ export type NormalRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type NormalRadiusTablet = {
+export type BorderNormalRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2511,7 +2679,7 @@ export type NormalRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type NormalRadiusMobile = {
+export type BorderNormalRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2519,7 +2687,7 @@ export type NormalRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type NormalShadow = {
+export type BorderNormalShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -2528,23 +2696,23 @@ export type NormalShadow = {
   position?: "outline" | "inset";
 };
 
-export type DesignBorderHover = {
+export type GridColumnDesignBorderHover = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
-  width?: BorderHoverWidth;
+  width?: DesignBorderHoverWidth;
   color?: string;
-  radius?: BorderHoverRadius;
-  shadow?: BorderHoverShadow;
+  radius?: DesignBorderHoverRadius;
+  shadow?: DesignBorderHoverShadow;
   transition?: number;
 };
 
-export type BorderHoverWidth = {
+export type DesignBorderHoverWidth = {
   linked?: boolean;
-  desktop?: BorderHoverWidthDesktop;
-  tablet?: BorderHoverWidthTablet;
-  mobile?: BorderHoverWidthMobile;
+  desktop?: DesignBorderHoverWidthDesktop;
+  tablet?: DesignBorderHoverWidthTablet;
+  mobile?: DesignBorderHoverWidthMobile;
 };
 
-export type BorderHoverWidthDesktop = {
+export type DesignBorderHoverWidthDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2552,7 +2720,7 @@ export type BorderHoverWidthDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderHoverWidthTablet = {
+export type DesignBorderHoverWidthTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2560,7 +2728,7 @@ export type BorderHoverWidthTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderHoverWidthMobile = {
+export type DesignBorderHoverWidthMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2568,14 +2736,14 @@ export type BorderHoverWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderHoverRadius = {
+export type DesignBorderHoverRadius = {
   linked?: boolean;
-  desktop?: BorderHoverRadiusDesktop;
-  tablet?: BorderHoverRadiusTablet;
-  mobile?: BorderHoverRadiusMobile;
+  desktop?: DesignBorderHoverRadiusDesktop;
+  tablet?: DesignBorderHoverRadiusTablet;
+  mobile?: DesignBorderHoverRadiusMobile;
 };
 
-export type BorderHoverRadiusDesktop = {
+export type DesignBorderHoverRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2583,7 +2751,7 @@ export type BorderHoverRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderHoverRadiusTablet = {
+export type DesignBorderHoverRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2591,7 +2759,7 @@ export type BorderHoverRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderHoverRadiusMobile = {
+export type DesignBorderHoverRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -2599,7 +2767,7 @@ export type BorderHoverRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderHoverShadow = {
+export type DesignBorderHoverShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -3370,20 +3538,20 @@ export type NestedContainerDesignBorder = {
 
 export type NestedContainerDesignBorderNormal = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
-  width?: DesignBorderNormalWidth;
+  width?: NestedContainerDesignBorderNormalWidth;
   color?: string;
-  radius?: BorderNormalRadius;
-  shadow?: BorderNormalShadow;
+  radius?: DesignBorderNormalRadius;
+  shadow?: DesignBorderNormalShadow;
 };
 
-export type DesignBorderNormalWidth = {
+export type NestedContainerDesignBorderNormalWidth = {
   linked?: boolean;
-  desktop?: DesignBorderNormalWidthDesktop;
-  tablet?: DesignBorderNormalWidthTablet;
-  mobile?: DesignBorderNormalWidthMobile;
+  desktop?: NestedContainerDesignBorderNormalWidthDesktop;
+  tablet?: NestedContainerDesignBorderNormalWidthTablet;
+  mobile?: NestedContainerDesignBorderNormalWidthMobile;
 };
 
-export type DesignBorderNormalWidthDesktop = {
+export type NestedContainerDesignBorderNormalWidthDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3391,7 +3559,7 @@ export type DesignBorderNormalWidthDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalWidthTablet = {
+export type NestedContainerDesignBorderNormalWidthTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3399,7 +3567,7 @@ export type DesignBorderNormalWidthTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalWidthMobile = {
+export type NestedContainerDesignBorderNormalWidthMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3407,14 +3575,14 @@ export type DesignBorderNormalWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalRadius = {
+export type DesignBorderNormalRadius = {
   linked?: boolean;
-  desktop?: BorderNormalRadiusDesktop;
-  tablet?: BorderNormalRadiusTablet;
-  mobile?: BorderNormalRadiusMobile;
+  desktop?: DesignBorderNormalRadiusDesktop;
+  tablet?: DesignBorderNormalRadiusTablet;
+  mobile?: DesignBorderNormalRadiusMobile;
 };
 
-export type BorderNormalRadiusDesktop = {
+export type DesignBorderNormalRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3422,7 +3590,7 @@ export type BorderNormalRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalRadiusTablet = {
+export type DesignBorderNormalRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3430,7 +3598,7 @@ export type BorderNormalRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalRadiusMobile = {
+export type DesignBorderNormalRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3438,7 +3606,7 @@ export type BorderNormalRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type BorderNormalShadow = {
+export type DesignBorderNormalShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -3449,21 +3617,21 @@ export type BorderNormalShadow = {
 
 export type NestedContainerDesignBorderHover = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
-  width?: DesignBorderHoverWidth;
+  width?: NestedContainerDesignBorderHoverWidth;
   color?: string;
-  radius?: DesignBorderHoverRadius;
-  shadow?: DesignBorderHoverShadow;
+  radius?: NestedContainerDesignBorderHoverRadius;
+  shadow?: NestedContainerDesignBorderHoverShadow;
   transition?: number;
 };
 
-export type DesignBorderHoverWidth = {
+export type NestedContainerDesignBorderHoverWidth = {
   linked?: boolean;
-  desktop?: DesignBorderHoverWidthDesktop;
-  tablet?: DesignBorderHoverWidthTablet;
-  mobile?: DesignBorderHoverWidthMobile;
+  desktop?: NestedContainerDesignBorderHoverWidthDesktop;
+  tablet?: NestedContainerDesignBorderHoverWidthTablet;
+  mobile?: NestedContainerDesignBorderHoverWidthMobile;
 };
 
-export type DesignBorderHoverWidthDesktop = {
+export type NestedContainerDesignBorderHoverWidthDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3471,7 +3639,7 @@ export type DesignBorderHoverWidthDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverWidthTablet = {
+export type NestedContainerDesignBorderHoverWidthTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3479,7 +3647,7 @@ export type DesignBorderHoverWidthTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverWidthMobile = {
+export type NestedContainerDesignBorderHoverWidthMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3487,14 +3655,14 @@ export type DesignBorderHoverWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverRadius = {
+export type NestedContainerDesignBorderHoverRadius = {
   linked?: boolean;
-  desktop?: DesignBorderHoverRadiusDesktop;
-  tablet?: DesignBorderHoverRadiusTablet;
-  mobile?: DesignBorderHoverRadiusMobile;
+  desktop?: NestedContainerDesignBorderHoverRadiusDesktop;
+  tablet?: NestedContainerDesignBorderHoverRadiusTablet;
+  mobile?: NestedContainerDesignBorderHoverRadiusMobile;
 };
 
-export type DesignBorderHoverRadiusDesktop = {
+export type NestedContainerDesignBorderHoverRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3502,7 +3670,7 @@ export type DesignBorderHoverRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverRadiusTablet = {
+export type NestedContainerDesignBorderHoverRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3510,7 +3678,7 @@ export type DesignBorderHoverRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverRadiusMobile = {
+export type NestedContainerDesignBorderHoverRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -3518,7 +3686,7 @@ export type DesignBorderHoverRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderHoverShadow = {
+export type NestedContainerDesignBorderHoverShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -4268,16 +4436,16 @@ export type GridColumnDesignOverlayHoverFilters = {
 };
 
 export type ColumnsGridColumnDesignBorder = {
-  normal?: GridColumnDesignBorderNormal;
-  hover?: GridColumnDesignBorderHover;
+  normal?: ColumnsGridColumnDesignBorderNormal;
+  hover?: ColumnsGridColumnDesignBorderHover;
 };
 
-export type GridColumnDesignBorderNormal = {
+export type ColumnsGridColumnDesignBorderNormal = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
   width?: GridColumnDesignBorderNormalWidth;
   color?: string;
-  radius?: DesignBorderNormalRadius;
-  shadow?: DesignBorderNormalShadow;
+  radius?: GridColumnDesignBorderNormalRadius;
+  shadow?: GridColumnDesignBorderNormalShadow;
 };
 
 export type GridColumnDesignBorderNormalWidth = {
@@ -4311,14 +4479,14 @@ export type GridColumnDesignBorderNormalWidthMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalRadius = {
+export type GridColumnDesignBorderNormalRadius = {
   linked?: boolean;
-  desktop?: DesignBorderNormalRadiusDesktop;
-  tablet?: DesignBorderNormalRadiusTablet;
-  mobile?: DesignBorderNormalRadiusMobile;
+  desktop?: GridColumnDesignBorderNormalRadiusDesktop;
+  tablet?: GridColumnDesignBorderNormalRadiusTablet;
+  mobile?: GridColumnDesignBorderNormalRadiusMobile;
 };
 
-export type DesignBorderNormalRadiusDesktop = {
+export type GridColumnDesignBorderNormalRadiusDesktop = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -4326,7 +4494,7 @@ export type DesignBorderNormalRadiusDesktop = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalRadiusTablet = {
+export type GridColumnDesignBorderNormalRadiusTablet = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -4334,7 +4502,7 @@ export type DesignBorderNormalRadiusTablet = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalRadiusMobile = {
+export type GridColumnDesignBorderNormalRadiusMobile = {
   top?: number;
   right?: number;
   bottom?: number;
@@ -4342,7 +4510,7 @@ export type DesignBorderNormalRadiusMobile = {
   unit?: "px" | "%" | "em" | "rem";
 };
 
-export type DesignBorderNormalShadow = {
+export type GridColumnDesignBorderNormalShadow = {
   color?: string;
   horizontal?: number;
   vertical?: number;
@@ -4351,7 +4519,7 @@ export type DesignBorderNormalShadow = {
   position?: "outline" | "inset";
 };
 
-export type GridColumnDesignBorderHover = {
+export type ColumnsGridColumnDesignBorderHover = {
   type?: "none" | "solid" | "double" | "dotted" | "dashed" | "groove";
   width?: GridColumnDesignBorderHoverWidth;
   color?: string;
@@ -5567,6 +5735,7 @@ export type Video = {
   };
   imageOverlay?: ImageOverlay;
   videoStyle?: VideoStyle;
+  design?: VideoDesign;
   advanced?: VideoAdvanced;
   visibility?: VideoVisibility;
 };
@@ -7220,6 +7389,7 @@ export type AllSanitySchemaTypes =
   | Visibility
   | ImageOverlay
   | VideoStyle
+  | VideoDesign
   | VideoAdvanced
   | VideoVisibility
   | NormalVideo
@@ -7399,6 +7569,27 @@ export type AllSanitySchemaTypes =
   | TabImageImage
   | ImageOverlayImage
   | CssFilters
+  | VideoDesignBorder
+  | DesignBorderNormal
+  | BorderNormalWidth
+  | BorderNormalWidthDesktop
+  | BorderNormalWidthTablet
+  | BorderNormalWidthMobile
+  | NormalRadius
+  | NormalRadiusDesktop
+  | NormalRadiusTablet
+  | NormalRadiusMobile
+  | NormalShadow
+  | DesignBorderHover
+  | BorderHoverWidth
+  | BorderHoverWidthDesktop
+  | BorderHoverWidthTablet
+  | BorderHoverWidthMobile
+  | BorderHoverRadius
+  | BorderHoverRadiusDesktop
+  | BorderHoverRadiusTablet
+  | BorderHoverRadiusMobile
+  | BorderHoverShadow
   | VideoAdvancedMargin
   | VideoAdvancedPadding
   | AdvancedAlignSelf
@@ -7465,26 +7656,26 @@ export type AllSanitySchemaTypes =
   | OverlayHoverOpacity
   | OverlayHoverFilters
   | GridColumnDesignBorder
-  | DesignBorderNormal
-  | BorderNormalWidth
-  | BorderNormalWidthDesktop
-  | BorderNormalWidthTablet
-  | BorderNormalWidthMobile
-  | NormalRadius
-  | NormalRadiusDesktop
-  | NormalRadiusTablet
-  | NormalRadiusMobile
-  | NormalShadow
-  | DesignBorderHover
-  | BorderHoverWidth
-  | BorderHoverWidthDesktop
-  | BorderHoverWidthTablet
-  | BorderHoverWidthMobile
-  | BorderHoverRadius
-  | BorderHoverRadiusDesktop
-  | BorderHoverRadiusTablet
-  | BorderHoverRadiusMobile
-  | BorderHoverShadow
+  | GridColumnDesignBorderNormal
+  | DesignBorderNormalWidth
+  | DesignBorderNormalWidthDesktop
+  | DesignBorderNormalWidthTablet
+  | DesignBorderNormalWidthMobile
+  | BorderNormalRadius
+  | BorderNormalRadiusDesktop
+  | BorderNormalRadiusTablet
+  | BorderNormalRadiusMobile
+  | BorderNormalShadow
+  | GridColumnDesignBorderHover
+  | DesignBorderHoverWidth
+  | DesignBorderHoverWidthDesktop
+  | DesignBorderHoverWidthTablet
+  | DesignBorderHoverWidthMobile
+  | DesignBorderHoverRadius
+  | DesignBorderHoverRadiusDesktop
+  | DesignBorderHoverRadiusTablet
+  | DesignBorderHoverRadiusMobile
+  | DesignBorderHoverShadow
   | ShapeDivider
   | Top
   | TopWidth
@@ -7557,25 +7748,25 @@ export type AllSanitySchemaTypes =
   | DesignOverlayHoverFilters
   | NestedContainerDesignBorder
   | NestedContainerDesignBorderNormal
-  | DesignBorderNormalWidth
-  | DesignBorderNormalWidthDesktop
-  | DesignBorderNormalWidthTablet
-  | DesignBorderNormalWidthMobile
-  | BorderNormalRadius
-  | BorderNormalRadiusDesktop
-  | BorderNormalRadiusTablet
-  | BorderNormalRadiusMobile
-  | BorderNormalShadow
+  | NestedContainerDesignBorderNormalWidth
+  | NestedContainerDesignBorderNormalWidthDesktop
+  | NestedContainerDesignBorderNormalWidthTablet
+  | NestedContainerDesignBorderNormalWidthMobile
+  | DesignBorderNormalRadius
+  | DesignBorderNormalRadiusDesktop
+  | DesignBorderNormalRadiusTablet
+  | DesignBorderNormalRadiusMobile
+  | DesignBorderNormalShadow
   | NestedContainerDesignBorderHover
-  | DesignBorderHoverWidth
-  | DesignBorderHoverWidthDesktop
-  | DesignBorderHoverWidthTablet
-  | DesignBorderHoverWidthMobile
-  | DesignBorderHoverRadius
-  | DesignBorderHoverRadiusDesktop
-  | DesignBorderHoverRadiusTablet
-  | DesignBorderHoverRadiusMobile
-  | DesignBorderHoverShadow
+  | NestedContainerDesignBorderHoverWidth
+  | NestedContainerDesignBorderHoverWidthDesktop
+  | NestedContainerDesignBorderHoverWidthTablet
+  | NestedContainerDesignBorderHoverWidthMobile
+  | NestedContainerDesignBorderHoverRadius
+  | NestedContainerDesignBorderHoverRadiusDesktop
+  | NestedContainerDesignBorderHoverRadiusTablet
+  | NestedContainerDesignBorderHoverRadiusMobile
+  | NestedContainerDesignBorderHoverShadow
   | DesignShapeDivider
   | ShapeDividerTop
   | ShapeDividerTopWidth
@@ -7646,17 +7837,17 @@ export type AllSanitySchemaTypes =
   | GridColumnDesignOverlayHoverOpacity
   | GridColumnDesignOverlayHoverFilters
   | ColumnsGridColumnDesignBorder
-  | GridColumnDesignBorderNormal
+  | ColumnsGridColumnDesignBorderNormal
   | GridColumnDesignBorderNormalWidth
   | GridColumnDesignBorderNormalWidthDesktop
   | GridColumnDesignBorderNormalWidthTablet
   | GridColumnDesignBorderNormalWidthMobile
-  | DesignBorderNormalRadius
-  | DesignBorderNormalRadiusDesktop
-  | DesignBorderNormalRadiusTablet
-  | DesignBorderNormalRadiusMobile
-  | DesignBorderNormalShadow
-  | GridColumnDesignBorderHover
+  | GridColumnDesignBorderNormalRadius
+  | GridColumnDesignBorderNormalRadiusDesktop
+  | GridColumnDesignBorderNormalRadiusTablet
+  | GridColumnDesignBorderNormalRadiusMobile
+  | GridColumnDesignBorderNormalShadow
+  | ColumnsGridColumnDesignBorderHover
   | GridColumnDesignBorderHoverWidth
   | GridColumnDesignBorderHoverWidthDesktop
   | GridColumnDesignBorderHoverWidthTablet
@@ -11496,6 +11687,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                       } | null;
                     } | null;
                     videoStyle?: VideoStyle;
+                    design?: VideoDesign;
                     advanced?: VideoAdvanced;
                     visibility?: VideoVisibility;
                     blockStyles: null;
@@ -12556,6 +12748,7 @@ export type HOME_PAGE_QUERY_RESULT = {
               } | null;
             } | null;
             videoStyle?: VideoStyle;
+            design?: VideoDesign;
             advanced?: VideoAdvanced;
             visibility?: VideoVisibility;
             blockStyles: null;
@@ -16336,6 +16529,7 @@ export type PAGE_QUERY_RESULT = Array<
                           } | null;
                         } | null;
                         videoStyle?: VideoStyle;
+                        design?: VideoDesign;
                         advanced?: VideoAdvanced;
                         visibility?: VideoVisibility;
                         blockStyles: null;
@@ -17397,6 +17591,7 @@ export type PAGE_QUERY_RESULT = Array<
                   } | null;
                 } | null;
                 videoStyle?: VideoStyle;
+                design?: VideoDesign;
                 advanced?: VideoAdvanced;
                 visibility?: VideoVisibility;
                 blockStyles: null;
@@ -21172,6 +21367,7 @@ export type PAGE_QUERY_RESULT = Array<
                           } | null;
                         } | null;
                         videoStyle?: VideoStyle;
+                        design?: VideoDesign;
                         advanced?: VideoAdvanced;
                         visibility?: VideoVisibility;
                         blockStyles: null;
@@ -22233,6 +22429,7 @@ export type PAGE_QUERY_RESULT = Array<
                   } | null;
                 } | null;
                 videoStyle?: VideoStyle;
+                design?: VideoDesign;
                 advanced?: VideoAdvanced;
                 visibility?: VideoVisibility;
                 blockStyles: null;
@@ -26470,6 +26667,7 @@ export type NEWS_POST_QUERY_RESULT = {
                       } | null;
                     } | null;
                     videoStyle?: VideoStyle;
+                    design?: VideoDesign;
                     advanced?: VideoAdvanced;
                     visibility?: VideoVisibility;
                     blockStyles: null;
@@ -27530,6 +27728,7 @@ export type NEWS_POST_QUERY_RESULT = {
               } | null;
             } | null;
             videoStyle?: VideoStyle;
+            design?: VideoDesign;
             advanced?: VideoAdvanced;
             visibility?: VideoVisibility;
             blockStyles: null;

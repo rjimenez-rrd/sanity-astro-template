@@ -1,6 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {PlayIcon} from '@sanity/icons'
-import {advancedField, visibilityField} from '../tabs'
+import {advancedField, styleField, visibilityField} from '../tabs'
 import {BareField} from '../../components/controls/BareField'
 import {VideoStyleInput} from '../../components/inputs/VideoStyleInput'
 
@@ -239,6 +239,9 @@ export const videoType = defineType({
         }),
       ],
     }),
+
+    // Border, Radius and Box Shadow, with Normal / Hover: the shared Style panel's Border.
+    styleField({borderOnly: true}),
 
     // --- Advanced / Visibility ---
     advancedField(),

@@ -25,7 +25,7 @@ export function VideoStyleInput(props: ObjectInputProps) {
     )
 
   return (
-    <Card borderBottom>
+    <Card border radius={2} overflow="hidden">
       <SectionHeader title="Video" open={open} onToggle={() => setOpen(!open)} />
       {open && (
         <Box paddingX={3} paddingBottom={4} paddingTop={1}>

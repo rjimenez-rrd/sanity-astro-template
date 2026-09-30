@@ -113,6 +113,8 @@ const fileSrc =
     width: 100%;
     overflow: hidden;
     background: #000;
+    /* Style -> Border -> Border Radius (BlockRenderer sets --pb-radius). */
+    border-radius: var(--pb-radius, 0);
   }
   .pb-video iframe,
   .pb-video[data-boxed] video {
