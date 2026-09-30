@@ -1,188 +1,68 @@
-import {useCallback} from 'react'
+import type {ReactNode} from 'react'
 import {type StringInputProps, set, unset} from 'sanity'
-import {Card, Flex, Stack, Text} from '@sanity/ui'
+import {ControlRow, IconToggleGroup, type IconOption} from '../controls/controls'
 
-const ALIGNMENTS = [
+// Filled square = icon, lines = heading and text, drawn in the shared control-icon style.
+function LayoutIcon({children}: {children: ReactNode}) {
+  return (
+    <svg
+      width="1em"
+      height="1em"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.25}
+      aria-hidden="true"
+    >
+      {children}
+    </svg>
+  )
+}
+
+const OPTIONS: IconOption[] = [
   {
     value: 'left',
-    label: 'Left',
-    description: 'Icon left, text right',
-    render: () => (
-      <Flex gap={2} align="center" style={{width: '100%'}}>
-        <div
-          style={{
-            width: 20,
-            height: 20,
-            borderRadius: 4,
-            backgroundColor: 'var(--card-badge-primary-bg-color)',
-            flexShrink: 0,
-          }}
-        />
-        <Stack space={1} style={{flex: 1}}>
-          <div
-            style={{
-              height: 4,
-              width: '70%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.6,
-            }}
-          />
-          <div
-            style={{
-              height: 3,
-              width: '100%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.2,
-            }}
-          />
-          <div
-            style={{
-              height: 3,
-              width: '85%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.2,
-            }}
-          />
-        </Stack>
-      </Flex>
+    title: 'Left: icon left, text right',
+    icon: (
+      <LayoutIcon>
+        <rect x={1.5} y={5.5} width={4} height={4} rx={0.5} fill="currentColor" stroke="none" />
+        <path d="M7.5 5.5h6M7.5 8h7M7.5 10.5h5.5" />
+      </LayoutIcon>
     ),
   },
   {
     value: 'center',
-    label: 'Center',
-    description: 'Icon above, text below',
-    render: () => (
-      <Flex direction="column" align="center" gap={2} style={{width: '100%'}}>
-        <div
-          style={{
-            width: 22,
-            height: 22,
-            borderRadius: 4,
-            backgroundColor: 'var(--card-badge-primary-bg-color)',
-          }}
-        />
-        <Stack space={1} style={{width: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
-          <div
-            style={{
-              height: 4,
-              width: '60%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.6,
-            }}
-          />
-          <div
-            style={{
-              height: 3,
-              width: '80%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.2,
-            }}
-          />
-        </Stack>
-      </Flex>
+    title: 'Center: icon above, text below',
+    icon: (
+      <LayoutIcon>
+        <rect x={6} y={1.5} width={4} height={4} rx={0.5} fill="currentColor" stroke="none" />
+        <path d="M4.5 8.5h7M3.5 11.5h9" />
+      </LayoutIcon>
     ),
   },
   {
     value: 'right',
-    label: 'Right',
-    description: 'Text left, icon right',
-    render: () => (
-      <Flex gap={2} align="center" style={{width: '100%'}}>
-        <Stack space={1} style={{flex: 1}}>
-          <div
-            style={{
-              height: 4,
-              width: '70%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.6,
-              marginLeft: 'auto',
-            }}
-          />
-          <div
-            style={{
-              height: 3,
-              width: '100%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.2,
-            }}
-          />
-          <div
-            style={{
-              height: 3,
-              width: '85%',
-              borderRadius: 2,
-              backgroundColor: 'var(--card-fg-color)',
-              opacity: 0.2,
-              marginLeft: 'auto',
-            }}
-          />
-        </Stack>
-        <div
-          style={{
-            width: 20,
-            height: 20,
-            borderRadius: 4,
-            backgroundColor: 'var(--card-badge-primary-bg-color)',
-            flexShrink: 0,
-          }}
-        />
-      </Flex>
+    title: 'Right: text left, icon right',
+    icon: (
+      <LayoutIcon>
+        <path d="M2.5 5.5h6M1.5 8h7M3 10.5h5.5" />
+        <rect x={10.5} y={5.5} width={4} height={4} rx={0.5} fill="currentColor" stroke="none" />
+      </LayoutIcon>
     ),
   },
-] as const
+]
 
+/** Where the icon sits relative to the text. Clicking the selected option clears it. */
 export function IconTextAlignmentInput(props: StringInputProps) {
   const {value, onChange} = props
 
-  const handleSelect = useCallback(
-    (newValue: string) => {
-      onChange(newValue === value ? unset() : set(newValue))
-    },
-    [onChange, value],
-  )
-
   return (
-    <Stack space={2}>
-      <Text size={0} weight="bold" muted style={{textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: 10}}>
-        Layout
-      </Text>
-      <Flex gap={2}>
-        {ALIGNMENTS.map((alignment) => {
-          const isSelected = value === alignment.value
-          return (
-            <Card
-              key={alignment.value}
-              padding={3}
-              radius={2}
-              border
-              tone={isSelected ? 'primary' : 'default'}
-              style={{
-                cursor: 'pointer',
-                flex: 1,
-                transition: 'all 0.15s ease',
-                boxShadow: isSelected ? '0 0 0 2px var(--card-badge-primary-bg-color)' : undefined,
-              }}
-              onClick={() => handleSelect(alignment.value)}
-            >
-              <Stack space={2}>
-                <div style={{padding: '4px 0', minHeight: 40, display: 'flex', alignItems: 'center'}}>
-                  {alignment.render()}
-                </div>
-                <Text size={0} align="center" muted>
-                  {alignment.label}
-                </Text>
-              </Stack>
-            </Card>
-          )
-        })}
-      </Flex>
-    </Stack>
+    <ControlRow label="Layout">
+      <IconToggleGroup
+        options={OPTIONS}
+        value={value}
+        onChange={(next) => onChange(next === undefined ? unset() : set(next))}
+      />
+    </ControlRow>
   )
 }

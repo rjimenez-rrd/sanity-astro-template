@@ -1,12 +1,6 @@
-import {defineType, defineField, defineArrayMember} from 'sanity'
+import {defineType, defineField, defineArrayMember, type PreviewValue} from 'sanity'
 import {ThLargeIcon} from '@sanity/icons'
-
-const COLUMN_OPTIONS = [
-  {title: '1 Column', value: '1'},
-  {title: '2 Columns', value: '2'},
-  {title: '3 Columns', value: '3'},
-  {title: '4 Columns', value: '4'},
-] as const
+import {columnsField} from '../fields/common'
 
 export const practiceAreaCardsType = defineType({
   name: 'practiceAreaCards',
@@ -33,13 +27,7 @@ export const practiceAreaCardsType = defineType({
         'Leave empty to show every practice area, A–Z — new ones appear automatically. Pick some to choose which appear and in what order.',
       of: [defineArrayMember({type: 'reference', to: [{type: 'practiceArea'}]})],
     }),
-    defineField({
-      name: 'columns',
-      title: 'Columns',
-      type: 'string',
-      initialValue: '3',
-      options: {list: [...COLUMN_OPTIONS], layout: 'radio'},
-    }),
+    columnsField({initialValue: '3'}),
     defineField({
       name: 'titleAlign',
       title: 'Title Alignment',
@@ -94,7 +82,16 @@ export const practiceAreaCardsType = defineType({
   ],
   preview: {
     select: {title: 'title', practiceAreas: 'practiceAreas', first: 'practiceAreas.0.coverImage'},
-    prepare({title, practiceAreas, first}: {title?: string; practiceAreas?: unknown[]; first?: unknown}) {
+    // The selected image value is rendered by Sanity's preview as media
+    prepare({
+      title,
+      practiceAreas,
+      first,
+    }: {
+      title?: string
+      practiceAreas?: unknown[]
+      first?: PreviewValue['media']
+    }) {
       const count = practiceAreas?.length ?? 0
       return {
         title: title || 'Practice Area Cards',

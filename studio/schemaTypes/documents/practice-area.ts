@@ -1,6 +1,7 @@
 import {defineType, defineField} from 'sanity'
 import {CaseIcon} from '@sanity/icons'
 import {rootSlugField, parentPageField} from '../fields/rootSlug'
+import {excludeFromTranslation} from '../fields/common'
 import {PublishStampInput} from '../../components/inputs/PublishStampInput'
 
 /**
@@ -43,7 +44,7 @@ export const practiceAreaType = defineType({
     defineField({
       name: 'publishedAt',
       // Not copied into a new translation: it starts unpublished.
-      options: {documentInternationalization: {exclude: true}},
+      options: excludeFromTranslation(),
       title: 'First Published',
       type: 'datetime',
       group: 'content',
@@ -55,7 +56,7 @@ export const practiceAreaType = defineType({
     defineField({
       name: 'updatedAt',
       // Not copied into a new translation: it starts unpublished.
-      options: {documentInternationalization: {exclude: true}},
+      options: excludeFromTranslation(),
       title: 'Last Updated',
       type: 'datetime',
       group: 'content',

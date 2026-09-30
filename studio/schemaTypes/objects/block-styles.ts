@@ -1,7 +1,8 @@
 import {defineType, defineField} from 'sanity'
 import {motionField} from '../tabs/motion'
 import {BlockStylesPreview} from '../../components/previews/BlockStylesPreview'
-import {SpacingInput} from '../../components/block-styles/SpacingInput'
+import {SpacingInput} from '../../components/tabs/advanced/SpacingInput'
+import {BareField} from '../../components/controls/BareField'
 import {SizeInput} from '../../components/block-styles/SizeInput'
 import {BorderRadiusInput} from '../../components/block-styles/BorderRadiusInput'
 import {BorderStyleInput} from '../../components/block-styles/BorderStyleInput'
@@ -93,7 +94,10 @@ export function spacingField(name: string, title: string) {
     name,
     title,
     type: 'object',
-    components: {input: SpacingInput},
+    // SpacingInput draws its own label and device switcher; `kind` picks
+    // its colors (padding green, margin orange).
+    options: {kind: name === 'padding' ? 'padding' : 'margin'} as Record<string, unknown>,
+    components: {input: SpacingInput, field: BareField},
     fields: [
       directionField('top', 'Top'),
       directionField('right', 'Right'),

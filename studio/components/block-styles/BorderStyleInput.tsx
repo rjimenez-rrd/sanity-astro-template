@@ -1,75 +1,8 @@
-import {ColorPicker} from '../color/ColorPicker'
 import {useCallback} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Card, Flex, Text, Stack} from '@sanity/ui'
-
-
-function CompactSelect({
-  value,
-  options,
-  onChange,
-  placeholder,
-  width,
-}: {
-  value?: string
-  options: {title: string; value: string}[]
-  onChange: (v: string) => void
-  placeholder?: string
-  width?: number
-}) {
-  return (
-    <select
-      value={value ?? ''}
-      onChange={(e) => onChange(e.target.value)}
-      style={{
-        flex: width ? undefined : 1,
-        width: width ?? undefined,
-        padding: '6px 8px',
-        fontSize: 12,
-        fontFamily: 'inherit',
-        border: '1px solid var(--card-border-color)',
-        borderRadius: 4,
-        backgroundColor: 'var(--card-bg-color)',
-        color: value ? 'var(--card-fg-color)' : 'var(--card-muted-fg-color)',
-        cursor: 'pointer',
-      }}
-    >
-      <option value="">{placeholder ?? '—'}</option>
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.title}
-        </option>
-      ))}
-    </select>
-  )
-}
-
-/**
- * The Studio's shared color control: swatch + inline text, with the
- * Elementor-style picker (saturation, hue, alpha, HEXA/RGBA/HSLA) on click.
- */
-function ColorInput({
-  value,
-  onChange,
-  placeholder,
-  fallback,
-}: {
-  value?: string
-  onChange: (v: string) => void
-  placeholder?: string
-  /** Swatch shown while the field is empty. Display only — never written to the document. */
-  fallback?: string
-}) {
-  return (
-    <ColorPicker
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      fallback={fallback}
-      showInput
-    />
-  )
-}
+import {ColorInput} from '../controls/ColorInput'
+import {CompactSelect} from '../controls/CompactSelect'
 
 export function BorderStyleInput(props: ObjectInputProps) {
   const {onChange, value} = props
@@ -152,5 +85,3 @@ export function BorderStyleInput(props: ObjectInputProps) {
     </Card>
   )
 }
-
-export {ColorInput, CompactSelect}

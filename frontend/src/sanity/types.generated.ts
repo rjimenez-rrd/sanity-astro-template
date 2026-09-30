@@ -196,7 +196,7 @@ export type Slideshow = {
   transition?:
     "fade" | "slide_right" | "slide_left" | "slide_up" | "slide_down";
   transitionDuration?: number;
-  size?: "cover" | "contain" | "auto";
+  size?: "auto" | "cover" | "contain";
   position?:
     | "center center"
     | "center left"

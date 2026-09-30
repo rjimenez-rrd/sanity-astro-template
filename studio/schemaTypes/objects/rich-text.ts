@@ -1,4 +1,4 @@
-import {defineType, defineArrayMember, defineField} from 'sanity'
+import {defineType, defineArrayMember, defineField, type PreviewValue} from 'sanity'
 
 export const blockContentType = defineType({
   name: 'blockContent',
@@ -77,7 +77,7 @@ export const blockContentType = defineType({
       // editor, with no indication of which image it is.
       preview: {
         select: {media: 'asset', alt: 'alt'},
-        prepare({media, alt}: {media?: unknown; alt?: string}) {
+        prepare({media, alt}: {media?: PreviewValue['media']; alt?: string}) {
           return {title: alt?.trim() || 'Image', subtitle: 'Inline image', media}
         },
       },

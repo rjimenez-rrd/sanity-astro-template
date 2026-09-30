@@ -31,7 +31,7 @@ import {COLUMN_CONTAINER_DEFAULTS, ROW_CONTAINER_DEFAULTS} from './layoutDefault
 type Size = {size?: number; unit?: string}
 type Gap = {column?: number; row?: number; unit?: string}
 
-export type ContainerValue = {
+type ContainerValue = {
   layoutType?: 'flex' | 'grid'
   overflow?: 'hidden' | 'auto'
   htmlTag?: string

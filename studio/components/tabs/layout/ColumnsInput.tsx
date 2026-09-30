@@ -157,8 +157,9 @@ export function ColumnsInput(props: ArrayOfObjectsInputProps) {
 
     const patches = [...resizes, ...additions, ...removals]
     if (patches.length > 0) onChange(patches)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gridLayout])
+    // Re-runs on value/onChange changes are no-ops: the ref guard above only
+    // lets a real preset change through.
+  }, [gridLayout, value, currentCount, isFlex, onChange])
 
   const handleAddColumns = useCallback(() => {
     if (columnsToAdd <= 0) return

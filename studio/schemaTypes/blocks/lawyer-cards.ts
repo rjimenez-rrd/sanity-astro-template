@@ -1,12 +1,6 @@
-import {defineType, defineField, defineArrayMember} from 'sanity'
+import {defineType, defineField, defineArrayMember, type PreviewValue} from 'sanity'
 import {UsersIcon} from '@sanity/icons'
-
-const COLUMN_OPTIONS = [
-  {title: '1 Column', value: '1'},
-  {title: '2 Columns', value: '2'},
-  {title: '3 Columns', value: '3'},
-  {title: '4 Columns', value: '4'},
-] as const
+import {columnsField} from '../fields/common'
 
 export const lawyerCardsType = defineType({
   name: 'lawyerCards',
@@ -33,13 +27,7 @@ export const lawyerCardsType = defineType({
       validation: (rule) => rule.required().min(1),
       of: [defineArrayMember({type: 'reference', to: [{type: 'lawyer'}]})],
     }),
-    defineField({
-      name: 'columns',
-      title: 'Columns',
-      type: 'string',
-      initialValue: '3',
-      options: {list: [...COLUMN_OPTIONS], layout: 'radio'},
-    }),
+    columnsField({initialValue: '3'}),
     defineField({
       name: 'showRole',
       title: 'Show Role',
@@ -71,7 +59,16 @@ export const lawyerCardsType = defineType({
   ],
   preview: {
     select: {title: 'title', lawyers: 'lawyers', first: 'lawyers.0.photo'},
-    prepare({title, lawyers, first}: {title?: string; lawyers?: unknown[]; first?: unknown}) {
+    // The selected image value is rendered by Sanity's preview as media
+    prepare({
+      title,
+      lawyers,
+      first,
+    }: {
+      title?: string
+      lawyers?: unknown[]
+      first?: PreviewValue['media']
+    }) {
       const count = lawyers?.length ?? 0
       return {
         title: title || 'Lawyer Cards',

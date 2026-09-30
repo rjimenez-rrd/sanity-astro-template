@@ -1,6 +1,7 @@
 import { defineType, defineField } from 'sanity'
 import { DocumentIcon } from '@sanity/icons'
 import { rootSlugField, parentPageField } from '../fields/rootSlug'
+import { excludeFromTranslation } from '../fields/common'
 import { PublishStampInput } from '../../components/inputs/PublishStampInput'
 import { lastEditorMedia } from '../../components/previews/LastEditor'
 
@@ -43,7 +44,7 @@ export const pageType = defineType({
     defineField({
       name: 'publishedAt',
       // Not copied into a new translation: it starts unpublished.
-      options: {documentInternationalization: {exclude: true}},
+      options: excludeFromTranslation(),
       title: 'First Published',
       type: 'datetime',
       group: 'content',
@@ -55,7 +56,7 @@ export const pageType = defineType({
     defineField({
       name: 'updatedAt',
       // Not copied into a new translation: it starts unpublished.
-      options: {documentInternationalization: {exclude: true}},
+      options: excludeFromTranslation(),
       title: 'Last Updated',
       type: 'datetime',
       group: 'content',
@@ -66,7 +67,7 @@ export const pageType = defineType({
     defineField({
       name: 'lastEditedBy',
       // Not copied into a new translation: it starts unpublished.
-      options: {documentInternationalization: {exclude: true}},
+      options: excludeFromTranslation(),
       title: 'Last Edited By',
       type: 'object',
       // Set on edit by actions/stampLastEditor.ts; only the list row shows it.

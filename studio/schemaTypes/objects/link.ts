@@ -5,7 +5,7 @@ import {LinkIcon, EarthGlobeIcon, LaunchIcon, DocumentsIcon} from '@sanity/icons
  * Pages built into the site rather than written in the Studio, so the Internal
  * Link picker can't find them. The frontend's links.ts maps each to its path.
  */
-export const SITE_PAGES = [
+const SITE_PAGES = [
   {title: 'Practice Areas', value: 'practiceAreas'},
   {title: 'News', value: 'news'},
   {title: 'Search', value: 'search'},

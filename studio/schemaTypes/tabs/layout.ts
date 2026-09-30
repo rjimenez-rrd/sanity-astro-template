@@ -1,45 +1,11 @@
 import {defineField} from 'sanity'
+import {DEVICES, responsiveSize, responsiveString} from './responsive'
 import {BareField} from '../../components/controls/BareField'
 import {LayoutInput, type ContainerVariant} from '../../components/tabs/layout/LayoutInput'
 import {
   COLUMN_CONTAINER_DEFAULTS,
   ROW_CONTAINER_DEFAULTS,
 } from '../../components/tabs/layout/layoutDefaults'
-
-const DEVICES = ['desktop', 'tablet', 'mobile'] as const
-
-function responsiveString(name: string, title: string, values: string[]) {
-  return defineField({
-    name,
-    title,
-    type: 'object',
-    fields: DEVICES.map((device) =>
-      defineField({
-        name: device,
-        type: 'string',
-        options: {list: values},
-      }),
-    ),
-  })
-}
-
-function responsiveSize(name: string, title: string, units: string[]) {
-  return defineField({
-    name,
-    title,
-    type: 'object',
-    fields: DEVICES.map((device) =>
-      defineField({
-        name: device,
-        type: 'object',
-        fields: [
-          defineField({name: 'size', type: 'number'}),
-          defineField({name: 'unit', type: 'string', options: {list: units}}),
-        ],
-      }),
-    ),
-  })
-}
 
 const FLEX_POSITIONS = ['flex-start', 'center', 'flex-end']
 
@@ -73,22 +39,22 @@ export function layoutField(variant: ContainerVariant, {item = false}: {item?: b
         type: 'string',
         options: {list: ['boxed', 'full']},
       }),
-      responsiveSize('width', 'Width', ['px', '%', 'vw']),
-      responsiveSize('minHeight', 'Min Height', ['px', 'vh']),
+      responsiveSize('width', ['px', '%', 'vw'], 'Width'),
+      responsiveSize('minHeight', ['px', 'vh'], 'Min Height'),
       defineField({
         name: 'gridColumns',
         type: 'object',
         fields: DEVICES.map((device) => defineField({name: device, type: 'number'})),
       }),
-      responsiveString('direction', 'Direction', ['row', 'column', 'row-reverse', 'column-reverse']),
-      responsiveString('justifyContent', 'Justify Content', [
+      responsiveString('direction', ['row', 'column', 'row-reverse', 'column-reverse'], 'Direction'),
+      responsiveString('justifyContent', [
         ...FLEX_POSITIONS,
         'space-between',
         'space-around',
         'space-evenly',
-      ]),
-      responsiveString('alignItems', 'Align Items', [...FLEX_POSITIONS, 'stretch']),
-      responsiveString('justifyItems', 'Justify Items', [...FLEX_POSITIONS, 'stretch']),
+      ], 'Justify Content'),
+      responsiveString('alignItems', [...FLEX_POSITIONS, 'stretch'], 'Align Items'),
+      responsiveString('justifyItems', [...FLEX_POSITIONS, 'stretch'], 'Justify Items'),
       defineField({
         name: 'gap',
         type: 'object',
@@ -107,7 +73,7 @@ export function layoutField(variant: ContainerVariant, {item = false}: {item?: b
           ),
         ],
       }),
-      responsiveString('wrap', 'Wrap', ['nowrap', 'wrap']),
+      responsiveString('wrap', ['nowrap', 'wrap'], 'Wrap'),
       // Additional Options, as in Elementor.
       defineField({name: 'overflow', type: 'string', options: {list: ['hidden', 'auto']}}),
       defineField({

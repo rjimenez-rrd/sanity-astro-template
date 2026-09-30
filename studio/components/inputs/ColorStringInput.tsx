@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {type StringInputProps, set, unset} from 'sanity'
-import {ColorInput} from '../block-styles/BorderStyleInput'
+import {ColorInput} from '../controls/ColorInput'
 
 export function ColorStringInput(props: StringInputProps) {
   const {value, onChange, schemaType} = props

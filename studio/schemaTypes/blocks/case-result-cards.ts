@@ -1,12 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {TrendUpwardIcon} from '@sanity/icons'
-
-const COLUMN_OPTIONS = [
-  {title: '1 Column', value: '1'},
-  {title: '2 Columns', value: '2'},
-  {title: '3 Columns', value: '3'},
-  {title: '4 Columns', value: '4'},
-] as const
+import {columnsField} from '../fields/common'
 
 export const caseResultCardsType = defineType({
   name: 'caseResultCards',
@@ -33,13 +27,7 @@ export const caseResultCardsType = defineType({
       validation: (rule) => rule.required().min(1),
       of: [defineArrayMember({type: 'reference', to: [{type: 'caseResult'}]})],
     }),
-    defineField({
-      name: 'columns',
-      title: 'Columns',
-      type: 'string',
-      initialValue: '3',
-      options: {list: [...COLUMN_OPTIONS], layout: 'radio'},
-    }),
+    columnsField({initialValue: '3'}),
     defineField({
       name: 'showResultType',
       title: 'Show Result Type',

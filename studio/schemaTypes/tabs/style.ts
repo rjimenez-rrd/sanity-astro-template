@@ -1,57 +1,33 @@
 import {defineField} from 'sanity'
+import {DEVICES, responsiveNumber, responsiveString} from './responsive'
 import {StyleInput} from '../../components/tabs/style/StyleInput'
 import {BareField} from '../../components/controls/BareField'
+import {
+  BG_ATTACHMENTS,
+  BG_POSITIONS,
+  BG_REPEATS,
+  BG_SIZES,
+  BLEND_MODES,
+  BORDER_TYPES,
+  BORDER_UNITS,
+  GRADIENT_TYPES,
+  IMAGE_RESOLUTIONS,
+  KEN_BURNS_DIRECTIONS,
+  SHADOW_POSITIONS,
+  SHAPE_TYPES,
+  SLIDESHOW_TRANSITIONS,
+  values,
+} from '../../components/tabs/style/options'
 import {StyleEffectsInput} from '../../components/tabs/style/StyleEffectsInput'
 
 /*
  * Data for the Elementor-style Style tab. One custom input renders all of it;
  * these definitions exist for storage, validation and typegen. Intermediate
  * objects are not collapsible so the image uploader can be embedded by path.
+ * The option lists live in components/tabs/style/options.ts, shared with the input.
  */
 
-const DEVICES = ['desktop', 'tablet', 'mobile'] as const
-
-export const BG_POSITIONS = [
-  'center center',
-  'center left',
-  'center right',
-  'top center',
-  'top left',
-  'top right',
-  'bottom center',
-  'bottom left',
-  'bottom right',
-]
-export const BG_REPEATS = ['no-repeat', 'repeat', 'repeat-x', 'repeat-y']
-export const BG_SIZES = ['auto', 'cover', 'contain']
-export const BG_ATTACHMENTS = ['scroll', 'fixed']
-export const IMAGE_RESOLUTIONS = ['full', 'large', 'medium_large', 'medium', 'thumbnail']
-export const BORDER_TYPES = ['none', 'solid', 'double', 'dotted', 'dashed', 'groove']
-export const BLEND_MODES = [
-  'normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge',
-  'color-burn', 'hard-light', 'soft-light',
-  'saturation', 'color', 'difference', 'exclusion', 'hue', 'luminosity',
-]
-
 const flat = {collapsible: false}
-
-function responsiveString(name: string, values: string[]) {
-  return defineField({
-    name,
-    type: 'object',
-    options: flat,
-    fields: DEVICES.map((device) => defineField({name: device, type: 'string', options: {list: values}})),
-  })
-}
-
-function responsiveNumber(name: string) {
-  return defineField({
-    name,
-    type: 'object',
-    options: flat,
-    fields: DEVICES.map((device) => defineField({name: device, type: 'number'})),
-  })
-}
 
 function responsiveSides(name: string) {
   return defineField({
@@ -67,19 +43,13 @@ function responsiveSides(name: string) {
           options: flat,
           fields: [
             ...['top', 'right', 'bottom', 'left'].map((side) => defineField({name: side, type: 'number'})),
-            defineField({name: 'unit', type: 'string', options: {list: ['px', '%', 'em', 'rem']}}),
+            defineField({name: 'unit', type: 'string', options: {list: BORDER_UNITS}}),
           ],
         }),
       ),
     ],
   })
 }
-
-/** Keep in step with the frontend's lib/shapeDividers.ts, which draws each one. */
-export const SHAPE_TYPES = [
-  'mountains', 'zigzag', 'pyramids', 'triangle', 'triangle-asymmetrical', 'tilt', 'opacity-tilt',
-  'curve', 'curve-asymmetrical', 'wave', 'waves', 'arrow', 'book',
-]
 
 /** Background Video: a file or a link, as in Elementor (Normal state only). */
 const videoField = defineField({
@@ -106,12 +76,12 @@ const slideshowField = defineField({
     defineField({name: 'images', title: 'Images', type: 'array', of: [{type: 'image'}]}),
     defineField({name: 'loop', title: 'Infinite Loop', type: 'boolean'}),
     defineField({name: 'duration', title: 'Duration (ms)', type: 'number'}),
-    defineField({name: 'transition', type: 'string', options: {list: ['fade', 'slide_right', 'slide_left', 'slide_up', 'slide_down']}}),
+    defineField({name: 'transition', type: 'string', options: {list: values(SLIDESHOW_TRANSITIONS)}}),
     defineField({name: 'transitionDuration', title: 'Transition Duration (ms)', type: 'number'}),
-    defineField({name: 'size', type: 'string', options: {list: ['cover', 'contain', 'auto']}}),
-    defineField({name: 'position', type: 'string', options: {list: BG_POSITIONS}}),
+    defineField({name: 'size', type: 'string', options: {list: values(BG_SIZES)}}),
+    defineField({name: 'position', type: 'string', options: {list: values(BG_POSITIONS)}}),
     defineField({name: 'kenBurns', title: 'Ken Burns Effect', type: 'boolean'}),
-    defineField({name: 'kenBurnsDirection', type: 'string', options: {list: ['in', 'out']}}),
+    defineField({name: 'kenBurnsDirection', type: 'string', options: {list: values(KEN_BURNS_DIRECTIONS)}}),
   ],
 })
 
@@ -135,11 +105,11 @@ function backgroundState(
       // Optional per-device images; empty falls back to the next larger size.
       defineField({name: 'imageTablet', title: 'Image (tablet)', type: 'image'}),
       defineField({name: 'imageMobile', title: 'Image (mobile)', type: 'image'}),
-      defineField({name: 'imageResolution', type: 'string', options: {list: IMAGE_RESOLUTIONS}}),
-      responsiveString('position', BG_POSITIONS),
-      defineField({name: 'attachment', type: 'string', options: {list: BG_ATTACHMENTS}}),
-      responsiveString('repeat', BG_REPEATS),
-      responsiveString('size', BG_SIZES),
+      defineField({name: 'imageResolution', type: 'string', options: {list: values(IMAGE_RESOLUTIONS)}}),
+      responsiveString('position', values(BG_POSITIONS)),
+      defineField({name: 'attachment', type: 'string', options: {list: values(BG_ATTACHMENTS)}}),
+      responsiveString('repeat', values(BG_REPEATS)),
+      responsiveString('size', values(BG_SIZES)),
       defineField({
         name: 'gradient',
         type: 'object',
@@ -149,9 +119,9 @@ function backgroundState(
           responsiveNumber('location'),
           defineField({name: 'secondColor', type: 'string'}),
           responsiveNumber('secondLocation'),
-          defineField({name: 'gradientType', type: 'string', options: {list: ['linear', 'radial']}}),
+          defineField({name: 'gradientType', type: 'string', options: {list: values(GRADIENT_TYPES)}}),
           responsiveNumber('angle'),
-          defineField({name: 'position', type: 'string', options: {list: BG_POSITIONS}}),
+          defineField({name: 'position', type: 'string', options: {list: values(BG_POSITIONS)}}),
         ],
       }),
       ...(extra.opacity ? [responsiveNumber('opacity')] : []),
@@ -165,7 +135,7 @@ function backgroundState(
                 defineField({name: f, type: 'number'}),
               ),
             }),
-            defineField({name: 'blendMode', type: 'string', options: {list: BLEND_MODES}}),
+            defineField({name: 'blendMode', type: 'string', options: {list: values(BLEND_MODES)}}),
           ]
         : []),
       ...(extra.transition ? [defineField({name: 'transition', type: 'number'})] : []),
@@ -179,7 +149,7 @@ function borderState(name: string, extra: {transition?: boolean}) {
     type: 'object',
     options: flat,
     fields: [
-      defineField({name: 'type', type: 'string', options: {list: BORDER_TYPES}}),
+      defineField({name: 'type', type: 'string', options: {list: values(BORDER_TYPES)}}),
       responsiveSides('width'),
       defineField({name: 'color', type: 'string'}),
       responsiveSides('radius'),
@@ -193,7 +163,7 @@ function borderState(name: string, extra: {transition?: boolean}) {
           defineField({name: 'vertical', type: 'number'}),
           defineField({name: 'blur', type: 'number'}),
           defineField({name: 'spread', type: 'number'}),
-          defineField({name: 'position', type: 'string', options: {list: ['outline', 'inset']}}),
+          defineField({name: 'position', type: 'string', options: {list: values(SHADOW_POSITIONS)}}),
         ],
       }),
       ...(extra.transition ? [defineField({name: 'transition', type: 'number'})] : []),
@@ -208,7 +178,7 @@ function shapeState(name: string) {
     type: 'object',
     options: flat,
     fields: [
-      defineField({name: 'type', type: 'string', options: {list: SHAPE_TYPES}}),
+      defineField({name: 'type', type: 'string', options: {list: values(SHAPE_TYPES)}}),
       defineField({name: 'color', type: 'string'}),
       responsiveNumber('width'),
       responsiveNumber('height'),

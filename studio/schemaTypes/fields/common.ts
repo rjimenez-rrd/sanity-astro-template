@@ -1,55 +1,30 @@
 import {defineField, defineArrayMember} from 'sanity'
 
-/** Simple string field helper */
-export function stringField(
-  name: string,
-  title: string,
-  opts?: {
-    required?: boolean
-    description?: string
-    group?: string
-    hidden?: boolean | ((ctx: {parent?: Record<string, unknown>}) => boolean)
-    rows?: number
-  },
-) {
-  return defineField({
-    name,
-    title,
-    type: opts?.rows ? 'text' : 'string',
-    description: opts?.description,
-    group: opts?.group,
-    hidden: opts?.hidden as never,
-    validation: opts?.required ? (rule) => rule.required() : undefined,
-    ...(opts?.rows ? {rows: opts.rows} : {}),
-  })
-}
+/** Grid column choices shared by the card blocks (stored as strings) */
+export const COLUMN_OPTIONS = [
+  {title: '1 Column', value: '1'},
+  {title: '2 Columns', value: '2'},
+  {title: '3 Columns', value: '3'},
+  {title: '4 Columns', value: '4'},
+] as const
 
-/** Image with hotspot and plain string alt text */
-export function imageWithAlt(
-  name: string,
-  title: string,
-  opts?: {
-    required?: boolean
-    description?: string
-    group?: string
-  },
-) {
+type ColumnOption = (typeof COLUMN_OPTIONS)[number]
+
+/** Radio string field for picking a grid column count */
+export function columnsField(opts?: {
+  name?: string
+  title?: string
+  description?: string
+  initialValue?: ColumnOption['value']
+  options?: readonly ColumnOption[]
+}) {
   return defineField({
-    name,
-    title,
-    type: 'image',
+    name: opts?.name ?? 'columns',
+    title: opts?.title ?? 'Columns',
+    type: 'string',
     description: opts?.description,
-    group: opts?.group,
-    options: {hotspot: true},
-    validation: opts?.required ? (rule) => rule.required() : undefined,
-    fields: [
-      defineField({
-        name: 'alt',
-        title: 'Alt Text',
-        type: 'string',
-        description: 'Describe this image for accessibility',
-      }),
-    ],
+    initialValue: opts?.initialValue,
+    options: {list: [...(opts?.options ?? COLUMN_OPTIONS)], layout: 'radio'},
   })
 }
 
@@ -72,4 +47,13 @@ export function linkField(
       ? (rule) => rule.required().max(1)
       : (rule) => rule.max(1),
   })
+}
+
+/**
+ * Field options that keep a field out of the copy @sanity/document-internationalization
+ * makes for a new translation. Sanity's option types don't know the plugin's key,
+ * so the result is typed as the field's own options.
+ */
+export function excludeFromTranslation<T extends object = {}>(options?: T): T {
+  return {...options, documentInternationalization: {exclude: true}} as T
 }

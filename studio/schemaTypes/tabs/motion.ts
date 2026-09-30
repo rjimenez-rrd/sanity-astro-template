@@ -1,6 +1,6 @@
 import {defineField} from 'sanity'
 
-export const ENTRANCE_ANIMATIONS = [
+const ENTRANCE_ANIMATIONS = [
   {title: 'None', value: 'none'},
   {title: 'Fade In', value: 'fadeIn'},
   {title: 'Fade In Up', value: 'fadeInUp'},

@@ -5,8 +5,7 @@ import {FlexSizeInput} from '../../components/tabs/advanced/FlexSizeInput'
 import {OrderInput} from '../../components/tabs/advanced/OrderInput'
 import {spacingField, customCssField} from '../objects/block-styles'
 import {motionField} from './motion'
-
-const DEVICES = ['desktop', 'tablet', 'mobile'] as const
+import {DEVICES} from './responsive'
 
 /** A CSS length: a number with px, %, em, rem, vw or vh (e.g. 20px, -10%). */
 const CSS_LENGTH = /^-?\d+(\.\d+)?(px|%|em|rem|vw|vh)$/

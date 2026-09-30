@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Box, Card, Flex, Stack, Text} from '@sanity/ui'
-import {ColorInput} from '../block-styles/BorderStyleInput'
+import {ColorInput} from '../controls/ColorInput'
 
 /**
  * The Button block's form, with its four color fields drawn as Elementor-style

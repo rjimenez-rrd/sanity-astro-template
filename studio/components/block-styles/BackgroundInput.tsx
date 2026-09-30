@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Card, Text, Stack, Flex} from '@sanity/ui'
-import {ColorInput} from './BorderStyleInput'
+import {ColorInput} from '../controls/ColorInput'
 
 export function BackgroundInput(props: ObjectInputProps) {
   const {renderDefault, onChange, value} = props

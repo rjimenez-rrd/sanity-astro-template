@@ -1,7 +1,7 @@
 /**
  * Shape Dividers: the shapes a container can have along its top or bottom
  * edge (Style -> Shape Divider). Keep the names in step with studio
- * schemaTypes/tabs/style.ts SHAPE_TYPES.
+ * components/tabs/style/options.ts SHAPE_TYPES.
  *
  * Each shape is its edge line across a 1000×100 box, from x=0 to x=1000,
  * drawn for the top edge; the bottom one is the same turned upside down.

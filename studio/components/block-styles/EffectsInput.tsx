@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
 import {Card, Flex, Text, Stack} from '@sanity/ui'
-import {CompactSelect} from './BorderStyleInput'
+import {CompactSelect} from '../controls/CompactSelect'
 
 export function EffectsInput(props: ObjectInputProps) {
   const {onChange, value} = props
