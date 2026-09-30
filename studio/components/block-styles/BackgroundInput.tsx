@@ -1,72 +1,38 @@
-import {useCallback} from 'react'
 import {type ObjectInputProps, set, unset} from 'sanity'
-import {Card, Text, Stack, Flex} from '@sanity/ui'
+import {Button, Stack} from '@sanity/ui'
+import {ControlRow} from '../controls/controls'
 import {ColorInput} from '../controls/ColorInput'
 
+/**
+ * Block Styles -> Background: the color with the shared color picker; the
+ * image and its options below it keep Sanity's default rendering.
+ */
 export function BackgroundInput(props: ObjectInputProps) {
   const {renderDefault, onChange, value} = props
-  const vals = (value ?? {}) as Record<string, unknown>
-
-  const handleColorChange = useCallback(
-    (newValue: string) => {
-      onChange(newValue === '' ? unset(['color']) : set(newValue, ['color']))
-    },
-    [onChange],
-  )
-
-  const hasValues = !!vals.color
-
-  const handleClear = useCallback(() => {
-    onChange([unset(['color'])])
-  }, [onChange])
+  const color = (value as {color?: string} | undefined)?.color
 
   return (
-    <Card padding={3} radius={2} border tone="transparent">
-      <Stack space={3}>
-        <Flex align="center" justify="space-between">
-          <Text
-            size={0}
-            weight="bold"
-            muted
-            style={{textTransform: 'uppercase', letterSpacing: '0.05em', fontSize: 10}}
-          >
-            Background
-          </Text>
-          {hasValues && (
-            <button
-              type="button"
-              onClick={handleClear}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--card-muted-fg-color)',
-                fontSize: 10,
-                cursor: 'pointer',
-                padding: '2px 4px',
-              }}
-            >
-              Clear
-            </button>
-          )}
-        </Flex>
+    <Stack space={3}>
+      <ControlRow
+        label="Color"
+        stacked
+        aside={
+          color && (
+            <Button mode="bleed" padding={2} fontSize={1} text="Clear" onClick={() => onChange(unset(['color']))} />
+          )
+        }
+      >
+        <ColorInput
+          value={color}
+          placeholder="#f5f5f5"
+          onChange={(next) => onChange(next === '' ? unset(['color']) : set(next, ['color']))}
+        />
+      </ControlRow>
 
-        <Flex gap={2} align="center">
-          <Text size={0} muted style={{flexShrink: 0, fontSize: 11, width: 40}}>
-            Color
-          </Text>
-          <ColorInput
-            value={vals.color as string | undefined}
-            placeholder="#f5f5f5"
-            onChange={handleColorChange}
-          />
-        </Flex>
-
-        {/* Image + conditional fields use default Sanity rendering */}
-        {renderDefault({
-          ...props,
-          members: props.members.filter((m) => !('field' in m && m.field.id === 'color')),
-        })}
-      </Stack>
-    </Card>
+      {renderDefault({
+        ...props,
+        members: props.members.filter((m) => !('field' in m && m.field.id === 'color')),
+      })}
+    </Stack>
   )
 }

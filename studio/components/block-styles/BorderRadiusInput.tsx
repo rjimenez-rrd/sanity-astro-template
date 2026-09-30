@@ -48,62 +48,61 @@ export function BorderRadiusInput(props: ObjectInputProps) {
   const previewRadius = linked ? tl : `${tl} ${tr} ${br} ${bl}`
 
   return (
-    <Card padding={3} radius={2} border tone="transparent">
-      <ControlRow
-        label="Border Radius"
-        stacked
-        aside={
-          <Flex align="center" gap={1}>
-            {hasValues && (
-              <Button
-                mode="bleed"
-                fontSize={0}
-                padding={2}
-                text="Clear"
-                onClick={() => onChange(CORNERS.map((c) => unset([c])))}
-              />
-            )}
+    // "Corners", not "Border Radius": the field's own title above says that.
+    <ControlRow
+      label="Corners"
+      stacked
+      aside={
+        <Flex align="center" gap={1}>
+          {hasValues && (
             <Button
-              icon={linked ? LinkIcon : UnlinkIcon}
-              mode={linked ? 'default' : 'ghost'}
-              tone={linked ? 'primary' : 'default'}
-              fontSize={0}
+              mode="bleed"
+              fontSize={1}
               padding={2}
-              aria-pressed={linked}
-              title={linked ? 'Unlink corners (set individually)' : 'Link all corners'}
-              onClick={() => setLinked(!linked)}
+              text="Clear"
+              onClick={() => onChange(CORNERS.map((c) => unset([c])))}
             />
-          </Flex>
-        }
-      >
-        {/* Corner pickers flank a live preview of the shape */}
-        <Flex align="stretch" justify="center" gap={2}>
-          <Flex direction="column" justify="space-between" gap={2}>
-            {corner('topLeft')}
-            {corner('bottomLeft')}
-          </Flex>
-          <Card
-            flex={1}
-            tone="primary"
-            border
-            style={{
-              minHeight: 60,
-              maxWidth: 120,
-              borderRadius: previewRadius,
-              transition: 'border-radius 0.2s ease',
-            }}
+          )}
+          <Button
+            icon={linked ? LinkIcon : UnlinkIcon}
+            mode={linked ? 'default' : 'ghost'}
+            tone={linked ? 'primary' : 'default'}
+            fontSize={0}
+            padding={2}
+            aria-pressed={linked}
+            title={linked ? 'Unlink corners (set individually)' : 'Link all corners'}
+            onClick={() => setLinked(!linked)}
           />
-          <Flex direction="column" justify="space-between" gap={2}>
-            {corner('topRight')}
-            {corner('bottomRight')}
-          </Flex>
         </Flex>
-        {linked && (
-          <Text size={0} muted align="center">
-            All corners linked
-          </Text>
-        )}
-      </ControlRow>
-    </Card>
+      }
+    >
+      {/* Corner pickers flank a live preview of the shape */}
+      <Flex align="stretch" justify="center" gap={2}>
+        <Flex direction="column" justify="space-between" gap={2}>
+          {corner('topLeft')}
+          {corner('bottomLeft')}
+        </Flex>
+        <Card
+          flex={1}
+          tone="primary"
+          border
+          style={{
+            minHeight: 60,
+            maxWidth: 120,
+            borderRadius: previewRadius,
+            transition: 'border-radius 0.2s ease',
+          }}
+        />
+        <Flex direction="column" justify="space-between" gap={2}>
+          {corner('topRight')}
+          {corner('bottomRight')}
+        </Flex>
+      </Flex>
+      {linked && (
+        <Text size={0} muted align="center">
+          All corners linked
+        </Text>
+      )}
+    </ControlRow>
   )
 }

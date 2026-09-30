@@ -5,7 +5,7 @@ import {DEFAULT_LANGUAGE, LANGUAGES} from '../languages'
  * Document types served from their slug: /<slug>, or under a Parent Page
  * (/<parent>/<slug>), and /es/… in Spanish. They can be each other's parents.
  */
-export const ROOT_SLUG_TYPES = ['page', 'practiceArea']
+const ROOT_SLUG_TYPES = ['page', 'practiceArea']
 
 /**
  * How many pages deep a page can sit under others: /a/b/c/d is a page with
