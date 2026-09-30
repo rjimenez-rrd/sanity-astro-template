@@ -35,11 +35,21 @@ const seoFragment = /* groq */ `
 `
 
 // Internal links store a bare reference; the href needs the target's slug,
-// and its language for the /es/ prefix.
+// and its language for the /es/ prefix. On a page in another language
+// ($language), a link to a page that has a version in that language goes to
+// that version (the English About Us from a Spanish page -> /es/acerca-nosotros);
+// without one it goes to the page picked. Parenthesised so the language filter
+// runs on the list of versions, not on each one.
 const linkFragment = /* groq */ `
   link[] {
     ...,
-    _type == "linkInternal" => { "reference": reference->{ slug, language } }
+    _type == "linkInternal" => {
+      "reference": coalesce(
+        (*[_type == "translation.metadata" && references(^.reference._ref)][0].translations[].value->)
+          [coalesce(language, "en") == $language][0]{ slug, language },
+        reference->{ slug, language }
+      )
+    }
   }
 `
 

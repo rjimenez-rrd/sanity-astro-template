@@ -75,13 +75,22 @@ function pathTranslator(
   language: Language,
 ) {
   const map = new Map<string, string>()
+  const unprefixed: Array<[string, string]> = []
   for (const {pages} of sets) {
     const from = pages?.find((p) => languageOf(p?.language) === DEFAULT_LANGUAGE && p?.slug)
     const to = pages?.find((p) => languageOf(p?.language) === language && p?.slug)
     if (from?.slug && to?.slug) {
       map.set(localizedPath(stegaClean(from.slug), DEFAULT_LANGUAGE), localizedPath(stegaClean(to.slug), language))
     }
+    // The translation's own slug typed without its prefix (/acerca-nosotros in
+    // a Spanish menu) would otherwise be a root path that doesn't exist.
+    if (to?.slug) {
+      unprefixed.push([localizedPath(stegaClean(to.slug), DEFAULT_LANGUAGE), localizedPath(stegaClean(to.slug), language)])
+    }
   }
+  // Only where no default-language page has that path (a practice area can
+  // share its slug across languages; the mapping above already covers it).
+  for (const [from, to] of unprefixed) if (!map.has(from)) map.set(from, to)
   return <T extends string | null | undefined>(href: T): T => {
     const clean = stegaClean(href ?? '')
     const path = clean.replace(/\/+$/, '') || '/'
