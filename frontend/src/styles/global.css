@@ -386,3 +386,117 @@ h2, h3 {
     flex: 0 1 auto;
   }
 }
+
+/*
+ * Style tab parts rendered as markup (SectionMedia.astro): a Background
+ * Video or Slideshow, and Shape Dividers. The element becomes their frame;
+ * inside its own stacking context the layers go, back to front: the element's
+ * background, the media (-2), the overlay (::before, -1), the shapes (-1,
+ * after it), the content — and a shape set to Bring to Front (2) above that.
+ */
+/* :where() — no specificity, so Advanced -> Position (absolute/fixed) wins. */
+:where([data-pb]:has(> [data-pb-media-layer], > [data-pb-shape])) {
+  position: relative;
+  isolation: isolate;
+}
+
+.pb-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+  /* The fallback image, behind the video until it plays. */
+  background-size: cover;
+  background-position: center;
+}
+.pb-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* An embed can't cover like object-fit, so it's a 16:9 box at least as big as
+   the frame, centred: the overflow is cropped off. */
+.pb-media iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 16 / 9;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  border: 0;
+}
+/* Not loaded where it won't play (see the script); the fallback shows. */
+.pb-media video:not([data-playing]),
+.pb-media iframe:not([data-playing]) {
+  display: none;
+}
+
+.pb-slideshow,
+.pb-slide,
+.pb-slide-img {
+  position: absolute;
+  inset: 0;
+}
+.pb-slide {
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--pb-td, 500ms) ease, transform var(--pb-td, 500ms) ease;
+}
+.pb-slide[data-active] {
+  opacity: 1;
+}
+.pb-slide-img {
+  background-repeat: no-repeat;
+}
+/* Slide transitions: the next image comes in from one side, the last one
+   leaves by the other; both stay fully visible while they move. */
+[data-transition^='slide'] .pb-slide[data-active],
+[data-transition^='slide'] .pb-slide[data-leaving] {
+  opacity: 1;
+}
+[data-transition='slide_left'] .pb-slide:not([data-active]) { transform: translateX(100%); }
+[data-transition='slide_left'] .pb-slide[data-leaving] { transform: translateX(-100%); }
+[data-transition='slide_right'] .pb-slide:not([data-active]) { transform: translateX(-100%); }
+[data-transition='slide_right'] .pb-slide[data-leaving] { transform: translateX(100%); }
+[data-transition='slide_up'] .pb-slide:not([data-active]) { transform: translateY(100%); }
+[data-transition='slide_up'] .pb-slide[data-leaving] { transform: translateY(-100%); }
+[data-transition='slide_down'] .pb-slide:not([data-active]) { transform: translateY(-100%); }
+[data-transition='slide_down'] .pb-slide[data-leaving] { transform: translateY(100%); }
+/* Ken Burns: a slow zoom over each image's time on screen. */
+[data-kb='in'] .pb-slide[data-active] .pb-slide-img { animation: pb-kb-in var(--pb-dur, 5000ms) linear forwards; }
+[data-kb='out'] .pb-slide[data-active] .pb-slide-img { animation: pb-kb-out var(--pb-dur, 5000ms) linear forwards; }
+@keyframes pb-kb-in { from { transform: scale(1); } to { transform: scale(1.3); } }
+@keyframes pb-kb-out { from { transform: scale(1.3); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .pb-slide-img { animation: none !important; }
+}
+
+.pb-shape {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  overflow: hidden;
+  line-height: 0;
+  direction: ltr;
+  pointer-events: none;
+}
+.pb-shape[data-pb-shape='top'] { top: -1px; }
+.pb-shape[data-pb-shape='bottom'] { bottom: -1px; transform: rotate(180deg); }
+.pb-shape[data-front] { z-index: 2; }
+.pb-shape svg {
+  display: block;
+  position: relative;
+  left: 50%;
+  width: calc(100% + 1.3px);
+  height: 80px;
+  transform: translateX(-50%);
+}
+.pb-shape[data-flip] svg { transform: translateX(-50%) rotateY(180deg); }

@@ -33,6 +33,8 @@ type Gap = {column?: number; row?: number; unit?: string}
 
 export type ContainerValue = {
   layoutType?: 'flex' | 'grid'
+  overflow?: 'hidden' | 'auto'
+  htmlTag?: string
   contentWidth?: 'boxed' | 'full'
   width?: Responsive<Size>
   minHeight?: Responsive<Size>
@@ -120,6 +122,7 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
 
   const [device, setDevice] = useState<Device>('desktop')
   const [open, setOpen] = useState(true)
+  const [moreOpen, setMoreOpen] = useState(false)
   const responsive = {device, onDevice: setDevice}
 
   /**
@@ -165,6 +168,7 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
   const own = <T,>(r: Responsive<T> | undefined) => r?.[device]
 
   return (
+    <Stack space={3}>
     <Card border radius={2}>
       <SectionHeader title="Container" open={open} onToggle={() => setOpen((o) => !o)} />
 
@@ -388,5 +392,48 @@ export function ContainerLayoutInput(props: ObjectInputProps) {
         </Box>
       )}
     </Card>
+
+    {/* Elementor's Additional Options: what happens to content past the
+        edges, and which HTML element the container renders as. */}
+    <Card border radius={2}>
+      <SectionHeader title="Additional Options" open={moreOpen} onToggle={() => setMoreOpen((o) => !o)} />
+      {moreOpen && (
+        <Box paddingX={3} paddingBottom={4} paddingTop={2}>
+          <Stack space={4}>
+            <ControlRow label="Overflow">
+              <Select
+                fontSize={1}
+                padding={2}
+                value={v.overflow ?? ''}
+                onChange={(e) => patch(['overflow'], e.currentTarget.value)}
+              >
+                <option value="">Default</option>
+                <option value="hidden">Hidden</option>
+                <option value="auto">Auto</option>
+              </Select>
+            </ControlRow>
+            <ControlRow
+              label="HTML Tag"
+              hint="The element it renders as. Section, header, footer and so on help screen readers and search engines; it looks the same."
+            >
+              <Select
+                fontSize={1}
+                padding={2}
+                value={v.htmlTag ?? ''}
+                onChange={(e) => patch(['htmlTag'], e.currentTarget.value)}
+              >
+                <option value="">Default ({variant === 'row' && !isItem ? 'section' : 'div'})</option>
+                {['div', 'section', 'article', 'aside', 'header', 'footer', 'main', 'nav'].map((tag) => (
+                  <option key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </Select>
+            </ControlRow>
+          </Stack>
+        </Box>
+      )}
+    </Card>
+    </Stack>
   )
 }

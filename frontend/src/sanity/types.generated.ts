@@ -124,18 +124,91 @@ export type Design = {
 export type Advanced = {
   margin?: AdvancedMargin;
   padding?: AdvancedPadding;
-  zIndex?: number;
+  alignSelf?: AlignSelf;
   order?: Order;
+  size?: AdvancedSize;
+  position?: AdvancedPosition;
+  zIndex?: number;
   cssId?: string;
   cssClasses?: string;
-  customCss?: string;
   motion?: AdvancedMotion;
+  transform?: Transform;
+  attributes?: string;
+  customCss?: string;
 };
 
 export type Visibility = {
   hideOnDesktop?: boolean;
   hideOnTablet?: boolean;
   hideOnMobile?: boolean;
+};
+
+export type YoutubeVideoAdvanced = {
+  margin?: YoutubeVideoAdvancedMargin;
+  padding?: YoutubeVideoAdvancedPadding;
+  alignSelf?: AdvancedAlignSelf;
+  order?: AdvancedOrder;
+  size?: YoutubeVideoAdvancedSize;
+  position?: YoutubeVideoAdvancedPosition;
+  zIndex?: number;
+  cssId?: string;
+  cssClasses?: string;
+  motion?: YoutubeVideoAdvancedMotion;
+  transform?: AdvancedTransform;
+  attributes?: string;
+  customCss?: string;
+};
+
+export type YoutubeVideoVisibility = {
+  hideOnDesktop?: boolean;
+  hideOnTablet?: boolean;
+  hideOnMobile?: boolean;
+};
+
+export type Video = {
+  url?: string;
+  file?: VideoFile;
+  start?: number;
+  end?: number;
+  playOnce?: boolean;
+  playOnMobile?: boolean;
+  fallback?: Fallback;
+};
+
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type Slideshow = {
+  images?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown; // Unable to locate the referenced type "images.image.media" in schema
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  loop?: boolean;
+  duration?: number;
+  transition?:
+    "fade" | "slide_right" | "slide_left" | "slide_up" | "slide_down";
+  transitionDuration?: number;
+  size?: "cover" | "contain" | "auto";
+  position?:
+    | "center center"
+    | "center left"
+    | "center right"
+    | "top center"
+    | "top left"
+    | "top right"
+    | "bottom center"
+    | "bottom left"
+    | "bottom right";
+  kenBurns?: boolean;
+  kenBurnsDirection?: "in" | "out";
 };
 
 export type Container = {
@@ -150,23 +223,39 @@ export type Container = {
   justifyItems?: NestedContainerContainerJustifyItems;
   gap?: NestedContainerContainerGap;
   wrap?: NestedContainerContainerWrap;
+  overflow?: "hidden" | "auto";
+  htmlTag?:
+    | "div"
+    | "section"
+    | "article"
+    | "aside"
+    | "header"
+    | "footer"
+    | "main"
+    | "nav";
 };
 
 export type NestedContainerDesign = {
   background?: NestedContainerDesignBackground;
   overlay?: NestedContainerDesignOverlay;
   border?: NestedContainerDesignBorder;
+  shapeDivider?: DesignShapeDivider;
 };
 
 export type NestedContainerAdvanced = {
   margin?: NestedContainerAdvancedMargin;
   padding?: NestedContainerAdvancedPadding;
-  zIndex?: number;
+  alignSelf?: NestedContainerAdvancedAlignSelf;
   order?: NestedContainerAdvancedOrder;
+  size?: NestedContainerAdvancedSize;
+  position?: NestedContainerAdvancedPosition;
+  zIndex?: number;
   cssId?: string;
   cssClasses?: string;
-  customCss?: string;
   motion?: NestedContainerAdvancedMotion;
+  transform?: NestedContainerAdvancedTransform;
+  attributes?: string;
+  customCss?: string;
 };
 
 export type NestedContainerVisibility = {
@@ -187,23 +276,39 @@ export type GridRowContainer = {
   justifyItems?: JustifyItems;
   gap?: Gap;
   wrap?: Wrap;
+  overflow?: "hidden" | "auto";
+  htmlTag?:
+    | "div"
+    | "section"
+    | "article"
+    | "aside"
+    | "header"
+    | "footer"
+    | "main"
+    | "nav";
 };
 
 export type GridRowDesign = {
   background?: GridRowDesignBackground;
   overlay?: GridRowDesignOverlay;
   border?: GridRowDesignBorder;
+  shapeDivider?: GridRowDesignShapeDivider;
 };
 
 export type GridRowAdvanced = {
   margin?: GridRowAdvancedMargin;
   padding?: GridRowAdvancedPadding;
-  zIndex?: number;
+  alignSelf?: GridRowAdvancedAlignSelf;
   order?: GridRowAdvancedOrder;
+  size?: GridRowAdvancedSize;
+  position?: GridRowAdvancedPosition;
+  zIndex?: number;
   cssId?: string;
   cssClasses?: string;
-  customCss?: string;
   motion?: GridRowAdvancedMotion;
+  transform?: GridRowAdvancedTransform;
+  attributes?: string;
+  customCss?: string;
 };
 
 export type GridRowVisibility = {
@@ -345,6 +450,16 @@ export type GridColumnContainer = {
   justifyItems?: ContainerJustifyItems;
   gap?: ContainerGap;
   wrap?: ContainerWrap;
+  overflow?: "hidden" | "auto";
+  htmlTag?:
+    | "div"
+    | "section"
+    | "article"
+    | "aside"
+    | "header"
+    | "footer"
+    | "main"
+    | "nav";
 };
 
 export type ContainerWidth = {
@@ -466,13 +581,6 @@ export type ContainerWrap = {
   desktop?: "nowrap" | "wrap";
   tablet?: "nowrap" | "wrap";
   mobile?: "nowrap" | "wrap";
-};
-
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
 export type Icon = {
@@ -624,6 +732,16 @@ export type ColumnsGridColumnContainer = {
   justifyItems?: GridColumnContainerJustifyItems;
   gap?: GridColumnContainerGap;
   wrap?: GridColumnContainerWrap;
+  overflow?: "hidden" | "auto";
+  htmlTag?:
+    | "div"
+    | "section"
+    | "article"
+    | "aside"
+    | "header"
+    | "footer"
+    | "main"
+    | "nav";
 };
 
 export type GridColumnContainerWidth = {
@@ -1514,10 +1632,48 @@ export type AdvancedPadding = {
   linked?: boolean;
 };
 
+export type AlignSelf = {
+  desktop?: string;
+  tablet?: string;
+  mobile?: string;
+};
+
 export type Order = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
+};
+
+export type AdvancedSize = {
+  desktop?: SizeDesktop;
+  tablet?: SizeTablet;
+  mobile?: SizeMobile;
+};
+
+export type SizeDesktop = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type SizeTablet = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type SizeMobile = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type AdvancedPosition = {
+  type?: "" | "absolute" | "fixed";
+  horizontal?: "left" | "right";
+  offsetX?: string;
+  vertical?: "top" | "bottom";
+  offsetY?: string;
 };
 
 export type AdvancedMotion = {
@@ -1531,6 +1687,15 @@ export type AdvancedMotion = {
     | "zoomIn";
   duration?: "slow" | "normal" | "fast";
   delay?: number;
+};
+
+export type Transform = {
+  rotate?: number;
+  scale?: number;
+  translateX?: string;
+  translateY?: string;
+  skewX?: number;
+  skewY?: number;
 };
 
 export type GalleryImageImage = {
@@ -1565,10 +1730,109 @@ export type TabImageImage = {
   _type: "image";
 };
 
+export type YoutubeVideoAdvancedMargin = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type YoutubeVideoAdvancedPadding = {
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+  topTablet?: string;
+  rightTablet?: string;
+  bottomTablet?: string;
+  leftTablet?: string;
+  topMobile?: string;
+  rightMobile?: string;
+  bottomMobile?: string;
+  leftMobile?: string;
+  linked?: boolean;
+};
+
+export type AdvancedAlignSelf = {
+  desktop?: string;
+  tablet?: string;
+  mobile?: string;
+};
+
+export type AdvancedOrder = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type YoutubeVideoAdvancedSize = {
+  desktop?: AdvancedSizeDesktop;
+  tablet?: AdvancedSizeTablet;
+  mobile?: AdvancedSizeMobile;
+};
+
+export type AdvancedSizeDesktop = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type AdvancedSizeTablet = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type AdvancedSizeMobile = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type YoutubeVideoAdvancedPosition = {
+  type?: "" | "absolute" | "fixed";
+  horizontal?: "left" | "right";
+  offsetX?: string;
+  vertical?: "top" | "bottom";
+  offsetY?: string;
+};
+
+export type YoutubeVideoAdvancedMotion = {
+  animation?:
+    | "none"
+    | "fadeIn"
+    | "fadeInUp"
+    | "fadeInDown"
+    | "fadeInLeft"
+    | "fadeInRight"
+    | "zoomIn";
+  duration?: "slow" | "normal" | "fast";
+  delay?: number;
+};
+
+export type AdvancedTransform = {
+  rotate?: number;
+  scale?: number;
+  translateX?: string;
+  translateY?: string;
+  skewX?: number;
+  skewY?: number;
+};
+
 export type GridColumnDesign = {
   background?: GridColumnDesignBackground;
   overlay?: DesignOverlay;
   border?: GridColumnDesignBorder;
+  shapeDivider?: ShapeDivider;
 };
 
 export type GridColumnDesignBackground = {
@@ -1577,7 +1841,9 @@ export type GridColumnDesignBackground = {
 };
 
 export type BackgroundNormal = {
-  type?: "classic" | "gradient";
+  type?: "classic" | "gradient" | "video" | "slideshow";
+  video?: Video;
+  slideshow?: Slideshow;
   color?: string;
   image?: BackgroundNormalImage;
   imageTablet?: BackgroundNormalImageTablet;
@@ -1588,6 +1854,27 @@ export type BackgroundNormal = {
   repeat?: BackgroundNormalRepeat;
   size?: BackgroundNormalSize;
   gradient?: BackgroundNormalGradient;
+};
+
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
+export type VideoFile = {
+  asset?: SanityFileAssetReference;
+  media?: unknown; // Unable to locate the referenced type "video.file.media" in schema
+  _type: "file";
+};
+
+export type Fallback = {
+  asset?: SanityImageAssetReference;
+  media?: unknown; // Unable to locate the referenced type "fallback.media" in schema
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  _type: "image";
 };
 
 export type BackgroundNormalImage = {
@@ -2293,15 +2580,95 @@ export type BorderHoverShadow = {
   position?: "outline" | "inset";
 };
 
+export type ShapeDivider = {
+  top?: Top;
+  bottom?: Bottom;
+};
+
+export type Top = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: TopWidth;
+  height?: Height;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type TopWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Height = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type Bottom = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: BottomWidth;
+  height?: BottomHeight;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type BottomWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type BottomHeight = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
 export type GridColumnAdvanced = {
   margin?: GridColumnAdvancedMargin;
   padding?: GridColumnAdvancedPadding;
+  alignSelf?: GridColumnAdvancedAlignSelf;
+  order?: GridColumnAdvancedOrder;
+  size?: GridColumnAdvancedSize;
+  position?: GridColumnAdvancedPosition;
   zIndex?: number;
-  order?: AdvancedOrder;
   cssId?: string;
   cssClasses?: string;
-  customCss?: string;
   motion?: GridColumnAdvancedMotion;
+  transform?: GridColumnAdvancedTransform;
+  attributes?: string;
+  customCss?: string;
 };
 
 export type GridColumnAdvancedMargin = {
@@ -2336,10 +2703,48 @@ export type GridColumnAdvancedPadding = {
   linked?: boolean;
 };
 
-export type AdvancedOrder = {
+export type GridColumnAdvancedAlignSelf = {
+  desktop?: string;
+  tablet?: string;
+  mobile?: string;
+};
+
+export type GridColumnAdvancedOrder = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
+};
+
+export type GridColumnAdvancedSize = {
+  desktop?: GridColumnAdvancedSizeDesktop;
+  tablet?: GridColumnAdvancedSizeTablet;
+  mobile?: GridColumnAdvancedSizeMobile;
+};
+
+export type GridColumnAdvancedSizeDesktop = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type GridColumnAdvancedSizeTablet = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type GridColumnAdvancedSizeMobile = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type GridColumnAdvancedPosition = {
+  type?: "" | "absolute" | "fixed";
+  horizontal?: "left" | "right";
+  offsetX?: string;
+  vertical?: "top" | "bottom";
+  offsetY?: string;
 };
 
 export type GridColumnAdvancedMotion = {
@@ -2355,6 +2760,15 @@ export type GridColumnAdvancedMotion = {
   delay?: number;
 };
 
+export type GridColumnAdvancedTransform = {
+  rotate?: number;
+  scale?: number;
+  translateX?: string;
+  translateY?: string;
+  skewX?: number;
+  skewY?: number;
+};
+
 export type GridColumnVisibility = {
   hideOnDesktop?: boolean;
   hideOnTablet?: boolean;
@@ -2367,7 +2781,9 @@ export type NestedContainerDesignBackground = {
 };
 
 export type DesignBackgroundNormal = {
-  type?: "classic" | "gradient";
+  type?: "classic" | "gradient" | "video" | "slideshow";
+  video?: Video;
+  slideshow?: Slideshow;
   color?: string;
   image?: DesignBackgroundNormalImage;
   imageTablet?: DesignBackgroundNormalImageTablet;
@@ -3083,6 +3499,81 @@ export type DesignBorderHoverShadow = {
   position?: "outline" | "inset";
 };
 
+export type DesignShapeDivider = {
+  top?: ShapeDividerTop;
+  bottom?: ShapeDividerBottom;
+};
+
+export type ShapeDividerTop = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: ShapeDividerTopWidth;
+  height?: TopHeight;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type ShapeDividerTopWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type TopHeight = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type ShapeDividerBottom = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: ShapeDividerBottomWidth;
+  height?: ShapeDividerBottomHeight;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type ShapeDividerBottomWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type ShapeDividerBottomHeight = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
 export type NestedContainerAdvancedMargin = {
   top?: string;
   right?: string;
@@ -3115,10 +3606,48 @@ export type NestedContainerAdvancedPadding = {
   linked?: boolean;
 };
 
+export type NestedContainerAdvancedAlignSelf = {
+  desktop?: string;
+  tablet?: string;
+  mobile?: string;
+};
+
 export type NestedContainerAdvancedOrder = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
+};
+
+export type NestedContainerAdvancedSize = {
+  desktop?: NestedContainerAdvancedSizeDesktop;
+  tablet?: NestedContainerAdvancedSizeTablet;
+  mobile?: NestedContainerAdvancedSizeMobile;
+};
+
+export type NestedContainerAdvancedSizeDesktop = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type NestedContainerAdvancedSizeTablet = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type NestedContainerAdvancedSizeMobile = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type NestedContainerAdvancedPosition = {
+  type?: "" | "absolute" | "fixed";
+  horizontal?: "left" | "right";
+  offsetX?: string;
+  vertical?: "top" | "bottom";
+  offsetY?: string;
 };
 
 export type NestedContainerAdvancedMotion = {
@@ -3134,10 +3663,20 @@ export type NestedContainerAdvancedMotion = {
   delay?: number;
 };
 
+export type NestedContainerAdvancedTransform = {
+  rotate?: number;
+  scale?: number;
+  translateX?: string;
+  translateY?: string;
+  skewX?: number;
+  skewY?: number;
+};
+
 export type ColumnsGridColumnDesign = {
   background?: ColumnsGridColumnDesignBackground;
   overlay?: GridColumnDesignOverlay;
   border?: ColumnsGridColumnDesignBorder;
+  shapeDivider?: GridColumnDesignShapeDivider;
 };
 
 export type ColumnsGridColumnDesignBackground = {
@@ -3146,7 +3685,9 @@ export type ColumnsGridColumnDesignBackground = {
 };
 
 export type GridColumnDesignBackgroundNormal = {
-  type?: "classic" | "gradient";
+  type?: "classic" | "gradient" | "video" | "slideshow";
+  video?: Video;
+  slideshow?: Slideshow;
   color?: string;
   image?: GridColumnDesignBackgroundNormalImage;
   imageTablet?: GridColumnDesignBackgroundNormalImageTablet;
@@ -3862,15 +4403,95 @@ export type GridColumnDesignBorderHoverShadow = {
   position?: "outline" | "inset";
 };
 
+export type GridColumnDesignShapeDivider = {
+  top?: DesignShapeDividerTop;
+  bottom?: DesignShapeDividerBottom;
+};
+
+export type DesignShapeDividerTop = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: DesignShapeDividerTopWidth;
+  height?: ShapeDividerTopHeight;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type DesignShapeDividerTopWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type ShapeDividerTopHeight = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignShapeDividerBottom = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: DesignShapeDividerBottomWidth;
+  height?: DesignShapeDividerBottomHeight;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type DesignShapeDividerBottomWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignShapeDividerBottomHeight = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
 export type ColumnsGridColumnAdvanced = {
   margin?: ColumnsGridColumnAdvancedMargin;
   padding?: ColumnsGridColumnAdvancedPadding;
+  alignSelf?: ColumnsGridColumnAdvancedAlignSelf;
+  order?: ColumnsGridColumnAdvancedOrder;
+  size?: ColumnsGridColumnAdvancedSize;
+  position?: ColumnsGridColumnAdvancedPosition;
   zIndex?: number;
-  order?: GridColumnAdvancedOrder;
   cssId?: string;
   cssClasses?: string;
-  customCss?: string;
   motion?: ColumnsGridColumnAdvancedMotion;
+  transform?: ColumnsGridColumnAdvancedTransform;
+  attributes?: string;
+  customCss?: string;
 };
 
 export type ColumnsGridColumnAdvancedMargin = {
@@ -3905,10 +4526,48 @@ export type ColumnsGridColumnAdvancedPadding = {
   linked?: boolean;
 };
 
-export type GridColumnAdvancedOrder = {
+export type ColumnsGridColumnAdvancedAlignSelf = {
+  desktop?: string;
+  tablet?: string;
+  mobile?: string;
+};
+
+export type ColumnsGridColumnAdvancedOrder = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
+};
+
+export type ColumnsGridColumnAdvancedSize = {
+  desktop?: ColumnsGridColumnAdvancedSizeDesktop;
+  tablet?: ColumnsGridColumnAdvancedSizeTablet;
+  mobile?: ColumnsGridColumnAdvancedSizeMobile;
+};
+
+export type ColumnsGridColumnAdvancedSizeDesktop = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type ColumnsGridColumnAdvancedSizeTablet = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type ColumnsGridColumnAdvancedSizeMobile = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type ColumnsGridColumnAdvancedPosition = {
+  type?: "" | "absolute" | "fixed";
+  horizontal?: "left" | "right";
+  offsetX?: string;
+  vertical?: "top" | "bottom";
+  offsetY?: string;
 };
 
 export type ColumnsGridColumnAdvancedMotion = {
@@ -3924,6 +4583,15 @@ export type ColumnsGridColumnAdvancedMotion = {
   delay?: number;
 };
 
+export type ColumnsGridColumnAdvancedTransform = {
+  rotate?: number;
+  scale?: number;
+  translateX?: string;
+  translateY?: string;
+  skewX?: number;
+  skewY?: number;
+};
+
 export type ColumnsGridColumnVisibility = {
   hideOnDesktop?: boolean;
   hideOnTablet?: boolean;
@@ -3936,7 +4604,9 @@ export type GridRowDesignBackground = {
 };
 
 export type GridRowDesignBackgroundNormal = {
-  type?: "classic" | "gradient";
+  type?: "classic" | "gradient" | "video" | "slideshow";
+  video?: Video;
+  slideshow?: Slideshow;
   color?: string;
   image?: GridRowDesignBackgroundNormalImage;
   imageTablet?: GridRowDesignBackgroundNormalImageTablet;
@@ -4652,6 +5322,81 @@ export type GridRowDesignBorderHoverShadow = {
   position?: "outline" | "inset";
 };
 
+export type GridRowDesignShapeDivider = {
+  top?: GridRowDesignShapeDividerTop;
+  bottom?: GridRowDesignShapeDividerBottom;
+};
+
+export type GridRowDesignShapeDividerTop = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: GridRowDesignShapeDividerTopWidth;
+  height?: DesignShapeDividerTopHeight;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type GridRowDesignShapeDividerTopWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type DesignShapeDividerTopHeight = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignShapeDividerBottom = {
+  type?:
+    | "mountains"
+    | "zigzag"
+    | "pyramids"
+    | "triangle"
+    | "triangle-asymmetrical"
+    | "tilt"
+    | "opacity-tilt"
+    | "curve"
+    | "curve-asymmetrical"
+    | "wave"
+    | "waves"
+    | "arrow"
+    | "book";
+  color?: string;
+  width?: GridRowDesignShapeDividerBottomWidth;
+  height?: GridRowDesignShapeDividerBottomHeight;
+  flip?: boolean;
+  invert?: boolean;
+  front?: boolean;
+};
+
+export type GridRowDesignShapeDividerBottomWidth = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
+export type GridRowDesignShapeDividerBottomHeight = {
+  desktop?: number;
+  tablet?: number;
+  mobile?: number;
+};
+
 export type GridRowAdvancedMargin = {
   top?: string;
   right?: string;
@@ -4684,10 +5429,48 @@ export type GridRowAdvancedPadding = {
   linked?: boolean;
 };
 
+export type GridRowAdvancedAlignSelf = {
+  desktop?: string;
+  tablet?: string;
+  mobile?: string;
+};
+
 export type GridRowAdvancedOrder = {
   desktop?: number;
   tablet?: number;
   mobile?: number;
+};
+
+export type GridRowAdvancedSize = {
+  desktop?: GridRowAdvancedSizeDesktop;
+  tablet?: GridRowAdvancedSizeTablet;
+  mobile?: GridRowAdvancedSizeMobile;
+};
+
+export type GridRowAdvancedSizeDesktop = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type GridRowAdvancedSizeTablet = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type GridRowAdvancedSizeMobile = {
+  mode?: string;
+  grow?: number;
+  shrink?: number;
+};
+
+export type GridRowAdvancedPosition = {
+  type?: "" | "absolute" | "fixed";
+  horizontal?: "left" | "right";
+  offsetX?: string;
+  vertical?: "top" | "bottom";
+  offsetY?: string;
 };
 
 export type GridRowAdvancedMotion = {
@@ -4701,6 +5484,15 @@ export type GridRowAdvancedMotion = {
     | "zoomIn";
   duration?: "slow" | "normal" | "fast";
   delay?: number;
+};
+
+export type GridRowAdvancedTransform = {
+  rotate?: number;
+  scale?: number;
+  translateX?: string;
+  translateY?: string;
+  skewX?: number;
+  skewY?: number;
 };
 
 export type DropdownItemIcon = {
@@ -4724,6 +5516,9 @@ export type YoutubeVideo = {
   _type: "youtubeVideo";
   url: string;
   caption?: string;
+  blockStyles?: BlockStyles;
+  advanced?: YoutubeVideoAdvanced;
+  visibility?: YoutubeVideoVisibility;
 };
 
 export type PageBuilder = Array<
@@ -5380,13 +6175,6 @@ export type SanityImageHotspot = {
   y: number;
   height: number;
   width: number;
-};
-
-export type SanityFileAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
 };
 
 export type LottieAnimation = {
@@ -6432,6 +7220,11 @@ export type AllSanitySchemaTypes =
   | Design
   | Advanced
   | Visibility
+  | YoutubeVideoAdvanced
+  | YoutubeVideoVisibility
+  | Video
+  | SanityImageAssetReference
+  | Slideshow
   | Container
   | NestedContainerDesign
   | NestedContainerAdvanced
@@ -6477,7 +7270,6 @@ export type AllSanitySchemaTypes =
   | ContainerGapTablet
   | ContainerGapMobile
   | ContainerWrap
-  | SanityImageAssetReference
   | Icon
   | BackgroundImage
   | NestedContainerContainerWidth
@@ -6592,15 +7384,36 @@ export type AllSanitySchemaTypes =
   | HoverShadow
   | AdvancedMargin
   | AdvancedPadding
+  | AlignSelf
   | Order
+  | AdvancedSize
+  | SizeDesktop
+  | SizeTablet
+  | SizeMobile
+  | AdvancedPosition
   | AdvancedMotion
+  | Transform
   | GalleryImageImage
   | LogoItemImage
   | TabIcon
   | TabImageImage
+  | YoutubeVideoAdvancedMargin
+  | YoutubeVideoAdvancedPadding
+  | AdvancedAlignSelf
+  | AdvancedOrder
+  | YoutubeVideoAdvancedSize
+  | AdvancedSizeDesktop
+  | AdvancedSizeTablet
+  | AdvancedSizeMobile
+  | YoutubeVideoAdvancedPosition
+  | YoutubeVideoAdvancedMotion
+  | AdvancedTransform
   | GridColumnDesign
   | GridColumnDesignBackground
   | BackgroundNormal
+  | SanityFileAssetReference
+  | VideoFile
+  | Fallback
   | BackgroundNormalImage
   | BackgroundNormalImageTablet
   | BackgroundNormalImageMobile
@@ -6670,11 +7483,25 @@ export type AllSanitySchemaTypes =
   | BorderHoverRadiusTablet
   | BorderHoverRadiusMobile
   | BorderHoverShadow
+  | ShapeDivider
+  | Top
+  | TopWidth
+  | Height
+  | Bottom
+  | BottomWidth
+  | BottomHeight
   | GridColumnAdvanced
   | GridColumnAdvancedMargin
   | GridColumnAdvancedPadding
-  | AdvancedOrder
+  | GridColumnAdvancedAlignSelf
+  | GridColumnAdvancedOrder
+  | GridColumnAdvancedSize
+  | GridColumnAdvancedSizeDesktop
+  | GridColumnAdvancedSizeTablet
+  | GridColumnAdvancedSizeMobile
+  | GridColumnAdvancedPosition
   | GridColumnAdvancedMotion
+  | GridColumnAdvancedTransform
   | GridColumnVisibility
   | NestedContainerDesignBackground
   | DesignBackgroundNormal
@@ -6747,10 +7574,24 @@ export type AllSanitySchemaTypes =
   | DesignBorderHoverRadiusTablet
   | DesignBorderHoverRadiusMobile
   | DesignBorderHoverShadow
+  | DesignShapeDivider
+  | ShapeDividerTop
+  | ShapeDividerTopWidth
+  | TopHeight
+  | ShapeDividerBottom
+  | ShapeDividerBottomWidth
+  | ShapeDividerBottomHeight
   | NestedContainerAdvancedMargin
   | NestedContainerAdvancedPadding
+  | NestedContainerAdvancedAlignSelf
   | NestedContainerAdvancedOrder
+  | NestedContainerAdvancedSize
+  | NestedContainerAdvancedSizeDesktop
+  | NestedContainerAdvancedSizeTablet
+  | NestedContainerAdvancedSizeMobile
+  | NestedContainerAdvancedPosition
   | NestedContainerAdvancedMotion
+  | NestedContainerAdvancedTransform
   | ColumnsGridColumnDesign
   | ColumnsGridColumnDesignBackground
   | GridColumnDesignBackgroundNormal
@@ -6823,11 +7664,25 @@ export type AllSanitySchemaTypes =
   | GridColumnDesignBorderHoverRadiusTablet
   | GridColumnDesignBorderHoverRadiusMobile
   | GridColumnDesignBorderHoverShadow
+  | GridColumnDesignShapeDivider
+  | DesignShapeDividerTop
+  | DesignShapeDividerTopWidth
+  | ShapeDividerTopHeight
+  | DesignShapeDividerBottom
+  | DesignShapeDividerBottomWidth
+  | DesignShapeDividerBottomHeight
   | ColumnsGridColumnAdvanced
   | ColumnsGridColumnAdvancedMargin
   | ColumnsGridColumnAdvancedPadding
-  | GridColumnAdvancedOrder
+  | ColumnsGridColumnAdvancedAlignSelf
+  | ColumnsGridColumnAdvancedOrder
+  | ColumnsGridColumnAdvancedSize
+  | ColumnsGridColumnAdvancedSizeDesktop
+  | ColumnsGridColumnAdvancedSizeTablet
+  | ColumnsGridColumnAdvancedSizeMobile
+  | ColumnsGridColumnAdvancedPosition
   | ColumnsGridColumnAdvancedMotion
+  | ColumnsGridColumnAdvancedTransform
   | ColumnsGridColumnVisibility
   | GridRowDesignBackground
   | GridRowDesignBackgroundNormal
@@ -6900,10 +7755,24 @@ export type AllSanitySchemaTypes =
   | GridRowDesignBorderHoverRadiusTablet
   | GridRowDesignBorderHoverRadiusMobile
   | GridRowDesignBorderHoverShadow
+  | GridRowDesignShapeDivider
+  | GridRowDesignShapeDividerTop
+  | GridRowDesignShapeDividerTopWidth
+  | DesignShapeDividerTopHeight
+  | GridRowDesignShapeDividerBottom
+  | GridRowDesignShapeDividerBottomWidth
+  | GridRowDesignShapeDividerBottomHeight
   | GridRowAdvancedMargin
   | GridRowAdvancedPadding
+  | GridRowAdvancedAlignSelf
   | GridRowAdvancedOrder
+  | GridRowAdvancedSize
+  | GridRowAdvancedSizeDesktop
+  | GridRowAdvancedSizeTablet
+  | GridRowAdvancedSizeMobile
+  | GridRowAdvancedPosition
   | GridRowAdvancedMotion
+  | GridRowAdvancedTransform
   | DropdownItemIcon
   | ExternalVideo
   | YoutubeVideo
@@ -6936,7 +7805,6 @@ export type AllSanitySchemaTypes =
   | BlockStyles
   | SanityImageCrop
   | SanityImageHotspot
-  | SanityFileAssetReference
   | LottieAnimation
   | DataTable
   | HtmlBlock
@@ -10586,7 +11454,42 @@ export type HOME_PAGE_QUERY_RESULT = {
                     _type: "youtubeVideo";
                     url: string;
                     caption?: string;
-                    blockStyles: null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    advanced?: YoutubeVideoAdvanced;
+                    visibility?: YoutubeVideoVisibility;
                   }
               > | null;
               design?: GridColumnDesign;
@@ -11586,7 +12489,42 @@ export type HOME_PAGE_QUERY_RESULT = {
             _type: "youtubeVideo";
             url: string;
             caption?: string;
-            blockStyles: null;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            advanced?: YoutubeVideoAdvanced;
+            visibility?: YoutubeVideoVisibility;
           }
       > | null;
       design?: ColumnsGridColumnDesign;
@@ -15322,7 +16260,42 @@ export type PAGE_QUERY_RESULT = Array<
                         _type: "youtubeVideo";
                         url: string;
                         caption?: string;
-                        blockStyles: null;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        advanced?: YoutubeVideoAdvanced;
+                        visibility?: YoutubeVideoVisibility;
                       }
                   > | null;
                   design?: GridColumnDesign;
@@ -16323,7 +17296,42 @@ export type PAGE_QUERY_RESULT = Array<
                 _type: "youtubeVideo";
                 url: string;
                 caption?: string;
-                blockStyles: null;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                advanced?: YoutubeVideoAdvanced;
+                visibility?: YoutubeVideoVisibility;
               }
           > | null;
           design?: ColumnsGridColumnDesign;
@@ -20054,7 +21062,42 @@ export type PAGE_QUERY_RESULT = Array<
                         _type: "youtubeVideo";
                         url: string;
                         caption?: string;
-                        blockStyles: null;
+                        blockStyles: {
+                          padding: Padding | null;
+                          margin: Margin | null;
+                          size: Size | null;
+                          border: Border | null;
+                          borderRadius: BorderRadius | null;
+                          background: {
+                            color: string | null;
+                            image: {
+                              asset: {
+                                _id: string;
+                                url: string;
+                                metadata: {
+                                  lqip: string | null;
+                                  dimensions: {
+                                    width: number;
+                                    height: number;
+                                  } | null;
+                                } | null;
+                              } | null;
+                              alt: null;
+                              hotspot: SanityImageHotspot | null;
+                              crop: SanityImageCrop | null;
+                            } | null;
+                            size: "auto" | "contain" | "cover" | null;
+                            overlay: string | null;
+                          } | null;
+                          typography: Typography | null;
+                          effects: Effects | null;
+                          motion: Motion | null;
+                          cssId: string | null;
+                          cssClasses: string | null;
+                          customCss: string | null;
+                        } | null;
+                        advanced?: YoutubeVideoAdvanced;
+                        visibility?: YoutubeVideoVisibility;
                       }
                   > | null;
                   design?: GridColumnDesign;
@@ -21055,7 +22098,42 @@ export type PAGE_QUERY_RESULT = Array<
                 _type: "youtubeVideo";
                 url: string;
                 caption?: string;
-                blockStyles: null;
+                blockStyles: {
+                  padding: Padding | null;
+                  margin: Margin | null;
+                  size: Size | null;
+                  border: Border | null;
+                  borderRadius: BorderRadius | null;
+                  background: {
+                    color: string | null;
+                    image: {
+                      asset: {
+                        _id: string;
+                        url: string;
+                        metadata: {
+                          lqip: string | null;
+                          dimensions: {
+                            width: number;
+                            height: number;
+                          } | null;
+                        } | null;
+                      } | null;
+                      alt: null;
+                      hotspot: SanityImageHotspot | null;
+                      crop: SanityImageCrop | null;
+                    } | null;
+                    size: "auto" | "contain" | "cover" | null;
+                    overlay: string | null;
+                  } | null;
+                  typography: Typography | null;
+                  effects: Effects | null;
+                  motion: Motion | null;
+                  cssId: string | null;
+                  cssClasses: string | null;
+                  customCss: string | null;
+                } | null;
+                advanced?: YoutubeVideoAdvanced;
+                visibility?: YoutubeVideoVisibility;
               }
           > | null;
           design?: ColumnsGridColumnDesign;
@@ -25248,7 +26326,42 @@ export type NEWS_POST_QUERY_RESULT = {
                     _type: "youtubeVideo";
                     url: string;
                     caption?: string;
-                    blockStyles: null;
+                    blockStyles: {
+                      padding: Padding | null;
+                      margin: Margin | null;
+                      size: Size | null;
+                      border: Border | null;
+                      borderRadius: BorderRadius | null;
+                      background: {
+                        color: string | null;
+                        image: {
+                          asset: {
+                            _id: string;
+                            url: string;
+                            metadata: {
+                              lqip: string | null;
+                              dimensions: {
+                                width: number;
+                                height: number;
+                              } | null;
+                            } | null;
+                          } | null;
+                          alt: null;
+                          hotspot: SanityImageHotspot | null;
+                          crop: SanityImageCrop | null;
+                        } | null;
+                        size: "auto" | "contain" | "cover" | null;
+                        overlay: string | null;
+                      } | null;
+                      typography: Typography | null;
+                      effects: Effects | null;
+                      motion: Motion | null;
+                      cssId: string | null;
+                      cssClasses: string | null;
+                      customCss: string | null;
+                    } | null;
+                    advanced?: YoutubeVideoAdvanced;
+                    visibility?: YoutubeVideoVisibility;
                   }
               > | null;
               design?: GridColumnDesign;
@@ -26248,7 +27361,42 @@ export type NEWS_POST_QUERY_RESULT = {
             _type: "youtubeVideo";
             url: string;
             caption?: string;
-            blockStyles: null;
+            blockStyles: {
+              padding: Padding | null;
+              margin: Margin | null;
+              size: Size | null;
+              border: Border | null;
+              borderRadius: BorderRadius | null;
+              background: {
+                color: string | null;
+                image: {
+                  asset: {
+                    _id: string;
+                    url: string;
+                    metadata: {
+                      lqip: string | null;
+                      dimensions: {
+                        width: number;
+                        height: number;
+                      } | null;
+                    } | null;
+                  } | null;
+                  alt: null;
+                  hotspot: SanityImageHotspot | null;
+                  crop: SanityImageCrop | null;
+                } | null;
+                size: "auto" | "contain" | "cover" | null;
+                overlay: string | null;
+              } | null;
+              typography: Typography | null;
+              effects: Effects | null;
+              motion: Motion | null;
+              cssId: string | null;
+              cssClasses: string | null;
+              customCss: string | null;
+            } | null;
+            advanced?: YoutubeVideoAdvanced;
+            visibility?: YoutubeVideoVisibility;
           }
       > | null;
       design?: ColumnsGridColumnDesign;

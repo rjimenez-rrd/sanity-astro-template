@@ -20,10 +20,11 @@ import {
 } from './container'
 import {buildDesignCss, designOverrides, type DesignSettings} from './design'
 import {scopeCustomCss} from './customCss'
+import {buildAdvancedCss, type AdvancedLayout} from './advancedCss'
 import type {BlockStyles} from './blockStyles'
 
 /** The Advanced tab of a container or one of its columns. */
-export interface ContainerAdvanced {
+export interface ContainerAdvanced extends AdvancedLayout {
   padding?: BlockStyles['padding']
   margin?: BlockStyles['margin']
   zIndex?: number | null
@@ -32,6 +33,7 @@ export interface ContainerAdvanced {
   cssClasses?: string | null
   customCss?: string | null
   motion?: unknown
+  attributes?: string | null
 }
 
 /**
@@ -166,6 +168,10 @@ export function buildContainerStyles(input: ContainerStylesInput): string {
   const rowDesign = clean(input.design)
   if (rowKey) buildDesignCss(rowKey, rowDesign, css)
   for (const col of columns) if (col.key) buildDesignCss(col.key, col.design, css)
+
+  // Advanced tab: Align Self, Size, Position and Transform.
+  if (rowKey) buildAdvancedCss(rowKey, clean(input.advanced), css)
+  for (const col of columns) if (col.key) buildAdvancedCss(col.key, clean(col.advanced), css)
 
   // In Grid mode the preset defines the row's tracks.
   if (rowContainer?.layoutType === 'grid') {

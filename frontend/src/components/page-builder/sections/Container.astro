@@ -4,6 +4,7 @@ import {getPublishedId} from '@sanity/client/csm'
 import {createDataAttribute} from '@sanity/visual-editing/create-data-attribute'
 import {projectId, dataset} from '@/sanity/lib/env'
 import BlockRenderer from '../BlockRenderer.astro'
+import SectionMedia from './SectionMedia.astro'
 import {
   safeCssClasses,
   safeCssId,
@@ -20,6 +21,7 @@ import {
 import {elementStyle} from '@/lib/blockStyles'
 import {animationAttrs} from '@/lib/animation'
 import {resolveHref, type LinkItem} from '@/lib/links'
+import {parseAttributes} from '@/lib/advancedCss'
 import {type DesignSettings} from '@/lib/design'
 import type {ContainerBlockData, NestedContainerData} from '@/types/sanity'
 
@@ -93,6 +95,11 @@ const rowContainer = clean(row.container) ?? undefined
 const rowKey = safeKey(stegaClean(row._key))
 const rowPath = basePath ?? (rowKey ? `pageBuilder[_key=="${rowKey}"]` : undefined)
 
+/** The chosen HTML tag if it's one of the offered ones, else the default. */
+const TAGS = new Set(['div', 'section', 'article', 'aside', 'header', 'footer', 'main', 'nav'])
+const htmlTag = (value: string | null | undefined, fallback: string) =>
+  (value && TAGS.has(value) ? value : fallback) as 'div'
+
 const columns = ((row.columns ?? []) as Column[]).map((column) => {
   const key = safeKey(stegaClean(column._key))
   const advanced = clean(column.advanced)
@@ -107,6 +114,9 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
     column,
     key,
     path,
+    // Layout -> Additional Options -> HTML Tag; Advanced -> Attributes.
+    tag: htmlTag(clean(column.container)?.htmlTag, 'div'),
+    attributes: parseAttributes(advanced?.attributes),
     label: editing ? stegaClean(column.label)?.trim() || undefined : undefined,
     sanity: path ? sanityAttr(path) : undefined,
     container: clean(column.container) ?? undefined,
@@ -149,8 +159,9 @@ const rowStyle = elementStyle(
   mergeStyles(row.blockStyles, rowAdvanced ?? null, rowDesign),
 )
 
-// A page section at the top level; inside a column it's just a box.
-const Element = nested ? 'div' : 'section'
+// A page section at the top level, inside a column just a box — unless Layout
+// -> Additional Options -> HTML Tag picks another.
+const Element = htmlTag(clean(row.container)?.htmlTag, nested ? 'div' : 'section')
 
 ---
 
@@ -161,6 +172,7 @@ const Element = nested ? 'div' : 'section'
   its own styled box, and the flex container for its blocks — as in Elementor.
 */}
 <Element
+  {...parseAttributes(rowAdvanced?.attributes)}
   data-pb={rowKey}
   id={safeCssId(rowAdvanced?.cssId)}
   class={safeCssClasses(rowAdvanced?.cssClasses)}
@@ -172,12 +184,15 @@ const Element = nested ? 'div' : 'section'
   data-pb-nested={nested ? '' : undefined}
   {...animationAttrs(rowAdvanced?.motion)}
 >
+  <SectionMedia elementKey={rowKey} design={rowDesign} />
   <div data-pb-inner={rowKey}>
     {
       columns.map((col) => {
         const content = col.column.content ?? []
+        const ColumnTag = col.tag
         return (
-          <div
+          <ColumnTag
+            {...col.attributes}
             class={[col.classes, col.href && 'relative cursor-pointer'].filter(Boolean).join(' ') || undefined}
             id={col.id}
             data-pb-link={col.href ? '' : undefined}
@@ -191,6 +206,7 @@ const Element = nested ? 'div' : 'section'
             style={col.style}
             {...col.animation}
           >
+            <SectionMedia elementKey={col.key} design={col.design} />
             {/* A linked column: an empty link stretched over it, so the whole
                 column is clickable without wrapping its buttons and links in
                 another link (not allowed in HTML). global.css lifts those above
@@ -221,7 +237,7 @@ const Element = nested ? 'div' : 'section'
                 Empty column
               </div>
             )}
-          </div>
+          </ColumnTag>
         )
       })
     }

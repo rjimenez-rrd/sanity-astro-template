@@ -1,0 +1,204 @@
+---
+/**
+ * The parts of a container's or column's Style tab that need markup rather
+ * than CSS: a Background Video or Slideshow (a layer behind the overlay and
+ * content), and Shape Dividers along the top and bottom edges. Rendered as
+ * the first children of the container's element; global.css positions them.
+ */
+import {backgroundImageUrl, videoSource, type BackgroundSlideshow, type BackgroundVideo} from '@/lib/backgroundMedia'
+import {SHAPES, shapePath} from '@/lib/shapeDividers'
+import {safeColor} from '@/lib/design'
+import {CssBuilder, MEDIA, resolve, type Device, type Responsive} from '@/lib/container'
+
+type Shape = {
+  type?: string | null
+  color?: string | null
+  width?: Responsive<number>
+  height?: Responsive<number>
+  flip?: boolean | null
+  invert?: boolean | null
+  front?: boolean | null
+}
+
+interface Props {
+  /** The element's data-pb key, to scope the shapes' sizes. */
+  elementKey?: string
+  /** The Style tab (design), already cleaned of editing markers. */
+  design?: {
+    background?: {
+      normal?: {type?: string | null; video?: BackgroundVideo | null; slideshow?: BackgroundSlideshow | null} | null
+    } | null
+    shapeDivider?: {top?: Shape | null; bottom?: Shape | null} | null
+  } | null
+}
+
+const {elementKey, design} = Astro.props
+const bg = design?.background?.normal
+const type = bg?.type
+
+// --- Background Video ---
+const video = type === 'video' ? bg?.video : undefined
+const source = videoSource(video)
+const fallback = backgroundImageUrl(video?.fallback)
+
+// --- Background Slideshow ---
+const show = type === 'slideshow' ? bg?.slideshow : undefined
+const slides = (show?.images ?? []).map((image) => backgroundImageUrl(image)).filter(Boolean) as string[]
+const clampMs = (n: number | null | undefined, fallbackMs: number) =>
+  typeof n === 'number' && Number.isFinite(n) ? Math.min(60000, Math.max(100, n)) : fallbackMs
+const SIZES = new Set(['cover', 'contain', 'auto'])
+const TRANSITIONS = new Set(['fade', 'slide_right', 'slide_left', 'slide_up', 'slide_down'])
+const slideStyle = [
+  `background-size:${SIZES.has(show?.size ?? '') ? show!.size : 'cover'}`,
+  `background-position:${/^(top|center|bottom) (left|center|right)$/.test(show?.position ?? '') ? show!.position : 'center center'}`,
+].join(';')
+
+// --- Shape Dividers ---
+const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
+const shapes = (['top', 'bottom'] as const)
+  .map((edge) => ({edge, shape: design?.shapeDivider?.[edge]}))
+  .filter(({shape}) => shape?.type && SHAPES[shape.type])
+
+// Width (%) and height (px) per device, scoped to this element's own shapes.
+const shapeCss = new CssBuilder()
+if (elementKey) {
+  for (const {edge, shape} of shapes) {
+    const selector = `[data-pb="${elementKey}"]>[data-pb-shape="${edge}"] svg`
+    for (const device of DEVICES) {
+      const width = resolve(shape!.width, device)
+      const height = resolve(shape!.height, device)
+      const w = width.own && typeof width.value === 'number' ? Math.min(300, Math.max(100, width.value)) : undefined
+      const h = height.own && typeof height.value === 'number' ? Math.min(500, Math.max(0, height.value)) : undefined
+      if (w !== undefined || h !== undefined) {
+        shapeCss.add(MEDIA[device], selector, {
+          width: w !== undefined ? `calc(${w}% + 1.3px)` : undefined,
+          height: h !== undefined ? `${h}px` : undefined,
+        })
+      }
+    }
+  }
+}
+const shapeCssText = shapeCss.toString()
+---
+
+{
+  (source || slides.length > 0) && (
+    <div
+      class="pb-media"
+      data-pb-media-layer
+      data-mobile={video?.playOnMobile ? 'play' : type === 'video' ? 'fallback' : 'play'}
+      style={fallback ? `background-image:url(${fallback})` : undefined}
+      aria-hidden="true"
+    >
+      {source?.kind === 'file' && (
+        <video
+          data-src={source.src}
+          data-start={source.start}
+          data-end={source.end}
+          data-once={video?.playOnce ? '' : undefined}
+          muted
+          playsinline
+          preload="none"
+        />
+      )}
+      {source?.kind === 'embed' && (
+        <iframe data-src={source.src} title="" tabindex="-1" allow="autoplay; encrypted-media; picture-in-picture" />
+      )}
+      {slides.length > 0 && (
+        <div
+          class="pb-slideshow"
+          data-pb-slideshow
+          data-duration={clampMs(show?.duration, 5000)}
+          data-loop={show?.loop === false ? 'false' : 'true'}
+          data-transition={TRANSITIONS.has(show?.transition ?? '') ? show!.transition : 'fade'}
+          data-kb={show?.kenBurns ? (show.kenBurnsDirection === 'out' ? 'out' : 'in') : undefined}
+          style={`--pb-td:${clampMs(show?.transitionDuration, 500)}ms;--pb-dur:${clampMs(show?.duration, 5000)}ms`}
+        >
+          {slides.map((url, i) => (
+            <div class="pb-slide" data-active={i === 0 ? '' : undefined}>
+              <div class="pb-slide-img" style={`background-image:url(${url});${slideStyle}`} />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+{
+  shapes.map(({edge, shape}) => (
+    <div
+      class="pb-shape"
+      data-pb-shape={edge}
+      data-front={shape!.front ? '' : undefined}
+      data-flip={shape!.flip ? '' : undefined}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 1000 100" preserveAspectRatio="none" style={`fill:${safeColor(shape!.color) ?? '#ffffff'}`}>
+        {SHAPES[shape!.type!].map((layer) => (
+          <path d={shapePath(layer.edge, Boolean(shape!.invert))} opacity={layer.opacity} />
+        ))}
+      </svg>
+    </div>
+  ))
+}
+
+{shapeCssText && <Fragment set:html={`<style>${shapeCssText}</style>`} />}
+
+<script>
+  /**
+   * Loads each background video only where it will play: phones get the
+   * fallback image instead unless Play On Mobile is on, and never download
+   * the video. Then keeps a video to its Start/End times, and runs slideshows.
+   */
+  const phone = window.matchMedia('(max-width: 767px)')
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+  document.querySelectorAll<HTMLElement>('[data-pb-media-layer]').forEach((layer) => {
+    const plays = layer.dataset.mobile === 'play' || !phone.matches
+    if (plays) {
+      layer.querySelectorAll<HTMLIFrameElement | HTMLVideoElement>('[data-src]').forEach((el) => {
+        el.src = el.dataset.src!
+        el.setAttribute('data-playing', '')
+      })
+    }
+
+    const video = layer.querySelector<HTMLVideoElement>('video[data-playing]')
+    if (video) {
+      const start = Number(video.dataset.start) || 0
+      const end = Number(video.dataset.end) || 0
+      const once = video.hasAttribute('data-once')
+      video.loop = !once && !end
+      video.addEventListener('loadedmetadata', () => {
+        if (start) video.currentTime = start
+        void video.play().catch(() => {})
+      })
+      video.addEventListener('timeupdate', () => {
+        if (!end || video.currentTime < end) return
+        if (once) video.pause()
+        else video.currentTime = start
+      })
+      if (once) video.addEventListener('ended', () => video.pause())
+    }
+
+    const show = layer.querySelector<HTMLElement>('[data-pb-slideshow]')
+    if (show && !reducedMotion.matches) {
+      const slides = Array.from(show.querySelectorAll<HTMLElement>('.pb-slide'))
+      if (slides.length < 2) return
+      const duration = Number(show.dataset.duration) || 5000
+      const transition = parseInt(show.style.getPropertyValue('--pb-td'), 10) || 500
+      const loop = show.dataset.loop !== 'false'
+      let current = 0
+      const timer = window.setInterval(() => {
+        const next = current + 1 < slides.length ? current + 1 : loop ? 0 : -1
+        if (next < 0) return window.clearInterval(timer)
+        slides[current].removeAttribute('data-active')
+        slides[current].setAttribute('data-leaving', '')
+        const leaving = slides[current]
+        window.setTimeout(() => leaving.removeAttribute('data-leaving'), transition + 50)
+        slides[next].setAttribute('data-active', '')
+        current = next
+      }, duration)
+    }
+  })
+</script>

@@ -2,10 +2,12 @@ import {type ObjectInputProps} from 'sanity'
 import {BlockStylesPreview} from '../previews/BlockStylesPreview'
 
 /**
- * Spacing and motion live on the Advanced tab, as in Elementor. Older values
- * saved here still show until cleared.
+ * The Advanced tab has spacing, motion and the CSS hooks (ID, classes, Custom
+ * CSS), as in Elementor, and the Layout tab has width and height. This panel
+ * reuses the blocks' Block Styles type, which has all of them too, so they'd
+ * show twice. Older values saved here still show until cleared.
  */
-const MOVED_TO_ADVANCED = new Set(['padding', 'margin', 'motion'])
+const MOVED_TO_ADVANCED = new Set(['padding', 'margin', 'motion', 'cssId', 'cssClasses', 'customCss', 'size'])
 
 /** Replaced by the Style panel above; only shown while they still hold a value. */
 const REPLACED_BY_STYLE_PANEL = new Set(['background', 'border', 'borderRadius'])

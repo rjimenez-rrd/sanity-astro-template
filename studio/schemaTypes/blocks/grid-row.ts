@@ -174,8 +174,8 @@ function defineContainerType({nested}: {nested: boolean}) {
                   },
                 },
               }),
-              designField(),
-              styleField(),
+              designField({sectionFeatures: true}),
+              styleField({legacyOnly: true}),
               advancedField(),
               {
                 ...linkField('link', 'Link'),
@@ -210,8 +210,8 @@ function defineContainerType({nested}: {nested: boolean}) {
 
 
       // --- Style / Advanced / Visibility tabs ---
-      designField(),
-      styleField(),
+      designField({sectionFeatures: true}),
+      styleField({legacyOnly: true}),
       advancedField(),
       visibilityField(),
     ],

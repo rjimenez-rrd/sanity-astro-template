@@ -11,6 +11,9 @@ export type Responsive<T> = Partial<Record<Device, T | null>> | null | undefined
 type Size = {size?: number | null; unit?: string | null} | null
 
 export interface ContainerSettings {
+  /** Layout -> Additional Options. */
+  overflow?: string | null
+  htmlTag?: string | null
   layoutType?: string | null
   contentWidth?: string | null
   width?: Responsive<Size>
@@ -35,6 +38,7 @@ export interface VisibilitySettings {
 }
 
 const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
+const OVERFLOW = new Set(['hidden', 'auto'])
 
 /**
  * Width a boxed container renders at until an editor sets one. The Studio shows
@@ -230,6 +234,10 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
   if (z !== undefined) css.add(null, outer, {position: 'relative', 'z-index': String(Math.round(z))})
 
   css.add(null, inner, {display: isGrid ? 'grid' : 'flex'})
+
+  // Layout -> Additional Options -> Overflow.
+  const overflow = pickEnum(c.overflow ?? undefined, OVERFLOW)
+  if (overflow) css.add(null, outer, {overflow})
 
 
   // Smaller breakpoints only restate what actually changes.

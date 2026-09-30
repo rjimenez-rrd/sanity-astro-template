@@ -73,16 +73,61 @@ function responsiveSides(name: string) {
   })
 }
 
+/** Keep in step with the frontend's lib/shapeDividers.ts, which draws each one. */
+export const SHAPE_TYPES = [
+  'mountains', 'zigzag', 'pyramids', 'triangle', 'triangle-asymmetrical', 'tilt', 'opacity-tilt',
+  'curve', 'curve-asymmetrical', 'wave', 'waves', 'arrow', 'book',
+]
+
+/** Background Video: a file or a link, as in Elementor (Normal state only). */
+const videoField = defineField({
+  name: 'video',
+  type: 'object',
+  options: flat,
+  fields: [
+    defineField({name: 'url', title: 'Video Link', type: 'string'}),
+    defineField({name: 'file', title: 'Video File', type: 'file', options: {accept: 'video/*'}}),
+    defineField({name: 'start', title: 'Start Time', type: 'number'}),
+    defineField({name: 'end', title: 'End Time', type: 'number'}),
+    defineField({name: 'playOnce', title: 'Play Once', type: 'boolean'}),
+    defineField({name: 'playOnMobile', title: 'Play On Mobile', type: 'boolean'}),
+    defineField({name: 'fallback', title: 'Background Fallback', type: 'image'}),
+  ],
+})
+
+/** Background Slideshow: images that cross-fade or slide (Normal state only). */
+const slideshowField = defineField({
+  name: 'slideshow',
+  type: 'object',
+  options: flat,
+  fields: [
+    defineField({name: 'images', title: 'Images', type: 'array', of: [{type: 'image'}]}),
+    defineField({name: 'loop', title: 'Infinite Loop', type: 'boolean'}),
+    defineField({name: 'duration', title: 'Duration (ms)', type: 'number'}),
+    defineField({name: 'transition', type: 'string', options: {list: ['fade', 'slide_right', 'slide_left', 'slide_up', 'slide_down']}}),
+    defineField({name: 'transitionDuration', title: 'Transition Duration (ms)', type: 'number'}),
+    defineField({name: 'size', type: 'string', options: {list: ['cover', 'contain', 'auto']}}),
+    defineField({name: 'position', type: 'string', options: {list: BG_POSITIONS}}),
+    defineField({name: 'kenBurns', title: 'Ken Burns Effect', type: 'boolean'}),
+    defineField({name: 'kenBurnsDirection', type: 'string', options: {list: ['in', 'out']}}),
+  ],
+})
+
 function backgroundState(
   name: string,
-  extra: {opacity?: boolean; transition?: boolean; effects?: boolean},
+  extra: {opacity?: boolean; transition?: boolean; effects?: boolean; media?: boolean},
 ) {
   return defineField({
     name,
     type: 'object',
     options: flat,
     fields: [
-      defineField({name: 'type', type: 'string', options: {list: ['classic', 'gradient']}}),
+      defineField({
+        name: 'type',
+        type: 'string',
+        options: {list: ['classic', 'gradient', ...(extra.media ? ['video', 'slideshow'] : [])]},
+      }),
+      ...(extra.media ? [videoField, slideshowField] : []),
       defineField({name: 'color', type: 'string'}),
       defineField({name: 'image', title: 'Image', type: 'image'}),
       // Optional per-device images; empty falls back to the next larger size.
@@ -154,25 +199,54 @@ function borderState(name: string, extra: {transition?: boolean}) {
   })
 }
 
+/** Shape Divider: a shape along the top or bottom edge, as in Elementor. */
+function shapeState(name: string) {
+  return defineField({
+    name,
+    type: 'object',
+    options: flat,
+    fields: [
+      defineField({name: 'type', type: 'string', options: {list: SHAPE_TYPES}}),
+      defineField({name: 'color', type: 'string'}),
+      responsiveNumber('width'),
+      responsiveNumber('height'),
+      defineField({name: 'flip', type: 'boolean'}),
+      defineField({name: 'invert', type: 'boolean'}),
+      defineField({name: 'front', title: 'Bring to Front', type: 'boolean'}),
+    ],
+  })
+}
+
 /** Style tab: Background, Background Overlay and Border, each with Normal / Hover. */
 /**
  * `hideBorder`: leave out the Border section, for a block whose border lives
  * in its Block Styles instead (the Image block: see styleField's keepBorder).
  */
-export function designField({hideBorder = false}: {hideBorder?: boolean} = {}) {
+/**
+ * `sectionFeatures`: containers and columns also get Background Video and
+ * Slideshow, and Shape Dividers — they need a section's own markup (a media
+ * layer and edge shapes), which blocks don't render.
+ */
+export function designField({
+  hideBorder = false,
+  sectionFeatures = false,
+}: {hideBorder?: boolean; sectionFeatures?: boolean} = {}) {
   return defineField({
     name: 'design',
     title: 'Style',
     type: 'object',
     group: 'style',
-    options: {...flat, hideBorder} as typeof flat,
+    options: {...flat, hideBorder, sectionFeatures} as typeof flat,
     components: {input: ContainerDesignInput},
     fields: [
       defineField({
         name: 'background',
         type: 'object',
         options: flat,
-        fields: [backgroundState('normal', {}), backgroundState('hover', {transition: true})],
+        fields: [
+          backgroundState('normal', {media: sectionFeatures}),
+          backgroundState('hover', {transition: true}),
+        ],
       }),
       defineField({
         name: 'overlay',
@@ -189,6 +263,16 @@ export function designField({hideBorder = false}: {hideBorder?: boolean} = {}) {
         options: flat,
         fields: [borderState('normal', {}), borderState('hover', {transition: true})],
       }),
+      ...(sectionFeatures
+        ? [
+            defineField({
+              name: 'shapeDivider',
+              type: 'object',
+              options: flat,
+              fields: [shapeState('top'), shapeState('bottom')],
+            }),
+          ]
+        : []),
     ],
   })
 }

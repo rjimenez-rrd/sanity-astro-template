@@ -1,16 +1,24 @@
 import {defineType, defineField} from 'sanity'
 import {PlayIcon} from '@sanity/icons'
+import {advancedField, styleField, visibilityField} from '../fields/container'
 
 export const youtubeVideoType = defineType({
   name: 'youtubeVideo',
   title: 'YouTube Video',
   type: 'object',
   icon: PlayIcon,
+  groups: [ 
+    {name: 'content', title: 'Content'},
+    {name: 'style', title: 'Style'},
+    {name: 'advanced', title: 'Advanced'},
+    {name: 'visibility', title: 'Visibility'}
+  ],
   fields: [
     defineField({
       name: 'url',
       title: 'YouTube URL',
       type: 'url',
+      group: 'content',
       description: 'e.g., https://www.youtube.com/watch?v=...',
       validation: (rule) => rule.required(),
     }),
@@ -18,7 +26,11 @@ export const youtubeVideoType = defineType({
       name: 'caption',
       title: 'Caption',
       type: 'string',
+      group: 'content',
     }),
+    styleField(),
+    advancedField(),
+    visibilityField()
   ],
   preview: {
     select: {url: 'url', caption: 'caption'},

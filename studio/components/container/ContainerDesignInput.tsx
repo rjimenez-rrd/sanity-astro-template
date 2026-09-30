@@ -1,7 +1,7 @@
 import {useCallback, useState, type ReactNode} from 'react'
 import {FormInput, type FormPatch, type ObjectInputProps, set, setIfMissing, unset} from 'sanity'
-import {Box, Button, Card, Select, Stack, Text} from '@sanity/ui'
-import {EditIcon} from '@sanity/icons'
+import {Box, Button, Card, Flex, Select, Stack, Switch, Text, TextInput} from '@sanity/ui'
+import {EditIcon, ImagesIcon, PlayIcon} from '@sanity/icons'
 import {ColorPicker} from '../color/ColorPicker'
 import {
   ControlRow,
@@ -20,7 +20,18 @@ type State = 'normal' | 'hover'
 type Path = (string | number)[]
 
 type BackgroundState = {
-  type?: 'classic' | 'gradient'
+  type?: 'classic' | 'gradient' | 'video' | 'slideshow'
+  video?: {url?: string; start?: number; end?: number; playOnce?: boolean; playOnMobile?: boolean}
+  slideshow?: {
+    loop?: boolean
+    duration?: number
+    transition?: string
+    transitionDuration?: number
+    size?: string
+    position?: string
+    kenBurns?: boolean
+    kenBurnsDirection?: string
+  }
   color?: string
   image?: {asset?: unknown}
   imageTablet?: {asset?: unknown}
@@ -63,11 +74,51 @@ type BorderState = {
   transition?: number
 }
 
+type ShapeState = {
+  type?: string
+  color?: string
+  width?: Responsive<number>
+  height?: Responsive<number>
+  flip?: boolean
+  invert?: boolean
+  front?: boolean
+}
+
 type DesignValue = {
   background?: Partial<Record<State, BackgroundState>>
   overlay?: Partial<Record<State, BackgroundState>>
   border?: Partial<Record<State, BorderState>>
+  shapeDivider?: {top?: ShapeState; bottom?: ShapeState}
 }
+
+type Edge = 'top' | 'bottom'
+const EDGES: {value: Edge; title: string}[] = [
+  {value: 'top', title: 'Top'},
+  {value: 'bottom', title: 'Bottom'},
+]
+
+/** Keep in step with studio fields/design.ts SHAPE_TYPES and frontend lib/shapeDividers.ts. */
+const SHAPES: [string, string][] = [
+  ['mountains', 'Mountains'],
+  ['zigzag', 'Zigzag'],
+  ['pyramids', 'Pyramids'],
+  ['triangle', 'Triangle'],
+  ['triangle-asymmetrical', 'Triangle Asymmetrical'],
+  ['tilt', 'Tilt'],
+  ['opacity-tilt', 'Tilt Opacity'],
+  ['curve', 'Curve'],
+  ['curve-asymmetrical', 'Curve Asymmetrical'],
+  ['wave', 'Wave'],
+  ['waves', 'Waves'],
+  ['arrow', 'Arrow'],
+  ['book', 'Book'],
+]
+
+/** Background Video and Slideshow: the Background's Normal state only, as in Elementor. */
+const MEDIA_TYPES = [
+  {value: 'video', title: 'Video', icon: <PlayIcon />},
+  {value: 'slideshow', title: 'Slideshow', icon: <ImagesIcon />},
+]
 
 const STATES: {value: State; title: string}[] = [
   {value: 'normal', title: 'Normal'},
@@ -207,12 +258,19 @@ export function ContainerDesignInput(props: ObjectInputProps) {
   const v = (value ?? {}) as DesignValue
   // designField({hideBorder}): the block keeps its border in Block Styles.
   const hideBorder = Boolean((props.schemaType.options as {hideBorder?: boolean} | undefined)?.hideBorder)
+  // designField({sectionFeatures}): containers and columns get video,
+  // slideshow and shape dividers.
+  const sectionFeatures = Boolean(
+    (props.schemaType.options as {sectionFeatures?: boolean} | undefined)?.sectionFeatures,
+  )
 
   const [device, setDevice] = useState<Device>('desktop')
   const responsive = {device, onDevice: setDevice}
-  const [open, setOpen] = useState({background: true, overlay: false, border: false})
+  const [open, setOpen] = useState({background: true, overlay: false, border: false, shape: false})
+  const [edge, setEdge] = useState<Edge>('bottom')
   const [filtersOpen, setFiltersOpen] = useState(false)
-  const [states, setStates] = useState<Record<keyof DesignValue, State>>({
+  // Normal / Hover per section; the Shape Divider has Top / Bottom instead (edge).
+  const [states, setStates] = useState<Record<'background' | 'overlay' | 'border', State>>({
     background: 'normal',
     overlay: 'normal',
     border: 'normal',
@@ -230,6 +288,31 @@ export function ContainerDesignInput(props: ObjectInputProps) {
   )
 
   const toggle = (key: keyof typeof open) => setOpen((o) => ({...o, [key]: !o[key]}))
+
+  /** An on/off switch for one boolean leaf. */
+  const switchRow = (label: string, path: Path, checked: boolean | undefined, hint?: string) => (
+    <ControlRow label={label} hint={hint}>
+      <Flex justify="flex-end">
+        <Switch checked={Boolean(checked)} onChange={(e) => patch(path, e.currentTarget.checked || undefined)} />
+      </Flex>
+    </ControlRow>
+  )
+
+  /** A number box for one leaf; emptying it clears the value. */
+  const numberRow = (label: string, path: Path, current: number | undefined, placeholder?: string, hint?: string) => (
+    <ControlRow label={label} hint={hint}>
+      <TextInput
+        fontSize={1}
+        type="number"
+        value={current ?? ''}
+        placeholder={placeholder}
+        onChange={(e) => {
+          const raw = e.currentTarget.value
+          patch(path, raw === '' ? undefined : Number(raw))
+        }}
+      />
+    </ControlRow>
+  )
 
   /** Dropdown bound to one device of a responsive string. */
   const responsiveDropdown = (
@@ -302,7 +385,9 @@ export function ContainerDesignInput(props: ObjectInputProps) {
 
         <ControlRow label={section === 'overlay' ? 'Overlay Type' : 'Background Type'}>
           <IconToggleGroup
-            options={TYPES}
+            options={
+              sectionFeatures && section === 'background' && state === 'normal' ? [...TYPES, ...MEDIA_TYPES] : TYPES
+            }
             value={type}
             onChange={(next) => patch([...base, 'type'], next)}
           />
@@ -356,6 +441,93 @@ export function ContainerDesignInput(props: ObjectInputProps) {
                 {responsiveDropdown('Repeat', [...base, 'repeat'], bg.repeat, REPEATS)}
                 {responsiveDropdown('Display Size', [...base, 'size'], bg.size, SIZES)}
               </>
+            )}
+          </>
+        )}
+
+        {type === 'video' && (
+          <>
+            <ControlRow
+              label="Video Link"
+              stacked
+              hint="YouTube or Vimeo link, or a direct .mp4 / .webm link. Or upload a file below."
+            >
+              <TextInput
+                fontSize={1}
+                value={bg.video?.url ?? ''}
+                placeholder="https://www.youtube.com/watch?v=…"
+                onChange={(e) => patch([...base, 'video', 'url'], e.currentTarget.value.trim())}
+              />
+            </ControlRow>
+            <ControlRow label="Video File" stacked>
+              <FormInput {...props} relativePath={[...base, 'video', 'file']} />
+            </ControlRow>
+            {numberRow('Start Time', [...base, 'video', 'start'], bg.video?.start, '0', 'In seconds.')}
+            {numberRow('End Time', [...base, 'video', 'end'], bg.video?.end, 'End', 'In seconds. Empty plays to the end.')}
+            {switchRow('Play Once', [...base, 'video', 'playOnce'], bg.video?.playOnce)}
+            {switchRow(
+              'Play On Mobile',
+              [...base, 'video', 'playOnMobile'],
+              bg.video?.playOnMobile,
+              'Off: phones show the fallback image instead, saving their data.',
+            )}
+            <ControlRow label="Background Fallback" stacked hint="Shown while the video loads, and on phones when it doesn't play.">
+              <FormInput {...props} relativePath={[...base, 'video', 'fallback']} />
+            </ControlRow>
+          </>
+        )}
+
+        {type === 'slideshow' && (
+          <>
+            <ControlRow label="Images" stacked>
+              <FormInput {...props} relativePath={[...base, 'slideshow', 'images']} />
+            </ControlRow>
+            {switchRow('Infinite Loop', [...base, 'slideshow', 'loop'], bg.slideshow?.loop ?? true)}
+            {numberRow('Duration (ms)', [...base, 'slideshow', 'duration'], bg.slideshow?.duration, '5000', 'How long each image shows.')}
+            <ControlRow label="Transition">
+              <Dropdown
+                value={bg.slideshow?.transition}
+                options={[
+                  ['fade', 'Fade'],
+                  ['slide_right', 'Slide Right'],
+                  ['slide_left', 'Slide Left'],
+                  ['slide_up', 'Slide Up'],
+                  ['slide_down', 'Slide Down'],
+                ]}
+                placeholder="Fade"
+                onChange={(next) => patch([...base, 'slideshow', 'transition'], next)}
+              />
+            </ControlRow>
+            {numberRow('Transition Duration (ms)', [...base, 'slideshow', 'transitionDuration'], bg.slideshow?.transitionDuration, '500')}
+            <ControlRow label="Background Size">
+              <Dropdown
+                value={bg.slideshow?.size}
+                options={SIZES}
+                placeholder="Cover"
+                onChange={(next) => patch([...base, 'slideshow', 'size'], next)}
+              />
+            </ControlRow>
+            <ControlRow label="Background Position">
+              <Dropdown
+                value={bg.slideshow?.position}
+                options={POSITIONS}
+                placeholder="Center Center"
+                onChange={(next) => patch([...base, 'slideshow', 'position'], next)}
+              />
+            </ControlRow>
+            {switchRow('Ken Burns Effect', [...base, 'slideshow', 'kenBurns'], bg.slideshow?.kenBurns, 'A slow zoom on each image.')}
+            {bg.slideshow?.kenBurns && (
+              <ControlRow label="Direction">
+                <Dropdown
+                  value={bg.slideshow?.kenBurnsDirection}
+                  options={[
+                    ['in', 'In'],
+                    ['out', 'Out'],
+                  ]}
+                  placeholder="In"
+                  onChange={(next) => patch([...base, 'slideshow', 'kenBurnsDirection'], next)}
+                />
+              </ControlRow>
             )}
           </>
         )}
@@ -527,6 +699,36 @@ export function ContainerDesignInput(props: ObjectInputProps) {
     )
   }
 
+  const shapeControls = () => {
+    const base: Path = ['shapeDivider', edge]
+    const sd = v.shapeDivider?.[edge] ?? {}
+    return (
+      <>
+        <StateTabs value={edge} options={EDGES} onChange={setEdge} />
+        <ControlRow label="Type">
+          <Dropdown
+            value={sd.type}
+            options={SHAPES}
+            placeholder="None"
+            onChange={(next) => patch([...base, 'type'], next)}
+          />
+        </ControlRow>
+        {sd.type && (
+          <>
+            <ControlRow label="Color">
+              <ColorPicker value={sd.color} onChange={(c) => patch([...base, 'color'], c)} />
+            </ControlRow>
+            {responsiveSlider('Width', [...base, 'width'], sd.width, {unit: '%', min: 100, max: 300, fallback: 100})}
+            {responsiveSlider('Height', [...base, 'height'], sd.height, {unit: 'px', max: 500})}
+            {switchRow('Flip', [...base, 'flip'], sd.flip)}
+            {switchRow('Invert', [...base, 'invert'], sd.invert)}
+            {switchRow('Bring to Front', [...base, 'front'], sd.front, 'Draws the shape over the content instead of behind it.')}
+          </>
+        )}
+      </>
+    )
+  }
+
   const borderControls = () => {
     const state = states.border
     const base: Path = ['border', state]
@@ -631,6 +833,11 @@ export function ContainerDesignInput(props: ObjectInputProps) {
       {!hideBorder && (
         <Section title="Border" open={open.border} onToggle={() => toggle('border')}>
           {borderControls()}
+        </Section>
+      )}
+      {sectionFeatures && (
+        <Section title="Shape Divider" open={open.shape} onToggle={() => toggle('shape')}>
+          {shapeControls()}
         </Section>
       )}
     </Card>

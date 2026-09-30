@@ -91,6 +91,9 @@ function color(value: string | null | undefined): string | undefined {
   return c && COLOR.test(c) ? c : undefined
 }
 
+/** A CSS color if it's one (hex, rgb/hsl, or a name), else undefined. */
+export const safeColor = color
+
 function num(n: unknown, min: number, max: number): number | undefined {
   if (typeof n !== 'number' || !Number.isFinite(n)) return undefined
   return Math.round(Math.min(max, Math.max(min, n)) * 1000) / 1000
