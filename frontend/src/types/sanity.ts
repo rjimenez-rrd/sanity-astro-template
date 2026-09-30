@@ -26,7 +26,6 @@ export type PracticeAreaListItem = PRACTICE_AREAS_QUERY_RESULT[number]
 // ---------- Page Builder ----------
 // PAGE_QUERY_RESULT has pageBuilder as a non-null array on its type, so use it directly
 export type PageBuilderBlock = NonNullable<PageData['pageBuilder']>[number]
-export type HeroSectionData = Extract<PageBuilderBlock, {_type: 'heroSection'}>
 /**
  * A top-level Container. The stored `_type` is still `gridRow` — it is on every
  * container already saved, so renaming it would orphan them — but nothing an
@@ -40,8 +39,7 @@ export type ContentBlock = NonNullable<ContainerColumn['content']>[number]
 export type RichTextBlockData = Extract<ContentBlock, {_type: 'richTextBlock'}>
 export type ImageBlockData = Extract<ContentBlock, {_type: 'imageBlock'}>
 export type CallToActionData = Extract<ContentBlock, {_type: 'callToAction'}>
-export type ExternalVideoData = Extract<ContentBlock, {_type: 'externalVideo'}>
-export type YoutubeVideoData = Extract<ContentBlock, {_type: 'youtubeVideo'}>
+export type VideoData = Extract<ContentBlock, {_type: 'video'}>
 export type TabbedContentData = Extract<ContentBlock, {_type: 'tabbedContent'}>
 export type AccordionData = Extract<ContentBlock, {_type: 'accordion'}>
 export type SpacerDividerData = Extract<ContentBlock, {_type: 'spacerDivider'}>

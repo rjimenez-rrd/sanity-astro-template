@@ -58,7 +58,6 @@ const contentMembers = (withColumn: boolean) => [
   ...(withColumn ? [defineArrayMember({type: 'nestedContainer'})] : []), // Column
   defineArrayMember({type: 'countdownTimer'}), // Countdown Timer
   defineArrayMember({type: 'htmlBlock'}), // Custom HTML
-  defineArrayMember({type: 'externalVideo'}), // External Video
   defineArrayMember({type: 'faqBlock'}), // FAQ
   defineArrayMember({type: 'featureCardGrid'}), // Feature Card Grid
   defineArrayMember({type: 'formBlock'}), // Form
@@ -85,7 +84,7 @@ const contentMembers = (withColumn: boolean) => [
   defineArrayMember({type: 'tocBlock'}), // Table of Contents
   defineArrayMember({type: 'testimonialCarousel'}), // Testimonial Carousel
   defineArrayMember({type: 'testimonialQuote'}), // Testimonial Quote
-  defineArrayMember({type: 'youtubeVideo'}), // YouTube Video
+  defineArrayMember({type: 'video'}), // Video
 ]
 
 /**

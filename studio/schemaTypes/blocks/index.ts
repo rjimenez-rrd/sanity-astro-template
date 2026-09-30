@@ -19,7 +19,6 @@ import {codeBlockType} from './code-block'
 import {htmlBlockType} from './html-block'
 import {dataTableType} from './data-table'
 import {lottieAnimationType} from './lottie-animation'
-import {heroSectionType} from './hero-section'
 import {formBlockType} from './form-block'
 import {formCtaType} from './form-cta'
 import {linkListType} from './link-list'
@@ -35,7 +34,7 @@ import {newsCardsType} from './news-cards'
 import {caseResultCardsType} from './case-result-cards'
 import {phoneBlockType} from './phone-block'
 import {pageBuilderType} from './page-builder'
-import { youtubeVideoType, externalVideoType } from './video'
+import {videoType} from './video'
 
 // Grid Row (the page builder section), and the one that goes inside a column
 import {gridRowType, nestedContainerType} from './grid-row'
@@ -61,7 +60,6 @@ export {
   htmlBlockType,
   dataTableType,
   lottieAnimationType,
-  heroSectionType,
   formBlockType,
   formCtaType,
   linkListType,
@@ -78,8 +76,7 @@ export {
   tocBlockType,
   gridRowType,
   nestedContainerType,
-  youtubeVideoType,
-  externalVideoType,
+  videoType,
 }
 
 /** All block types for schema registration */
@@ -104,7 +101,6 @@ export const blockTypes = [
   htmlBlockType,
   dataTableType,
   lottieAnimationType,
-  heroSectionType,
   formBlockType,
   formCtaType,
   linkListType,
@@ -122,6 +118,5 @@ export const blockTypes = [
   gridRowType,
   nestedContainerType,
   pageBuilderType,
-  youtubeVideoType,
-  externalVideoType,
+  videoType,
 ]

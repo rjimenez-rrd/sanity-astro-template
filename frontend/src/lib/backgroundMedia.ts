@@ -2,8 +2,8 @@
  * Style -> Background -> Video and Slideshow, turned into what the page
  * renders (components/page-builder/sections/SectionMedia.astro).
  */
-import {dataset, projectId} from '@/sanity/lib/env'
 import {urlFor} from '@/sanity/lib/image'
+import {sanityFileUrl, vimeoId, youtubeId} from './video'
 
 export interface BackgroundVideo {
   url?: string | null
@@ -30,12 +30,6 @@ export interface BackgroundSlideshow {
 const seconds = (n: number | null | undefined) =>
   typeof n === 'number' && Number.isFinite(n) && n > 0 ? Math.floor(n) : undefined
 
-/** An uploaded file's CDN address, from its reference: file-<id>-<ext>. */
-function fileUrl(ref: string | undefined): string | undefined {
-  const match = ref && /^file-([a-f0-9]+)-([a-z0-9]+)$/i.exec(ref)
-  return match ? `https://cdn.sanity.io/files/${projectId}/${dataset}/${match[1]}.${match[2]}` : undefined
-}
-
 export type VideoSource =
   | {kind: 'file'; src: string; start?: number; end?: number}
   | {kind: 'embed'; src: string}
@@ -49,15 +43,14 @@ export function videoSource(video: BackgroundVideo | null | undefined): VideoSou
   if (!video) return undefined
   const start = seconds(video.start)
   const end = seconds(video.end)
-  const uploaded = fileUrl(video.file?.asset?._ref)
+  const uploaded = sanityFileUrl(video.file?.asset?._ref)
   if (uploaded) return {kind: 'file', src: uploaded, start, end}
 
   const url = video.url?.trim()
   if (!url || !/^https:\/\//i.test(url)) return undefined
 
-  const youtube = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/.exec(url)
-  if (youtube) {
-    const id = youtube[1]
+  const id = youtubeId(url)
+  if (id) {
     const params = new URLSearchParams({
       autoplay: '1',
       mute: '1',
@@ -78,11 +71,11 @@ export function videoSource(video: BackgroundVideo | null | undefined): VideoSou
     return {kind: 'embed', src: `https://www.youtube-nocookie.com/embed/${id}?${params}`}
   }
 
-  const vimeo = /vimeo\.com\/(?:video\/)?(\d+)/.exec(url)
+  const vimeo = vimeoId(url)
   if (vimeo) {
     // background=1 is Vimeo's muted, chromeless, autoplaying mode.
     const params = new URLSearchParams({background: '1', autoplay: '1', muted: '1', loop: video.playOnce ? '0' : '1'})
-    return {kind: 'embed', src: `https://player.vimeo.com/video/${vimeo[1]}?${params}${start ? `#t=${start}s` : ''}`}
+    return {kind: 'embed', src: `https://player.vimeo.com/video/${vimeo}?${params}${start ? `#t=${start}s` : ''}`}
   }
 
   return {kind: 'file', src: url, start, end}

@@ -1,7 +1,7 @@
 import {defineType, defineArrayMember} from 'sanity'
 
 /**
- * Page builder array — heroSection + gridRow.
+ * Page builder array: Containers (gridRow).
  * All content is composed through flexible grid layouts.
  */
 export const pageBuilderType = defineType({
@@ -9,7 +9,6 @@ export const pageBuilderType = defineType({
   title: 'Page Builder',
   type: 'array',
   of: [
-    // defineArrayMember({type: 'heroSection'}),
     defineArrayMember({type: 'gridRow'}),
   ],
 })

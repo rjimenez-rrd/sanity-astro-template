@@ -93,6 +93,8 @@ function color(value: string | null | undefined): string | undefined {
 
 /** A CSS color if it's one (hex, rgb/hsl, or a name), else undefined. */
 export const safeColor = color
+/** CSS Filters (blur, brightness, …) as a CSS `filter` value; also used by the Video block. */
+export const cssFilter = (f: BackgroundState['filters']) => filters(f)
 
 function num(n: unknown, min: number, max: number): number | undefined {
   if (typeof n !== 'number' || !Number.isFinite(n)) return undefined

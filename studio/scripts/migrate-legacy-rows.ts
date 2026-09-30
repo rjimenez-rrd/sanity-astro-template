@@ -105,7 +105,7 @@ async function main() {
     let converted = 0
 
     for (const row of rows) {
-      // heroSection has no container field by design; only gridRow is in scope.
+      // Only containers (gridRow) have a container field.
       if (row?._type !== 'gridRow' || !row._key) continue
 
       const base = `pageBuilder[_key=="${row._key}"]`

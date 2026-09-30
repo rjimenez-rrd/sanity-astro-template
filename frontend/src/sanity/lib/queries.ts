@@ -98,16 +98,6 @@ const practiceAreasPickedOrAllFragment = /* groq */ `
   )
 `
 
-const heroFragment = /* groq */ `
-  _type == "heroSection" => {
-    ...,
-    buttons[] { _key, _type, ..., ${linkFragment}, ${blockStylesFragment} },
-    mediaImage { ${imageFragment} },
-    backgroundImage { ${imageFragment} },
-    ${blockStylesFragment}
-  }
-`
-
 // A review in the page's language: on Spanish pages the Spanish title and
 // text when there are ones. The client's name and the rating are shared.
 const reviewFragment = /* groq */ `
@@ -138,6 +128,10 @@ const formFieldsFragment = /* groq */ `
 
 // Per-type projections for the blocks in a column.
 const contentTypesFragment = /* groq */ `
+    _type == "video" => {
+      poster { ${imageFragment} },
+      imageOverlay { enabled, playIcon, image { ${imageFragment} } }
+    },
     _type == "imageBlock" => {
       image { ${imageFragment} },
       caption,
@@ -291,7 +285,6 @@ const contentFragment = /* groq */ `
 const pageBuilderFragment = /* groq */ `
   pageBuilder[] {
     _key, _type, ...,
-    ${heroFragment},
     columns[] {
       _key, ...,
       ${linkFragment},
