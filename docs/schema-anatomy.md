@@ -7,10 +7,10 @@ Every example is from this codebase.
 
 `groups` renders the row of tabs across the top of a form. Containers define theirs
 once and share them between rows and columns, in
-`schemaTypes/fields/container.ts`:
+`schemaTypes/tabs/index.ts`:
 
 ```ts
-export const CONTAINER_GROUPS = [
+export const CONTAINER_TABS = [
   {name: 'layout',     title: 'Layout',     icon: ThLargeIcon,    default: true},
   {name: 'style',      title: 'Style',      icon: ColorWheelIcon},
   {name: 'advanced',   title: 'Advanced',   icon: CogIcon},
@@ -49,31 +49,30 @@ defineField({name: 'label', type: 'string', group: 'layout'})
 
 ### `fieldsets` vs `groups`
 
-A group is a tab. A fieldset is a box inside one. `gridRow` uses both — the legacy
-fields sit in a collapsed fieldset *and* are hidden entirely on modern rows:
+A group is a tab. A fieldset is a box inside one. The Video block
+(`blocks/video.ts`) uses both — its on/off switches sit in a "Video Options" box
+on the Content tab, and each hides itself for sources that don't support it:
 
 ```ts
-fieldsets: [
-  {
-    name: 'legacy',
-    title: 'Legacy layout',
-    options: {collapsible: true, collapsed: true},
-  },
-],
+fieldsets: [{name: 'videoOptions', title: 'Video Options', options: {collapsible: false}}],
 ```
 
 ```ts
+// what option('captions', 'Captions', ['youtube']) builds
 defineField({
-  name: 'paddingY',
-  group: 'layout',       // which tab
-  fieldset: 'legacy',    // which box within it
-  hidden: ({parent}) => !isLegacyRow(parent),
+  name: 'captions',
+  type: 'boolean',
+  group: 'content',          // which tab
+  fieldset: 'videoOptions',  // which box within it
+  hidden: ({parent}) => !isOneOf(parent, 'youtube'),
 })
 ```
 
 ### `preview`
 
 `select` pulls values by path; `prepare` turns them into what the list shows.
+Simplified from `gridRow`'s (see [grid-row.md](grid-row.md#preview) for the real
+titles):
 
 ```ts
 preview: {
@@ -112,7 +111,8 @@ initialValue: () => [createColumn(), createColumn()],
 ```
 
 Note it only fires when an item is **created**. It never backfills existing
-documents — the reason legacy rows still have no `container` object.
+documents — changing an `initialValue` leaves saved content as it was, which is
+why old data is moved with a script in `studio/scripts/` instead.
 
 ### `validation`
 
@@ -142,16 +142,18 @@ validation: (rule) =>
 ### `components.input`
 
 The extension point this project leans on hardest. `spacingField` is an ordinary
-object of 13 string fields — this one line is the only reason it renders as a
-box-model diagram with breakpoint tabs instead of thirteen text inputs:
+object of 13 fields — this one line is the only reason it renders as a
+box-model diagram with a device switcher instead of thirteen inputs:
 
 ```ts
 components: {input: SpacingInput},
 ```
 
-Custom inputs live in `studio/components/inputs/`; container-specific ones in
-`studio/components/container/`. An input receives `ObjectInputProps` (or the
-matching props for its type) and writes through `onChange` with `set()` /
+Custom inputs live in `studio/components/`: the tabs' inputs in `tabs/<tab>/`
+(`SpacingInput` is in `tabs/advanced/`), the Typography & Effects panel's in
+`block-styles/`, block- and document-specific ones in `inputs/`, and the shared
+pieces they're built from in `controls/`. An input receives `ObjectInputProps`
+(or the matching props for its type) and writes through `onChange` with `set()` /
 `unset()` patches.
 
 > A custom input must be defined at **module scope**. Declaring one inside

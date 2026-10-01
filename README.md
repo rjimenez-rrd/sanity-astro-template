@@ -2,7 +2,7 @@
 
 An Elementor-style visual page builder for **Sanity + Astro**.
 
-28 content blocks, nested flex/grid containers with per-breakpoint control,
+35 content blocks, nested flex/grid containers with per-breakpoint control,
 custom Studio inputs, and full visual editing through Sanity's Presentation tool.
 
 The Studio ships custom inputs for the whole editing surface: a visual layout
@@ -21,7 +21,15 @@ Both packages are npm workspaces of the repo root, so `npm install` at the top
 level installs everything.
 
 For how the pieces fit together — request path, content model, render chain and
-the preview loops — see **[ARCHITECTURE.md](ARCHITECTURE.md)**.
+the preview loops — see **[ARCHITECTURE.md](ARCHITECTURE.md)**. More detail in
+`docs/`:
+
+- [docs/page-rendering.md](docs/page-rendering.md) — how an address becomes a
+  page: the route, `resolvePage`, `BuilderPage`, containers, columns and blocks
+- [docs/grid-row.md](docs/grid-row.md) — the Container block's fields and layout
+  modes
+- [docs/schema-anatomy.md](docs/schema-anatomy.md) — reading and writing the
+  Studio's schema files
 
 ## Getting started
 
@@ -45,8 +53,11 @@ Fill in your Sanity project ID and dataset in both files.
 | studio | `SANITY_STUDIO_PROJECT_ID` | Sanity project |
 | studio | `SANITY_STUDIO_DATASET` | usually `production` |
 | studio | `SANITY_STUDIO_PREVIEW_URL` | where Presentation points, defaults to `http://localhost:4321` |
+| studio | `SANITY_STUDIO_STUDIO_HOST` | optional — the `*.sanity.studio` hostname for `deploy:studio` |
 | frontend | `PUBLIC_SANITY_PROJECT_ID` | same project |
 | frontend | `PUBLIC_SANITY_DATASET` | same dataset |
+| frontend | `PUBLIC_SANITY_STUDIO_URL` | optional — the Studio's address, defaults to `http://localhost:3333` |
+| frontend | `PUBLIC_SITE_URL` | optional — the site's own address, defaults to `http://localhost:4321` |
 | frontend | `SANITY_API_READ_TOKEN` | **required** for draft mode and visual editing |
 | frontend | `SANITY_REVALIDATE_SECRET` | on-demand revalidation webhook |
 
@@ -90,11 +101,13 @@ To preview drafts in an ordinary browser tab during development, visit
 
 ## Content blocks
 
-Hero Section, Container (grid/flex row), Call to Action, Rich Text, Image, Image
-Gallery, FAQ, Form, Feature Card Grid, Testimonial Carousel, Testimonial Quote,
-Accordion, Tabbed Content, Button Group, Icon Text, Stat Metric, Pricing Card,
-Alert Notice, Code Block, Data Table, Social Embed, Logo Row, Map Embed, Countdown
-Timer, Lottie Animation, Spacer/Divider, Table of Contents.
+**Container** (grid/flex row) and **Column** (an inner container inside a column),
+plus 35 blocks: Accordion, Alert / Notice, Button, Button Group, Case Results,
+Code Block, Countdown Timer, Custom HTML, FAQ, Feature Card Grid, Form, Form CTA,
+Icon + Text, Image, Image Gallery, Lawyer Cards, Link List, Logo Row, Lottie
+Animation, Map Embed, News Cards, Phone, Practice Area Cards, Practice Area Grid,
+Pricing Card, Rich Text, Social Embed, Spacer / Divider, Stat / Metric, Tabbed
+Content, Table, Table of Contents, Testimonial Carousel, Testimonial Quote, Video.
 
 Containers nest: a row holds columns, a column holds blocks, and layout, style,
 spacing and visibility are all set per breakpoint — **desktop-first**, with Tablet

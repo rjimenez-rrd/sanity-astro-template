@@ -7,22 +7,38 @@ else on a page. The type name is historical; its title in the Studio is
 "Container".
 
 A row and a column are deliberately the same kind of thing at different depths:
-both are built from `CONTAINER_GROUPS`, so both get the same four tabs — Layout,
-Style, Advanced, Visibility.
+both use `CONTAINER_TABS` (`schemaTypes/tabs/index.ts`), so both get the same four
+tabs — Layout, Style, Advanced, Visibility.
+
+The same file also defines `nestedContainer` — an inner Column placed inside a
+column's content. It is built by the same function (`defineContainerType`), so it
+has the same fields; its title in the Studio is "Column", and it can't nest again.
 
 ## Shape
 
 ```
 gridRow
 ├── label              name shown in the Page Builder list
-├── container          Layout tab — flex/grid, width, gap, direction
+├── container          Layout tab — flex/grid, width, gap, direction, HTML tag
 ├── layout             column preset (50/50, 33/66, 25/25/25/25, …)
 ├── columns[]          → gridColumn
 │   ├── label
 │   ├── container      each column has its own layout settings
-│   ├── content[]      the 28 block types
-│   └── design · style · advanced · visibility
-└── design · style · advanced · visibility
+│   ├── content[]      the 35 block types, plus nestedContainer (inner Column)
+│   ├── link           Advanced tab — makes the whole column clickable
+│   └── design · blockStyles · advanced · visibility
+└── design · blockStyles · advanced · visibility
+```
+
+| Field | Tab | Built by (`schemaTypes/tabs/`) |
+| --- | --- | --- |
+| `container` | Layout | `layoutField` (`layout.ts`) |
+| `design` | Style | `styleField({sectionFeatures: true})` (`style.ts`) — background incl. video/slideshow, overlay, border, shape dividers |
+| `blockStyles` | Style | `styleEffectsField({legacyOnly: true})` (`style.ts`) — only shown while it still holds values saved before the Style panel existed |
+| `advanced` | Advanced | `advancedField` (`advanced.ts`) |
+| `visibility` | Visibility | `visibilityField` (`visibility.ts`) |
+
+```
 ```
 
 ## A note on history
@@ -57,16 +73,17 @@ but purely as a shortcut for creating and sizing columns.
 
 ## Columns start populated
 
-`columns` carries an `initialValue` of two empty columns:
+`columns` carries an `initialValue` of two empty columns (one for an inner
+Column):
 
 ```ts
-initialValue: () => [createColumn(), createColumn()],
+initialValue: () => (nested ? [createColumn()] : [createColumn(), createColumn()]),
 validation: (rule) => rule.required().min(1),
 ```
 
 Without it, a freshly inserted container would open showing a required-field
 error before the editor had done anything. `createColumn()` mirrors
-`createEmptyColumn` in `components/inputs/ColumnsInput.tsx`, so a column created
+`createEmptyColumn` in `components/tabs/layout/ColumnsInput.tsx`, so a column created
 by insert and one created by the "Add columns" button are identical.
 
 `min(1)` still catches a container an editor has emptied out — it just no longer
@@ -80,7 +97,10 @@ a row never costs you the layout information:
 | | Title | Subtitle |
 | --- | --- | --- |
 | Unnamed | `Container — Flexbox` | `2 items` |
+| Unnamed, Grid mode | `Container — Grid 50 / 50` | `2 items` |
 | Named `Hero` | `Hero` | `Flexbox · 2 items` |
+
+An inner Column reads `Column — …` instead.
 
 `label` is Studio-only. It is not in any GROQ projection used for rendering, and
 in the frontend it only ever appears as a preview-mode badge — never on a
@@ -90,9 +110,13 @@ published page.
 
 - [schema-anatomy.md](schema-anatomy.md) — what `groups`, `fieldsets`,
   `validation` and `components.input` do, if the schema keys are unfamiliar
-- `schemaTypes/fields/container.ts` — `containerField`, `advancedField`,
-  `styleField`, `visibilityField`, and `CONTAINER_GROUPS`
-- `components/container/` — the Layout tab's panel and controls
-- `components/inputs/ColumnsInput.tsx` — the column list and "Add columns" button
-- `frontend/src/lib/container.ts` — turns `container` settings into scoped CSS
+- `schemaTypes/tabs/` — `layoutField`, `styleField`, `styleEffectsField`,
+  `advancedField`, `visibilityField`, and `CONTAINER_TABS`
+- `components/tabs/layout/` — the Layout tab's panel (`LayoutInput`), the preset
+  picker (`LayoutPickerInput`) and the column list with its "Add columns" button
+  (`ColumnsInput`)
+- `components/controls/` — the shared controls those panels are built from
+- `frontend/src/lib/containerStyles.ts` — turns a container's tabs into scoped CSS
+  (via `container.ts`, `design.ts`, `advancedCss.ts`)
+- [page-rendering.md](page-rendering.md) — how a container renders, step by step
 - [ARCHITECTURE.md](../ARCHITECTURE.md) — how this fits the wider system

@@ -26,7 +26,7 @@ or unpublished content. Nothing downstream re-checks it.
 ```mermaid
 flowchart LR
   B[Browser<br/>GET /slug] --> M[middleware.ts<br/>reads __sanity_draft]
-  M -->|isDraft| R[page route<br/>index · slug (page or practice area)]
+  M -->|isDraft| R["page route<br/>index · [...slug] · es/[...slug]<br/>news · search"]
   R -->|false| P[published client<br/>CDN in production]
   R -.->|true| D[draft client<br/>read token · no CDN<br/>drafts + stega]
   P --> S[(Sanity API<br/>GROQ)]
@@ -48,26 +48,29 @@ Relevant files:
 
 ## 2. Content model
 
-A page holds a `pageBuilder` array. Most entries are a `gridRow` — the block whose
-Studio title is "Container". Each row holds columns; each column holds content
-blocks.
+A page holds a `pageBuilder` array of Containers — `gridRow`, the block whose
+Studio title is "Container". Each container holds columns; each column holds
+content blocks, and can hold an inner Column (`nestedContainer`), which is a
+container one level down.
 
 ```mermaid
 flowchart TD
-  DOC[document<br/>homePage · page · practiceArea] -->|pageBuilder| ROW["gridRow<br/>(Container)"]
-  DOC -->|pageBuilder| HERO[heroSection]
+  DOC[document<br/>homePage · page · practiceArea · newsPost] -->|pageBuilder| ROW["gridRow<br/>(Container)"]
   ROW -->|columns| COL[gridColumn]
-  COL -->|content| BLK[content blocks<br/>richTextBlock · imageBlock<br/>callToAction · accordion<br/>28 types total]
+  COL -->|content| BLK[content blocks<br/>richTextBlock · imageBlock · video<br/>callToAction · accordion …<br/>35 types total]
+  COL -->|content| NC["nestedContainer<br/>(inner Column)"]
+  NC -->|columns| COL2[gridColumn] -->|content| BLK2[content blocks]
 ```
 
 Four style objects attach at **every** level — row, column and block:
 
 | Object | Tab in the Studio | Produces |
 | --- | --- | --- |
-| `container` | Layout | flex/grid, width, gap, direction |
-| `design` | Style | background, border, overlay |
-| `advanced` | Advanced | padding, margin, z-index, CSS id/classes |
-| `blockStyles` | Block Styles | the same, for content blocks |
+| `container` | Layout | flex/grid, width, gap, direction, HTML tag |
+| `design` | Style | background (incl. video / slideshow), overlay, border, shape dividers |
+| `advanced` | Advanced | padding, margin, position, z-index, CSS id/classes, custom CSS, motion |
+| `visibility` | Visibility | hide per device |
+| `blockStyles` | Style → Typography & Effects | the older per-block styles, still used by most content blocks |
 
 > **This is the single most common source of confusion.** Padding exists at three
 > independent levels. A gap you cannot remove is usually set one level up from
@@ -99,9 +102,12 @@ Styling arrives by two separate routes:
 - **`lib/blockStyles.ts`** — per-block inline styles. The desktop value becomes a
   real CSS property; tablet/mobile become custom properties (`--pt-tablet`,
   `--w-mobile`, `--ta-mobile`).
-- **`lib/container.ts`** — per-container scoped CSS, emitted into a `<style>` tag
-  on the section, keyed on `[data-pb="<_key>"]` for the element itself and
-  `[data-pb-inner="<_key>"]` for the box that lays its children out.
+- **`lib/containerStyles.ts`** — per-container scoped CSS, emitted into a
+  `<style>` tag on the section, keyed on `[data-pb="<_key>"]` for the element
+  itself and `[data-pb-inner="<_key>"]` for the box that lays its children out.
+  It runs the three tabs in order: `container.ts` (Layout), `design.ts` (Style),
+  `advancedCss.ts` (Advanced). Blocks get the same scoped CSS from
+  `lib/blockRender.ts`.
 
 `styles/global.css` promotes the custom properties inside `max-width` media
 queries. **Everything is desktop-first**: the unsuffixed value applies at all
@@ -140,30 +146,34 @@ Three mechanisms answer "something changed". The layout mounts exactly one.
 
 | Path | Holds |
 | --- | --- |
-| `schemaTypes/documents/` | `page`, `practiceArea`, `homePage`, `siteSettings` |
-| `schemaTypes/blocks/` | The 28 page-builder blocks, plus `gridRow` and `heroSection` |
-| `schemaTypes/objects/` | `blockStyles`, `link`, `rich-text`, `seo`, `video` |
-| `schemaTypes/fields/` | Reusable field builders: `container`, `design`, `motion` |
-| `schemaTypes/constants.ts` | Singleton types and allowed singleton actions |
-| `components/inputs/` | Custom field inputs — spacing, size, typography, colour |
+| `schemaTypes/documents/` | `page`, `practiceArea`, `homePage`, `newsPost`, `newsCategory`, `lawyer`, `caseResult`, `review`, `ctaForm`, `siteSettings`, `siteSettingsEs` |
+| `schemaTypes/blocks/` | The 35 page-builder blocks, plus `gridRow` / `nestedContainer` (Container, Column) and `pageBuilder` |
+| `schemaTypes/tabs/` | The tabs every container and block shares: `layoutField`, `styleField`, `styleEffectsField`, `advancedField`, `motionField`, `visibilityField`, `CONTAINER_TABS` |
+| `schemaTypes/objects/` | `blockStyles`, `link`, `rich-text`, `seo`, `site-info`, `text-style` |
+| `schemaTypes/fields/` | Reusable fields: `common` (links, column options), `rootSlug` (slug + Parent Page) |
+| `schemaTypes/languages.ts` · `constants.ts` | Languages and translated types · singletons and their allowed actions |
+| `components/tabs/` | The inputs that draw each tab: `layout/`, `style/`, `advanced/` |
+| `components/controls/` | Shared UI pieces: device switcher, rows, sliders, colour, CSS filters, `BareField` |
+| `components/block-styles/` | Inputs for the Typography & Effects panel (`blockStyles`) |
+| `components/inputs/` | Block- and document-specific inputs: button, phone, logo, rich text, video style… |
 | `components/previews/` | Preview components shown in Studio lists |
-| `components/container/` | The Elementor-style container panel and its controls |
 | `components/color/` | Colour picker |
-| `actions/` | `openInPresentation` document action |
-| `scripts/` | One-off migrations |
+| `actions/` | Document actions: publish with dates, delete with translations, open in Presentation / browser, last editor |
+| `scripts/` | One-off migrations and the seed export |
 
 ### Frontend
 
 | Path | Holds |
 | --- | --- |
-| `components/page-builder/` | Both dispatchers, plus `sections/` and `blocks/` |
+| `pages/` | `[...slug]` and `es/[...slug]` (builder pages), `index`, `news/`, `search`, `404` |
+| `components/page-builder/` | `BuilderPage`, `SectionRenderer`, `BlockRenderer`, `blockRegistry`, plus `sections/` and `blocks/` — see [docs/page-rendering.md](docs/page-rendering.md) |
 | `components/portable-text/` | Per-node rich text components — headings, links, lists |
 | `components/sanity/` | `SanityImage`, `SanityLive`, `VisualEditing`, `PortableTextRenderer` |
-| `components/layout/` | `Header`, `Footer`, `Animations` |
-| `components/ui/` | `BadgePill`, `BlockStylesWrapper` |
-| `lib/` | `blockStyles`, `container`, `design` — schema data to CSS |
-| `sanity/lib/` | `client`, `queries`, `live`, `env` |
-| `pages/api/` | `draft-mode/`, `draft-events`, `revalidate`, `form-submit` |
+| `components/layout/` | `Header`, `Footer`, `Theme`, `Animations`, `Breadcrumbs` |
+| `components/ui/` | `BlockStylesWrapper`, `CardCarousel`, `Pagination`, `MissingLinkBadge`, … |
+| `lib/` | Routing (`pageRoute`, `i18n`, `siteSettings`), schema data to CSS (`containerStyles`, `container`, `design`, `advancedCss`, `blockStyles`, `blockRender`), media (`video`, `backgroundMedia`, `shapeDividers`) |
+| `sanity/lib/` | `client`, `queries`, `live`, `env`, `image`, `siteInfo` |
+| `pages/api/` | `draft-mode/`, `draft-events`, `revalidate`, `form-submit`, `dev/` |
 
 ---
 
@@ -179,9 +189,10 @@ there and it saves in the Studio but never renders.
 Miss the third and it renders as nothing. `callToAction` is the worked example.
 
 **Two files are named for Sanity types.** `types/sanity.ts` is hand-written and
-imported by ~35 files. `sanity/types.generated.ts` is produced by `npm run typegen`
+imported by ~60 files. `sanity/types.generated.ts` is produced by `npm run typegen`
 — never edit it.
 
 **Configured spacing replaces built-in spacing.** When an editor sets padding or
-margin on a block, `BlockRenderer` marks the wrapper and `global.css` zeroes the
+margin on a block, `BlockRenderer` marks the wrapper (`layoutMarkers` in
+`lib/blockRender.ts`) and `global.css` zeroes the
 block's own padding/margin. Set nothing and the block keeps its defaults.
