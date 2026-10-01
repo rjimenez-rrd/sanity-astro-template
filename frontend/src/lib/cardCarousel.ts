@@ -1,5 +1,6 @@
 /**
- * The card carousel shared by Lawyer Cards and Case Results.
+ * The card carousel shared by Lawyer Cards, Practice Area Cards, News Cards
+ * and Case Results (components/ui/CardCarousel.astro).
  *
  * Cards are repeated in the DOM so the track can always scroll forward; the
  * copies render hidden and are revealed only when the real cards don't all

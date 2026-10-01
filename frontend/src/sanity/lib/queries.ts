@@ -78,9 +78,9 @@ const newsCardFragment = /* groq */ `
   coverImage { ${imageFragment} }
 `
 
-// Everything a practice area card shows. Shared by the Practice Area Cards
-// block (picked or all) and PRACTICE_AREAS_QUERY, so the card reads the same
-// data wherever it appears.
+// Everything a practice area card shows. Shared by the Practice Area Cards,
+// Practice Area Grid and Link List blocks, so the card reads the same data
+// wherever it appears.
 const practiceAreaCardFragment = /* groq */ `
   _id, title, cardTitle, slug, language, ${PARENTS_FRAGMENT},
   coverImage { ${imageFragment} }
@@ -323,19 +323,6 @@ export const PAGE_QUERY = defineQuery(/* groq */ `
       .translations[].value->{ language, "slug": slug.current, ${PARENTS_FRAGMENT} },
     ${seoFragment},
     ${pageBuilderFragment}
-  }
-`)
-
-export const PAGE_SLUGS_QUERY = defineQuery(/* groq */ `
-  *[_type in ["page", "practiceArea"] && defined(slug.current)] {
-    "slug": slug.current, language, ${PARENTS_FRAGMENT}
-  }
-`)
-
-export const PRACTICE_AREAS_QUERY = defineQuery(/* groq */ `
-  *[_type == "practiceArea" && defined(slug.current) && ${LANGUAGE_MATCHES}]
-    | order(title asc) {
-    ${practiceAreaCardFragment}
   }
 `)
 

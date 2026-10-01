@@ -22,8 +22,8 @@ declare namespace App {
     /** Live Content API tags for every query this request ran. */
     syncTags: string[]
     /**
-     * Which page of a paginated card list to show. Set by
-     * pages/[slug]/page/[page].astro; unset means page 1.
+     * Which page of a paginated card list to show. Set by lib/pageRoute.ts
+     * for /<slug>/page/<n>; unset means page 1.
      */
     listPage?: number
     /** The page's language. Set by the page routes; unset means the default. */

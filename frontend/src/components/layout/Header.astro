@@ -3,8 +3,8 @@ import { stegaClean } from "@sanity/client/stega";
 import SanityImage from "@/components/sanity/SanityImage.astro";
 import PhoneLink from "@/components/ui/PhoneLink.astro";
 import { phoneText } from "@/lib/phone";
-import type { SiteSettings, NavLink, NavDropdown } from "@/types/sanity";
-import { getMaxWidthClass } from "@/lib/maxWidth";
+import type { SiteSettings, NavDropdown } from "@/types/sanity";
+import { CONTENT_WIDTH } from "@/lib/maxWidth";
 import SearchOverlay from "@/components/search/SearchOverlay.astro";
 import CaretDown from "@/components/icons/CaretDown.astro";
 import { DEFAULT_LANGUAGE, homePath, t } from "@/lib/i18n";
@@ -15,8 +15,8 @@ interface Props {
 
 const { settings } = Astro.props;
 
-// Same content width as the hero, so the logo and nav line up with it.
-const maxWidthClass = getMaxWidthClass();
+// The site content width, so the logo and nav line up with the page.
+const maxWidthClass = CONTENT_WIDTH;
 
 const siteName = settings?.siteName || "Page Builder";
 const nav = settings?.mainNav ?? [];
@@ -183,15 +183,15 @@ const current = (on: boolean, link = true) =>
             </div>
           ) : (
             <a
-              href={(item as NavLink).href}
+              href={item.href}
               class={
-                (item as NavLink).isButton
+                item.isButton
                   ? "rounded-full bg-foreground px-4 py-2 text-[15px] text-background transition-colors hover:bg-primary"
                   : "py-2 text-[17px] text-foreground transition-colors hover:text-secondary-hover data-current:text-secondary-hover"
               }
-              {...current(isCurrent((item as NavLink).href))}
+              {...current(isCurrent(item.href))}
             >
-              {(item as NavLink).label}
+              {item.label}
             </a>
           ),
         )}
@@ -323,15 +323,15 @@ const current = (on: boolean, link = true) =>
             </div>
           ) : (
             <a
-              href={(item as NavLink).href}
+              href={item.href}
               class={
-                (item as NavLink).isButton
+                item.isButton
                   ? "my-2 rounded-full bg-foreground px-6 py-2.5 text-center text-[15px] text-background"
                   : "w-full px-4 py-3 text-center text-[17px] text-foreground transition-colors hover:bg-primary hover:text-white active:bg-primary active:text-white data-current:bg-primary data-current:text-white"
               }
-              {...current(isCurrent((item as NavLink).href))}
+              {...current(isCurrent(item.href))}
             >
-              {(item as NavLink).label}
+              {item.label}
             </a>
           ),
         )}

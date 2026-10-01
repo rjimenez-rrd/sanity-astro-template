@@ -8,7 +8,7 @@ import NewsCard from '@/components/news/NewsCard.astro'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
 import {NEWS_LIST_QUERY, PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
-import {getMaxWidthClass} from '@/lib/maxWidth'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import {DEFAULT_LANGUAGE} from '@/lib/i18n'
 import type {PAGE_QUERY_RESULT} from '@/sanity/types.generated'
 
@@ -20,7 +20,7 @@ const [posts, settings, newsPages] = await Promise.all([
   sanityFetch(client, Astro.locals, PAGE_QUERY, {slug: 'news', language: DEFAULT_LANGUAGE}),
 ])
 
-const maxWidthClass = getMaxWidthClass()
+const maxWidthClass = CONTENT_WIDTH
 
 // A top-level Studio page with the slug "news" replaces this built-in listing,
 // so editors can build it like any other page and link to it with Internal

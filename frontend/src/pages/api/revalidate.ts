@@ -10,11 +10,11 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {status, headers: {'Content-Type': 'application/json'}})
 
 /**
- * Sanity webhook receiver — the equivalent of the Next app's revalidatePath().
+ * Sanity webhook receiver: refreshes the cached pages a publish affects.
  *
  * Vercel's ISR re-generates and re-caches a single path when it is requested
  * with the `x-prerender-revalidate` header carrying the adapter's bypassToken,
- * which is how per-path invalidation survives the move off Next.
+ * which is how one path is refreshed without waiting for its cache to expire.
  */
 export const POST: APIRoute = async ({request, url}) => {
   const secret = import.meta.env.SANITY_REVALIDATE_SECRET

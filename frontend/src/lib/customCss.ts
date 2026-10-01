@@ -68,11 +68,6 @@ function parseRules(css: string): Rule[] {
 }
 
 /**
- * `&:hover` → `SEL:hover`; `.child` → `SEL .child`. `selector` is Elementor's
- * word for the element itself, so `selector:hover` and `selector .child` work
- * the same as `&:hover` and `& .child` (no HTML element is called selector).
- */
-/**
  * Whether a selector using `&` would style something other than the element
  * or its descendants: `&` inside parentheses (`:not(&)` is everything else,
  * `div:has(&)` its ancestors) or a sibling combinator after it (`& ~ p`,
@@ -87,6 +82,11 @@ function escapesScope(part: string): boolean {
   return /&.*[~+]/.test(outer)
 }
 
+/**
+ * `&:hover` → `SEL:hover`; `.child` → `SEL .child`. `selector` is Elementor's
+ * word for the element itself, so `selector:hover` and `selector .child` work
+ * the same as `&:hover` and `& .child` (no HTML element is called selector).
+ */
 function scopeSelector(selector: string, scope: string): string | undefined {
   const parts = selector
     // Only where a selector can start (the beginning, or after a space,

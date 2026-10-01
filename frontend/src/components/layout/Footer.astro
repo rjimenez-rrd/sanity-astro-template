@@ -3,7 +3,7 @@ import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import PhoneLink from '@/components/ui/PhoneLink.astro'
 import {phoneText} from '@/lib/phone'
-import {getMaxWidthClass} from '@/lib/maxWidth'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import type {SiteSettings} from '@/types/sanity'
 import {homePath, t} from '@/lib/i18n'
 
@@ -14,7 +14,7 @@ interface Props {
 const {settings} = Astro.props
 
 // Same content width as the header, so the two line up.
-const maxWidthClass = getMaxWidthClass()
+const maxWidthClass = CONTENT_WIDTH
 
 const SOCIAL_ICONS: Record<string, string> = {
   twitter: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z',
@@ -28,8 +28,8 @@ const SOCIAL_ICONS: Record<string, string> = {
 
 const siteName = settings?.siteName || 'Page Builder'
 const logo = settings?.footerLogo?.asset ? settings.footerLogo : undefined
-// The main logo is drawn for a light header; turned white, it reads on the
-// dark footer. A dedicated footer logo is shown as uploaded.
+// Only a dedicated Footer Logo, shown as uploaded; without one the footer
+// shows the site name instead.
 
 // Site Settings → Branding, shared with the header and every Phone block.
 const phone = settings?.phone

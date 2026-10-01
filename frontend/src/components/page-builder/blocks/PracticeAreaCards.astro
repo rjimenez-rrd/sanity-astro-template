@@ -2,7 +2,7 @@
 import {stegaClean} from '@sanity/client/stega'
 import CardCarousel from '@/components/ui/CardCarousel.astro'
 import PracticeAreaCard from '@/components/practice-areas/PracticeAreaCard.astro'
-import type {PracticeAreaCardsData, PracticeAreaListItem} from '@/types/sanity'
+import type {PracticeAreaCardsData} from '@/types/sanity'
 
 interface Props {
   data: PracticeAreaCardsData
@@ -30,7 +30,7 @@ const stackWords = data.stackTitleWords === true
       // The same card the /practice-areas page uses, so the look stays in one
       // place.
       <PracticeAreaCard
-        area={area as unknown as PracticeAreaListItem}
+        area={area}
         align={titleAlign}
         stackWords={stackWords}
         mobileAspect={data.stackOnMobile ? 'wide' : 'card'}

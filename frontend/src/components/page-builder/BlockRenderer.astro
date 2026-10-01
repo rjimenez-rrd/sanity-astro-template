@@ -1,62 +1,29 @@
 ---
+/**
+ * Renders one block in a column: picks its component (blockRegistry.ts) and
+ * applies what an editor set on it — Block Styles, the Style / Advanced /
+ * Visibility tabs, Custom CSS, motion. The style logic lives in
+ * lib/blockRender.ts; this file only decides how the block is drawn:
+ *
+ * - nested:       an inner Column, drawn as a Container (no block wrapper)
+ * - self-styled:  styles go on the block's own root (Rich Text)
+ * - wrapped:      styles go on a <div> around the block
+ * - bare:         nothing set, so the block sits directly in its column
+ * - unsupported:  a type with no component yet
+ */
 import {stegaClean} from '@sanity/client/stega'
 import BlockStylesWrapper from '@/components/ui/BlockStylesWrapper.astro'
-import {buildStyles, elementStyle, hasBlockStyles, type BlockStyles} from '@/lib/blockStyles'
-import {animationAttrs, type MotionSettings} from '@/lib/animation'
-import {
-  CssBuilder,
-  VISIBILITY_MEDIA,
-  safeCssId,
-  safeCssClasses,
-  safeKey,
-  type ContainerSettings,
-  type VisibilitySettings,
-} from '@/lib/container'
-import {buildDesignCss, type DesignSettings} from '@/lib/design'
-import {clean, mergeStyles, type ContainerAdvanced} from '@/lib/containerStyles'
-import {fullWidthDevices} from '@/lib/fullWidth'
-import {scopeCustomCss} from '@/lib/customCss'
-import RichText from './blocks/RichText.astro'
-import Image from './blocks/Image.astro'
-import CallToAction from './blocks/CallToAction.astro'
-import Video from './blocks/Video.astro'
-import TabbedContent from './blocks/TabbedContent.astro'
-import Accordion from './blocks/Accordion.astro'
-import SpacerDivider from './blocks/SpacerDivider.astro'
-import CountdownTimer from './blocks/CountdownTimer.astro'
-import IconText from './blocks/IconText.astro'
-import ButtonGroup from './blocks/ButtonGroup.astro'
-import StatMetric from './blocks/StatMetric.astro'
-import PhoneBlock from './blocks/PhoneBlock.astro'
-import TestimonialQuote from './blocks/TestimonialQuote.astro'
-import AlertNotice from './blocks/AlertNotice.astro'
-import PricingCard from './blocks/PricingCard.astro'
-import SocialEmbed from './blocks/SocialEmbed.astro'
-import LogoRow from './blocks/LogoRow.astro'
-import MapEmbed from './blocks/MapEmbed.astro'
-import CodeBlock from './blocks/CodeBlock.astro'
-import CustomHtml from './blocks/CustomHtml.astro'
-import DataTable from './blocks/DataTable.astro'
-import LottieAnimation from './blocks/LottieAnimation.astro'
-import FormBlock from './blocks/FormBlock.astro'
-import FormCta from './blocks/FormCta.astro'
-import LinkList from './blocks/LinkList.astro'
-import FaqBlock from './blocks/FaqBlock.astro'
-import FeatureCardGrid from './blocks/FeatureCardGrid.astro'
-import TestimonialCarousel from './blocks/TestimonialCarousel.astro'
-import ImageGallery from './blocks/ImageGallery.astro'
-import LawyerCards from './blocks/LawyerCards.astro'
-import PracticeAreaCards from './blocks/PracticeAreaCards.astro'
-import PracticeAreaGrid from './blocks/PracticeAreaGrid.astro'
-import NewsCards from './blocks/NewsCards.astro'
-import CaseResultCards from './blocks/CaseResultCards.astro'
-import TocBlock from './blocks/TocBlock.astro'
 import Container from './sections/Container.astro'
+import {BLOCK_COMPONENTS, SELF_STYLED} from './blockRegistry'
+import {elementStyle, hasBlockStyles} from '@/lib/blockStyles'
+import {animationAttrs} from '@/lib/animation'
+import {safeKey, type ContainerSettings} from '@/lib/container'
+import {blockCss, blockTabs, layoutMarkers, resolveBlockStyles} from '@/lib/blockRender'
 import type {ContentBlock, NestedContainerData} from '@/types/sanity'
 
 interface Props {
   block: ContentBlock
-  /** How many columns share this block's row — see DEFAULT_FILL_TYPES below. */
+  /** How many columns share this block's row (a map fills its row's height only beside another column). */
   columnCount?: number
   /** Document coordinates and the column's path, passed on to an Inner Container. */
   documentId?: string | null
@@ -68,224 +35,44 @@ interface Props {
 
 const {block, columnCount, documentId, documentType, parentPath, parentContainer} = Astro.props
 
-const CONTENT_MAP: Record<string, any> = {
-  richTextBlock: RichText,
-  imageBlock: Image,
-  callToAction: CallToAction,
-  video: Video,
-  // The two blocks Video replaced, until their content is moved over.
-  externalVideo: Video,
-  youtubeVideo: Video,
-  tabbedContent: TabbedContent,
-  accordion: Accordion,
-  spacerDivider: SpacerDivider,
-  countdownTimer: CountdownTimer,
-  iconText: IconText,
-  buttonGroup: ButtonGroup,
-  statMetric: StatMetric,
-  testimonialQuote: TestimonialQuote,
-  alertNotice: AlertNotice,
-  pricingCard: PricingCard,
-  socialEmbed: SocialEmbed,
-  logoRow: LogoRow,
-  mapEmbed: MapEmbed,
-  codeBlock: CodeBlock,
-  htmlBlock: CustomHtml,
-  dataTable: DataTable,
-  lottieAnimation: LottieAnimation,
-  formBlock: FormBlock,
-  formCta: FormCta,
-  linkList: LinkList,
-  faqBlock: FaqBlock,
-  featureCardGrid: FeatureCardGrid,
-  testimonialCarousel: TestimonialCarousel,
-  imageGallery: ImageGallery,
-  lawyerCards: LawyerCards,
-  practiceAreaCards: PracticeAreaCards,
-  practiceAreaGrid: PracticeAreaGrid,
-  newsCards: NewsCards,
-  caseResultCards: CaseResultCards,
-  phoneBlock: PhoneBlock,
-  tocBlock: TocBlock,
-}
-
-/** Blocks that take `style`/`class` on their own root, so they need no wrapper. */
-const SELF_STYLED = new Set(['richTextBlock'])
-
 const type = stegaClean(block._type)!
-const Component = CONTENT_MAP[type]
-
-/**
- * Blocks with a Container's Style / Advanced / Visibility tabs (e.g. Image)
- * also carry design, advanced and visibility. Their Advanced padding and
- * margin, and the Style panel's background and border, take over from the
- * older Block Styles, as they do on a Container. Blocks without them keep
- * Block Styles as they are.
- */
-const tabs = block as {
-  design?: DesignSettings | null
-  advanced?: ContainerAdvanced | null
-  visibility?: VisibilitySettings | null
-}
-const design = clean(tabs.design)
-const advanced = clean(tabs.advanced)
-const visibility = clean(tabs.visibility)
-const rawStyles = (
-  advanced || design ? mergeStyles(block.blockStyles, advanced, design) : stegaClean(block.blockStyles)
-) as (BlockStyles & {motion?: MotionSettings}) | null
-
-/**
- * These types default to matching the tallest column in their row instead of
- * their own natural/preset height — a map (or similar embed) sitting beside an
- * image or text column should fill it without an editor opening Size &
- * Alignment and picking "Fill column" every time. An explicit height, on
- * either the block itself or here, always wins over this default.
- * Gated on having a sibling column: with only one column in the row, "fill"
- * has no taller sibling to measure against and the block collapses to zero
- * height (the same reason global.css reverts it on mobile — see there).
- */
-const DEFAULT_FILL_TYPES = new Set(['mapEmbed'])
-const autoFillsHeight =
-  DEFAULT_FILL_TYPES.has(type) && (columnCount ?? 1) > 1 && !rawStyles?.size?.height
-const sizedStyles = autoFillsHeight
-  ? {...rawStyles, size: {...rawStyles?.size, height: 'fill'}}
-  : rawStyles
-
-/**
- * Full Width on a Button means the width of its column on the devices checked,
- * so a width set in Size & Alignment gives way there. The button fills its
- * wrapper, so leaving a 200px width on it would have it fill 200px and
- * quietly contradict the checkbox. Desktop-first: the desktop width is the
- * base, so a full device below it gets 100% to override what it inherits.
- */
-const fullOn = new Set(type === 'callToAction' ? fullWidthDevices(block) : [])
-const size = sizedStyles?.size
-/**
- * Each device's width on its own first (tablet inherits desktop, mobile
- * inherits tablet), then 100% where Full Width is checked. Written back
- * desktop-first, a smaller device only where it differs from the one above,
- * since the tablet rule also applies on mobile. Without resolving first, a
- * full desktop dropped the width tablet/mobile inherit, and a full tablet's
- * 100% leaked into mobile.
- */
-const fullWidths = (() => {
-  if (fullOn.size === 0 || !size) return undefined
-  const own = {
-    desktop: size.width || null,
-    tablet: size.widthTablet || size.width || null,
-    mobile: size.widthMobile || size.widthTablet || size.width || null,
-  }
-  if (!own.desktop && !own.tablet && !own.mobile) return undefined
-  const at = (device: keyof typeof own) => (fullOn.has(device) ? '100%' : own[device])
-  const desktop = at('desktop')
-  const tablet = at('tablet')
-  const mobile = at('mobile')
-  return {
-    width: desktop,
-    widthTablet: tablet !== desktop ? (tablet ?? 'auto') : null,
-    widthMobile: mobile !== tablet ? (mobile ?? 'auto') : null,
-  }
-})()
-const styles = fullWidths ? {...sizedStyles, size: {...size, ...fullWidths}} : sizedStyles
-const animation = animationAttrs((advanced?.motion as MotionSettings | undefined) ?? styles?.motion)
-// Class hooks and Custom CSS. Scoped to this block's own key, so a rule an
-// editor writes can only reach this element and its descendants.
+const Component = BLOCK_COMPONENTS[type]
 const blockKey = safeKey(stegaClean(block._key))
-// The Advanced tab wins over Block Styles for these, as on a Container. Both
-// Custom CSS boxes apply, each scoped to this block.
-const cssId = safeCssId(advanced?.cssId ?? styles?.cssId)
-const cssClasses = safeCssClasses(advanced?.cssClasses ?? styles?.cssClasses)
-const customCss = blockKey
-  ? [styles?.customCss, advanced?.customCss]
-      .map((raw) => scopeCustomCss(raw, `[data-pb="${blockKey}"]`))
-      .filter(Boolean)
-      .join('') || undefined
-  : undefined
 
-// Style panel, Visibility and Z-Index, as scoped rules on this block.
-const tabCss = new CssBuilder()
-if (blockKey) {
-  const self = `[data-pb="${blockKey}"]`
-  buildDesignCss(blockKey, design, tabCss, {radiusVar: true})
-  if (visibility?.hideOnDesktop) tabCss.add(VISIBILITY_MEDIA.desktop, self, {display: 'none !important'})
-  if (visibility?.hideOnTablet) tabCss.add(VISIBILITY_MEDIA.tablet, self, {display: 'none !important'})
-  if (visibility?.hideOnMobile) tabCss.add(VISIBILITY_MEDIA.mobile, self, {display: 'none !important'})
-  if (typeof advanced?.zIndex === 'number' && Number.isFinite(advanced.zIndex)) {
-    const z = Math.round(Math.min(9999, Math.max(-9999, advanced.zIndex)))
-    tabCss.add(null, self, {position: 'relative', 'z-index': String(z)})
-  }
-}
-const tabCssText = tabCss.toString()
-const needsHook = Boolean(cssId || cssClasses || customCss || tabCssText)
+// What the editor set, resolved.
+const tabs = blockTabs(block)
+const styles = resolveBlockStyles(block, type, tabs, columnCount)
+const {cssId, cssClasses, css} = blockCss(blockKey, styles, tabs)
+const animation = animationAttrs(tabs.advanced?.motion ?? styles?.motion)
 
-// A wrapper only exists to carry styles, an animation or a class hook.
-const needsWrapper =
-  hasBlockStyles(styles) || Object.keys(animation).length > 0 || needsHook
-const own = needsWrapper && SELF_STYLED.has(type) ? elementStyle(styles, {radiusVar: true}) : null
+// A wrapper (or styled root) only exists to carry styles, an animation or a
+// hook for CSS.
+const needsWrapper = hasBlockStyles(styles) || Object.keys(animation).length > 0 || Boolean(cssId || cssClasses || css)
 
 /**
- * Blocks ship their own spacing — AlertNotice p-4, PricingCard p-6, headings
- * mb-4. Configured spacing replaces that instead of nesting outside it: these
- * markers let global.css zero the built-in value, and the configured one then
- * wins as an inline style. Emitted per property and only when an editor set
- * something, so an untouched block keeps its defaults.
+ * An Inner Container renders as a container, not a block: Container applies
+ * its own styles, Style tab and Custom CSS, so it skips the block wrapper —
+ * which would apply them twice, and its [data-pb-h] fill rules would stretch
+ * every image and iframe inside it.
  */
-// Keyed off what buildStyles actually emitted, not the raw field values: a
-// value the whitelist rejects must not strip the block's default and leave
-// nothing in its place.
-// buildStyles assigns every key up front, leaving undefined ones for
-// toStyleString to filter, so the value has to be checked and not just the key.
-const built = buildStyles(styles)
-const emitted = (re: RegExp) =>
-  Object.entries(built).some(([k, v]) => v !== undefined && v !== '' && re.test(k))
+const mode =
+  type === 'nestedContainer'
+    ? 'nested'
+    : !Component
+      ? 'unsupported'
+      : !needsWrapper
+        ? 'bare'
+        : SELF_STYLED.has(type)
+          ? 'self-styled'
+          : 'wrapped'
 
-const hasPadding = emitted(/^(padding-|--p[trbl]-(tablet|mobile)$)/)
-const hasMargin = emitted(/^(margin-|--m[trbl]-(tablet|mobile)$)/)
-// Typography -> Heading Font: global.css sets the block's headings to it.
-const hasHeadingFont = emitted(/^--pb-heading-font$/)
-// Typography -> Size: global.css sizes a Rich Text block's headings and
-// paragraphs to it.
-const hasFontSize = emitted(/^(font-size|--fs-(tablet|mobile))$/)
-// Size & Alignment -> Width: global.css stops a row from stretching the block
-// past it (a row shares its space evenly among blocks with no width).
-// The largest device a Width applies from. A width carries down (desktop's
-// also applies on tablet and mobile), so this is where it starts; global.css
-// only stops the row sharing its space from that breakpoint down, so a
-// mobile-only width leaves the desktop layout alone.
-const widthFrom = emitted(/^width$/)
-  ? 'desktop'
-  : emitted(/^--w-tablet$/)
-    ? 'tablet'
-    : emitted(/^--w-mobile$/)
-      ? 'mobile'
-      : undefined
-
-/**
- * A configured height sizes the wrapper, but an image or iframe inside it keeps
- * its own intrinsic height and overflows. This marker lets global.css hand the
- * height down the chain — a wrapper is the only place it can be done, since an
- * inline style cannot reach a descendant. Covers both a fixed height and
- * "fill", which emits `flex` rather than `height`.
- */
-const hasHeight =
-  emitted(/^(height|--h-(tablet|mobile)|--fill-(tablet|mobile))$/) ||
-  built['flex'] === '1 1 auto'
-// 'fill' is marked apart from a fixed height so the mobile rule can undo it.
-const heightMode = built['flex'] === '1 1 auto' ? 'fill' : ''
-
-/**
- * An Inner Container renders as a container, not a block: Container
- * applies its own styles, Style tab and Custom CSS, so it skips the block
- * wrapper — which would apply them twice, and its [data-pb-h] fill rules would
- * stretch every image and iframe inside it.
- */
-const isNestedContainer = type === 'nestedContainer'
 const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${blockKey}"]` : undefined
-
+const selfStyle = mode === 'self-styled' ? elementStyle(styles, {radiusVar: true}) : null
+const markers = layoutMarkers(styles)
 ---
 
 {
-  isNestedContainer && (
+  mode === 'nested' && (
     <Container
       data={block as NestedContainerData}
       parentContainer={parentContainer ?? undefined}
@@ -297,53 +84,43 @@ const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${bloc
   )
 }
 
-{/* Generated rules first, then the editor's Custom CSS, so it wins. */}
+{mode !== 'nested' && css && <Fragment set:html={`<style>${css}</style>`} />}
+
 {
-  !isNestedContainer && (tabCssText || customCss) && (
-    <Fragment set:html={`<style>${tabCssText}${customCss ?? ''}</style>`} />
+  mode === 'self-styled' && (
+    <Component
+      data={block}
+      data-pb={blockKey}
+      id={cssId}
+      class={cssClasses}
+      style={selfStyle?.style}
+      data-pb-overlay={selfStyle?.overlay ? '' : undefined}
+      {...markers}
+      {...animation}
+    />
   )
 }
 
 {
-  isNestedContainer ? null : Component ? (
-    own ? (
-      <Component
-        data={block}
-        data-pb={blockKey}
-        id={cssId}
-        class={cssClasses}
-        style={own.style}
-        data-pb-overlay={own.overlay ? '' : undefined}
-        data-pb-pad={hasPadding ? '' : undefined}
-        data-pb-mar={hasMargin ? '' : undefined}
-        data-pb-hfont={hasHeadingFont ? '' : undefined}
-        data-pb-fs={hasFontSize ? '' : undefined}
-        data-pb-w={widthFrom}
-        data-pb-h={hasHeight ? heightMode : undefined}
-        {...animation}
-      />
-    ) : needsWrapper ? (
-      <BlockStylesWrapper
-        blockStyles={styles}
-        radiusVar
-        data-pb={blockKey}
-        id={cssId}
-        class={cssClasses}
-        data-pb-pad={hasPadding ? '' : undefined}
-        data-pb-mar={hasMargin ? '' : undefined}
-        data-pb-hfont={hasHeadingFont ? '' : undefined}
-        data-pb-fs={hasFontSize ? '' : undefined}
-        data-pb-w={widthFrom}
-        data-pb-h={hasHeight ? heightMode : undefined}
-        {...animation}
-      >
-        <Component data={block} />
-      </BlockStylesWrapper>
-    ) : (
-      // No styles, no wrapper: the block is a direct item of its column.
+  mode === 'wrapped' && (
+    <BlockStylesWrapper
+      blockStyles={styles}
+      radiusVar
+      data-pb={blockKey}
+      id={cssId}
+      class={cssClasses}
+      {...markers}
+      {...animation}
+    >
       <Component data={block} />
-    )
-  ) : (
+    </BlockStylesWrapper>
+  )
+}
+
+{mode === 'bare' && <Component data={block} />}
+
+{
+  mode === 'unsupported' && (
     <div class="my-2 rounded-lg border border-dashed border-border p-4 text-center text-xs text-muted">
       Unsupported: <code>{block._type}</code>
     </div>

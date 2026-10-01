@@ -16,9 +16,9 @@ const showDots = data.showDots !== false
 const showArrows = data.showArrows !== false
 
 /**
- * Card width per breakpoint, emitted as scoped CSS rather than Tailwind
- * arbitrary values: `w-[calc(...)]` needs an escaped selector that has to match
- * the attribute exactly, and the widths are dynamic anyway.
+ * Card width per breakpoint, set as inline custom properties (below) rather
+ * than Tailwind arbitrary values: `w-[calc(...)]` needs an escaped selector
+ * that has to match the attribute exactly, and the widths are dynamic anyway.
  *
  * Each width subtracts the card's share of the 1.5rem gap-6, or the cards
  * overflow the track. Breakpoints match the rest of the project — desktop is
@@ -304,8 +304,8 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
       const interval = Number(root.dataset.interval || 5) * 1000
       let timer = setInterval(() => goTo(current + 1), interval)
 
-      // Pause while the pointer is over the carousel, and while the tab is
-      // hidden — a background interval just fights the user's scroll position.
+      // Pause while the pointer is over the carousel, so a slide doesn't move
+      // away while someone is reading it.
       root.addEventListener('mouseenter', () => clearInterval(timer))
       root.addEventListener('mouseleave', () => {
         // Cleared first: a stray second mouseleave would otherwise stack a

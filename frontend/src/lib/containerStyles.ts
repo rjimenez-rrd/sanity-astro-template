@@ -22,6 +22,7 @@ import {buildDesignCss, designOverrides, type DesignSettings} from './design'
 import {scopeCustomCss} from './customCss'
 import {buildAdvancedCss, type AdvancedLayout} from './advancedCss'
 import type {BlockStyles} from './blockStyles'
+import type {MotionSettings} from './animation'
 
 /** The Advanced tab of a container or one of its columns. */
 export interface ContainerAdvanced extends AdvancedLayout {
@@ -32,7 +33,7 @@ export interface ContainerAdvanced extends AdvancedLayout {
   cssId?: string | null
   cssClasses?: string | null
   customCss?: string | null
-  motion?: unknown
+  motion?: MotionSettings
   attributes?: string | null
 }
 
@@ -42,11 +43,6 @@ export interface ContainerAdvanced extends AdvancedLayout {
  */
 export const clean = <T,>(value: T): T => (value ? (stegaClean(value) as T) : value)
 
-/**
- * Inline styles for a container, column or block: the older block styles,
- * minus whatever the Style panel or Advanced tab now sets. Inline styles would
- * otherwise beat the Style panel's scoped CSS.
- */
 /**
  * Advanced spacing over the older Block Styles, side by side: a side set on
  * the Advanced tab wins, and the others keep their older value instead of all
@@ -59,6 +55,11 @@ function mergeSides<T extends Record<string, unknown>>(legacy: T | null | undefi
   return {...legacy, ...Object.fromEntries(own)} as T
 }
 
+/**
+ * Inline styles for a container, column or block: the older block styles,
+ * minus whatever the Style panel or Advanced tab now sets. Inline styles would
+ * otherwise beat the Style panel's scoped CSS.
+ */
 export function mergeStyles(
   blockStyles: unknown,
   advanced: ContainerAdvanced | null | undefined,

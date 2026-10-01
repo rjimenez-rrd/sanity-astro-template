@@ -6,7 +6,7 @@
  * results. Top-level pages have no trail, so nothing renders for them.
  */
 import {stegaClean} from '@sanity/client/stega'
-import {getMaxWidthClass} from '@/lib/maxWidth'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import {homePath, localizedPath, t, type Language} from '@/lib/i18n'
 import type {PageData} from '@/types/sanity'
 
@@ -51,7 +51,7 @@ const jsonLd =
 {
   trail.length > 0 && (
     <nav aria-label={t(language, 'breadcrumb')} class="bg-background">
-      <ol class={`mx-auto flex ${getMaxWidthClass()} flex-wrap items-center gap-x-2 gap-y-1 px-4 py-3 font-display text-sm md:px-8`}>
+      <ol class={`mx-auto flex ${CONTENT_WIDTH} flex-wrap items-center gap-x-2 gap-y-1 px-4 py-3 font-display text-sm md:px-8`}>
         {items.map((item) => (
           <li class="flex items-center gap-2">
             <a href={item.href} class="text-primary transition-colors hover:text-secondary-hover hover:underline">

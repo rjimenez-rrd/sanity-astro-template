@@ -1,7 +1,5 @@
 import type {
-  HOME_PAGE_QUERY_RESULT,
   PAGE_QUERY_RESULT,
-  PRACTICE_AREAS_QUERY_RESULT,
   SITE_SETTINGS_QUERY_RESULT,
 } from '@/sanity/types.generated'
 
@@ -10,18 +8,10 @@ export type SiteSettings = NonNullable<SITE_SETTINGS_QUERY_RESULT>
 export type NavItem = NonNullable<SiteSettings['mainNav']>[number]
 export type NavLink = Extract<NavItem, {_type: 'navLink'}>
 export type NavDropdown = Extract<NavItem, {_type: 'navDropdown'}>
-export type DropdownItem = NavDropdown['items'][number]
-export type FooterLink = NonNullable<SiteSettings['footerNav']>[number]
-export type FooterOffice = NonNullable<SiteSettings['footerOffices']>[number]
-export type SocialLink = NonNullable<SiteSettings['socialLinks']>[number]
 
 // ---------- Pages ----------
-export type HomePage = HOME_PAGE_QUERY_RESULT
 // PAGE_QUERY returns every page sharing the slug (lib/pageRoute.ts picks one).
 export type PageData = PAGE_QUERY_RESULT[number]
-
-// ---------- Practice areas ----------
-export type PracticeAreaListItem = PRACTICE_AREAS_QUERY_RESULT[number]
 
 // ---------- Page Builder ----------
 // PAGE_QUERY_RESULT has pageBuilder as a non-null array on its type, so use it directly
@@ -72,5 +62,6 @@ export type CaseResultCardsData = Extract<ContentBlock, {_type: 'caseResultCards
 export type FormCtaData = Extract<ContentBlock, {_type: 'formCta'}>
 export type LinkListData = Extract<ContentBlock, {_type: 'linkList'}>
 
-// ---------- SEO ----------
-export type SeoData = NonNullable<PageData['seo']>
+// ---------- Practice areas ----------
+/** One practice area card, as the Practice Area Cards and Grid blocks resolve it. */
+export type PracticeAreaListItem = NonNullable<PracticeAreaGridData['practiceAreas']>[number]

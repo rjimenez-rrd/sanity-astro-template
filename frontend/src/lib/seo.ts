@@ -8,8 +8,8 @@ interface SeoSource {
 }
 
 /**
- * Collapses a document's seo object plus fallbacks into Base.astro's props.
- * Replaces the per-route generateMetadata() functions.
+ * Collapses a document's seo object plus fallbacks into Base.astro's props,
+ * so every route builds its meta tags the same way.
  */
 export function buildSeo(
   seo: SeoSource | null | undefined,

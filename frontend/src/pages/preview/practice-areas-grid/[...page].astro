@@ -36,7 +36,7 @@ const data = {
   practiceAreas: areas,
 } as unknown as PracticeAreaGridData
 
-// The real route's checks, step for step (pages/[slug]/page/[page].astro).
+// The real route's checks, step for step (lib/pageRoute.ts).
 const rest = Astro.params.page
 const match = rest?.match(/^page\/(.+)$/)
 if (rest && !match) return Astro.rewrite('/404')

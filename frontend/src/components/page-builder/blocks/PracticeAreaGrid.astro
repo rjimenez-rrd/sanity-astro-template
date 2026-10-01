@@ -5,14 +5,14 @@
  * carousel — that's Practice Area Cards.
  *
  * The page number comes from the route: /<slug> is page 1, and
- * pages/[slug]/page/[page].astro sets Astro.locals.listPage for the rest (and
- * 404s a page past the end).
+ * lib/pageRoute.ts sets Astro.locals.listPage for /<slug>/page/<n> (and 404s
+ * a page past the end).
  */
 import {stegaClean} from '@sanity/client/stega'
 import Pagination from '@/components/ui/Pagination.astro'
 import PracticeAreaCard from '@/components/practice-areas/PracticeAreaCard.astro'
 import {listBasePath, pageCount, perPageOf} from '@/lib/pagination'
-import type {PracticeAreaGridData, PracticeAreaListItem} from '@/types/sanity'
+import type {PracticeAreaGridData} from '@/types/sanity'
 
 interface Props {
   data: PracticeAreaGridData
@@ -51,7 +51,7 @@ const gridColumns = GRID_COLUMNS[stegaClean(data.columns) ?? '5'] ?? GRID_COLUMN
         {pageAreas.map((area) => (
           <li>
             <PracticeAreaCard
-              area={area as unknown as PracticeAreaListItem}
+              area={area}
               align={titleAlign}
               stackWords={stackWords}
               mobileAspect="wide"

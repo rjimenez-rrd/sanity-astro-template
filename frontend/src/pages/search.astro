@@ -7,7 +7,7 @@ import SearchForm from '@/components/search/SearchForm.astro'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
 import {SEARCH_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
-import {getMaxWidthClass} from '@/lib/maxWidth'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import {localizedPath} from '@/lib/i18n'
 
 const client = getClient(Astro.locals.isDraft)
@@ -36,7 +36,7 @@ const hrefFor = (result: (typeof results)[number]) => {
   return stegaClean(result._type) === 'newsPost' ? `/news/${slug}` : localizedPath(slug!, result.language, result.parents)
 }
 
-const maxWidthClass = getMaxWidthClass()
+const maxWidthClass = CONTENT_WIDTH
 ---
 
 <Site settings={settings} title={q ? `Search: ${q}` : 'Search'}>
