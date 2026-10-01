@@ -1,0 +1,129 @@
+---
+/**
+ * The menu below lg, opened by the menu button in HeaderActions: centered,
+ * one item per line. The negative margins cancel the header's side and bottom
+ * padding, so rows run edge to edge. Tapping a dropdown's row opens its links;
+ * tapping it again goes to its own Link.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import CaretDown from '@/components/icons/CaretDown.astro'
+import {currentAttrs, isDropdown, navMatcher, type NavItem} from '@/lib/nav'
+
+interface Props {
+  nav: NavItem[]
+}
+
+const {nav} = Astro.props
+const {isCurrent, dropdownIsCurrent} = navMatcher(Astro.originPathname)
+---
+
+<nav
+  class="-mx-4 -mb-2 border-t border-border py-3 font-display md:-mx-8 lg:hidden"
+  data-mobile-nav
+  hidden
+>
+  <div class="flex flex-col items-center">
+    {nav.map((item) =>
+      isDropdown(item) ? (
+        <div class="flex w-full flex-col items-center" data-mobile-dropdown>
+          {/* The whole row is one button, edge to edge: the first tap
+              opens the links below; tapping it again while open goes to
+              the dropdown's own Link, or closes it when there is none. */}
+          <button
+            type="button"
+            class="group/row flex w-full items-center justify-center gap-2 py-3 font-display text-[17px] text-foreground transition-colors hover:bg-primary hover:text-white active:bg-primary active:text-white aria-expanded:bg-primary aria-expanded:text-white data-current:bg-primary data-current:text-white"
+            {...currentAttrs(dropdownIsCurrent(item), false)}
+            data-mobile-dropdown-toggle
+            data-href={item.href ? stegaClean(item.href) : undefined}
+            aria-expanded="false"
+          >
+            {item.label}
+            <span
+              class="block p-1 text-secondary-hover transition-[color,transform] group-hover/row:text-white group-active/row:text-white group-aria-expanded/row:text-white group-data-current/row:text-white"
+              data-mobile-dropdown-chevron
+            >
+              <CaretDown class="h-4 w-2.5" />
+            </span>
+          </button>
+          <div
+            class="flex w-full flex-col items-center bg-foreground/[0.03] py-1"
+            data-mobile-dropdown-menu
+            hidden
+          >
+            {(item.items || []).map((child) => (
+              <a
+                href={child.href}
+                class="w-full px-4 py-2.5 text-center text-[15px] text-foreground/80 transition-colors hover:bg-primary hover:text-white active:bg-primary active:text-white data-current:bg-primary data-current:text-white"
+                {...currentAttrs(isCurrent(child.href))}
+              >
+                {child.label}
+                {child.description && (
+                  <span class="block text-xs text-muted">{child.description}</span>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <a
+          href={item.href}
+          class={
+            item.isButton
+              ? 'my-2 rounded-full bg-foreground px-6 py-2.5 text-center text-[15px] text-background'
+              : 'w-full px-4 py-3 text-center text-[17px] text-foreground transition-colors hover:bg-primary hover:text-white active:bg-primary active:text-white data-current:bg-primary data-current:text-white'
+          }
+          {...currentAttrs(isCurrent(item.href))}
+        >
+          {item.label}
+        </a>
+      ),
+    )}
+  </div>
+</nav>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')
+  const mobileToggle = header?.querySelector<HTMLButtonElement>('[data-mobile-toggle]')
+  const mobileNav = header?.querySelector<HTMLElement>('[data-mobile-nav]')
+  const burger = header?.querySelector<HTMLElement>('[data-icon-burger]')
+  const close = header?.querySelector<HTMLElement>('[data-icon-close]')
+
+  mobileToggle?.addEventListener('click', () => {
+    const open = mobileNav?.hidden ?? true
+    if (mobileNav) mobileNav.hidden = !open
+    burger?.toggleAttribute('hidden', open)
+    close?.toggleAttribute('hidden', !open)
+    mobileToggle.setAttribute('aria-expanded', String(open))
+  })
+
+  // Closing the menu on navigation matters because these are real anchors,
+  // not client-side routes — a back-navigation would otherwise restore it open.
+  mobileNav?.querySelectorAll('a').forEach((link) =>
+    link.addEventListener('click', () => {
+      mobileNav.hidden = true
+      burger?.removeAttribute('hidden')
+      close?.setAttribute('hidden', '')
+      mobileToggle?.setAttribute('aria-expanded', 'false')
+    }),
+  )
+
+  // Dropdowns: the first tap opens the links; a second tap goes to the
+  // dropdown's own page when it has one, or closes it.
+  mobileNav?.querySelectorAll<HTMLElement>('[data-mobile-dropdown]').forEach((dropdown) => {
+    const toggle = dropdown.querySelector<HTMLButtonElement>('[data-mobile-dropdown-toggle]')
+    const menu = dropdown.querySelector<HTMLElement>('[data-mobile-dropdown-menu]')
+    const chevron = dropdown.querySelector<HTMLElement>('[data-mobile-dropdown-chevron]')
+
+    toggle?.addEventListener('click', () => {
+      const willOpen = menu?.hidden ?? true
+      const href = toggle.dataset.href
+      if (!willOpen && href) {
+        window.location.href = href
+        return
+      }
+      if (menu) menu.hidden = !willOpen
+      toggle.setAttribute('aria-expanded', String(willOpen))
+      chevron?.classList.toggle('rotate-180', willOpen)
+    })
+  })
+</script>

@@ -1,0 +1,140 @@
+---
+/**
+ * The menu from lg up. A dropdown opens on hover or keyboard focus; its label
+ * is a real link when it has one, and the chevron is a separate button so
+ * touch screens, which can't hover, can still open it.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import CaretDown from '@/components/icons/CaretDown.astro'
+import {t} from '@/lib/i18n'
+import {currentAttrs, isDropdown, navMatcher, type NavItem} from '@/lib/nav'
+
+interface Props {
+  nav: NavItem[]
+}
+
+const {nav} = Astro.props
+const {isCurrent, dropdownIsCurrent} = navMatcher(Astro.originPathname)
+const language = Astro.locals.language
+---
+
+<nav class="hidden items-center gap-7 font-display lg:flex">
+  {nav.map((item) =>
+    isDropdown(item) ? (
+      <div class="group relative" data-dropdown>
+        <div class="flex items-center gap-2">
+          {item.href ? (
+            <a
+              href={item.href}
+              class="py-2 text-[17px] text-foreground transition-colors hover:text-secondary-hover data-current:text-secondary-hover"
+              {...currentAttrs(dropdownIsCurrent(item), isCurrent(item.href))}
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span
+              class="cursor-default py-2 text-[17px] text-foreground data-current:text-secondary-hover"
+              {...currentAttrs(dropdownIsCurrent(item), false)}
+            >
+              {item.label}
+            </span>
+          )}
+          <button
+            type="button"
+            class="p-1 text-secondary-hover"
+            data-dropdown-toggle
+            aria-expanded="false"
+            aria-label={t(language, 'submenu', {label: stegaClean(item.label) ?? ''})}
+          >
+            <CaretDown class="h-4 w-2.5" />
+          </button>
+        </div>
+
+        {/* pt-2, not a margin: the gap stays inside the hover area, so
+            moving the pointer down to the menu doesn't close it. */}
+        <div
+          class="invisible absolute left-0 top-full z-50 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 group-data-[open]:visible group-data-[open]:opacity-100"
+          data-dropdown-menu
+        >
+          <div class="w-64 border border-border bg-white shadow-lg">
+            {(item.items || []).map((child) => (
+              <a
+                href={child.href}
+                class="group/child flex items-start gap-3 px-5 py-3 transition-colors hover:bg-primary data-current:bg-primary"
+                {...currentAttrs(isCurrent(child.href))}
+              >
+                {child.icon?.asset && (
+                  <SanityImage
+                    value={child.icon}
+                    alt=""
+                    width={32}
+                    height={32}
+                    class="mt-0.5 h-5 w-5 shrink-0"
+                  />
+                )}
+                <div>
+                  <span class="block text-[15px] text-foreground transition-colors group-hover/child:text-white group-data-current/child:text-white">{child.label}</span>
+                  {child.description && (
+                    <span class="block text-xs text-muted transition-colors group-hover/child:text-white/80 group-data-current/child:text-white/80">{child.description}</span>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    ) : (
+      <a
+        href={item.href}
+        class={
+          item.isButton
+            ? 'rounded-full bg-foreground px-4 py-2 text-[15px] text-background transition-colors hover:bg-primary'
+            : 'py-2 text-[17px] text-foreground transition-colors hover:text-secondary-hover data-current:text-secondary-hover'
+        }
+        {...currentAttrs(isCurrent(item.href))}
+      >
+        {item.label}
+      </a>
+    ),
+  )}
+</nav>
+
+<script>
+  // Hover and focus are pure CSS; the chevron button pins one dropdown open
+  // with data-open, for touch screens and keyboard users.
+  const dropdowns = document.querySelectorAll<HTMLElement>('[data-header] [data-dropdown]')
+
+  const setOpen = (dropdown: HTMLElement, open: boolean) => {
+    dropdown.toggleAttribute('data-open', open)
+    dropdown.querySelector('[data-dropdown-toggle]')?.setAttribute('aria-expanded', String(open))
+  }
+  const closeAll = (except?: HTMLElement) =>
+    dropdowns.forEach((dropdown) => dropdown !== except && setOpen(dropdown, false))
+
+  dropdowns.forEach((dropdown) => {
+    dropdown
+      .querySelector<HTMLButtonElement>('[data-dropdown-toggle]')
+      ?.addEventListener('click', (event) => {
+        event.stopPropagation()
+        closeAll(dropdown)
+        setOpen(dropdown, !dropdown.hasAttribute('data-open'))
+      })
+    // Leaving with the pointer ends a pinned-open state too, so a menu
+    // opened by tap doesn't linger once hover takes over.
+    dropdown.addEventListener('mouseleave', () => setOpen(dropdown, false))
+  })
+
+  if (dropdowns.length > 0) {
+    document.addEventListener('mousedown', (event) => {
+      if (!(event.target as HTMLElement).closest('[data-dropdown]')) closeAll()
+    })
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return
+      closeAll()
+      const focused = document.activeElement as HTMLElement | null
+      if (focused?.closest('[data-dropdown]')) focused.blur()
+    })
+  }
+</script>

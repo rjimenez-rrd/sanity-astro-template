@@ -1,4 +1,5 @@
 import {fontStack} from './fonts'
+import {safeColor} from './cssValues'
 
 export interface BlockStyles {
   padding?: {
@@ -68,9 +69,6 @@ const TEXT_ALIGN = new Set(['left', 'center', 'right', 'start', 'end', 'justify'
 
 const align = (raw?: string | null): string | undefined =>
   raw && TEXT_ALIGN.has(raw.trim()) ? raw.trim() : undefined
-
-/** Hex, rgb()/rgba() or a bare CSS colour keyword — nothing with punctuation. */
-const CSS_COLOR = /^(#[0-9a-fA-F]{3,8}|rgba?\([\d\s.,%/]+\)|[a-zA-Z]+)$/
 
 const ALIGN_SELF: Record<string, string> = {
   start: 'flex-start',
@@ -242,8 +240,8 @@ export function buildStyles(
     styles['--fs-tablet'] = fontSize(bs.typography.fontSizeTablet)
     styles['--fs-mobile'] = fontSize(bs.typography.fontSizeMobile)
 
-    const color = bs.typography.textColor?.trim()
-    if (color && CSS_COLOR.test(color)) styles['color'] = color
+    const color = safeColor(bs.typography.textColor)
+    if (color) styles['color'] = color
 
     // Read by the [data-pb-hfont] rule in global.css; only bundled fonts pass.
     styles['--pb-heading-font'] = fontStack(bs.typography.headingFont)

@@ -2,12 +2,12 @@ import type {AstroGlobal} from 'astro'
 import {stegaClean} from '@sanity/client/stega'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
-import {PAGE_QUERY} from '@/sanity/lib/queries'
+import {HOME_PAGE_QUERY, PAGE_QUERY} from '@/sanity/lib/queries'
 import {getSiteSettings} from '@/lib/siteSettings'
-import {alternatesOf, localizedPath, type Language} from '@/lib/i18n'
+import {alternatesOf, homePath, languageOf, localizedPath, type Language} from '@/lib/i18n'
 import {findPaginatedList, pageCount} from '@/lib/pagination'
 import type {PageData, SiteSettings} from '@/types/sanity'
-import type {PAGE_QUERY_RESULT} from '@/sanity/types.generated'
+import type {HOME_PAGE_QUERY_RESULT, PAGE_QUERY_RESULT} from '@/sanity/types.generated'
 
 export type PageRoute =
   | {kind: 'page'; page: PageData; settings: SiteSettings | null; listPage?: number}
@@ -90,4 +90,25 @@ export async function resolvePage(
   }
 
   return {kind: 'notFound'}
+}
+
+/**
+ * A language's Home Page (index.astro, es/index.astro) and the Site Settings,
+ * fetched together. Also records the language and the home in each language
+ * that has one ({en: '/', es: '/es'}), for the layout and the language link.
+ */
+export async function resolveHome(
+  Astro: AstroGlobal,
+  language: Language,
+): Promise<{page: HOME_PAGE_QUERY_RESULT; settings: SiteSettings | null}> {
+  const client = getClient(Astro.locals.isDraft)
+  // Typed here, as in resolvePage: the fetch alone comes back untyped.
+  const pagePromise: Promise<HOME_PAGE_QUERY_RESULT> = sanityFetch(client, Astro.locals, HOME_PAGE_QUERY, {language})
+  const [page, settings] = await Promise.all([pagePromise, getSiteSettings(Astro.locals, language)])
+
+  Astro.locals.language = language
+  const languages = [language, ...(page?.translations ?? []).map((t) => languageOf(t?.language))]
+  Astro.locals.alternates = Object.fromEntries(languages.map((lang) => [lang, homePath(lang)]))
+
+  return {page, settings}
 }

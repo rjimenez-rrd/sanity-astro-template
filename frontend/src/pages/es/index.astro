@@ -3,42 +3,23 @@ export const prerender = false
 
 import Site from '@/layouts/Site.astro'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
-import {getClient} from '@/sanity/lib/client'
-import {sanityFetch} from '@/sanity/lib/live'
-import {HOME_PAGE_QUERY} from '@/sanity/lib/queries'
-import {getSiteSettings} from '@/lib/siteSettings'
+import {resolveHome} from '@/lib/pageRoute'
 import {buildSeo} from '@/lib/seo'
-import {homePath, languageOf} from '@/lib/i18n'
 
 /**
  * The Spanish home: Home Page (Español), the Home Page's translation. Until
  * it exists, /es goes to the English home instead of a 404.
  */
-const language = 'es' as const
-const client = getClient(Astro.locals.isDraft)
-
-const [page, settings] = await Promise.all([
-  sanityFetch(client, Astro.locals, HOME_PAGE_QUERY, {language}),
-  getSiteSettings(Astro.locals, language),
-])
+const {page, settings} = await resolveHome(Astro, 'es')
 if (!page) return Astro.redirect('/', 302)
 
-// The home in each language that has one: {en: '/', es: '/es'}.
-Astro.locals.language = language
-Astro.locals.alternates = Object.fromEntries(
-  [language, ...(page?.translations ?? []).map((t: {language?: string | null} | null) => languageOf(t?.language))].map((lang) => [
-    lang,
-    homePath(lang),
-  ]),
-)
-
-const seo = buildSeo(page?.seo, {title: settings?.siteName || 'Home'})
+const seo = buildSeo(page.seo, {title: settings?.siteName || 'Home'})
 ---
 
 <Site settings={settings} {...seo}>
   <SectionRenderer
-    sections={page?.pageBuilder}
-    documentId={page?._id}
-    documentType={page?._type}
+    sections={page.pageBuilder}
+    documentId={page._id}
+    documentType={page._type}
   />
 </Site>

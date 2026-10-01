@@ -14,6 +14,11 @@ export type Language = (typeof LANGUAGES)[number]['id']
 
 export const DEFAULT_LANGUAGE: Language = 'en'
 
+/** Every language but the default, each with its own /<id> section. */
+export const OTHER_LANGUAGES = LANGUAGES.map((l) => l.id).filter(
+  (id): id is Exclude<Language, typeof DEFAULT_LANGUAGE> => id !== DEFAULT_LANGUAGE,
+)
+
 export function isLanguage(value: unknown): value is Language {
   return LANGUAGES.some((l) => l.id === value)
 }
@@ -36,6 +41,11 @@ export function localizedPath(slug: string, language?: string | null, parents?: 
   const lang = languageOf(language)
   const path = [...(parents ?? []).map((p) => stegaClean(p)).filter(Boolean), stegaClean(slug)].join('/')
   return lang === DEFAULT_LANGUAGE ? `/${path}` : `/${lang}/${path}`
+}
+
+/** The language whose section an address is in (/es/… is Spanish), or undefined for the default's. */
+export function languageFromPath(path: string): Language | undefined {
+  return OTHER_LANGUAGES.find((id) => path === `/${id}` || path.startsWith(`/${id}/`))
 }
 
 /** A language's home: / for the default, /es for the others. */
@@ -82,6 +92,33 @@ const UI = {
     showLess: 'Show Less',
     home: 'Home',
     breadcrumb: 'Breadcrumb',
+    footer: 'Footer',
+    search: 'Search',
+    closeSearch: 'Close search',
+    toggleMenu: 'Toggle menu',
+    submenu: '{label} menu',
+    pagination: 'Pagination',
+    prevPage: '‹ Prev',
+    nextPage: 'Next ›',
+    page: 'Page {n}',
+    previous: 'Previous',
+    next: 'Next',
+    close: 'Close',
+    goToSlide: 'Go to slide {n}',
+    playVideo: 'Play video',
+    stars: '{rating} out of 5 stars',
+    submit: 'Submit',
+    sending: 'Sending...',
+    formSuccess: 'Thank you! Your submission has been received.',
+    formError: 'Something went wrong. Please try again.',
+    days: 'Days',
+    hours: 'Hours',
+    minutes: 'Minutes',
+    seconds: 'Seconds',
+    eventEnded: 'This event has ended.',
+    untitled: 'Untitled',
+    noContent: 'No content.',
+    noAnswer: 'No answer provided.',
     Settlement: 'Settlement',
     Verdict: 'Verdict',
     Award: 'Award',
@@ -96,6 +133,33 @@ const UI = {
     showLess: 'Ver menos',
     home: 'Inicio',
     breadcrumb: 'Ruta de navegación',
+    footer: 'Pie de página',
+    search: 'Buscar',
+    closeSearch: 'Cerrar búsqueda',
+    toggleMenu: 'Abrir o cerrar el menú',
+    submenu: 'Menú de {label}',
+    pagination: 'Paginación',
+    prevPage: '‹ Anterior',
+    nextPage: 'Siguiente ›',
+    page: 'Página {n}',
+    previous: 'Anterior',
+    next: 'Siguiente',
+    close: 'Cerrar',
+    goToSlide: 'Ir a la diapositiva {n}',
+    playVideo: 'Reproducir video',
+    stars: '{rating} de 5 estrellas',
+    submit: 'Enviar',
+    sending: 'Enviando...',
+    formSuccess: '¡Gracias! Hemos recibido su mensaje.',
+    formError: 'Algo salió mal. Inténtelo de nuevo.',
+    days: 'Días',
+    hours: 'Horas',
+    minutes: 'Minutos',
+    seconds: 'Segundos',
+    eventEnded: 'Este evento ha terminado.',
+    untitled: 'Sin título',
+    noContent: 'Sin contenido.',
+    noAnswer: 'Sin respuesta.',
     // Case result types, keyed by the value the Studio stores.
     Settlement: 'Acuerdo',
     Verdict: 'Veredicto',
@@ -103,9 +167,19 @@ const UI = {
   },
 } satisfies Record<Language, Record<string, string>>
 
-/** A built-in word in a language, e.g. t('es', 'getDirections') -> 'Cómo llegar'. */
-export function t(language: Language | undefined, key: keyof (typeof UI)['en']): string {
-  return UI[language ?? DEFAULT_LANGUAGE][key]
+export type UiWord = keyof (typeof UI)['en']
+
+/**
+ * A built-in word in a language, e.g. t('es', 'getDirections') -> 'Cómo llegar'.
+ * {placeholders} are filled from `vars`: t('en', 'page', {n: 2}) -> 'Page 2'.
+ */
+export function t(
+  language: Language | undefined,
+  key: UiWord,
+  vars?: Record<string, string | number>,
+): string {
+  const word = UI[language ?? DEFAULT_LANGUAGE][key]
+  return vars ? word.replace(/\{(\w+)\}/g, (match, name) => String(vars[name] ?? match)) : word
 }
 
 /** A value from a fixed Studio list (e.g. a case result's type) in a language, or itself if unknown. */
@@ -113,9 +187,4 @@ export function label(language: Language | undefined, value: string | null | und
   const clean = stegaClean(value ?? '')
   const words: Record<string, string> = UI[language ?? DEFAULT_LANGUAGE]
   return words[clean] ?? clean
-}
-
-/** The screen-reader label for a star rating, e.g. "4 out of 5 stars". */
-export function starsLabel(language: Language | undefined, rating: number): string {
-  return (language ?? DEFAULT_LANGUAGE) === 'es' ? `${rating} de 5 estrellas` : `${rating} out of 5 stars`
 }

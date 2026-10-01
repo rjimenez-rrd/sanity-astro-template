@@ -1,7 +1,7 @@
 ---
-import {resolveHref, type LinkItem} from '@/lib/links'
+import {stegaClean} from '@sanity/client/stega'
+import CallToAction from './CallToAction.astro'
 import type {PricingCardData} from '@/types/sanity'
-import MissingLinkBadge from '@/components/ui/MissingLinkBadge.astro'
 
 interface Props {
   data: PricingCardData
@@ -9,19 +9,22 @@ interface Props {
 
 const {data} = Astro.props
 
-function resolveCtaHref(cta: NonNullable<PricingCardData['cta']>): string | null {
-  const {href, missing} = resolveHref((cta.link || []) as unknown as LinkItem[])
-  return missing ? null : href
-}
-
 const features = data.features || []
 const highlightBorder = data.isHighlighted
   ? 'border-primary shadow-lg shadow-primary/10'
   : 'border-border'
-const ctaHref = data.cta ? resolveCtaHref(data.cta) : null
-const ctaClasses = data.isHighlighted
-  ? 'bg-primary text-primary-foreground'
-  : 'bg-foreground/5 text-card-foreground'
+/**
+ * The card's button, drawn by the Button block's own component across the
+ * card's width. Without a Variant picked it keeps the card's look: filled on
+ * the highlighted card, outlined on the others.
+ */
+const cta = data.cta?.label
+  ? {
+      ...data.cta,
+      variant: stegaClean(data.cta.variant) || (data.isHighlighted ? 'primary' : 'outline'),
+      fullWidthOn: ['desktop', 'tablet', 'mobile'],
+    }
+  : null
 const CHECK_PATH = 'M5 13l4 4L19 7'
 const X_PATH = 'M6 18L18 6M6 6l12 12'
 ---
@@ -75,23 +78,9 @@ const X_PATH = 'M6 18L18 6M6 6l12 12'
         </ul>
       )}
 
-      {data.cta?.label && (
+      {cta && (
         <div class="mt-8 pt-2">
-          {ctaHref ? (
-            <a
-              href={ctaHref}
-              class={`block w-full rounded-lg px-4 py-3 text-center text-sm font-semibold transition-colors ${ctaClasses} ${data.isHighlighted ? 'hover:bg-primary/90' : 'hover:bg-foreground/10'}`}
-            >
-              {data.cta.label}
-            </a>
-          ) : (
-            <span
-              class={`relative block w-full rounded-lg px-4 py-3 text-center text-sm font-semibold ${ctaClasses}`}
-            >
-              {data.cta.label}
-              <MissingLinkBadge />
-            </span>
-          )}
+          <CallToAction data={cta} />
         </div>
       )}
     </div>

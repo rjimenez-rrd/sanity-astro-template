@@ -115,7 +115,7 @@ const directionsHref = (office: (typeof offices)[number]) =>
 
     {
       nav.length > 0 && (
-        <nav class="mt-10 border-y border-primary py-4 lg:border-white/10" aria-label="Footer">
+        <nav class="mt-10 border-y border-primary py-4 lg:border-white/10" aria-label={t(Astro.locals.language, 'footer')}>
           <ul class="flex flex-wrap justify-center gap-x-5 gap-y-3 text-[15px] md:justify-around lg:justify-center lg:gap-x-20">
             {nav.map((link) => (
               <li>

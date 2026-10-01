@@ -1,6 +1,7 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
 import type {FormBlockData} from '@/types/sanity'
+import {t} from '@/lib/i18n'
 
 interface Props {
   /** Only the form's own fields, so Form CTA can pass its embedded form (no _key, and its styles are the renderer's job). */
@@ -10,13 +11,14 @@ interface Props {
 }
 
 const {data, formStyle} = Astro.props
+const language = Astro.locals.language
 const dark = (formStyle ?? stegaClean(data.formStyle)) === 'dark'
 
 const fields = data.fields || []
-const submitLabel = data.submitLabel || 'Submit'
+const submitLabel = data.submitLabel || t(language, 'submit')
 const cleanAction = stegaClean(data.submitAction) || 'webhook'
-const successMessage = data.successMessage || 'Thank you! Your submission has been received.'
-const errorMessage = data.errorMessage || 'Something went wrong. Please try again.'
+const successMessage = data.successMessage || t(language, 'formSuccess')
+const errorMessage = data.errorMessage || t(language, 'formError')
 const endpoint =
   cleanAction === 'webhook' ? '/api/form-submit' : data.customEndpoint || '/api/form-submit'
 
@@ -169,6 +171,7 @@ const buttonColor = stegaClean(data.buttonColor) || (dark ? undefined : 'var(--p
         style={buttonColor ? `background-color:${buttonColor}` : undefined}
         data-form-submit
         data-label={submitLabel}
+        data-sending={t(language, 'sending')}
       >
         {submitLabel}
       </button>
@@ -191,7 +194,7 @@ const buttonColor = stegaClean(data.buttonColor) || (dark ? undefined : 'var(--p
       event.preventDefault()
 
       button.disabled = true
-      button.textContent = 'Sending...'
+      button.textContent = button.dataset.sending || 'Sending...'
       if (error) error.hidden = true
 
       const payload: Record<string, string> = {}

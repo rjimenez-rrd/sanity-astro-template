@@ -5,6 +5,7 @@
  */
 import {urlFor} from '@/sanity/lib/image'
 import {MEDIA, resolve, type CssBuilder, type Device, type Responsive} from './container'
+import {DEVICES, clamp, pickEnum, safeColor} from './cssValues'
 
 type Sides = {top?: number | null; right?: number | null; bottom?: number | null; left?: number | null; unit?: string | null}
 
@@ -63,7 +64,6 @@ export interface DesignSettings {
   border?: {normal?: BorderState | null; hover?: BorderState | null} | null
 }
 
-const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
 const POSITIONS = new Set([
   'center center', 'center left', 'center right', 'top center', 'top left', 'top right',
   'bottom center', 'bottom left', 'bottom right',
@@ -85,25 +85,15 @@ const RESOLUTION_WIDTH: Record<string, number> = {
   thumbnail: 150,
 }
 
-const COLOR = /^(#[0-9a-f]{3,8}|(rgb|hsl)a?\(\s*[-\d.%,\s/deg]+\)|[a-z]{3,20})$/i
-function color(value: string | null | undefined): string | undefined {
-  const c = value?.trim()
-  return c && COLOR.test(c) ? c : undefined
-}
+const color = safeColor
 
 /** A CSS color if it's one (hex, rgb/hsl, or a name), else undefined. */
-export const safeColor = color
+export {safeColor}
 /** CSS Filters (blur, brightness, …) as a CSS `filter` value; also used by the Video block. */
 export const cssFilter = (f: BackgroundState['filters']) => filters(f)
 
-function num(n: unknown, min: number, max: number): number | undefined {
-  if (typeof n !== 'number' || !Number.isFinite(n)) return undefined
-  return Math.round(Math.min(max, Math.max(min, n)) * 1000) / 1000
-}
-
-function pick(value: string | null | undefined, allowed: Set<string>): string | undefined {
-  return value && allowed.has(value) ? value : undefined
-}
+const num = (n: unknown, min: number, max: number) => clamp(n, min, max, {precision: 3})
+const pick = pickEnum
 
 function imageUrl(image: BackgroundState['image'], resolution: string | null | undefined): string | undefined {
   if (!image?.asset?._ref) return undefined

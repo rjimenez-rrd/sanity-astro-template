@@ -4,6 +4,7 @@
  * so it works without JavaScript and crawlers can follow it to each page.
  */
 import {listPageHref, pageRange} from '@/lib/pagination'
+import {t} from '@/lib/i18n'
 
 interface Props {
   current: number
@@ -14,6 +15,7 @@ interface Props {
 
 const {current, total, base} = Astro.props
 const range = pageRange(current, total)
+const language = Astro.locals.language
 
 const cell =
   'flex h-10 min-w-10 items-center justify-center border px-3 text-[15px] transition-colors'
@@ -23,13 +25,13 @@ const disabled = `${cell} border-border text-muted opacity-50`
 
 {
   total > 1 && (
-    <nav aria-label="Pagination" class="mt-12 flex flex-wrap items-center justify-center gap-2 font-display">
+    <nav aria-label={t(language, 'pagination')} class="mt-12 flex flex-wrap items-center justify-center gap-2 font-display">
       {current > 1 ? (
         <a href={listPageHref(base, current - 1)} rel="prev" class={idle}>
-          ‹ Prev
+          {t(language, 'prevPage')}
         </a>
       ) : (
-        <span class={disabled} aria-hidden="true">‹ Prev</span>
+        <span class={disabled} aria-hidden="true">{t(language, 'prevPage')}</span>
       )}
 
       {range.map((p) =>
@@ -40,7 +42,7 @@ const disabled = `${cell} border-border text-muted opacity-50`
             {p}
           </span>
         ) : (
-          <a href={listPageHref(base, p)} class={idle} aria-label={`Page ${p}`}>
+          <a href={listPageHref(base, p)} class={idle} aria-label={t(language, 'page', {n: p})}>
             {p}
           </a>
         ),
@@ -48,10 +50,10 @@ const disabled = `${cell} border-border text-muted opacity-50`
 
       {current < total ? (
         <a href={listPageHref(base, current + 1)} rel="next" class={idle}>
-          Next ›
+          {t(language, 'nextPage')}
         </a>
       ) : (
-        <span class={disabled} aria-hidden="true">Next ›</span>
+        <span class={disabled} aria-hidden="true">{t(language, 'nextPage')}</span>
       )}
     </nav>
   )

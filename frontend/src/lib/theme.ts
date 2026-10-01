@@ -4,6 +4,7 @@
  * variables, so overriding them on :root restyles the whole site without any
  * component knowing a theme exists.
  */
+import {safeColor} from './cssValues'
 
 export interface ThemeSettings {
   primary?: string | null
@@ -16,9 +17,6 @@ export interface ThemeSettings {
   headingFont?: string | null
   bodyFont?: string | null
 }
-
-/** Editor input, so only a hex, rgb()/rgba() or a bare keyword reaches CSS. */
-const CSS_COLOR = /^(#[0-9a-fA-F]{3,8}|rgba?\([\d\s.,%/]+\)|[a-zA-Z]+)$/
 
 /** Google family names: letters, digits, spaces. Nothing that can break out. */
 const FONT_NAME = /^[A-Za-z0-9][A-Za-z0-9 ]{0,49}$/
@@ -33,10 +31,7 @@ const COLOR_VARS: Array<[keyof ThemeSettings, string]> = [
   ['border', '--border'],
 ]
 
-const color = (raw?: string | null): string | undefined => {
-  const v = raw?.trim()
-  return v && CSS_COLOR.test(v) ? v : undefined
-}
+const color = safeColor
 
 export const fontName = (raw?: string | null): string | undefined => {
   const v = raw?.trim()

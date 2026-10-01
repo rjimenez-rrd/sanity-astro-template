@@ -1,5 +1,6 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
+import {safeColor} from '@/lib/cssValues'
 import type {SpacerDividerData} from '@/types/sanity'
 
 interface Props {
@@ -40,8 +41,6 @@ const MAX_WIDTHS: Record<string, string> = {
 }
 const LINE_STYLES = new Set(['solid', 'dashed', 'dotted'])
 
-/** Editor input, so only a hex, rgb()/rgba() or a bare keyword reaches CSS. */
-const CSS_COLOR = /^(#[0-9a-fA-F]{3,8}|rgba?\([\d\s.,%/]+\)|[a-zA-Z]+)$/
 
 const height = stegaClean(data.height) || 'md'
 
@@ -56,8 +55,7 @@ const thickness =
 const lineStyle = stegaClean(data.dividerStyle) ?? 'solid'
 const style = LINE_STYLES.has(lineStyle) ? lineStyle : 'solid'
 
-const rawColor = stegaClean(data.dividerColor)?.trim()
-const color = rawColor && CSS_COLOR.test(rawColor) ? rawColor : 'var(--border)'
+const color = safeColor(stegaClean(data.dividerColor)) ?? 'var(--border)'
 
 const maxWidth = MAX_WIDTHS[stegaClean(data.maxWidth) ?? 'default'] ?? MAX_WIDTHS.default
 

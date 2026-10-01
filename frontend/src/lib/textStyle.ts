@@ -1,5 +1,6 @@
 import {stegaClean} from '@sanity/client/stega'
 import {fontStack} from './fonts'
+import {clamp, safeColor} from './cssValues'
 
 /** A Text Style from the Studio (studio objects/text-style.ts). */
 export interface TextStyle {
@@ -18,17 +19,11 @@ export interface TextStyle {
   shadowBlur?: number | null
 }
 
-/** Hex, rgb()/hsl() or a colour keyword — nothing that could break out of CSS. */
-const COLOR = /^(#[0-9a-f]{3,8}|(rgb|hsl)a?\(\s*[-\d.%,\s/deg]+\)|[a-z]{3,20})$/i
 const WEIGHTS = new Set(['300', '400', '500', '600', '700', '800', '900'])
 const TRANSFORMS = new Set(['none', 'uppercase', 'lowercase', 'capitalize'])
 
-const color = (raw?: string | null) => {
-  const c = raw?.trim()
-  return c && COLOR.test(c) ? c : undefined
-}
-const num = (n: unknown, min: number, max: number) =>
-  typeof n === 'number' && Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : undefined
+const color = safeColor
+const num = clamp
 const px = (n: unknown, min: number, max: number) => {
   const v = num(n, min, max)
   return v === undefined ? undefined : `${v}px`

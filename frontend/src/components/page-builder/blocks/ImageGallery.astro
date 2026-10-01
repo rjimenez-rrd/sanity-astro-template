@@ -3,12 +3,14 @@ import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import {urlFor} from '@/sanity/lib/image'
 import type {ImageGalleryData} from '@/types/sanity'
+import {t} from '@/lib/i18n'
 
 interface Props {
   data: ImageGalleryData
 }
 
 const {data} = Astro.props
+const language = Astro.locals.language
 
 const COLS_MAP: Record<string, string> = {
   '2': 'sm:columns-2',
@@ -89,7 +91,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
               type="button"
               data-gallery-close
               class="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-              aria-label="Close"
+              aria-label={t(language, 'close')}
             >
               <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={2}>
                 <path stroke-linecap="round" stroke-linejoin="round" d={CLOSE_PATH} />
@@ -102,7 +104,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
                   type="button"
                   data-gallery-prev
                   class="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-                  aria-label="Previous"
+                  aria-label={t(language, 'previous')}
                 >
                   <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={2}>
                     <path stroke-linecap="round" stroke-linejoin="round" d={PREV_PATH} />
@@ -112,7 +114,7 @@ const NEXT_PATH = 'M9 5l7 7-7 7'
                   type="button"
                   data-gallery-next
                   class="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-                  aria-label="Next"
+                  aria-label={t(language, 'next')}
                 >
                   <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={2}>
                     <path stroke-linecap="round" stroke-linejoin="round" d={NEXT_PATH} />

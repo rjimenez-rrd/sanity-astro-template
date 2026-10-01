@@ -6,9 +6,8 @@
  * Everything is scoped to the element's [data-pb="key"], and every value is
  * checked against what it may be before it reaches CSS.
  */
-import {CssBuilder, MEDIA, resolve, type Device, type Responsive} from './container'
-
-const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
+import {CssBuilder, MEDIA, resolve, type Responsive} from './container'
+import {DEVICES, clamp} from './cssValues'
 
 type FlexSize = {mode?: string | null; grow?: number | null; shrink?: number | null}
 
@@ -37,8 +36,7 @@ const POSITION = new Set(['absolute', 'fixed'])
 const LENGTH = /^-?\d+(\.\d+)?(px|%|em|rem|vw|vh)$/
 
 const length = (v: string | null | undefined) => (v === '0' ? '0' : v && LENGTH.test(v) ? v : undefined)
-const number = (v: unknown, min: number, max: number) =>
-  typeof v === 'number' && Number.isFinite(v) ? Math.min(max, Math.max(min, v)) : undefined
+const number = clamp
 
 /** flex for a Size choice: None keeps its size, Grow fills, Shrink gives way. */
 function flexFor(size: FlexSize | null | undefined): string | undefined {

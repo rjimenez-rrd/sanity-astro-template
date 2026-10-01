@@ -6,7 +6,9 @@
 import {stegaClean} from '@sanity/client/stega'
 import {buildStyles, type BlockStyles} from './blockStyles'
 import type {MotionSettings} from './animation'
-import {CssBuilder, VISIBILITY_MEDIA, safeCssClasses, safeCssId, type VisibilitySettings} from './container'
+import {CssBuilder, MEDIA, VISIBILITY_MEDIA, resolve, safeCssClasses, safeCssId, type VisibilitySettings} from './container'
+import {buildAdvancedCss, parseAttributes} from './advancedCss'
+import {DEVICES} from './cssValues'
 import {buildDesignCss, type DesignSettings} from './design'
 import {clean, mergeStyles, type ContainerAdvanced} from './containerStyles'
 import {fullWidthDevices} from './fullWidth'
@@ -113,20 +115,23 @@ function withFullWidth(styles: ResolvedStyles, devices: string[]): ResolvedStyle
 export interface BlockCss {
   cssId?: string
   cssClasses?: string
+  /** Advanced -> Attributes, checked (advancedCss.ts parseAttributes). */
+  attributes: Record<string, string>
   /** Everything scoped to this block, for one <style>: generated rules, then Custom CSS. */
   css?: string
 }
 
 /**
- * The block's CSS ID, classes and scoped CSS. The Advanced tab wins over Block
- * Styles for the ID and classes, as on a Container; both Custom CSS boxes
- * apply. Everything is scoped to this block's key, so a rule an editor writes
- * can only reach this element and its descendants.
+ * The block's CSS ID, classes, attributes and scoped CSS. The Advanced tab
+ * wins over Block Styles for the ID and classes, as on a Container; both
+ * Custom CSS boxes apply. Everything is scoped to this block's key, so a rule
+ * an editor writes can only reach this element and its descendants.
  */
 export function blockCss(blockKey: string | undefined, styles: ResolvedStyles, tabs: BlockTabs): BlockCss {
   const cssId = safeCssId(tabs.advanced?.cssId ?? styles?.cssId)
   const cssClasses = safeCssClasses(tabs.advanced?.cssClasses ?? styles?.cssClasses)
-  if (!blockKey) return {cssId, cssClasses}
+  const attributes = parseAttributes(tabs.advanced?.attributes)
+  if (!blockKey) return {cssId, cssClasses, attributes}
 
   const self = `[data-pb="${blockKey}"]`
   const custom = [styles?.customCss, tabs.advanced?.customCss]
@@ -135,21 +140,34 @@ export function blockCss(blockKey: string | undefined, styles: ResolvedStyles, t
     .join('')
   const generated = tabCss(blockKey, tabs)
   // Generated rules first, then the editor's Custom CSS, so it wins.
-  return {cssId, cssClasses, css: generated || custom ? generated + custom : undefined}
+  return {cssId, cssClasses, attributes, css: generated || custom ? generated + custom : undefined}
 }
 
-/** The Style panel, Visibility and Z-Index, as rules scoped to the block. */
+/**
+ * The Style panel, the Advanced tab's layout settings (Align Self, Size,
+ * Position, Transform, Order, Z-Index) and Visibility, as rules scoped to the
+ * block — the same ones a Container's column gets.
+ */
 function tabCss(blockKey: string, {design, advanced, visibility}: BlockTabs): string {
   const css = new CssBuilder()
   const self = `[data-pb="${blockKey}"]`
   buildDesignCss(blockKey, design, css, {radiusVar: true})
-  if (visibility?.hideOnDesktop) css.add(VISIBILITY_MEDIA.desktop, self, {display: 'none !important'})
-  if (visibility?.hideOnTablet) css.add(VISIBILITY_MEDIA.tablet, self, {display: 'none !important'})
-  if (visibility?.hideOnMobile) css.add(VISIBILITY_MEDIA.mobile, self, {display: 'none !important'})
+  // Z-Index before Position, as for a container: its position:relative is
+  // only a default, and Advanced -> Position (absolute/fixed) must replace it.
   if (typeof advanced?.zIndex === 'number' && Number.isFinite(advanced.zIndex)) {
     const z = Math.round(Math.min(9999, Math.max(-9999, advanced.zIndex)))
     css.add(null, self, {position: 'relative', 'z-index': String(z)})
   }
+  buildAdvancedCss(blockKey, advanced, css)
+  for (const device of DEVICES) {
+    const order = resolve(advanced?.order, device)
+    if (order.own && typeof order.value === 'number' && Number.isFinite(order.value)) {
+      css.add(MEDIA[device], self, {order: String(Math.round(Math.min(99, Math.max(-99, order.value))))})
+    }
+  }
+  if (visibility?.hideOnDesktop) css.add(VISIBILITY_MEDIA.desktop, self, {display: 'none !important'})
+  if (visibility?.hideOnTablet) css.add(VISIBILITY_MEDIA.tablet, self, {display: 'none !important'})
+  if (visibility?.hideOnMobile) css.add(VISIBILITY_MEDIA.mobile, self, {display: 'none !important'})
   return css.toString()
 }
 

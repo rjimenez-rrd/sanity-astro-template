@@ -10,6 +10,7 @@ import {aspectRatio, videoPlayer, type VideoSettings} from '@/lib/video'
 import {cssFilter} from '@/lib/design'
 import {urlFor} from '@/sanity/lib/image'
 import type {VideoData} from '@/types/sanity'
+import {t} from '@/lib/i18n'
 
 /** The two video blocks this one replaced, until their content is moved over. */
 type LegacyVideo = {
@@ -92,7 +93,7 @@ const fileSrc =
       )}
 
       {overlay && (
-        <button type="button" class="pb-video-overlay" data-pb-video-play aria-label="Play video">
+        <button type="button" class="pb-video-overlay" data-pb-video-play aria-label={t(Astro.locals.language, 'playVideo')}>
           <SanityImage value={overlay.image} fill sizes="(max-width: 768px) 100vw, 800px" alt={overlay.image?.alt ?? ''} />
           {overlay.playIcon !== false && (
             <span class="pb-video-icon" aria-hidden="true">

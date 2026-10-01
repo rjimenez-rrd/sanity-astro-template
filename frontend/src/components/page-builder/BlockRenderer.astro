@@ -42,12 +42,16 @@ const blockKey = safeKey(stegaClean(block._key))
 // What the editor set, resolved.
 const tabs = blockTabs(block)
 const styles = resolveBlockStyles(block, type, tabs, columnCount)
-const {cssId, cssClasses, css} = blockCss(blockKey, styles, tabs)
+const {cssId, cssClasses, attributes, css} = blockCss(blockKey, styles, tabs)
 const animation = animationAttrs(tabs.advanced?.motion ?? styles?.motion)
 
-// A wrapper (or styled root) only exists to carry styles, an animation or a
-// hook for CSS.
-const needsWrapper = hasBlockStyles(styles) || Object.keys(animation).length > 0 || Boolean(cssId || cssClasses || css)
+// A wrapper (or styled root) only exists to carry styles, an animation,
+// attributes or a hook for CSS.
+const needsWrapper =
+  hasBlockStyles(styles) ||
+  Object.keys(animation).length > 0 ||
+  Object.keys(attributes).length > 0 ||
+  Boolean(cssId || cssClasses || css)
 
 /**
  * An Inner Container renders as a container, not a block: Container applies
@@ -97,6 +101,7 @@ const markers = layoutMarkers(styles)
       data-pb-overlay={selfStyle?.overlay ? '' : undefined}
       {...markers}
       {...animation}
+      {...attributes}
     />
   )
 }
@@ -111,6 +116,7 @@ const markers = layoutMarkers(styles)
       class={cssClasses}
       {...markers}
       {...animation}
+      {...attributes}
     >
       <Component data={block} />
     </BlockStylesWrapper>

@@ -98,12 +98,17 @@ const practiceAreasPickedOrAllFragment = /* groq */ `
   )
 `
 
+// A field in the page's language: on a Spanish page its Spanish copy (the
+// field + "Es", e.g. titleEs) when there is one, otherwise the field itself.
+const localized = (field: string) =>
+  /* groq */ `"${field}": select($language == "es" => coalesce(${field}Es, ${field}), ${field})`
+
 // A review in the page's language: on Spanish pages the Spanish title and
 // text when there are ones. The client's name and the rating are shared.
 const reviewFragment = /* groq */ `
   _id, clientName, rating,
-  "title": select($language == "es" => coalesce(titleEs, title), title),
-  "reviewText": select($language == "es" => coalesce(reviewTextEs, reviewText), reviewText)
+  ${localized('title')},
+  ${localized('reviewText')}
 `
 
 // A form's fields. A select set to "Practice Areas" gets every practice area's
@@ -182,8 +187,8 @@ const contentTypesFragment = /* groq */ `
       // On a Spanish page, the Spanish role and bio when there are ones.
       lawyers[]-> {
         _id, name,
-        "role": select($language == "es" => coalesce(roleEs, role), role),
-        "shortBio": select($language == "es" => coalesce(shortBioEs, shortBio), shortBio),
+        ${localized('role')},
+        ${localized('shortBio')},
         "slug": slug.current,
         photo { ${imageFragment} }
       },
@@ -224,7 +229,7 @@ const contentTypesFragment = /* groq */ `
       // On a Spanish page, the Spanish summary when there is one.
       caseResults[]-> {
         _id, amount, resultType,
-        "summary": select($language == "es" => coalesce(summaryEs, summary), summary)
+        ${localized('summary')}
       },
       ${blockStylesFragment}
     },

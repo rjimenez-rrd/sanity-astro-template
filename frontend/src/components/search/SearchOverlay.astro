@@ -5,6 +5,7 @@
  * the opener on close.
  */
 import SearchForm from './SearchForm.astro'
+import {t} from '@/lib/i18n'
 
 interface Props {
   heading?: string | null
@@ -12,19 +13,20 @@ interface Props {
 }
 
 const {heading, placeholder} = Astro.props
+const language = Astro.locals.language
 ---
 
 <div
   class="fixed inset-0 z-[100] flex items-center justify-center bg-primary px-4"
   role="dialog"
   aria-modal="true"
-  aria-label="Search"
+  aria-label={t(language, 'search')}
   data-search-overlay
   hidden
 >
   <button
     type="button"
-    aria-label="Close search"
+    aria-label={t(language, 'closeSearch')}
     class="absolute right-5 top-5 p-2 text-white transition-colors hover:text-secondary-hover"
     data-search-close
   >

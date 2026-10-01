@@ -5,8 +5,21 @@
  * breakpoints. Values arrive from editors, so everything that reaches CSS is
  * whitelisted or clamped here — never interpolated raw.
  */
+import {
+  DEVICES,
+  FROM_TABLET,
+  MEDIA,
+  MEDIA_ORDER,
+  VISIBILITY_MEDIA,
+  clamp,
+  pickEnum,
+  type Device,
+} from './cssValues'
 
-export type Device = 'desktop' | 'tablet' | 'mobile'
+// Re-exported: most of the engine imports these from here.
+export {MEDIA, VISIBILITY_MEDIA}
+export type {Device}
+
 export type Responsive<T> = Partial<Record<Device, T | null>> | null | undefined
 type Size = {size?: number | null; unit?: string | null} | null
 
@@ -37,7 +50,6 @@ export interface VisibilitySettings {
   hideOnMobile?: boolean | null
 }
 
-const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
 const OVERFLOW = new Set(['hidden', 'auto'])
 
 /**
@@ -47,17 +59,6 @@ const OVERFLOW = new Set(['hidden', 'auto'])
  */
 export const BOXED_DEFAULT_WIDTH = 1360
 
-export const MEDIA: Record<Device, string | null> = {
-  desktop: null,
-  tablet: '@media (max-width: 1024px)',
-  mobile: '@media (max-width: 767px)',
-}
-
-export const VISIBILITY_MEDIA: Record<Device, string> = {
-  desktop: '@media (min-width: 1025px)',
-  tablet: '@media (min-width: 768px) and (max-width: 1024px)',
-  mobile: '@media (max-width: 767px)',
-}
 
 const FALLBACK: Record<Device, Device[]> = {
   desktop: ['desktop'],
@@ -92,14 +93,7 @@ export function resolve<T>(value: Responsive<T>, device: Device): {value: T | un
   return {value: undefined, own: false}
 }
 
-function pickEnum(value: string | undefined, allowed: Set<string>): string | undefined {
-  return value && allowed.has(value) ? value : undefined
-}
-
-function num(n: unknown, min: number, max: number): number | undefined {
-  if (typeof n !== 'number' || !Number.isFinite(n)) return undefined
-  return Math.round(Math.min(max, Math.max(min, n)) * 1000) / 1000
-}
+const num = (n: unknown, min: number, max: number) => clamp(n, min, max, {precision: 3})
 
 function size(value: Size | undefined, fallbackUnit: string, allowZero = false): string | undefined {
   const n = num(value?.size, 0, 10000)
@@ -136,20 +130,13 @@ class CssBuilder {
   }
 
   toString(): string {
-    // Base rules first, then tablet, then mobile, so overrides win.
-    const order = [
-      '',
-      '@media (min-width: 768px)',
-      MEDIA.tablet!,
-      '@media (min-width: 768px) and (max-width: 1024px)',
-      MEDIA.mobile!,
-      ...Object.values(VISIBILITY_MEDIA),
-    ]
-    const seen = new Set<string>()
+    // Base rules first, then larger screens before smaller (MEDIA_ORDER), so
+    // overrides win. A media query not in that list is still written, last,
+    // rather than silently dropped.
+    const known = new Set(MEDIA_ORDER)
+    const order = [...MEDIA_ORDER, ...Object.keys(this.rules).filter((media) => !known.has(media))]
     let out = ''
     for (const media of order) {
-      if (seen.has(media)) continue
-      seen.add(media)
       const bucket = this.rules[media]
       if (!bucket) continue
       let body = ''
@@ -367,9 +354,9 @@ export function buildContainerCss(input: ContainerCssInput, css = new CssBuilder
 }
 
 const GRID_WIDTH_MEDIA: Record<Device, string | null> = {
-  desktop: '@media (min-width: 768px)',
-  tablet: '@media (min-width: 768px) and (max-width: 1024px)',
-  mobile: '@media (max-width: 767px)',
+  desktop: FROM_TABLET,
+  tablet: VISIBILITY_MEDIA.tablet,
+  mobile: MEDIA.mobile,
 }
 
 /**

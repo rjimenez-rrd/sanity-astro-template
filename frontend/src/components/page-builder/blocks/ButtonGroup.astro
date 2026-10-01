@@ -1,8 +1,12 @@
 ---
+/**
+ * Button Group: up to four Buttons side by side or stacked. Each is drawn by
+ * the Button block's own component, so variants, colors, hover colors and
+ * links behave exactly as a single Button does.
+ */
 import {stegaClean} from '@sanity/client/stega'
-import {resolveHref, type LinkItem} from '@/lib/links'
+import CallToAction from './CallToAction.astro'
 import type {ButtonGroupData} from '@/types/sanity'
-import MissingLinkBadge from '@/components/ui/MissingLinkBadge.astro'
 
 interface Props {
   data: ButtonGroupData
@@ -10,56 +14,26 @@ interface Props {
 
 const {data} = Astro.props
 
-const ALIGN_MAP: Record<string, string> = {
-  left: 'justify-start',
-  center: 'justify-center',
-  right: 'justify-end',
-}
+const GAP: Record<string, string> = {small: 'gap-2', medium: 'gap-3', large: 'gap-6'}
+// Side by side, alignment moves the row along its line; stacked, it moves
+// each button across (left/center/right).
+const ROW_ALIGN: Record<string, string> = {left: 'justify-start', center: 'justify-center', right: 'justify-end'}
+const STACK_ALIGN: Record<string, string> = {left: 'items-start', center: 'items-center', right: 'items-end'}
 
-const buttons = data.buttons || []
-const cleanDirection = stegaClean(data.direction || 'horizontal')
-const cleanAlignment = stegaClean(data.alignment || 'left')
-const flexDirection = cleanDirection === 'vertical' ? 'flex-col' : 'flex-row flex-wrap'
-const justifyClass = ALIGN_MAP[cleanAlignment!] || ALIGN_MAP.left
-
-const resolved = buttons
-  .filter((button) => button.label)
-  .map((button) => {
-    const {href, isExternal, missing} = resolveHref((button.link || []) as unknown as LinkItem[])
-    const bg = stegaClean(button.color)
-    const fg = stegaClean(button.textColor)
-    const hasCustomColors = Boolean(button.color || button.textColor)
-
-    return {
-      key: button._key,
-      label: button.label,
-      href,
-      isExternal,
-      missing,
-      colorClasses: hasCustomColors
-        ? 'hover:opacity-90'
-        : 'bg-primary text-primary-foreground hover:bg-primary/90',
-      style: hasCustomColors
-        ? [bg && `background-color:${bg}`, fg && `color:${fg}`].filter(Boolean).join(';')
-        : undefined,
-    }
-  })
+const buttons = (data.buttons || []).filter((button) => button.label)
+const vertical = stegaClean(data.direction) === 'vertical'
+const alignment = stegaClean(data.alignment) || 'left'
+const layout = vertical
+  ? `flex-col ${STACK_ALIGN[alignment] ?? STACK_ALIGN.left}`
+  : `flex-row flex-wrap ${ROW_ALIGN[alignment] ?? ROW_ALIGN.left}`
+const gap = GAP[stegaClean(data.gap) ?? 'medium'] ?? GAP.medium
 ---
 
 {
-  resolved.length > 0 && (
-    <div class={`flex ${flexDirection} ${justifyClass} gap-3`}>
-      {resolved.map((button) => (
-        <a
-          href={button.href}
-          target={button.isExternal ? '_blank' : undefined}
-          rel={button.isExternal ? 'noopener noreferrer' : undefined}
-          class={`relative inline-block rounded-lg px-6 py-3 text-center font-medium transition-colors duration-200 ${button.colorClasses}`}
-          style={button.style || undefined}
-        >
-          {button.label}
-          {button.missing && <MissingLinkBadge />}
-        </a>
+  buttons.length > 0 && (
+    <div class={`flex ${layout} ${gap}`}>
+      {buttons.map((button) => (
+        <CallToAction data={button} />
       ))}
     </div>
   )

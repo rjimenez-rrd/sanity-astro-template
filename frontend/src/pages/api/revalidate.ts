@@ -2,7 +2,7 @@ import type {APIRoute} from 'astro'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {getClient} from '@/sanity/lib/client'
 import {listPageHref} from '@/lib/pagination'
-import {homePath, localizedPath} from '@/lib/i18n'
+import {OTHER_LANGUAGES, homePath, localizedPath} from '@/lib/i18n'
 
 export const prerender = false
 
@@ -32,7 +32,7 @@ export const POST: APIRoute = async ({request, url}) => {
 
   // The webhook's projection must be {_id, _type, slug, language} (README):
   // language sends a Spanish document to /es/…. For a webhook still set up
-  // without it, the Spanish home page is recognised by its id.
+  // without it, a translated home page is recognised by its id (homePage-es).
   const body = JSON.parse(raw) as {
     _id?: string
     _type?: string
@@ -40,7 +40,8 @@ export const POST: APIRoute = async ({request, url}) => {
     language?: string
   }
   if (!body?._type) return json({message: 'Bad request'}, 400)
-  const language = body.language ?? (body._id?.replace(/^drafts\./, '') === 'homePage-es' ? 'es' : undefined)
+  const id = body._id?.replace(/^drafts\./, '')
+  const language = body.language ?? OTHER_LANGUAGES.find((lang) => id === `homePage-${lang}`)
   // This document's own home: nav and footer might reference it.
   const home = homePath(language)
 
@@ -51,11 +52,11 @@ export const POST: APIRoute = async ({request, url}) => {
    * addresses expire on their own.)
    */
   const pagePath = async (slug: string) => {
-    const parents = body._id
+    const parents = id
       ? await getClient(false)
           .fetch<Array<string | null> | null>(
             `*[_id == $id][0]{"p": [parent->parent->parent->slug.current, parent->parent->slug.current, parent->slug.current]}.p`,
-            {id: body._id.replace(/^drafts\./, '')},
+            {id},
           )
           .catch(() => null)
       : null
@@ -103,7 +104,7 @@ export const POST: APIRoute = async ({request, url}) => {
       // take the phone, logo and theme from here. There is no wildcard purge,
       // so refresh the fixed entry points and let the rest expire normally.
       paths.add('/')
-      paths.add(homePath('es'))
+      for (const lang of OTHER_LANGUAGES) paths.add(homePath(lang))
       paths.add('/practice-areas')
       await addListPages('/practice-areas')
       break

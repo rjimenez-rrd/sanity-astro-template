@@ -1,0 +1,114 @@
+---
+/**
+ * Expandable rows (native <details>), shared by the Accordion and FAQ blocks.
+ * Zero JavaScript: `name` makes a group exclusive (opening one closes the
+ * others) and the panel animates with grid-template-rows 0fr -> 1fr, the
+ * portable way to animate content of unknown height.
+ */
+import PortableTextRenderer from '@/components/sanity/PortableTextRenderer.astro'
+import SanityImage, {type SanityImageValue} from '@/components/sanity/SanityImage.astro'
+import {t} from '@/lib/i18n'
+
+export interface DisclosureItem {
+  key: string
+  title: string
+  /** Rich text shown when open. */
+  content?: Array<Record<string, unknown>> | null
+  /** Optional small image before the title. */
+  icon?: SanityImageValue | null
+}
+
+interface Props {
+  items: DisclosureItem[]
+  /** Only one row open at a time. */
+  exclusive?: boolean
+  /** The first row starts open. */
+  firstOpen?: boolean
+  /** Shown in a row with no content. */
+  emptyText: string
+  /**
+   * compact: tighter rows, a "+" whose bar fades when open (Accordion).
+   * roomy: more space, a "+" that turns into an "x" when open (FAQ).
+   */
+  variant?: 'compact' | 'roomy'
+}
+
+const {items, exclusive = false, firstOpen = false, emptyText, variant = 'compact'} = Astro.props
+
+const roomy = variant === 'roomy'
+// Unique per group, so two exclusive groups on a page don't close each other.
+const groupName = exclusive ? `disclosure-${items[0]?.key ?? 'group'}` : undefined
+const rowPadding = roomy ? 'px-6 py-5' : 'px-5 py-4'
+const panelPadding = roomy ? 'px-6 pb-5' : 'px-5 py-4'
+---
+
+<div class={`divide-y divide-border border border-border ${roomy ? 'rounded-xl' : 'rounded-lg'}`}>
+  {
+    items.map((item, index) => (
+      <details class="group" name={groupName} open={firstOpen && index === 0 ? true : undefined}>
+        <summary
+          class={`flex w-full cursor-pointer list-none items-center justify-between text-left transition-colors duration-200 ${rowPadding} ${roomy ? 'hover:bg-muted/30' : 'hover:bg-muted/50'}`}
+        >
+          <span class="flex items-center gap-3 pr-4 font-medium text-foreground">
+            {item.icon ? <SanityImage value={item.icon} width={48} class="h-6 w-6 shrink-0 object-contain" /> : null}
+            {item.title || t(Astro.locals.language, 'untitled')}
+          </span>
+          <span
+            class={`ml-4 flex h-6 w-6 shrink-0 items-center justify-center text-muted ${roomy ? 'transition-transform duration-200 group-open:rotate-45' : ''}`}
+            aria-hidden="true"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M8 3v10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                class={roomy ? undefined : 'transition-opacity duration-200 group-open:opacity-0'}
+              />
+              <path d="M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
+        </summary>
+        <div class="panel">
+          <div class="overflow-hidden">
+            <div class={panelPadding}>
+              {item.content && item.content.length > 0 ? (
+                <div class="prose prose-slate max-w-none">
+                  <PortableTextRenderer value={item.content} />
+                </div>
+              ) : (
+                <p class="text-sm text-muted">{emptyText}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.3s ease-in-out,
+      opacity 0.3s ease-in-out;
+  }
+
+  details[open] .panel {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel {
+      transition: none;
+    }
+  }
+</style>

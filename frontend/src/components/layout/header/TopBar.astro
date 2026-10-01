@@ -1,0 +1,24 @@
+---
+/** The colored strip above the header: the phone label and number. */
+import PhoneLink from '@/components/ui/PhoneLink.astro'
+import {phoneText} from '@/lib/phone'
+import type {SiteSettings} from '@/types/sanity'
+
+interface Props {
+  settings: SiteSettings | null
+}
+
+const {settings} = Astro.props
+
+const phone = settings?.phone
+// Site Settings → Branding, shared with the footer and every Phone block.
+const phoneDisplay = phoneText({phone, phoneText: settings?.footerPhoneText})
+const phoneLabel = settings?.footerPhoneLabel
+---
+
+<div class="bg-primary py-4 flex items-center justify-center font-display text-sm sm:text-base md:text-xl font-normal uppercase leading-[30px] tracking-[0.09px] text-white flex-wrap gap-2 md:gap-4">
+  {phoneLabel && <div>{phoneLabel}</div>}
+  <div>
+    <PhoneLink phone={phone} text={phoneDisplay} class="text-md sm:text-lg md:text-2xl" />
+  </div>
+</div>

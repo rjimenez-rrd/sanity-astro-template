@@ -1,0 +1,74 @@
+---
+/**
+ * The header's right side: search and the extra link (e.g. Spanish) at every
+ * size, then the menu button below lg. The menu it opens is MobileNav.
+ */
+import SearchIcon from '@/components/icons/Search.astro'
+import {DEFAULT_LANGUAGE, t} from '@/lib/i18n'
+import {languageLink as resolveLanguageLink} from '@/lib/nav'
+import type {SiteSettings} from '@/types/sanity'
+
+interface Props {
+  settings: SiteSettings | null
+  showSearch: boolean
+}
+
+const {settings, showSearch} = Astro.props
+
+const language = Astro.locals.language ?? DEFAULT_LANGUAGE
+const languageLink = resolveLanguageLink(
+  language,
+  Astro.locals.alternates ?? {},
+  settings?.headerExtraLink,
+)
+
+const CLOSE_PATH = 'M6 18L18 6M6 6l12 12'
+const BURGER_PATH = 'M4 6h16M4 12h16M4 18h16'
+---
+
+<div class="flex items-center gap-4 sm:gap-7 lg:gap-10">
+  {(showSearch || languageLink) && (
+    <div class="flex items-center gap-4 font-display sm:gap-7 lg:gap-10">
+      {showSearch && (
+        <button
+          type="button"
+          data-search-open
+          aria-label={t(language, 'search')}
+          class="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-secondary-hover"
+        >
+          <SearchIcon class="h-4 w-4" />
+        </button>
+      )}
+      {languageLink && (
+        <a
+          href={languageLink.href}
+          hreflang={languageLink.lang}
+          class="text-sm text-foreground transition-colors hover:text-secondary-hover sm:text-base lg:text-sm"
+        >
+          {languageLink.label}
+        </a>
+      )}
+    </div>
+  )}
+
+  <div class="flex items-center lg:hidden">
+    <button
+      type="button"
+      class="-mr-2 inline-flex items-center justify-center rounded-lg p-2 text-primary transition-colors hover:text-secondary-hover"
+      data-mobile-toggle
+      aria-label={t(language, 'toggleMenu')}
+      aria-expanded="false"
+    >
+      <span data-icon-burger>
+        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={3}>
+          <path stroke-linecap="round" stroke-linejoin="round" d={BURGER_PATH} />
+        </svg>
+      </span>
+      <span data-icon-close hidden>
+        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={3}>
+          <path stroke-linecap="round" stroke-linejoin="round" d={CLOSE_PATH} />
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>

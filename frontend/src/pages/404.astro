@@ -1,7 +1,7 @@
 ---
 import Site from '@/layouts/Site.astro'
 import {getSiteSettings} from '@/lib/siteSettings'
-import {homePath, t} from '@/lib/i18n'
+import {homePath, languageFromPath, t} from '@/lib/i18n'
 
 // On-demand, so the dynamic routes can Astro.rewrite() here for a missing
 // slug — rewriting from an on-demand route to a prerendered one is forbidden.
@@ -14,7 +14,7 @@ export const prerender = false
 // or a URL no route matches, hasn't set the language: take it from the
 // address the visitor asked for.
 const requested = Astro.originPathname ?? Astro.url.pathname
-const language = Astro.locals.language ?? (/^\/es(\/|$)/.test(requested) ? 'es' : undefined)
+const language = Astro.locals.language ?? languageFromPath(requested)
 Astro.locals.language = language
 const settings = await getSiteSettings(Astro.locals, language)
 Astro.response.status = 404

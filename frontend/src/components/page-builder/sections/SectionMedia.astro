@@ -8,7 +8,8 @@
 import {backgroundImageUrl, videoSource, type BackgroundSlideshow, type BackgroundVideo} from '@/lib/backgroundMedia'
 import {SHAPES, shapePath} from '@/lib/shapeDividers'
 import {safeColor} from '@/lib/design'
-import {CssBuilder, MEDIA, resolve, type Device, type Responsive} from '@/lib/container'
+import {CssBuilder, MEDIA, resolve, type Responsive} from '@/lib/container'
+import {DEVICES} from '@/lib/cssValues'
 
 type Shape = {
   type?: string | null
@@ -54,7 +55,6 @@ const slideStyle = [
 ].join(';')
 
 // --- Shape Dividers ---
-const DEVICES: Device[] = ['desktop', 'tablet', 'mobile']
 const shapes = (['top', 'bottom'] as const)
   .map((edge) => ({edge, shape: design?.shapeDivider?.[edge]}))
   .filter(({shape}) => shape?.type && SHAPES[shape.type])

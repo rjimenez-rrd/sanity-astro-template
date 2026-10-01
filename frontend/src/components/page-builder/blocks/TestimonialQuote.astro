@@ -1,6 +1,7 @@
 ---
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import type {TestimonialQuoteData} from '@/types/sanity'
+import {t} from '@/lib/i18n'
 
 interface Props {
   data: TestimonialQuoteData
@@ -31,7 +32,7 @@ const STAR_PATH =
 
       {validRating > 0 && (
         <div class="mt-4 flex justify-center">
-          <div class="flex gap-1" aria-label={`${stars} out of 5 stars`}>
+          <div class="flex gap-1" aria-label={t(Astro.locals.language, 'stars', {rating: stars})}>
             {Array.from({length: 5}, (_, i) => (
               <svg
                 class={`h-5 w-5 ${i < stars ? 'text-amber-400' : 'text-border'}`}
