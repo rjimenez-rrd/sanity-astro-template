@@ -1,0 +1,27 @@
+---
+/**
+ * The site's simple line icons, drawn in currentColor on a 24px grid, so a
+ * text color class colors them and a size class sizes them. Decorative: the
+ * button or link around one carries the label.
+ */
+const PATHS = {
+  close: 'M6 18L18 6M6 6l12 12',
+  menu: 'M4 6h16M4 12h16M4 18h16',
+  'chevron-left': 'M15 19l-7-7 7-7',
+  'chevron-right': 'M9 5l7 7-7 7',
+  check: 'M5 13l4 4L19 7',
+}
+
+interface Props {
+  name: keyof typeof PATHS
+  class?: string
+  /** Line width on the 24px grid; heavier for big header icons. */
+  strokeWidth?: number
+}
+
+const {name, class: className, strokeWidth = 2} = Astro.props
+---
+
+<svg class={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={strokeWidth} aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d={PATHS[name]} />
+</svg>

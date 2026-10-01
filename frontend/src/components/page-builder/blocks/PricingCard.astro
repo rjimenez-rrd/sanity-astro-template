@@ -1,6 +1,7 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
 import CallToAction from './CallToAction.astro'
+import StrokeIcon from '@/components/icons/StrokeIcon.astro'
 import type {PricingCardData} from '@/types/sanity'
 
 interface Props {
@@ -25,8 +26,6 @@ const cta = data.cta?.label
       fullWidthOn: ['desktop', 'tablet', 'mobile'],
     }
   : null
-const CHECK_PATH = 'M5 13l4 4L19 7'
-const X_PATH = 'M6 18L18 6M6 6l12 12'
 ---
 
 {
@@ -51,23 +50,14 @@ const X_PATH = 'M6 18L18 6M6 6l12 12'
         <ul class="mt-6 flex flex-col gap-3" role="list">
           {features.map((feature) => (
             <li class="flex items-center gap-3">
-              <svg
+              <StrokeIcon
+                name={feature.included ? 'check' : 'close'}
                 class={
                   feature.included
                     ? 'h-5 w-5 shrink-0 text-green-500'
                     : 'h-5 w-5 shrink-0 text-muted opacity-40'
                 }
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width={2}
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d={feature.included ? CHECK_PATH : X_PATH}
-                />
-              </svg>
+              />
               <span
                 class={`text-sm ${feature.included ? 'text-card-foreground' : 'text-muted line-through'}`}
               >

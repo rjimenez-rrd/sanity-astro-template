@@ -5,6 +5,7 @@
  * the opener on close.
  */
 import SearchForm from './SearchForm.astro'
+import StrokeIcon from '@/components/icons/StrokeIcon.astro'
 import {t} from '@/lib/i18n'
 
 interface Props {
@@ -30,9 +31,7 @@ const language = Astro.locals.language
     class="absolute right-5 top-5 p-2 text-white transition-colors hover:text-secondary-hover"
     data-search-close
   >
-    <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={3} aria-hidden="true">
-      <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
-    </svg>
+    <StrokeIcon name="close" class="h-7 w-7" strokeWidth={3} />
   </button>
 
   <div class="w-full max-w-[693px] text-center">
