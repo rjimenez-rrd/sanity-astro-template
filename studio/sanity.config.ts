@@ -14,6 +14,7 @@ import {openInBrowser} from './actions/openInBrowser'
 import {PUBLISH_DATE_TYPES, withPublishDate} from './actions/publishWithDate'
 import {singletonTypes, singletonActions} from './schemaTypes/constants'
 import {LAST_EDITED_TYPES, StampLastEditor} from './actions/stampLastEditor'
+import {DeleteWithTranslations} from './actions/deleteWithTranslations'
 import {DEFAULT_LANGUAGE, HOME_PAGE_IDS, LANGUAGES, TRANSLATED_TYPES} from './schemaTypes/languages'
 import {MAX_ANCESTORS} from './schemaTypes/fields/rootSlug'
 import {pagePath} from './actions/documentPath'
@@ -176,9 +177,13 @@ export default defineConfig({
         ? input.filter(({action}) => action && singletonActions.has(action))
         : input
       // Pages get their publishedAt stamped on first publish.
-      const actions = PUBLISH_DATE_TYPES.has(context.schemaType)
-        ? filtered.map((action) => (action.action === 'publish' ? withPublishDate(action) : action))
-        : filtered
+      const translated = TRANSLATED_TYPES.includes(context.schemaType)
+      const actions = filtered.map((action) => {
+        if (action.action === 'publish' && PUBLISH_DATE_TYPES.has(context.schemaType)) return withPublishDate(action)
+        // Delete also removes the document from its translation links.
+        if (action.action === 'delete' && translated) return DeleteWithTranslations
+        return action
+      })
       // Buttonless: records the last editor for the list row.
       const stamp = LAST_EDITED_TYPES.has(context.schemaType) ? [StampLastEditor] : []
       // Appended after the filter so singletons keep it too.
