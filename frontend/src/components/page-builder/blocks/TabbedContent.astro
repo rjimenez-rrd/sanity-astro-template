@@ -1,5 +1,13 @@
 ---
-import PortableTextRenderer from '@/components/sanity/PortableTextRenderer.astro'
+/**
+ * Tabbed Content: a row of tab buttons over one panel per tab. Each tab holds
+ * the same blocks a column does, drawn by BlockRenderer, so a block looks the
+ * same in a tab as anywhere else.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import BlockRenderer from '../BlockRenderer.astro'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import {t} from '@/lib/i18n'
 import type {TabbedContentData} from '@/types/sanity'
 
 interface Props {
@@ -7,41 +15,69 @@ interface Props {
 }
 
 const {data} = Astro.props
+const language = Astro.locals.language
 
 const tabs = data.tabs || []
+
+/**
+ * Tab Style: Underline (a line under the active tab), Pills (a filled
+ * rounded tab) or Boxed (the active tab joined to its panel, like a folder).
+ */
+const TAB_STYLES = {
+  underline: {
+    list: 'flex flex-wrap border-b border-border',
+    tab: '-mb-px border-b-2 border-transparent px-4 py-2.5 text-muted hover:text-foreground aria-selected:border-primary aria-selected:text-primary',
+  },
+  pills: {
+    list: 'flex flex-wrap gap-2',
+    tab: 'rounded-full px-4 py-2 text-muted hover:bg-foreground/5 hover:text-foreground aria-selected:bg-primary aria-selected:text-primary-foreground aria-selected:hover:bg-primary',
+  },
+  boxed: {
+    list: 'flex flex-wrap border-b border-border',
+    tab: '-mb-px rounded-t-md border border-transparent px-4 py-2.5 text-muted hover:text-foreground aria-selected:border-border aria-selected:border-b-background aria-selected:bg-background aria-selected:text-foreground',
+  },
+}
+const tabStyle = TAB_STYLES[stegaClean(data.tabStyle) as keyof typeof TAB_STYLES] ?? TAB_STYLES.underline
 ---
 
 {
   tabs.length > 0 && (
     <div data-tabs>
-      <div class="flex border-b border-border" role="tablist">
+      {data.title && <h3 class="text-xl font-semibold text-foreground">{data.title}</h3>}
+      {data.subtitle && <p class="mt-1 text-muted">{data.subtitle}</p>}
+
+      <div class={`${tabStyle.list} ${data.title || data.subtitle ? 'mt-4' : ''}`} role="tablist">
         {tabs.map((tab, index) => (
           <button
             type="button"
             role="tab"
+            id={`tab-${tab._key}`}
             data-tab-trigger={index}
             aria-selected={index === 0 ? 'true' : 'false'}
             aria-controls={`tabpanel-${tab._key}`}
-            class="px-4 py-2.5 text-sm font-medium transition-colors duration-200 aria-selected:border-b-2 aria-selected:border-primary aria-selected:text-primary text-muted hover:text-foreground aria-selected:hover:text-primary"
+            class={`inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${tabStyle.tab}`}
           >
+            {tab.icon?.asset && (
+              <SanityImage value={tab.icon} alt="" width={40} class="h-5 w-5 shrink-0 object-contain" />
+            )}
             {tab.label || `Tab ${index + 1}`}
           </button>
         ))}
       </div>
+
       {tabs.map((tab, index) => (
         <div
           id={`tabpanel-${tab._key}`}
           role="tabpanel"
+          aria-labelledby={`tab-${tab._key}`}
           data-tab-panel={index}
-          class="pt-6"
+          class="flex flex-col gap-6 pt-6"
           hidden={index !== 0}
         >
           {tab.content && tab.content.length > 0 ? (
-            <div class="prose prose-slate max-w-none">
-              <PortableTextRenderer value={tab.content as never} />
-            </div>
+            tab.content.map((block) => <BlockRenderer block={block} />)
           ) : (
-            <p class="text-sm text-muted">No content for this tab.</p>
+            <p class="text-sm text-muted">{t(language, 'noContent')}</p>
           )}
         </div>
       ))}

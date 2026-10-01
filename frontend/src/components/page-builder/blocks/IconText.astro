@@ -1,6 +1,8 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
+import MissingLinkBadge from '@/components/ui/MissingLinkBadge.astro'
+import {resolveHref, type LinkItem} from '@/lib/links'
 import type {IconTextData} from '@/types/sanity'
 
 interface Props {
@@ -17,13 +19,35 @@ const LAYOUT_CLASSES: Record<string, {container: string; text: string}> = {
 
 const alignment = data.alignment || 'left'
 const layout = LAYOUT_CLASSES[stegaClean(alignment)!] || LAYOUT_CLASSES.left
+
+/** Icon Size, in px: the Studio's Small / Medium / Large / XL. */
+const ICON_SIZES: Record<string, {px: number; class: string}> = {
+  small: {px: 32, class: 'h-8 w-8'},
+  medium: {px: 48, class: 'h-12 w-12'},
+  large: {px: 64, class: 'h-16 w-16'},
+  xl: {px: 80, class: 'h-20 w-20'},
+}
+const iconSize = ICON_SIZES[stegaClean(data.iconSize) ?? ''] ?? ICON_SIZES.medium
+
+/**
+ * The Link: its label as a text link below the description, stretched (an
+ * ::after over the whole block) so the entire block is clickable too.
+ */
+const link = data.link?.label
+  ? {label: data.link.label, ...resolveHref((data.link.link || []) as unknown as LinkItem[])}
+  : undefined
 ---
 
-<div class={layout.container}>
+<div class={`${layout.container} ${link ? 'group relative' : ''}`}>
   {
     data.icon?.asset && (
       <div class="shrink-0">
-        <SanityImage value={data.icon} width={48} height={48} class="h-12 w-12 object-contain" />
+        <SanityImage
+          value={data.icon}
+          width={iconSize.px * 2}
+          height={iconSize.px * 2}
+          class={`${iconSize.class} object-contain`}
+        />
       </div>
     )
   }
@@ -31,6 +55,17 @@ const layout = LAYOUT_CLASSES[stegaClean(alignment)!] || LAYOUT_CLASSES.left
     {data.title && <h4 class="text-lg font-semibold text-foreground">{data.title}</h4>}
     {data.description && (
       <p class="mt-1 text-sm leading-relaxed text-muted">{data.description}</p>
+    )}
+    {link && (
+      <a
+        href={link.href}
+        target={link.isExternal ? '_blank' : undefined}
+        rel={link.isExternal ? 'noopener noreferrer' : undefined}
+        class="mt-2 inline-block text-sm font-semibold text-primary after:absolute after:inset-0 group-hover:underline"
+      >
+        {link.label}
+        {link.missing && <MissingLinkBadge />}
+      </a>
     )}
   </div>
 </div>

@@ -2,16 +2,6 @@ import {defineType, defineField} from 'sanity'
 import {ClockIcon} from '@sanity/icons'
 import {ColorStringInput} from '../../components/inputs/ColorStringInput'
 
-const TIMEZONE_OPTIONS = [
-  {title: 'US Pacific (Los Angeles)', value: 'America/Los_Angeles'},
-  {title: 'US Mountain (Denver)', value: 'America/Denver'},
-  {title: 'US Central (Chicago)', value: 'America/Chicago'},
-  {title: 'US Eastern (New York)', value: 'America/New_York'},
-  {title: 'UK (London)', value: 'Europe/London'},
-  {title: 'Australia (Sydney)', value: 'Australia/Sydney'},
-  {title: 'Australia (Melbourne)', value: 'Australia/Melbourne'},
-]
-
 export const countdownTimerType = defineType({
   name: 'countdownTimer',
   title: 'Countdown Timer',
@@ -41,23 +31,16 @@ export const countdownTimerType = defineType({
       title: 'Target Date & Time',
       type: 'datetime',
       group: 'content',
-      description: 'When the countdown reaches zero.',
+      description: 'When the countdown reaches zero, in New York time unless you switch the timezone.',
       validation: (rule) => rule.required(),
+      // The date is saved as an exact moment, so the timezone only decides
+      // how it's picked and shown here; visitors anywhere see the same end.
       options: {
         dateFormat: 'YYYY-MM-DD',
         timeFormat: 'HH:mm',
         timeStep: 15,
-      },
-    }),
-    defineField({
-      name: 'timezone',
-      title: 'Timezone',
-      type: 'string',
-      group: 'content',
-      description: 'Timezone for the target date.',
-      initialValue: 'America/Los_Angeles',
-      options: {
-        list: TIMEZONE_OPTIONS,
+        displayTimeZone: 'America/New_York',
+        allowTimeZoneSwitch: true,
       },
     }),
     defineField({

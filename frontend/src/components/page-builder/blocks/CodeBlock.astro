@@ -1,4 +1,5 @@
 ---
+import {stegaClean} from '@sanity/client/stega'
 import type {CodeBlockData} from '@/types/sanity'
 
 interface Props {
@@ -9,6 +10,20 @@ const {data} = Astro.props
 
 const lines = data.code ? data.code.split('\n') : []
 const lineNumberWidth = String(lines.length).length
+
+/** Highlight Lines, e.g. "3,5-7" -> lines 3, 5, 6 and 7. Anything unreadable is skipped. */
+function parseLineRanges(value: string | null | undefined): Set<number> {
+  const out = new Set<number>()
+  for (const part of stegaClean(value ?? '').split(',')) {
+    const match = /^\s*(\d+)\s*(?:-\s*(\d+)\s*)?$/.exec(part)
+    if (!match) continue
+    const from = Number(match[1])
+    const to = Math.min(Number(match[2] ?? match[1]), lines.length)
+    for (let n = from; n <= to; n++) out.add(n)
+  }
+  return out
+}
+const highlighted = parseLineRanges(data.highlightLines)
 ---
 
 {
@@ -36,18 +51,10 @@ const lineNumberWidth = String(lines.length).length
 
         {/* Code area */}
         <div class="overflow-x-auto bg-gray-900 p-4">
+          {/* Each line's markup on one source line: inside <pre>, any line
+              break or indent between tags is shown as part of the code. */}
           <pre class="text-sm leading-relaxed"><code class="font-mono text-gray-100">{lines.map((line, index) => (
-            <span class="block">
-              {data.showLineNumbers && (
-                <span
-                  class="mr-6 inline-block text-right text-gray-500 select-none"
-                  style={`min-width:${lineNumberWidth}ch`}
-                >
-                  {index + 1}
-                </span>
-              )}
-              {line || '\n'}
-            </span>
+            <span class={highlighted.has(index + 1) ? '-mx-4 block bg-white/10 px-4' : 'block'}>{data.showLineNumbers && <span class="mr-6 inline-block text-right text-gray-500 select-none" style={`min-width:${lineNumberWidth}ch`}>{index + 1}</span>}{line || '\n'}</span>
           ))}</code></pre>
         </div>
       </div>

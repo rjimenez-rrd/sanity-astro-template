@@ -1,5 +1,5 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
-import {MenuIcon, ImageIcon} from '@sanity/icons'
+import {MenuIcon} from '@sanity/icons'
 
 export const tabbedContentType = defineType({
   name: 'tabbedContent',
@@ -56,34 +56,11 @@ export const tabbedContentType = defineType({
               title: 'Content',
               type: 'array',
               validation: (rule) => rule.required().min(1),
+              // The same blocks a column holds (not raw rich text: a list can't
+              // sit directly in a list), drawn by the site's block renderer.
               of: [
-                defineArrayMember({type: 'blockContent'}),
-                defineArrayMember({
-                  type: 'object',
-                  name: 'tabImage',
-                  title: 'Image',
-                  icon: ImageIcon,
-                  fields: [
-                    defineField({
-                      name: 'image',
-                      title: 'Image',
-                      type: 'image',
-                      options: {hotspot: true},
-                      validation: (rule) => rule.required(),
-                    }),
-                    defineField({
-                      name: 'alt',
-                      title: 'Alt Text',
-                      type: 'string',
-                    }),
-                  ],
-                  preview: {
-                    select: {media: 'image', alt: 'alt'},
-                    prepare({media, alt}: {media?: any; alt?: string}) {
-                      return {title: alt || 'Image', media}
-                    },
-                  },
-                }),
+                defineArrayMember({type: 'richTextBlock'}),
+                defineArrayMember({type: 'imageBlock'}),
                 defineArrayMember({type: 'callToAction'}),
                 defineArrayMember({type: 'video'}),
                 defineArrayMember({type: 'iconText'}),

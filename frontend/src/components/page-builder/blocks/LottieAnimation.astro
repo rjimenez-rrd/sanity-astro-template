@@ -1,4 +1,12 @@
 ---
+/**
+ * A Lottie animation, from a URL or an uploaded .json file, played by
+ * lottie-web. Trigger decides when it plays:
+ * - auto:   on load (if Autoplay is on)
+ * - hover:  while the pointer is over it
+ * - scroll: while it's on screen
+ */
+import {stegaClean} from '@sanity/client/stega'
 import type {LottieAnimationData} from '@/types/sanity'
 
 interface Props {
@@ -6,62 +14,66 @@ interface Props {
 }
 
 const {data} = Astro.props
+
+const src = stegaClean(data.source) === 'file' ? data.fileUrl : stegaClean(data.url)
+const trigger = (['auto', 'hover', 'scroll'] as const).find((t) => t === stegaClean(data.trigger)) ?? 'auto'
 ---
 
 {
-  data.url && (
-    <div class="my-4">
-      <div
-        class="flex min-h-[200px] items-center justify-center rounded-lg border border-dashed border-border bg-card"
-        data-lottie
-        data-url={data.url}
-        data-loop={data.loop !== false ? 'true' : 'false'}
-        data-autoplay={data.autoplay !== false ? 'true' : 'false'}
-        data-speed={typeof data.speed === 'number' ? String(data.speed) : undefined}
-      >
-        {/* Placeholder shown until lottie-web loads (or permanently if not installed) */}
-        <div class="text-center text-sm text-muted">
-          <p class="mb-2">Lottie Animation</p>
-          <p class="text-xs opacity-60">Install lottie-web to enable</p>
-        </div>
-      </div>
-      {data.alt && <p class="mt-2 text-center text-sm text-muted">{data.alt}</p>}
-    </div>
+  src && (
+    <div
+      class="my-4"
+      role={data.alt ? 'img' : undefined}
+      aria-label={data.alt || undefined}
+      aria-hidden={data.alt ? undefined : 'true'}
+      data-lottie
+      data-src={src}
+      data-trigger={trigger}
+      data-loop={data.loop !== false ? 'true' : 'false'}
+      data-autoplay={data.autoplay !== false ? 'true' : 'false'}
+      data-speed={typeof data.speed === 'number' ? String(data.speed) : undefined}
+    />
   )
 }
 
 <script>
   const containers = document.querySelectorAll<HTMLElement>('[data-lottie]')
+
+  // Loaded only on pages that have an animation: every block's script is on
+  // every page, and lottie-web is too big to send everywhere. The light build
+  // is the SVG renderer only, which is all this uses.
   if (containers.length > 0) {
-    // lottie-web stays an optional dependency: if it is not installed the
-    // placeholder simply remains, exactly as before. The specifier is held in
-    // a variable and marked @vite-ignore so the bundler does not try to
-    // resolve a package that may not exist — the Vite counterpart to the
-    // webpackIgnore comment this used to carry.
-    const LOTTIE_MODULE = 'lottie-web'
+    // Someone who has asked for less motion gets the first frame, not a
+    // looping animation; hovering still plays it, since that's their choice.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    import(/* @vite-ignore */ LOTTIE_MODULE)
-      .then(({default: lottie}) => {
-        containers.forEach((container) => {
-          const url = container.dataset.url
-          if (!url) return
+    import('lottie-web/build/player/lottie_light').then(({default: lottie}) => {
+      containers.forEach((container) => {
+        const src = container.dataset.src
+        if (!src) return
+        const trigger = container.dataset.trigger
 
-          container.innerHTML = ''
-
-          const animation = lottie.loadAnimation({
-            container,
-            renderer: 'svg',
-            loop: container.dataset.loop !== 'false',
-            autoplay: container.dataset.autoplay !== 'false',
-            path: url,
-          })
-
-          const speed = Number(container.dataset.speed)
-          if (speed > 0) animation.setSpeed?.(speed)
+        const animation = lottie.loadAnimation({
+          container,
+          renderer: 'svg',
+          loop: container.dataset.loop !== 'false',
+          autoplay: trigger === 'auto' && container.dataset.autoplay !== 'false' && !reduceMotion,
+          path: src,
         })
+
+        const speed = Number(container.dataset.speed)
+        if (speed > 0) animation.setSpeed(speed)
+
+        if (trigger === 'hover') {
+          container.addEventListener('mouseenter', () => animation.play())
+          container.addEventListener('mouseleave', () => animation.pause())
+        } else if (trigger === 'scroll' && !reduceMotion) {
+          new IntersectionObserver(([entry]) => {
+            if (entry?.isIntersecting) animation.play()
+            else animation.pause()
+          }).observe(container)
+        }
       })
-      .catch(() => {
-        /* lottie-web is not installed; placeholder remains */
-      })
+    })
   }
 </script>

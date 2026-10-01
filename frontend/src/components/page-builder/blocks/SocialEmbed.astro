@@ -1,5 +1,6 @@
 ---
 import {stegaClean} from '@sanity/client/stega'
+import {t} from '@/lib/i18n'
 import type {SocialEmbedData} from '@/types/sanity'
 
 interface Props {
@@ -52,6 +53,15 @@ const config =
     : PLATFORM_CONFIG.twitter
 const EXTERNAL_PATH =
   'M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'
+
+// Aspect Ratio shapes the card's body (the link stays centered in it); Auto
+// sizes it to its content.
+const ASPECT_RATIOS: Record<string, string> = {
+  square: 'aspect-square',
+  portrait: 'aspect-[4/5]',
+  landscape: 'aspect-video',
+}
+const aspectClass = ASPECT_RATIOS[stegaClean(data.aspectRatio) ?? ''] ?? ''
 ---
 
 {
@@ -65,7 +75,7 @@ const EXTERNAL_PATH =
           <span class="text-sm font-medium text-foreground">{config.label}</span>
         </div>
 
-        <div class="flex flex-col items-center gap-4 px-6 py-8">
+        <div class={`flex flex-col items-center justify-center gap-4 px-6 py-8 ${aspectClass}`}>
           <p class="max-w-md break-all text-center text-xs text-muted">{data.embedUrl}</p>
           <a
             href={data.embedUrl}
@@ -73,7 +83,7 @@ const EXTERNAL_PATH =
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
           >
-            View on {config.label}
+            {t(Astro.locals.language, 'viewOn', {platform: config.label})}
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width={2}>
               <path stroke-linecap="round" stroke-linejoin="round" d={EXTERNAL_PATH} />
             </svg>

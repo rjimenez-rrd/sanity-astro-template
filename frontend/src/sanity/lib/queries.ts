@@ -156,6 +156,10 @@ const contentTypesFragment = /* groq */ `
     _type == "callToAction" => { ${linkFragment} },
     _type == "buttonGroup" => { buttons[] { ..., ${linkFragment} } },
     _type == "pricingCard" => { cta { ..., ${linkFragment} } },
+    _type == "countdownTimer" => { cta { ..., ${linkFragment} } },
+    _type == "alertNotice" => { icon { ${imageFragment} } },
+    // An uploaded animation's address, for when Source is File Upload.
+    _type == "lottieAnimation" => { "fileUrl": file.asset->url },
     _type == "logoRow" => {
       logos[] { image { ${imageFragment} }, alt, link },
       grayscale, size,
@@ -169,6 +173,7 @@ const contentTypesFragment = /* groq */ `
     _type == "iconText" => {
       ...,
       icon { ${imageFragment} },
+      link { ..., ${linkFragment} },
       ${blockStylesFragment}
     },
     // Reviews live in their own documents. Picked ones keep the editor's order;
@@ -261,12 +266,28 @@ const contentTypesFragment = /* groq */ `
     }
 `
 
+// Tabbed Content: each tab holds column blocks, projected the same way.
+const tabbedContentFragment = /* groq */ `
+    _type == "tabbedContent" => {
+      tabs[] {
+        ...,
+        icon { ${imageFragment} },
+        content[] {
+          _key, _type, ...,
+          ${contentTypesFragment},
+          ${blockStylesFragment}
+        }
+      }
+    }
+`
+
 // An Inner Container's own columns. No Inner Container case here: the schema
 // stops nesting at one level, and GROQ can't recurse past what's written out.
 const innerContentFragment = /* groq */ `
   content[] {
     _key, _type, ...,
     ${contentTypesFragment},
+    ${tabbedContentFragment},
     ${blockStylesFragment}
   }
 `
@@ -275,6 +296,7 @@ const contentFragment = /* groq */ `
   content[] {
     _key, _type, ...,
     ${contentTypesFragment},
+    ${tabbedContentFragment},
     _type == "nestedContainer" => {
       columns[] {
         _key, ...,

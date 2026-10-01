@@ -29,7 +29,8 @@
     "@sanity/webhook": "^4.0.4",
     "astro": "^7.3.3",
     "astro-portabletext": "^1.0.1",
-    "groq": "^6.15.0"
+    "groq": "^6.15.0",
+    "lottie-web": "^5.13.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

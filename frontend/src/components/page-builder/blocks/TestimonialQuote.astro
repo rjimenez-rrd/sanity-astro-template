@@ -1,4 +1,5 @@
 ---
+import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import type {TestimonialQuoteData} from '@/types/sanity'
 import {t} from '@/lib/i18n'
@@ -14,19 +15,36 @@ const validRating =
 const stars = Math.max(0, Math.min(5, Math.round(validRating)))
 const STAR_PATH =
   'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'
+
+/**
+ * Style: Simple (just the text), Card (a panel with a small quote mark — the
+ * Studio's default) or Large (big quote marks and larger text).
+ */
+const STYLES = {
+  simple: {root: 'my-6 text-center', mark: '', quote: 'text-lg md:text-xl'},
+  card: {
+    root: 'my-6 rounded-xl border border-border bg-card px-6 py-8 text-center shadow-sm sm:px-10',
+    mark: 'text-5xl',
+    quote: 'text-lg md:text-xl',
+  },
+  large: {root: 'my-6 text-center', mark: 'text-8xl', quote: 'text-xl md:text-2xl'},
+}
+const style = STYLES[stegaClean(data.style) as keyof typeof STYLES] ?? STYLES.card
 ---
 
 {
   data.quote && (
-    <blockquote class="my-6 text-center">
-      <span
-        class="block text-6xl leading-none text-primary opacity-40 select-none"
-        aria-hidden="true"
-      >
-        &ldquo;
-      </span>
+    <blockquote class={style.root}>
+      {style.mark && (
+        <span
+          class={`block leading-none text-primary opacity-40 select-none ${style.mark}`}
+          aria-hidden="true"
+        >
+          &ldquo;
+        </span>
+      )}
 
-      <p class="mx-auto max-w-2xl text-lg leading-relaxed text-foreground italic md:text-xl">
+      <p class={`mx-auto max-w-2xl leading-relaxed text-foreground italic ${style.quote}`}>
         {data.quote}
       </p>
 
