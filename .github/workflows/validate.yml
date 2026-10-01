@@ -4,7 +4,15 @@ on: push
 jobs:
   validate:
     runs-on: ubuntu-latest
+    # The validator only reads the repository's files.
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Validate Sanity Template
         uses: sanity-io/template-validator@v2
+        with:
+          # The validator downloads each file from GitHub instead of reading the
+          # checkout. The repository is private, so without a token every file
+          # comes back "Not Found" and validation fails.
+          token: ${{ secrets.GITHUB_TOKEN }}
