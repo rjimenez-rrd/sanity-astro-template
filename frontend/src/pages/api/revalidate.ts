@@ -2,7 +2,7 @@ import type {APIRoute} from 'astro'
 import {isValidSignature, SIGNATURE_HEADER_NAME} from '@sanity/webhook'
 import {getClient} from '@/sanity/lib/client'
 import {listPageHref} from '@/lib/pagination'
-import {OTHER_LANGUAGES, homePath, localizedPath} from '@/lib/i18n'
+import {OTHER_LANGUAGES, homePath, localizedPath, newsPath} from '@/lib/i18n'
 
 export const prerender = false
 
@@ -97,6 +97,13 @@ export const POST: APIRoute = async ({request, url}) => {
       if (body.slug?.current) paths.add(await pagePath(body.slug.current))
       paths.add('/practice-areas')
       await addListPages('/practice-areas')
+      paths.add(home)
+      break
+    case 'newsPost':
+      // /news/<slug> and the News list, or /es/news/… for a Spanish post. The
+      // home is where a News Cards block usually lists the newest ones.
+      if (body.slug?.current) paths.add(newsPath(body.slug.current, language))
+      paths.add(newsPath(undefined, language))
       paths.add(home)
       break
     case 'siteSettings':

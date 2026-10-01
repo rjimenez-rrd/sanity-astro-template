@@ -1,8 +1,29 @@
-import {defineField, defineType} from 'sanity'
+import {defineField, defineType, type SlugValidationContext} from 'sanity'
 import {DocumentsIcon} from '@sanity/icons'
 import { PublishStampInput } from '../../components/inputs/PublishStampInput'
+import {excludeFromTranslation} from '../fields/common'
+import {DEFAULT_LANGUAGE} from '../languages'
 
-/** A news article, published at /news/<slug>. */
+/**
+ * A slug only has to be unique among posts in the same language: a Spanish
+ * translation starts as a copy, slug included, and /news/<slug> and
+ * /es/news/<slug> don't collide.
+ */
+async function isUniqueInLanguage(slug: string, context: SlugValidationContext) {
+  const id = context.document?._id.replace(/^drafts\./, '')
+  if (!id) return true
+  // Posts from before languages existed have none; they're the default.
+  const language = (context.document?.language as string | undefined) ?? DEFAULT_LANGUAGE
+  const client = context.getClient({apiVersion: '2025-03-20'})
+  const taken = await client.fetch<boolean>(
+    `defined(*[_type == "newsPost" && slug.current == $slug && !sanity::versionOf($id)
+      && coalesce(language, $defaultLanguage) == $language][0]._id)`,
+    {slug, id, language, defaultLanguage: DEFAULT_LANGUAGE},
+  )
+  return !taken
+}
+
+/** A news article, published at /news/<slug>, and /es/news/<slug> in Spanish. */
 export const newsPostType = defineType({
   name: 'newsPost',
   title: 'News',
@@ -13,6 +34,13 @@ export const newsPostType = defineType({
     {name: 'seo', title: 'SEO'},
   ],
   fields: [
+    defineField({
+      name: 'language',
+      type: 'string',
+      // Set by the Translations menu (@sanity/document-internationalization).
+      readOnly: true,
+      hidden: true,
+    }),
     defineField({
       name: 'title',
       title: 'Title',
@@ -25,8 +53,8 @@ export const newsPostType = defineType({
       title: 'Slug',
       type: 'slug',
       group: 'content',
-      description: 'The article lives at /news/<slug>.',
-      options: {source: 'title', maxLength: 96},
+      description: 'The article lives at /news/<slug> (Spanish: /es/news/<slug>).',
+      options: {source: 'title', maxLength: 96, isUnique: isUniqueInLanguage},
       validation: (rule) => rule.required(),
     }),
     // defineField({
@@ -72,6 +100,8 @@ export const newsPostType = defineType({
     }),
     defineField({
       name: 'publishedAt',
+      // Not copied into a new translation: it starts unpublished.
+      options: excludeFromTranslation(),
       title: 'First Published',
       type: 'datetime',
       group: 'content',
@@ -82,6 +112,8 @@ export const newsPostType = defineType({
     }),
     defineField({
       name: 'updatedAt',
+      // Not copied into a new translation: it starts unpublished.
+      options: excludeFromTranslation(),
       title: 'Last Updated',
       type: 'datetime',
       group: 'content',

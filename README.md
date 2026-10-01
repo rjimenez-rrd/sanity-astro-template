@@ -150,11 +150,11 @@ publishing, set up the webhook:
 3. In [Sanity Manage](https://sanity.io/manage) → API → Webhooks, create a webhook:
    - **URL:** `https://your-domain.com/api/revalidate`
    - **Secret:** the secret from step 1
-   - **Filter:** `_type in ["homePage", "page", "practiceArea", "siteSettings", "siteSettingsEs"]`
+   - **Filter:** `_type in ["homePage", "page", "practiceArea", "newsPost", "siteSettings", "siteSettingsEs"]`
    - **Projection:** `{_id, _type, slug, language}`
 
-   `language` is what sends a Spanish page's refresh to `/es/…`; without it,
-   Spanish pages refresh their English address instead.
+   `language` is what sends a Spanish page's or news post's refresh to
+   `/es/…`; without it, they refresh their English address instead.
 
 ## More info
 

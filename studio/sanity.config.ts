@@ -93,13 +93,17 @@ export default defineConfig({
                 : [],
             }),
           }),
+          // /news/<slug>, and /es/news/<slug> for a Spanish post.
           newsPost: defineLocations({
-            select: {title: 'title', slug: 'slug.current'},
+            select: {title: 'title', slug: 'slug.current', language: 'language'},
             resolve: (doc) => ({
               locations: doc?.slug
                 ? [
-                    {title: doc.title || 'Untitled news', href: `/news/${doc.slug}`},
-                    {title: 'News', href: '/news'},
+                    {title: doc.title || 'Untitled news', href: pagePath(doc.slug, doc.language, ['news'])},
+                    {
+                      title: doc.language && doc.language !== DEFAULT_LANGUAGE ? 'Noticias' : 'News',
+                      href: pagePath('news', doc.language),
+                    },
                   ]
                 : [],
             }),
@@ -122,7 +126,12 @@ export default defineConfig({
         mainDocuments: defineDocuments([
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
           {route: '/es', filter: `_id in ["${HOME_PAGE_IDS.es}", "drafts.${HOME_PAGE_IDS.es}"]`},
-          {route: '/news/:slug', filter: '_type == "newsPost" && slug.current == $slug'},
+          // Before the pages, so /es/news/… isn't read as a page under "news".
+          ...LANGUAGES.filter((l) => l.id !== DEFAULT_LANGUAGE).map((l) => ({
+            route: `/${l.id}/news/:slug`,
+            filter: `_type == "newsPost" && slug.current == $slug && ${LANGUAGE_IS(l.id)}`,
+          })),
+          {route: '/news/:slug', filter: `_type == "newsPost" && slug.current == $slug && ${LANGUAGE_IS(DEFAULT_LANGUAGE)}`},
           // Other languages first, so /es/… isn't read as a page "es".
           ...LANGUAGES.filter((l) => l.id !== DEFAULT_LANGUAGE).flatMap((l) => pageRoutes(`/${l.id}`, l.id)),
           ...pageRoutes('', DEFAULT_LANGUAGE),
@@ -136,7 +145,7 @@ export default defineConfig({
       },
     }),
     /**
-     * Translations: a menu on each Page and Practice Area to create or open
+     * Translations: a menu on each Page, Practice Area and News post to create or open
      * its version in another language. Creating one copies the document, so
      * the layout is already there and only the words need translating.
      */
@@ -153,7 +162,7 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
-    // The plain Page / Practice Area templates would create documents with no
+    // The plain Page / Practice Area / News templates would create documents with no
     // language; the plugin's per-language ones ("Page (English)") replace them.
     templates: (prev) =>
       prev.filter(

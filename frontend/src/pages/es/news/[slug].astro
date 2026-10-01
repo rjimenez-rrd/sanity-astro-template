@@ -1,0 +1,13 @@
+---
+export const prerender = false
+
+import NewsPost from '@/components/news/NewsPost.astro'
+import {resolveNewsPost} from '@/lib/news'
+
+// A Spanish news post, /es/news/…: as ../../news/[slug].astro, in Spanish.
+// An English post's slug here is a 404, not the English article.
+const found = await resolveNewsPost(Astro, Astro.params.slug, 'es')
+if (!found) return Astro.rewrite('/404')
+---
+
+<NewsPost post={found.post} settings={found.settings} language={'es'} />

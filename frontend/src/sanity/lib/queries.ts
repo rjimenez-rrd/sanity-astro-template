@@ -71,9 +71,10 @@ const linkFragment = /* groq */ `
 `
 
 // Everything a news card shows. Shared by the News Cards block and /news, so
-// the card reads the same data wherever it appears.
+// the card reads the same data wherever it appears. "language" picks the
+// post's address: /news/<slug> or /es/news/<slug>.
 const newsCardFragment = /* groq */ `
-  _id, title, "slug": slug.current, publishedAt,
+  _id, title, "slug": slug.current, language, publishedAt,
   "category": category->title,
   coverImage { ${imageFragment} }
 `
@@ -254,11 +255,20 @@ const contentTypesFragment = /* groq */ `
     // Picked posts in their picked order, or the newest ones — optionally from
     // one category (^ is the block, so ^.category is its own filter). GROQ
     // can't slice by a field, so it takes 24 and the component keeps "count".
+    // Only posts in the page's language ($language): a picked post becomes its
+    // translation when it has one, and is left out when it has none, so a
+    // Spanish page copied from an English one never lists English articles.
     _type == "newsCards" => {
       ...,
       "posts": select(
-        source == "manual" => newsPosts[]-> { ${newsCardFragment} },
-        *[_type == "newsPost" && defined(slug.current)
+        source == "manual" => (newsPosts[]{
+          "post": coalesce(
+            (*[_type == "translation.metadata" && references(^._ref)][0].translations[].value->)
+              [${LANGUAGE_MATCHES}][0],
+            @->
+          )
+        }.post)[${LANGUAGE_MATCHES}] { ${newsCardFragment} },
+        *[_type == "newsPost" && defined(slug.current) && ${LANGUAGE_MATCHES}
           && (!defined(^.category) || category._ref == ^.category._ref)]
           | order(publishedAt desc) [0...24] { ${newsCardFragment} }
       ),
@@ -422,15 +432,20 @@ export const PAGE_TRANSLATIONS_QUERY = defineQuery(/* groq */ `
   }
 `)
 
+// Posts without a language are from before languages existed: English.
 export const NEWS_LIST_QUERY = defineQuery(/* groq */ `
-  *[_type == "newsPost" && defined(slug.current)] | order(publishedAt desc) {
+  *[_type == "newsPost" && defined(slug.current) && ${LANGUAGE_MATCHES}] | order(publishedAt desc) {
     ${newsCardFragment}
   }
 `)
 
+// "translations" is the same post in the other languages, for the header's
+// language link and the hreflang tags.
 export const NEWS_POST_QUERY = defineQuery(/* groq */ `
-  *[_type == "newsPost" && slug.current == $slug][0] {
-    _id, _type, title, "slug": slug.current, publishedAt, excerpt,
+  *[_type == "newsPost" && slug.current == $slug && ${LANGUAGE_MATCHES}][0] {
+    _id, _type, title, "slug": slug.current, language, publishedAt, excerpt,
+    "translations": *[_type == "translation.metadata" && references(^._id)][0]
+      .translations[].value->{ language, "slug": slug.current },
     "category": category->title,
     coverImage { ${imageFragment} },
     ${seoFragment},
@@ -443,13 +458,17 @@ export const NEWS_POST_QUERY = defineQuery(/* groq */ `
 // different fields — the array is matched as one bag of words. Besides the
 // visible text it searches the slug's words (new-york-car-accident-lawyer)
 // and the type's name, so "practice areas" finds every practice area and
-// "news" every post. Titles rank first. Pages and practice areas live at
-// /<slug>, news at /news/<slug>.
+// "news" every post (in Spanish, "áreas de práctica" and "noticias"). Only
+// the visitor's language ($language). Titles rank first. Pages and practice
+// areas live at /<slug>, news at /news/<slug>, each under /es in Spanish.
 export const SEARCH_QUERY = defineQuery(/* groq */ `
-  *[_type in ["page", "practiceArea", "newsPost"] && defined(slug.current)
+  *[_type in ["page", "practiceArea", "newsPost"] && defined(slug.current) && ${LANGUAGE_MATCHES}
     && [
       title, cardTitle, excerpt, seo.metaDescription, slug.current,
-      select(_type == "practiceArea" => "practice areas", _type == "newsPost" => "news", "")
+      select(
+        $language == "es" => select(_type == "practiceArea" => "áreas areas de práctica practica", _type == "newsPost" => "noticias", ""),
+        select(_type == "practiceArea" => "practice areas", _type == "newsPost" => "news", "")
+      )
     ] match $terms]
   | score(boost(title match $terms, 3), boost(cardTitle match $terms, 2), excerpt match $terms)
   | order(_score desc) [0...30] {

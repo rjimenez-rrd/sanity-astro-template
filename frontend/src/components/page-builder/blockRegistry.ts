@@ -46,9 +46,6 @@ export const BLOCK_COMPONENTS: Record<string, any> = {
   imageBlock: Image,
   callToAction: CallToAction,
   video: Video,
-  // Older documents saved before the single Video block.
-  externalVideo: Video,
-  youtubeVideo: Video,
   tabbedContent: TabbedContent,
   accordion: Accordion,
   spacerDivider: SpacerDivider,

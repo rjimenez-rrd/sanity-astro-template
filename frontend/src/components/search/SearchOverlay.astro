@@ -39,7 +39,7 @@ const language = Astro.locals.language
       class="mb-8 text-[clamp(2.25rem,8vw,3.5rem)] leading-tight text-white"
       style="font-family:'Libre Baskerville', ui-serif, Georgia, serif"
     >
-      {heading || 'Looking for something?'}
+      {heading || t(language, 'searchHeading')}
     </h2>
     <SearchForm placeholder={placeholder} autofocus />
   </div>

@@ -55,6 +55,15 @@ export function homePath(language?: string | null): string {
 }
 
 /**
+ * A news post's address: /news/<slug>, /es/news/<slug> in Spanish. Without a
+ * slug, the language's News list: /news, /es/news.
+ */
+export function newsPath(slug?: string | null, language?: string | null): string {
+  const clean = stegaClean(slug)
+  return clean ? localizedPath(clean, language, ['news']) : localizedPath('news', language)
+}
+
+/**
  * The same page in each language that has it, as paths keyed by language:
  * {en: '/about-us', es: '/es/sobre-nosotros'}. Built from the page's own slug
  * plus its translations, and read by the header's language link and the
@@ -123,6 +132,18 @@ const UI = {
     Settlement: 'Settlement',
     Verdict: 'Verdict',
     Award: 'Award',
+    news: 'News',
+    noNews: 'No news yet.',
+    allNews: '← All news',
+    searchTitle: 'Search: {q}',
+    searchHeading: 'Looking for something?',
+    searchPlaceholder: 'Search articles and pages...',
+    resultsFor: 'Results for “{q}”',
+    noResults: 'Nothing matched “{q}”. Try fewer or different words.',
+    oneResult: '{n} result',
+    manyResults: '{n} results',
+    resultPage: 'Page',
+    resultPracticeArea: 'Practice Area',
   },
   es: {
     getDirections: 'Cómo llegar',
@@ -166,6 +187,19 @@ const UI = {
     Settlement: 'Acuerdo',
     Verdict: 'Veredicto',
     Award: 'Indemnización',
+    news: 'Noticias',
+    noNews: 'Aún no hay noticias.',
+    allNews: '← Todas las noticias',
+    searchTitle: 'Búsqueda: {q}',
+    searchHeading: '¿Busca algo?',
+    searchPlaceholder: 'Buscar artículos y páginas...',
+    resultsFor: 'Resultados para “{q}”',
+    noResults: 'No encontramos nada para “{q}”. Pruebe con menos palabras o con otras.',
+    oneResult: '{n} resultado',
+    manyResults: '{n} resultados',
+    // Search results' labels for what each one is.
+    resultPage: 'Página',
+    resultPracticeArea: 'Área de práctica',
   },
 } satisfies Record<Language, Record<string, string>>
 

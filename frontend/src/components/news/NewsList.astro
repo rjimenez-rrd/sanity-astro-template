@@ -1,0 +1,52 @@
+---
+/**
+ * The News list as its routes render it: the Studio page that replaces it, or
+ * the built-in listing of the language's posts. Shared by news/index.astro
+ * and es/news/index.astro.
+ */
+import Site from '@/layouts/Site.astro'
+import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
+import NewsCard from '@/components/news/NewsCard.astro'
+import {buildSeo} from '@/lib/seo'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
+import {t, type Language} from '@/lib/i18n'
+import type {PageData, SiteSettings} from '@/types/sanity'
+import type {NEWS_LIST_QUERY_RESULT} from '@/sanity/types.generated'
+
+interface Props {
+  page: PageData | undefined
+  posts: NEWS_LIST_QUERY_RESULT
+  settings: SiteSettings | null
+  language: Language
+}
+
+const {page, posts, settings, language} = Astro.props
+
+const maxWidthClass = CONTENT_WIDTH
+const seo = page ? buildSeo(page.seo, {title: page.title}) : undefined
+---
+
+{
+  page ? (
+    <Site settings={settings} {...seo}>
+      <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
+    </Site>
+  ) : (
+    <Site settings={settings} title={t(language, 'news')}>
+      <section class={`mx-auto ${maxWidthClass} px-4 py-16 md:px-8`}>
+        <h1 class="font-display text-4xl font-bold text-foreground md:text-5xl">{t(language, 'news')}</h1>
+        {
+          posts.length > 0 ? (
+            <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post) => (
+                <NewsCard post={post} />
+              ))}
+            </div>
+          ) : (
+            <p class="mt-10 text-muted">{t(language, 'noNews')}</p>
+          )
+        }
+      </section>
+    </Site>
+  )
+}

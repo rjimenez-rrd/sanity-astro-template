@@ -37,6 +37,10 @@ export async function getSiteSettings(
   // The language link on a Spanish page is its own ("English"), never the
   // English settings' "Spanish" link.
   merged.headerExtraLink = spanish?.headerExtraLink ?? null
+  // The search box's words have built-in Spanish ones (i18n.ts), which beat
+  // the English settings' on a Spanish page.
+  merged.searchHeading = spanish?.searchHeading ?? null
+  merged.searchPlaceholder = spanish?.searchPlaceholder ?? null
 
   const localize = pathTranslator(translations ?? [], language)
   // Picked pages first: a Spanish page's address is already /es/…; an English
@@ -130,6 +134,13 @@ function pathTranslator(
   // Only where no default-language page has that path (a practice area can
   // share its slug across languages; the mapping above already covers it).
   for (const [from, to] of unprefixed) if (!map.has(from)) map.set(from, to)
+  // The built-in News list and search have their own version in every
+  // language (/es/news, /es/search), unless a translated Studio page replaces
+  // the list (mapped above).
+  for (const slug of ['news', 'search']) {
+    const from = localizedPath(slug, DEFAULT_LANGUAGE)
+    if (!map.has(from)) map.set(from, localizedPath(slug, language))
+  }
   return <T extends string | null | undefined>(href: T): T => {
     const clean = stegaClean(href ?? '')
     const path = clean.replace(/\/+$/, '') || '/'

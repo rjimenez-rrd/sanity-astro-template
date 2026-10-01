@@ -34,7 +34,7 @@ const iconSize = ICON_SIZES[stegaClean(data.iconSize) ?? ''] ?? ICON_SIZES.mediu
  * ::after over the whole block) so the entire block is clickable too.
  */
 const link = data.link?.label
-  ? {label: data.link.label, ...resolveHref((data.link.link || []) as unknown as LinkItem[])}
+  ? {label: data.link.label, ...resolveHref((data.link.link || []) as unknown as LinkItem[], Astro.locals.language)}
   : undefined
 ---
 

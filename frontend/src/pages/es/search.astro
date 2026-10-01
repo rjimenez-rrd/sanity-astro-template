@@ -1,0 +1,11 @@
+---
+export const prerender = false
+
+import SearchPage from '@/components/search/SearchPage.astro'
+import {resolveSearch} from '@/lib/search'
+
+// Spanish search, /es/search: only Spanish pages, practice areas and news.
+const {q, results, settings} = await resolveSearch(Astro, 'es')
+---
+
+<SearchPage q={q} results={results} settings={settings} language={'es'} />

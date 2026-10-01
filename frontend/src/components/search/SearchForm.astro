@@ -1,11 +1,12 @@
 ---
 /**
  * The search box: a white field with the round search button inside it.
- * Submits to /search?q=…, so it works without JavaScript. Shared by the
- * header overlay and the results page.
+ * Submits to /search?q=… (/es/search on Spanish pages), so it works without
+ * JavaScript. Shared by the header overlay and the results page.
  */
 import SearchIcon from '@/components/icons/Search.astro'
 import {t} from '@/lib/i18n'
+import {searchPath} from '@/lib/search'
 
 interface Props {
   placeholder?: string | null
@@ -20,7 +21,7 @@ const language = Astro.locals.language
 const id = autofocus ? 'site-search-overlay' : 'site-search'
 ---
 
-<form action="/search" method="get" role="search" class="relative w-full font-display">
+<form action={searchPath(language)} method="get" role="search" class="relative w-full font-display">
   <label for={id} class="sr-only">{t(language, 'search')}</label>
   <input
     id={id}
@@ -28,7 +29,7 @@ const id = autofocus ? 'site-search-overlay' : 'site-search'
     name="q"
     value={value}
     required
-    placeholder={placeholder || 'Search articles and pages...'}
+    placeholder={placeholder || t(language, 'searchPlaceholder')}
     data-search-input={autofocus ? '' : undefined}
     class="h-[62px] w-full bg-white pl-7 pr-16 text-[17px] text-foreground shadow-lg placeholder:text-foreground/80 focus:outline-none focus:ring-2 focus:ring-secondary-hover [&::-webkit-search-cancel-button]:hidden"
   />

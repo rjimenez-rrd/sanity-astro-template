@@ -107,7 +107,7 @@ const columns = ((row.columns ?? []) as Column[]).map((column) => {
   const path = key && rowPath ? `${rowPath}.columns[_key=="${key}"]` : undefined
   // Advanced -> Link: the whole column clickable (see the overlay link below).
   const linkItems = ((column as {link?: unknown[]}).link ?? []) as LinkItem[]
-  const link = resolveHref(linkItems)
+  const link = resolveHref(linkItems, Astro.locals.language)
   const linkTitle = stegaClean((linkItems[0] as {title?: string} | undefined)?.title)?.trim()
   return {
     design,

@@ -32,7 +32,7 @@ const VARIANT_CLASSES: Record<string, string> = {
   ghost: 'text-foreground hover:bg-foreground/5',
 }
 
-const {href, isExternal, missing} = resolveHref((data.link || []) as unknown as LinkItem[])
+const {href, isExternal, missing} = resolveHref((data.link || []) as unknown as LinkItem[], Astro.locals.language)
 
 /**
  * Editor colors are free text, so only a recognisable color reaches the style

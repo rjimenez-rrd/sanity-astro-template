@@ -1,0 +1,14 @@
+---
+export const prerender = false
+
+import NewsList from '@/components/news/NewsList.astro'
+import {resolveNewsList} from '@/lib/news'
+
+/**
+ * The Spanish News list, /es/news: only Spanish posts. Until there are any it
+ * says so in Spanish, rather than listing English articles on a Spanish page.
+ */
+const {page, posts, settings} = await resolveNewsList(Astro, 'es')
+---
+
+<NewsList page={page} posts={posts} settings={settings} language={'es'} />

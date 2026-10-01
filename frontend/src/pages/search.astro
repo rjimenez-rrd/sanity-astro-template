@@ -1,91 +1,12 @@
 ---
 export const prerender = false
 
-import {stegaClean} from '@sanity/client/stega'
-import Site from '@/layouts/Site.astro'
-import SearchForm from '@/components/search/SearchForm.astro'
-import {getClient} from '@/sanity/lib/client'
-import {sanityFetch} from '@/sanity/lib/live'
-import {SEARCH_QUERY} from '@/sanity/lib/queries'
-import {getSiteSettings} from '@/lib/siteSettings'
-import {CONTENT_WIDTH} from '@/lib/maxWidth'
-import {localizedPath} from '@/lib/i18n'
+import SearchPage from '@/components/search/SearchPage.astro'
+import {resolveSearch} from '@/lib/search'
+import {DEFAULT_LANGUAGE} from '@/lib/i18n'
 
-const client = getClient(Astro.locals.isDraft)
-
-const q = (Astro.url.searchParams.get('q') ?? '').trim().slice(0, 100)
-// Each word must match, as a prefix: "car acc" finds "Car Accident".
-// GROQ's match treats a few characters as syntax, so they're stripped first.
-const terms = q
-  .replace(/[*"\\]/g, ' ')
-  .split(/\s+/)
-  .filter(Boolean)
-  .map((word) => `${word}*`)
-
-const [results, settings] = await Promise.all([
-  terms.length > 0 ? sanityFetch(client, Astro.locals, SEARCH_QUERY, {terms}) : Promise.resolve([]),
-  getSiteSettings(Astro.locals),
-])
-
-const TYPE_LABELS: Record<string, string> = {
-  page: 'Page',
-  practiceArea: 'Practice Area',
-  newsPost: 'News',
-}
-const hrefFor = (result: (typeof results)[number]) => {
-  const slug = stegaClean(result.slug)
-  return stegaClean(result._type) === 'newsPost' ? `/news/${slug}` : localizedPath(slug!, result.language, result.parents)
-}
-
-const maxWidthClass = CONTENT_WIDTH
+// English search, over English content. Spanish: es/search.astro.
+const {q, results, settings} = await resolveSearch(Astro, DEFAULT_LANGUAGE)
 ---
 
-<Site settings={settings} title={q ? `Search: ${q}` : 'Search'}>
-  <section class="bg-primary px-4 py-16 text-center md:px-8">
-    <h1
-      class="mb-8 text-[clamp(2rem,4vw,3rem)] leading-tight text-white"
-      style="font-family:'Libre Baskerville', ui-serif, Georgia, serif"
-    >
-      {q ? `Results for “${q}”` : settings?.searchHeading || 'Looking for something?'}
-    </h1>
-    <div class="mx-auto max-w-[693px]">
-      <SearchForm placeholder={settings?.searchPlaceholder} value={q} />
-    </div>
-  </section>
-
-  <section class={`mx-auto ${maxWidthClass} px-4 py-12 font-display md:px-8`}>
-    {
-      q && results.length === 0 && (
-        <p class="text-center text-lg text-foreground">
-          Nothing matched “{q}”. Try fewer or different words.
-        </p>
-      )
-    }
-    {
-      results.length > 0 && (
-        <>
-          <p class="mb-6 text-sm text-muted">
-            {results.length} {results.length === 1 ? 'result' : 'results'}
-          </p>
-          <ul class="divide-y divide-foreground/10 border-y border-foreground/10">
-            {results.map((result) => (
-              <li>
-                <a href={hrefFor(result)} class="group block py-6">
-                  <span class="text-xs uppercase tracking-wide text-secondary-hover">
-                    {TYPE_LABELS[stegaClean(result._type)] ?? 'Page'}
-                  </span>
-                  <span class="mt-1 block text-2xl font-bold text-primary transition-colors group-hover:text-secondary-hover">
-                    {result.title}
-                  </span>
-                  {result.excerpt && (
-                    <span class="mt-2 block max-w-3xl text-foreground/80">{result.excerpt}</span>
-                  )}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </>
-      )
-    }
-  </section>
-</Site>
+<SearchPage q={q} results={results} settings={settings} language={DEFAULT_LANGUAGE} />

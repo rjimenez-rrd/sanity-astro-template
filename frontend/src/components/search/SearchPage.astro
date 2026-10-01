@@ -1,0 +1,73 @@
+---
+/**
+ * The search page as its routes render it: the box, then what it found.
+ * Shared by search.astro and es/search.astro.
+ */
+import Site from '@/layouts/Site.astro'
+import SearchForm from '@/components/search/SearchForm.astro'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
+import {t, type Language} from '@/lib/i18n'
+import {resultHref, resultLabel, type SearchResult} from '@/lib/search'
+import type {SiteSettings} from '@/types/sanity'
+
+interface Props {
+  q: string
+  results: SearchResult[]
+  settings: SiteSettings | null
+  language: Language
+}
+
+const {q, results, settings, language} = Astro.props
+
+const maxWidthClass = CONTENT_WIDTH
+---
+
+<Site settings={settings} title={q ? t(language, 'searchTitle', {q}) : t(language, 'search')}>
+  <section class="bg-primary px-4 py-16 text-center md:px-8">
+    <h1
+      class="mb-8 text-[clamp(2rem,4vw,3rem)] leading-tight text-white"
+      style="font-family:'Libre Baskerville', ui-serif, Georgia, serif"
+    >
+      {q ? t(language, 'resultsFor', {q}) : settings?.searchHeading || t(language, 'searchHeading')}
+    </h1>
+    <div class="mx-auto max-w-[693px]">
+      <SearchForm placeholder={settings?.searchPlaceholder} value={q} />
+    </div>
+  </section>
+
+  <section class={`mx-auto ${maxWidthClass} px-4 py-12 font-display md:px-8`}>
+    {
+      q && results.length === 0 && (
+        <p class="text-center text-lg text-foreground">
+          {t(language, 'noResults', {q})}
+        </p>
+      )
+    }
+    {
+      results.length > 0 && (
+        <>
+          <p class="mb-6 text-sm text-muted">
+            {t(language, results.length === 1 ? 'oneResult' : 'manyResults', {n: results.length})}
+          </p>
+          <ul class="divide-y divide-foreground/10 border-y border-foreground/10">
+            {results.map((result) => (
+              <li>
+                <a href={resultHref(result)} class="group block py-6">
+                  <span class="text-xs uppercase tracking-wide text-secondary-hover">
+                    {resultLabel(result, language)}
+                  </span>
+                  <span class="mt-1 block text-2xl font-bold text-primary transition-colors group-hover:text-secondary-hover">
+                    {result.title}
+                  </span>
+                  {result.excerpt && (
+                    <span class="mt-2 block max-w-3xl text-foreground/80">{result.excerpt}</span>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </section>
+</Site>

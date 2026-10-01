@@ -7,11 +7,15 @@
 import {stegaClean} from '@sanity/client/stega'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import type {SanityImageValue} from '@/components/sanity/SanityImage.astro'
+import {newsPath} from '@/lib/i18n'
+import {postDate} from '@/lib/news'
 
 export interface NewsCardPost {
   _id?: string
   title?: string | null
   slug?: string | null
+  /** The post's own language, for its address (/news/… or /es/news/…). */
+  language?: string | null
   publishedAt?: string | null
   category?: string | null
   coverImage?: SanityImageValue | null
@@ -23,30 +27,14 @@ interface Props {
 
 const {post} = Astro.props
 const slug = stegaClean(post.slug)
-
-/**
- * Formatted from the plain date, never through a Date in local time: a
- * midnight UTC date read in New York becomes the evening before, so a post
- * dated August 6 would show August 5.
- */
-const dateLabel = (() => {
-  const raw = stegaClean(post.publishedAt)
-  const match = raw && /^(\d{4})-(\d{2})-(\d{2})/.exec(raw)
-  if (!match) return undefined
-  const [, y, m, d] = match
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'UTC',
-  }).format(new Date(Date.UTC(Number(y), Number(m) - 1, Number(d))))
-})()
+// The date in the page's words; see postDate for why it's read as a plain date.
+const dateLabel = postDate(post.publishedAt, Astro.locals.language)
 ---
 
 {
   slug && (
     <a
-      href={`/news/${slug}`}
+      href={newsPath(slug, post.language)}
       class="group flex h-[600px] lg:h-full flex-col bg-white p-5 font-display transition-shadow duration-200 hover:shadow-lg"
     >
       {/* 10:9 as in the design, but 16:9 on tablet (768–1023px), where the

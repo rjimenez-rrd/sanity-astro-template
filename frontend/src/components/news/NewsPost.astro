@@ -1,0 +1,81 @@
+---
+/**
+ * A news post as its routes render it: a reading-width header with the date,
+ * category and cover, then the article's own sections. Shared by
+ * news/[slug].astro and es/news/[slug].astro.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import Site from '@/layouts/Site.astro'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
+import {buildSeo} from '@/lib/seo'
+import {newsPath, t, type Language} from '@/lib/i18n'
+import {postDate} from '@/lib/news'
+import type {SiteSettings} from '@/types/sanity'
+import type {NEWS_POST_QUERY_RESULT} from '@/sanity/types.generated'
+
+interface Props {
+  post: NonNullable<NEWS_POST_QUERY_RESULT>
+  settings: SiteSettings | null
+  language: Language
+}
+
+const {post, settings, language} = Astro.props
+
+// An unset SEO description falls back to the excerpt, then to nothing.
+const seo = buildSeo(post.seo, {title: post.title, description: post.excerpt ?? undefined})
+
+// In the page's words, and read as a plain date like the card's (postDate).
+const dateLabel = postDate(post.publishedAt, language)
+---
+
+<Site settings={settings} {...seo}>
+  {/* The header keeps a reading width; the Page Builder below sizes itself,
+      the same way it does on any page. */}
+  <header class="mx-auto w-full max-w-3xl px-4 pt-16 pb-10 md:px-8">
+    <a href={newsPath(undefined, language)} class="text-sm font-medium text-primary hover:underline">{t(language, 'allNews')}</a>
+
+    <h1 class="mt-6 text-balance font-display text-4xl font-bold leading-tight text-primary md:text-5xl">
+      {post.title}
+    </h1>
+
+    <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground">
+      {dateLabel && (
+        <span class="flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-secondary-hover" aria-hidden="true" />
+          <time datetime={stegaClean(post.publishedAt) ?? undefined}>{dateLabel}</time>
+        </span>
+      )}
+      {post.category && (
+        <span class="flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-secondary-hover" aria-hidden="true" />
+          {post.category}
+        </span>
+      )}
+    </div>
+
+    {post.coverImage?.asset && (
+      <div class="mt-10 overflow-hidden">
+        <SanityImage
+          value={post.coverImage}
+          alt={stegaClean(post.coverImage.alt) || ''}
+          width={1200}
+          sizes="(max-width: 768px) 100vw, 768px"
+          class="h-auto w-full"
+          priority
+        />
+      </div>
+    )}
+
+  </header>
+
+  {/* Only when there is something to show: SectionRenderer's "No sections
+      yet" placeholder is meant for editors, not for a published article. */}
+  {post.pageBuilder && post.pageBuilder.length > 0 && (
+    <SectionRenderer
+      sections={post.pageBuilder}
+      documentId={post._id}
+      documentType={post._type}
+    />
+  )}
+</Site>

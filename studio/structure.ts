@@ -159,6 +159,8 @@ export const structure: StructureResolver = (S) =>
             .items([
               S.documentTypeListItem('newsPost').title('All News'),
               S.documentTypeListItem('newsCategory').title('Categories'),
+              S.divider().title('By language'),
+              ...languageLists(S, 'newsPost', 'News'),
             ]),
         ),
       S.documentTypeListItem('caseResult').title('Case Results'),

@@ -12,43 +12,19 @@ import {urlFor} from '@/sanity/lib/image'
 import type {VideoData} from '@/types/sanity'
 import {t} from '@/lib/i18n'
 
-/** The two video blocks this one replaced, until their content is moved over. */
-type LegacyVideo = {
-  _type: 'youtubeVideo' | 'externalVideo'
-  url?: string | null
-  autoplay?: boolean | null
-  loop?: boolean | null
-  muted?: boolean | null
-}
-
 interface Props {
-  data: VideoData | LegacyVideo
+  data: VideoData
 }
 
-const {data} = Astro.props
-const type = stegaClean(data._type)
+const {data: video} = Astro.props
+const settings = stegaClean(video) as VideoSettings
 
-const settings: VideoSettings =
-  type === 'youtubeVideo'
-    ? {source: 'youtube', url: stegaClean((data as LegacyVideo).url), privacyMode: true}
-    : type === 'externalVideo'
-      ? {
-          source: 'hosted',
-          hostedExternal: true,
-          hostedUrl: stegaClean((data as LegacyVideo).url),
-          autoplay: (data as LegacyVideo).autoplay,
-          loop: (data as LegacyVideo).loop,
-          mute: (data as LegacyVideo).muted,
-        }
-      : (stegaClean(data) as VideoSettings)
-
-const video = type === 'video' ? (data as VideoData) : undefined
-const overlay = video?.imageOverlay?.enabled && video.imageOverlay.image?.asset ? video.imageOverlay : undefined
+const overlay = video.imageOverlay?.enabled && video.imageOverlay.image?.asset ? video.imageOverlay : undefined
 
 // With an overlay the player waits for the click, then starts playing.
 const player = videoPlayer(settings, {play: Boolean(overlay)})
 
-const style = stegaClean(video?.videoStyle)
+const style = stegaClean(video.videoStyle)
 const ratio = aspectRatio(style?.aspectRatio)
 const filter = cssFilter(style?.cssFilters)
 // A self-hosted file keeps its own shape unless a ratio is picked.
@@ -57,7 +33,7 @@ const boxStyle = [boxed && `aspect-ratio:${ratio}`, filter && `filter:${filter}`
 
 const controls = settings.controls !== false
 // Self Hosted -> Poster: the picture shown before the video plays.
-const poster = video?.poster?.asset ? urlFor(video.poster as never).width(1600).auto('format').url() : undefined
+const poster = video.poster?.asset ? urlFor(video.poster as never).width(1600).auto('format').url() : undefined
 const fileSrc =
   player?.kind === 'file' && player.start ? `${player.src}#t=${player.start}${player.end ? `,${player.end}` : ''}` : player?.src
 ---

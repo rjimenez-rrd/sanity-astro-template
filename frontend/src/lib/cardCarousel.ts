@@ -1,6 +1,6 @@
 /**
- * The card carousel shared by Lawyer Cards, Practice Area Cards, News Cards
- * and Case Results (components/ui/CardCarousel.astro).
+ * The card carousel shared by Lawyer Cards, Practice Area Cards, News Cards,
+ * Case Results and the Testimonial Carousel (components/ui/CardCarousel.astro).
  *
  * Cards are repeated in the DOM so the track can always scroll forward; the
  * copies render hidden and are revealed only when the real cards don't all
@@ -10,7 +10,9 @@
  * Markup contract:
  *   [data-card-carousel]        root, with data-count = number of real cards
  *     [data-card-carousel-track]  the scroller, real cards then copies
- *     [data-card-carousel-dots]   empty container, filled here
+ *     [data-card-carousel-dots]   empty container, filled here; optional
+ *     [data-card-carousel-prev]   optional arrow buttons, a page back / forward;
+ *     [data-card-carousel-next]   rendered hidden and shown here when they can move
  *
  * Add data-card-carousel-wrap to the root to let a two-up tablet row wrap into
  * a second row before it becomes a carousel.
@@ -28,8 +30,12 @@ export function initCardCarousels(scope: ParentNode = document) {
     started.add(root)
 
     const track = root.querySelector<HTMLElement>('[data-card-carousel-track]')
+    // Both optional: a block can leave out the dots, and only some have arrows.
     const dotsBox = root.querySelector<HTMLElement>('[data-card-carousel-dots]')
-    if (!track || !dotsBox) return
+    const arrows = root.querySelectorAll<HTMLButtonElement>(
+      '[data-card-carousel-prev], [data-card-carousel-next]',
+    )
+    if (!track) return
 
     const slides = Array.from(track.children) as HTMLElement[]
     // How many cards there really are; anything past this is a copy.
@@ -90,8 +96,9 @@ export function initCardCarousels(scope: ParentNode = document) {
     }
 
     function paint() {
+      if (!dotsBox) return
       const active = Math.floor(current / perView) % pages
-      Array.from(dotsBox!.children).forEach((dot, i) => {
+      Array.from(dotsBox.children).forEach((dot, i) => {
         const on = i === active
         dot.classList.toggle('w-6', on)
         dot.classList.toggle('bg-primary', on)
@@ -140,21 +147,22 @@ export function initCardCarousels(scope: ParentNode = document) {
         track!.scrollTo({left: 0, behavior: 'instant'})
       }
 
-      dotsBox!.replaceChildren()
-      dotsBox!.hidden = fits
-      if (fits) {
-        startAuto()
-        return
+      arrows.forEach((arrow) => {
+        arrow.hidden = fits
+      })
+      if (dotsBox) {
+        dotsBox.replaceChildren()
+        dotsBox.hidden = fits
+        for (let i = 0; !fits && i < pages; i++) {
+          const dot = document.createElement('button')
+          dot.type = 'button'
+          dot.className = 'h-2 w-2 rounded-full bg-border transition-all'
+          dot.setAttribute('aria-label', dotLabel.replace('{n}', String(i + 1)))
+          dot.addEventListener('click', () => goTo(i * perView))
+          dotsBox.append(dot)
+        }
       }
-      for (let i = 0; i < pages; i++) {
-        const dot = document.createElement('button')
-        dot.type = 'button'
-        dot.className = 'h-2 w-2 rounded-full bg-border transition-all'
-        dot.setAttribute('aria-label', dotLabel.replace('{n}', String(i + 1)))
-        dot.addEventListener('click', () => goTo(i * perView))
-        dotsBox!.append(dot)
-      }
-      paint()
+      if (!fits) paint()
       startAuto()
     }
 
@@ -199,10 +207,33 @@ export function initCardCarousels(scope: ParentNode = document) {
         return
       }
 
+      /**
+       * The copies only run so far. A page on from near the end of the set can
+       * need a card past the last copy (four cards at three-up, from the
+       * fourth), and the track would stop short there and then visibly jump
+       * to the real card. Go to the first card's copy instead, the start of
+       * the set, which is always in reach.
+       */
+      if (index + perView > slides.length) index = count
+
       track!.scrollTo({left: offsetOf(index), behavior: 'smooth'})
       current = index % count
       paint()
       settle(() => normalize(index))
+    }
+
+    /**
+     * The arrows step between the pages the dots stand for, rather than a
+     * page-width from wherever the track rests: after a swipe it can sit
+     * between pages, and back from there should land on the start of the
+     * page its dot shows. Back from the very first card wraps to the last
+     * page through the copies, the way goTo handles any negative index.
+     */
+    function step(direction: 1 | -1) {
+      const page = Math.floor(current / perView)
+      if (direction > 0) goTo(page + 1 < pages ? (page + 1) * perView : count)
+      else if (current > page * perView) goTo(page * perView)
+      else goTo(page > 0 ? (page - 1) * perView : (pages - 1) * perView - count)
     }
 
     // A swipe moves the track without going through goTo, so read the position
@@ -226,6 +257,9 @@ export function initCardCarousels(scope: ParentNode = document) {
         }
       }, 120)
     })
+
+    root.querySelector('[data-card-carousel-prev]')?.addEventListener('click', () => step(-1))
+    root.querySelector('[data-card-carousel-next]')?.addEventListener('click', () => step(1))
 
     if (autoPlay && !reduceMotion) {
       const pause = () => {

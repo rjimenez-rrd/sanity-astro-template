@@ -9,10 +9,14 @@
  *     {(lawyer) => <article>…</article>}
  *   </CardCarousel>
  *
+ * The extras one block needs and the rest don't (arrows, no dots) are props
+ * that default to off, so adding one never changes the blocks that don't ask.
+ *
  * A fix or a new option here reaches every card carousel at once.
  */
 import {stegaClean} from '@sanity/client/stega'
 import {t} from '@/lib/i18n'
+import StrokeIcon from '@/components/icons/StrokeIcon.astro'
 
 interface Props {
   items: unknown[]
@@ -28,6 +32,10 @@ interface Props {
   wrapRows?: boolean
   /** On phones, stack every card instead of paging through them. */
   stackOnMobile?: boolean | null
+  /** Previous / next buttons either side of the track, a page at a time. Off by default. */
+  arrows?: boolean | null
+  /** The page dots under the track. On by default; false leaves them out. */
+  showDots?: boolean | null
 }
 
 const {
@@ -40,6 +48,8 @@ const {
   autoPlayInterval,
   wrapRows = false,
   stackOnMobile = false,
+  arrows = false,
+  showDots = true,
 } = Astro.props
 
 /**
@@ -80,6 +90,11 @@ const cardStyle = [
 const cards = await Promise.all(items.map((item, i) => Astro.slots.render('default', [item, i])))
 const loops = cards.length < 2 ? 1 : cards.length >= perViewDesktop ? 2 : 3
 const looped = Array.from({length: loops}, () => cards).flat()
+
+// The arrows sit on the track's edges, so with them the track needs a
+// positioned box to hang them on. Without them it gets none, and the markup is
+// what it always was.
+const TrackBox = arrows ? 'div' : Fragment
 ---
 
 {
@@ -101,25 +116,54 @@ const looped = Array.from({length: loops}, () => cards).flat()
           instant jump (cardCarousel.ts asks for behavior:'instant'), and a
           smooth CSS scroll-behavior here would be one more thing able to
           animate the seam. */}
-      <div
-        data-card-carousel-track
-        class="flex snap-x snap-mandatory gap-6 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {looped.map((html, i) => (
-          <div
-            style={cardStyle}
-            class="shrink-0 snap-start"
-            aria-hidden={i >= cards.length ? 'true' : undefined}
-            {...(i >= cards.length ? {hidden: true} : {})}
-          >
-            <Fragment set:html={html} />
-          </div>
-        ))}
-      </div>
+      <TrackBox {...(arrows ? {class: 'relative'} : {})}>
+        <div
+          data-card-carousel-track
+          class="flex snap-x snap-mandatory gap-6 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {looped.map((html, i) => (
+            <div
+              style={cardStyle}
+              class="shrink-0 snap-start"
+              aria-hidden={i >= cards.length ? 'true' : undefined}
+              {...(i >= cards.length ? {hidden: true} : {})}
+            >
+              <Fragment set:html={html} />
+            </div>
+          ))}
+        </div>
+
+        {/* Hidden like the dots until the runtime knows there is more than one
+            page to move through; with no JS they could do nothing anyway. */}
+        {arrows && (
+          <>
+            <button
+              type="button"
+              data-card-carousel-prev
+              class="absolute -left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-sm transition-colors hover:bg-muted/30"
+              aria-label={t(Astro.locals.language, 'previous')}
+              hidden
+            >
+              <StrokeIcon name="chevron-left" class="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              data-card-carousel-next
+              class="absolute -right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background shadow-sm transition-colors hover:bg-muted/30"
+              aria-label={t(Astro.locals.language, 'next')}
+              hidden
+            >
+              <StrokeIcon name="chevron-right" class="h-4 w-4" />
+            </button>
+          </>
+        )}
+      </TrackBox>
 
       {/* Filled by the runtime: one dot per page, and a page is however many
           cards fit at the current breakpoint. */}
-      <div class="mt-6 flex justify-center gap-2" data-card-carousel-dots hidden />
+      {showDots !== false && (
+        <div class="mt-6 flex justify-center gap-2" data-card-carousel-dots hidden />
+      )}
     </div>
   )
 }
