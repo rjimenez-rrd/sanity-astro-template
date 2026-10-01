@@ -80,15 +80,18 @@ The container block carries most of the page builder's complexity — see
 
 ## 3. Render chain
 
-Each dispatcher switches on `_type`.
+Each dispatcher switches on `_type`. Step by step, with diagrams of the route,
+`resolvePage`, `BuilderPage`, `Container` and `BlockRenderer`:
+[docs/page-rendering.md](docs/page-rendering.md).
 
 ```mermaid
 flowchart LR
-  SR[SectionRenderer] --> HS[HeroSection]
-  SR --> GRS[GridRowSection]
-  GRS --> BR[BlockRenderer]
-  BR --> W[BlockStylesWrapper + block<br/>extra div carries the styles]
+  SR[SectionRenderer] --> C[Container<br/>section + its columns]
+  C --> BR[BlockRenderer]
+  BR --> N[nested: inner Column<br/>drawn as a Container]
+  BR --> W[wrapped: BlockStylesWrapper + block<br/>extra div carries the styles]
   BR --> SS[self-styled block<br/>styles on its own root]
+  BR --> BA[bare: block alone<br/>nothing to apply]
 ```
 
 Styling arrives by two separate routes:
