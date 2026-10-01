@@ -75,60 +75,52 @@ const selfStyle = mode === 'self-styled' ? elementStyle(styles, {radiusVar: true
 const markers = layoutMarkers(styles)
 ---
 
-{
-  mode === 'nested' && (
-    <Container
-      data={block as NestedContainerData}
-      parentContainer={parentContainer ?? undefined}
-      documentId={documentId}
-      documentType={documentType}
-      basePath={nestedPath}
-      nested
-    />
-  )
-}
+{mode === 'nested' && (
+  <Container
+    data={block as NestedContainerData}
+    parentContainer={parentContainer ?? undefined}
+    documentId={documentId}
+    documentType={documentType}
+    basePath={nestedPath}
+    nested
+  />
+)}
 
 {mode !== 'nested' && css && <Fragment set:html={`<style>${css}</style>`} />}
 
-{
-  mode === 'self-styled' && (
-    <Component
-      data={block}
-      data-pb={blockKey}
-      id={cssId}
-      class={cssClasses}
-      style={selfStyle?.style}
-      data-pb-overlay={selfStyle?.overlay ? '' : undefined}
-      {...markers}
-      {...animation}
-      {...attributes}
-    />
-  )
-}
+{mode === 'self-styled' && (
+  <Component
+    data={block}
+    data-pb={blockKey}
+    id={cssId}
+    class={cssClasses}
+    style={selfStyle?.style}
+    data-pb-overlay={selfStyle?.overlay ? '' : undefined}
+    {...markers}
+    {...animation}
+    {...attributes}
+  />
+)}
 
-{
-  mode === 'wrapped' && (
-    <BlockStylesWrapper
-      blockStyles={styles}
-      radiusVar
-      data-pb={blockKey}
-      id={cssId}
-      class={cssClasses}
-      {...markers}
-      {...animation}
-      {...attributes}
-    >
-      <Component data={block} />
-    </BlockStylesWrapper>
-  )
-}
+{mode === 'wrapped' && (
+  <BlockStylesWrapper
+    blockStyles={styles}
+    radiusVar
+    data-pb={blockKey}
+    id={cssId}
+    class={cssClasses}
+    {...markers}
+    {...animation}
+    {...attributes}
+  >
+    <Component data={block} />
+  </BlockStylesWrapper>
+)}
 
 {mode === 'bare' && <Component data={block} />}
 
-{
-  mode === 'unsupported' && (
-    <div class="my-2 rounded-lg border border-dashed border-border p-4 text-center text-xs text-muted">
-      Unsupported: <code>{block._type}</code>
-    </div>
-  )
-}
+{mode === 'unsupported' && (
+  <div class="my-2 rounded-lg border border-dashed border-border p-4 text-center text-xs text-muted">
+    Unsupported: <code>{block._type}</code>
+  </div>
+)}

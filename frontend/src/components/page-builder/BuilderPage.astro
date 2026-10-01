@@ -6,7 +6,6 @@
  */
 import Site from '@/layouts/Site.astro'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
-import Breadcrumbs from '@/components/layout/Breadcrumbs.astro'
 import {buildSeo} from '@/lib/seo'
 import type {Language} from '@/lib/i18n'
 import type {PageData, SiteSettings} from '@/types/sanity'
@@ -27,6 +26,5 @@ const title = listPage ? (seo.title ? `${seo.title} – Page ${listPage}` : `Pag
 ---
 
 <Site settings={settings} {...seo} title={title}>
-  <Breadcrumbs page={page} language={language} />
   <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
 </Site>
