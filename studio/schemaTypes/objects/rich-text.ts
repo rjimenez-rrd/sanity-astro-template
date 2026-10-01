@@ -1,7 +1,10 @@
 import {defineType, defineArrayMember, defineField, type PreviewValue} from 'sanity'
+import {RichTextInput} from '../../components/inputs/RichTextInput'
 
 export const blockContentType = defineType({
   name: 'blockContent',
+  // Pasting over a styled paragraph or heading keeps its style.
+  components: {input: RichTextInput},
   title: 'Rich Text',
   type: 'array',
   of: [
