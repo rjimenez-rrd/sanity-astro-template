@@ -7,7 +7,8 @@ import SanityImage from '@/components/sanity/SanityImage.astro'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
-import {NEWS_POST_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
+import {NEWS_POST_QUERY} from '@/sanity/lib/queries'
+import {getSiteSettings} from '@/lib/siteSettings'
 import {buildSeo} from '@/lib/seo'
 import {DEFAULT_LANGUAGE} from '@/lib/i18n'
 
@@ -16,7 +17,7 @@ const client = getClient(Astro.locals.isDraft)
 
 const [post, settings] = await Promise.all([
   sanityFetch(client, Astro.locals, NEWS_POST_QUERY, {slug, language: DEFAULT_LANGUAGE}),
-  sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
+  getSiteSettings(Astro.locals),
 ])
 
 if (!post) return Astro.rewrite('/404')

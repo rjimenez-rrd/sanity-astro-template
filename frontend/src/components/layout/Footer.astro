@@ -6,6 +6,7 @@ import {phoneText} from '@/lib/phone'
 import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import type {SiteSettings} from '@/types/sanity'
 import {homePath, t} from '@/lib/i18n'
+import {currentAttrs, navMatcher} from '@/lib/nav'
 
 interface Props {
   settings: SiteSettings | null
@@ -42,6 +43,8 @@ const socialLinks = (settings?.socialLinks ?? []).filter(
 const nav = settings?.footerNav ?? []
 const offices = settings?.footerOffices ?? []
 const legalLinks = settings?.footerLegalLinks ?? []
+// The page being viewed stays in the hover color, as in the header.
+const {isCurrent} = navMatcher(Astro.originPathname)
 const copyright = settings?.footerCopyright || `${siteName} © All Rights Reserved`
 
 /** An office without its own link opens its address in Google Maps. */
@@ -119,7 +122,11 @@ const directionsHref = (office: (typeof offices)[number]) =>
           <ul class="flex flex-wrap justify-center gap-x-5 gap-y-3 text-[15px] md:justify-around lg:justify-center lg:gap-x-20">
             {nav.map((link) => (
               <li>
-                <a href={link.href} class="transition-colors hover:text-secondary-hover">
+                <a
+                  href={link.href}
+                  class="transition-colors hover:text-secondary-hover data-current:text-secondary-hover"
+                  {...currentAttrs(isCurrent(link.href))}
+                >
                   {link.label}
                 </a>
               </li>
@@ -183,7 +190,11 @@ const directionsHref = (office: (typeof offices)[number]) =>
           <ul class="flex flex-wrap justify-center divide-x divide-secondary-hover/50">
             {legalLinks.map((link) => (
               <li class="px-5 first:pl-0 last:pr-0">
-                <a href={link.href} class="transition-colors">
+                <a
+                  href={link.href}
+                  class="transition-colors data-current:text-secondary-hover"
+                  {...currentAttrs(isCurrent(link.href))}
+                >
                   {link.label}
                 </a>
               </li>

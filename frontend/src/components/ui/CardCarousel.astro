@@ -12,6 +12,7 @@
  * A fix or a new option here reaches every card carousel at once.
  */
 import {stegaClean} from '@sanity/client/stega'
+import {t} from '@/lib/i18n'
 
 interface Props {
   items: unknown[]
@@ -91,6 +92,7 @@ const looped = Array.from({length: loops}, () => cards).flat()
       data-count={String(cards.length)}
       data-autoplay={autoPlay ? 'true' : 'false'}
       data-interval={String(autoPlayInterval || 5)}
+      data-dot-label={t(Astro.locals.language, 'goToSlide')}
     >
       {title && <h2 class="mb-2 font-display text-3xl font-bold md:text-4xl">{title}</h2>}
       {subtitle && <p class="mb-8 max-w-2xl text-muted">{subtitle}</p>}

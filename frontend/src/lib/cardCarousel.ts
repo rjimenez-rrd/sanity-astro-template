@@ -16,7 +16,7 @@
  * a second row before it becomes a carousel.
  *
  * data-autoplay="true" plus data-interval (seconds) advances a page at a time
- * on its own.
+ * on its own. data-dot-label names each dot, with {n} for its number.
  */
 
 /** Guards against double-binding when more than one component imports this. */
@@ -52,6 +52,8 @@ export function initCardCarousels(scope: ParentNode = document) {
     // Someone who has asked the OS for less motion should not get a carousel
     // that moves on its own; the dots and swiping still work.
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // The dots' label in the page's language (lib/i18n.ts), with {n} for the number.
+    const dotLabel = root.dataset.dotLabel || 'Go to slide {n}'
 
     let current = 0
     let pages = 1
@@ -148,7 +150,7 @@ export function initCardCarousels(scope: ParentNode = document) {
         const dot = document.createElement('button')
         dot.type = 'button'
         dot.className = 'h-2 w-2 rounded-full bg-border transition-all'
-        dot.setAttribute('aria-label', `Go to slide ${i + 1}`)
+        dot.setAttribute('aria-label', dotLabel.replace('{n}', String(i + 1)))
         dot.addEventListener('click', () => goTo(i * perView))
         dotsBox!.append(dot)
       }

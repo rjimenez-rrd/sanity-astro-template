@@ -7,7 +7,8 @@ import {buildSeo} from '@/lib/seo'
 import NewsCard from '@/components/news/NewsCard.astro'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
-import {NEWS_LIST_QUERY, PAGE_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
+import {NEWS_LIST_QUERY, PAGE_QUERY} from '@/sanity/lib/queries'
+import {getSiteSettings} from '@/lib/siteSettings'
 import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import {DEFAULT_LANGUAGE} from '@/lib/i18n'
 import type {PAGE_QUERY_RESULT} from '@/sanity/types.generated'
@@ -16,7 +17,7 @@ const client = getClient(Astro.locals.isDraft)
 
 const [posts, settings, newsPages] = await Promise.all([
   sanityFetch(client, Astro.locals, NEWS_LIST_QUERY),
-  sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
+  getSiteSettings(Astro.locals),
   sanityFetch(client, Astro.locals, PAGE_QUERY, {slug: 'news', language: DEFAULT_LANGUAGE}),
 ])
 

@@ -6,7 +6,8 @@ import Site from '@/layouts/Site.astro'
 import SearchForm from '@/components/search/SearchForm.astro'
 import {getClient} from '@/sanity/lib/client'
 import {sanityFetch} from '@/sanity/lib/live'
-import {SEARCH_QUERY, SITE_SETTINGS_QUERY} from '@/sanity/lib/queries'
+import {SEARCH_QUERY} from '@/sanity/lib/queries'
+import {getSiteSettings} from '@/lib/siteSettings'
 import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import {localizedPath} from '@/lib/i18n'
 
@@ -23,7 +24,7 @@ const terms = q
 
 const [results, settings] = await Promise.all([
   terms.length > 0 ? sanityFetch(client, Astro.locals, SEARCH_QUERY, {terms}) : Promise.resolve([]),
-  sanityFetch(client, Astro.locals, SITE_SETTINGS_QUERY),
+  getSiteSettings(Astro.locals),
 ])
 
 const TYPE_LABELS: Record<string, string> = {
