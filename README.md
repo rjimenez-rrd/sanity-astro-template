@@ -169,13 +169,6 @@ publishing, set up the webhook:
    `language` is what sends a Spanish page's or news post's refresh to
    `/es/…`; without it, they refresh their English address instead.
 
-## More info
-
-- [Astro docs](https://docs.astro.build)
-- [Sanity Presentation tool](https://www.sanity.io/docs/presentation)
-- [Create your own Sanity template](https://www.sanity.io/docs/create-your-own-sanity-template)
-- [#template-creators on Sanity Slack](https://slack.sanity.io)
-
 ## License
 
 MIT
