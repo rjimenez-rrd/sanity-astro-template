@@ -33,6 +33,14 @@ export const practiceAreaType = defineType({
       group: 'content',
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'intro',
+      title: 'Intro Text',
+      type: 'blockContent',
+      group: 'content',
+      description: 'The paragraphs under the title in the hero. Links are allowed.',
+      validation: (rule) => rule.required(),
+    }),
     rootSlugField({group: 'content'}),
     parentPageField({group: 'content'}),
     defineField({
