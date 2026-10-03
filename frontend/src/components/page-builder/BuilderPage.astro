@@ -1,16 +1,15 @@
 ---
 /**
  * A builder page (Page or Practice Area) as its routes render it. A Page is
- * its sections; a Practice Area uses its template: the hero, then its
- * sections beside the sidebar. Shared by [...slug].astro and es/[...slug].astro.
+ * its sections; a Practice Area uses its template (components/practice-areas/
+ * PracticeAreaTemplate.astro). Shared by [...slug].astro and es/[...slug].astro,
+ * which only know which of the two they got once it's fetched.
  */
 import {stegaClean} from '@sanity/client/stega'
 import Site from '@/layouts/Site.astro'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
-import PracticeAreaHero from '@/components/practice-areas/PracticeAreaHero.astro'
-import PracticeAreaSidebar from '@/components/practice-areas/PracticeAreaSidebar.astro'
+import PracticeAreaTemplate from '@/components/practice-areas/PracticeAreaTemplate.astro'
 import {buildSeo} from '@/lib/seo'
-import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import type {Language} from '@/lib/i18n'
 import type {PageData, PracticeAreaPageData, SiteSettings} from '@/types/sanity'
 
@@ -29,27 +28,12 @@ const seo = buildSeo(page.seo, {title: page.title})
 const title = listPage ? (seo.title ? `${seo.title} – Page ${listPage}` : `Page ${listPage}`) : seo.title
 
 const practiceArea = stegaClean(page._type) === 'practiceArea' ? (page as PracticeAreaPageData) : null
-// Without a sidebar the content takes the full width rather than leaving its column empty.
-const hasSidebar = Boolean(
-  practiceArea &&
-    (practiceArea.sidebarForm?.form || practiceArea.location || practiceArea.relatedPages?.some((p) => p?.slug)),
-)
 ---
 
 <Site settings={settings} {...seo} title={title}>
   {
     practiceArea ? (
-      <>
-        <PracticeAreaHero page={practiceArea} />
-        <div
-          class={`mx-auto ${CONTENT_WIDTH} px-4 py-12 md:px-8 md:py-16 ${hasSidebar ? 'grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12' : ''}`}
-        >
-          <div class="min-w-0">
-            <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
-          </div>
-          {hasSidebar && <PracticeAreaSidebar page={practiceArea} language={language} />}
-        </div>
-      </>
+      <PracticeAreaTemplate page={practiceArea} language={language} />
     ) : (
       <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
     )

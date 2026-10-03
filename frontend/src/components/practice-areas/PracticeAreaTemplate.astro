@@ -1,0 +1,32 @@
+---
+/**
+ * A Practice Area's page: the hero, then its Page Builder sections beside the
+ * sidebar. Without a sidebar the sections take the full width rather than
+ * leaving its column empty.
+ */
+import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
+import PracticeAreaHero from './PracticeAreaHero.astro'
+import PracticeAreaSidebar from './PracticeAreaSidebar.astro'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
+import type {Language} from '@/lib/i18n'
+import type {PracticeAreaPageData} from '@/types/sanity'
+
+interface Props {
+  page: PracticeAreaPageData
+  language: Language
+}
+
+const {page, language} = Astro.props
+
+const hasSidebar = Boolean(page.sidebarForm?.form || page.location || page.relatedPages?.some((p) => p?.slug))
+---
+
+<PracticeAreaHero page={page} />
+<div
+  class={`mx-auto ${CONTENT_WIDTH} px-4 py-12 md:px-8 md:py-16 ${hasSidebar ? 'grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12' : ''}`}
+>
+  <div class="min-w-0">
+    <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
+  </div>
+  {hasSidebar && <PracticeAreaSidebar page={page} language={language} />}
+</div>

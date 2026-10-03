@@ -1,0 +1,527 @@
+---
+/**
+ * Dev-only: a map of this codebase — where things live, how a page renders,
+ * and which file to open for a given change. Answers 404 outside `astro dev`,
+ * like api/dev/open-in-chrome.ts, so it never ships on the live site.
+ *
+ * Plain HTML with its own styles: global (is:global) and inline script
+ * (is:inline), because the lookup table's rows are built in the browser and
+ * would miss Astro's scoped-style attributes.
+ */
+export const prerender = false
+
+if (!import.meta.env.DEV) return Astro.rewrite('/404')
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Page Builder Codebase Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+    <style is:global>
+  :root {
+    --bg: #f3f4f9;
+    --surface: #ffffff;
+    --surface-2: #e9ebf5;
+    --ink: #0b0d33;
+    --muted: #565a7d;
+    --rule: #d6d9ea;
+    --navy: #0a108c;
+    --studio: #c2410c;
+    --studio-soft: #fbe7dc;
+    --front: #0a6fc2;
+    --front-soft: #dcecfb;
+    --mark: #fff1a8;
+    --display: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --body: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0a0b1f;
+      --surface: #13153a;
+      --surface-2: #1b1e4a;
+      --ink: #e7e8f6;
+      --muted: #a2a6c8;
+      --rule: #2a2e62;
+      --navy: #8f9bff;
+      --studio: #ff9a6b;
+      --studio-soft: #3a1f1a;
+      --front: #6cb8ff;
+      --front-soft: #13304d;
+      --mark: #5a4d00;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0a0b1f;
+    --surface: #13153a;
+    --surface-2: #1b1e4a;
+    --ink: #e7e8f6;
+    --muted: #a2a6c8;
+    --rule: #2a2e62;
+    --navy: #8f9bff;
+    --studio: #ff9a6b;
+    --studio-soft: #3a1f1a;
+    --front: #6cb8ff;
+    --front-soft: #13304d;
+    --mark: #5a4d00;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.6 var(--body);
+    padding-inline: 20px;
+    padding-block: 0 64px;
+  }
+  .wrap { max-width: 1120px; margin-inline: auto; }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+  h2 { font-size: 1.55rem; font-weight: 700; letter-spacing: -0.01em; }
+  h3 { font-size: 1.05rem; font-weight: 700; }
+  p { margin: 0; }
+  code, .path { font-family: var(--mono); font-size: 0.86em; }
+  .path { color: var(--ink); background: var(--surface-2); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+  a { color: var(--front); }
+  :focus-visible { outline: 2px solid var(--front); outline-offset: 2px; }
+
+  header.top { padding-block: 48px 28px; display: grid; gap: 14px; border-bottom: 1px solid var(--rule); }
+  .lede { max-width: 64ch; color: var(--muted); font-size: 1.05rem; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 0.85rem; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .chip { display: inline-block; font: 600 0.68rem/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 7px; border-radius: 4px; }
+  .chip.studio { background: var(--studio-soft); color: var(--studio); }
+  .chip.front { background: var(--front-soft); color: var(--front); }
+
+  nav.jump { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 18px; }
+  nav.jump a { font: 500 0.85rem var(--display); text-decoration: none; color: var(--ink); border: 1px solid var(--rule); padding: 6px 12px; border-radius: 999px; background: var(--surface); }
+  nav.jump a:hover { border-color: var(--front); color: var(--front); }
+
+  section { padding-block: 40px 8px; display: grid; gap: 18px; scroll-margin-top: 12px; }
+  .sub { color: var(--muted); max-width: 70ch; }
+
+  /* --- Lookup --- */
+  .search { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .search input {
+    flex: 1 1 280px; font: 1rem var(--body); color: var(--ink); background: var(--surface);
+    border: 1px solid var(--rule); border-radius: 8px; padding: 11px 14px;
+  }
+  .search input:focus { outline: 2px solid var(--front); outline-offset: 0; border-color: transparent; }
+  .count { font: 500 0.85rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .table-scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+  table { width: 100%; border-collapse: collapse; min-width: 720px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--rule); }
+  tr:last-child td { border-bottom: 0; }
+  th { font: 600 0.72rem var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); }
+  td:first-child { font-weight: 600; width: 26%; }
+  td ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  td .note { display: block; font-weight: 400; color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
+  td .none { color: var(--muted); }
+  mark { background: var(--mark); color: inherit; padding: 0 1px; border-radius: 2px; }
+  .empty { padding: 18px 14px; color: var(--muted); }
+
+  /* --- Flow --- */
+  .flow { display: grid; gap: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 22px; }
+  .step { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 6px 22px; align-items: start; }
+  .node {
+    border: 1.5px solid var(--front); background: var(--front-soft); border-radius: 8px; padding: 9px 12px;
+    font: 500 0.82rem var(--mono); color: var(--ink); overflow-wrap: anywhere;
+  }
+  .node.studio { border-color: var(--studio); background: var(--studio-soft); }
+  .node b { display: block; font: 700 0.92rem var(--display); margin-bottom: 2px; }
+  .what { color: var(--muted); padding-top: 8px; }
+  .arrow { width: 15rem; max-width: 100%; height: 26px; display: grid; place-items: center; color: var(--muted); }
+  .arrow svg { display: block; }
+  .branch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 4px; }
+  .lane { border: 1px dashed var(--rule); border-radius: 8px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+  .lane h3 { font-size: 0.95rem; }
+  .lane .node { font-size: 0.78rem; }
+  .lane .down { color: var(--muted); font: 0.8rem var(--mono); padding-left: 12px; }
+
+  /* --- Trees --- */
+  .trees { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .tree { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; display: grid; gap: 10px; align-content: start; }
+  .tree-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .tree-head code { font-size: 0.95rem; font-weight: 500; }
+  details { border-top: 1px solid var(--rule); padding-top: 8px; }
+  summary { cursor: pointer; list-style: none; display: flex; gap: 10px; align-items: baseline; padding: 4px 0; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: '▸'; color: var(--muted); font-size: 0.8rem; width: 0.8rem; transition: transform .15s; }
+  details[open] > summary::before { transform: rotate(90deg); }
+  summary code { font-weight: 500; }
+  summary span { color: var(--muted); font-size: 0.88rem; }
+  .files { list-style: none; margin: 4px 0 6px; padding: 0 0 0 1.4rem; display: grid; gap: 3px; border-left: 1px solid var(--rule); margin-left: 0.35rem; }
+  .files li { display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr); gap: 10px; font-size: 0.88rem; }
+  .files .f { font-family: var(--mono); font-size: 0.86em; }
+  .files code { white-space: nowrap; font-size: 1em; }
+  .files span:not(.f) { color: var(--muted); }
+
+  /* --- Recipes --- */
+  .recipes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .recipe { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; display: grid; gap: 12px; align-content: start; }
+  .recipe ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 8px; }
+  .recipe li::marker { font-family: var(--display); font-weight: 700; color: var(--navy); }
+  .tips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .tip { border-top: 3px solid var(--navy); background: var(--surface); padding: 14px 16px; border-radius: 0 0 8px 8px; display: grid; gap: 6px; align-content: start; }
+  .tip h3 { font-size: 0.95rem; }
+  .tip p { color: var(--muted); font-size: 0.92rem; }
+  .names { display: grid; grid-template-columns: auto auto; gap: 4px 14px; font-size: 0.85rem; margin-top: 4px; }
+  .names dt { color: var(--muted); }
+  .names dd { margin: 0; }
+
+  @media (max-width: 820px) {
+    .trees, .recipes, .tips, .branch { grid-template-columns: minmax(0, 1fr); }
+    .step { grid-template-columns: minmax(0, 1fr); }
+    .what { padding-top: 0; padding-bottom: 4px; }
+    .files li { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .files code { white-space: normal; overflow-wrap: anywhere; }
+  }
+  @media (prefers-reduced-motion: reduce) { summary::before { transition: none; } }
+</style>
+  </head>
+  <body>
+<div class="wrap">
+  <header class="top">
+    <h1>Page Builder Codebase Map</h1>
+    <p class="lede">Where things live in <code>sanity-astro-template</code>, how a page gets from the Studio to the browser, and which file to open for the change you have in mind.</p>
+    <div class="legend">
+      <span><i class="chip studio">Studio</i> <code>studio/</code> — what editors fill in (port 3333)</span>
+      <span><i class="chip front">Site</i> <code>frontend/src/</code> — what visitors see (port 4321)</span>
+    </div>
+  </header>
+
+  <nav class="jump" aria-label="Sections">
+    <a href="#find">Find a file</a>
+    <a href="#flow">How a page renders</a>
+    <a href="#folders">Folders</a>
+    <a href="#recipes">Common changes</a>
+    <a href="#tips">Search tips</a>
+  </nav>
+
+  <!-- ============ LOOKUP ============ -->
+  <section id="find">
+    <h2>I want to change…</h2>
+    <p class="sub">Type a word like <em>menu</em>, <em>padding</em>, <em>spanish</em> or <em>form</em>. Each row lists the Studio file that defines the fields and the site file that draws them.</p>
+    <div class="search">
+      <input id="q" type="search" placeholder="Filter: menu, footer, button, sidebar…" autocomplete="off" aria-label="Filter the list">
+      <span class="count" id="count" aria-live="polite"></span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>What</th><th><i class="chip studio">Studio</i></th><th><i class="chip front">Site</i></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="empty" id="empty" hidden>Nothing matches. Try a shorter word, or search the repo for the block's <code>_type</code> name (see Search tips).</p>
+    </div>
+  </section>
+
+  <!-- ============ FLOW ============ -->
+  <section id="flow">
+    <h2>How a page renders</h2>
+    <p class="sub">Every address that isn't the home page, news or search goes through the same chain. Follow it top to bottom to find where something is decided.</p>
+    <div class="flow">
+      <div class="step">
+        <div class="node"><b>Browser asks for /some-page</b>pages/[...slug].astro<br>pages/es/[...slug].astro</div>
+        <p class="what">The catch-all routes. Spanish lives under <code>/es</code> with its own copy of each route.</p>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg width="12" height="22" viewBox="0 0 12 22"><path d="M6 0v19M1 14l5 6 5-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="step">
+        <div class="node"><b>Draft or published?</b>middleware.ts → sanity/lib/client.ts</div>
+        <p class="what">The <code>__sanity_draft</code> cookie picks the client. Drafts and click-to-edit only exist in the Presentation preview.</p>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg width="12" height="22" viewBox="0 0 12 22"><path d="M6 0v19M1 14l5 6 5-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="step">
+        <div class="node"><b>Find the document</b>lib/pageRoute.ts → PAGE_QUERY in sanity/lib/queries.ts</div>
+        <p class="what">Matches the slug and its parent pages, handles <code>/page/2</code> and redirects from old addresses. All GROQ lives in <code>queries.ts</code>.</p>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg width="12" height="22" viewBox="0 0 12 22"><path d="M6 0v19M1 14l5 6 5-6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+      <div class="step">
+        <div class="node"><b>Pick the layout</b>components/page-builder/BuilderPage.astro</div>
+        <p class="what">Wraps the page in <code>layouts/Site.astro</code> (header, footer, SEO), then chooses by document type.</p>
+      </div>
+      <div class="branch">
+        <div class="lane">
+          <h3>Page</h3>
+          <div class="node">page-builder/SectionRenderer.astro</div>
+          <span class="down">↓ each section</span>
+          <div class="node">page-builder/sections/Container.astro</div>
+          <span class="down">↓ each block in a column</span>
+          <div class="node">page-builder/BlockRenderer.astro<br>→ blockRegistry.ts</div>
+          <span class="down">↓ by _type</span>
+          <div class="node">page-builder/blocks/*.astro (35)</div>
+        </div>
+        <div class="lane">
+          <h3>Practice Area</h3>
+          <div class="node">practice-areas/PracticeAreaTemplate.astro</div>
+          <span class="down">↓ draws, in order</span>
+          <div class="node">PracticeAreaHero.astro</div>
+          <div class="node">SectionRenderer.astro <span style="color:var(--muted)">(same chain as Page)</span></div>
+          <div class="node">PracticeAreaSidebar.astro</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOLDERS ============ -->
+  <section id="folders">
+    <h2>Folders</h2>
+    <p class="sub">The folders you'll actually open. Click one to see what's inside.</p>
+    <div class="trees">
+      <div class="tree">
+        <div class="tree-head"><i class="chip studio">Studio</i><code>studio/</code></div>
+        <details open>
+          <summary><code>schemaTypes/documents/</code><span>one file per document type</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>page.ts</code></span><span>Pages</span></li>
+            <li><span class="f"><code>practice-area.ts</code></span><span>Hero, Content, Sidebar tabs</span></li>
+            <li><span class="f"><code>home-page.ts</code></span><span>Home page, one per language</span></li>
+            <li><span class="f"><code>site-settings.ts</code></span><span>Logo, theme, menus, footer, offices</span></li>
+            <li><span class="f"><code>site-settings-es.ts</code></span><span>Spanish wording of Site Settings</span></li>
+            <li><span class="f"><code>news-post.ts</code>, <code>news-category.ts</code></span><span>News</span></li>
+            <li><span class="f"><code>form-cta.ts</code></span><span>Reusable CTA forms</span></li>
+            <li><span class="f"><code>lawyer.ts</code>, <code>review.ts</code>, <code>case-result.ts</code></span><span>Card content</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary><code>schemaTypes/blocks/</code><span>the page builder</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>grid-row.ts</code></span><span>The Container (section) and which blocks a column allows</span></li>
+            <li><span class="f"><code>page-builder.ts</code></span><span>The pageBuilder field itself</span></li>
+            <li><span class="f"><code>index.ts</code></span><span>Registers every block</span></li>
+            <li><span class="f"><code>*.ts</code></span><span>One per block: rich-text-block, call-to-action, video…</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary><code>schemaTypes/objects/</code><span>reused field groups</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>rich-text.ts</code></span><span>blockContent: the rich text editor</span></li>
+            <li><span class="f"><code>link.ts</code></span><span>Internal, external and site-page links</span></li>
+            <li><span class="f"><code>block-styles.ts</code></span><span>Block Styles</span></li>
+            <li><span class="f"><code>seo.ts</code></span><span>SEO fields</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary><code>schemaTypes/tabs/</code><span>Layout · Style · Advanced · Motion · Visibility</span></summary>
+          <ul class="files"><li><span class="f"><code>*.ts</code></span><span>The Elementor-style tabs on containers, columns and blocks</span></li></ul>
+        </details>
+        <details>
+          <summary><code>schemaTypes/fields/</code><span>field helpers</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>common.ts</code></span><span>linkField, columnsField, excludeFromTranslation</span></li>
+            <li><span class="f"><code>rootSlug.ts</code></span><span>Slug and Parent Page</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary><code>components/</code><span>custom Studio inputs</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>inputs/</code></span><span>Custom fields: OfficeInput, PhoneTextInput, RichTextInput…</span></li>
+            <li><span class="f"><code>tabs/</code>, <code>block-styles/</code>, <code>controls/</code></span><span>The style-tab UIs</span></li>
+            <li><span class="f"><code>previews/</code></span><span>How blocks look in the Studio list</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary><code>actions/</code><span>document buttons</span></summary>
+          <ul class="files"><li><span class="f"><code>*.ts(x)</code></span><span>Publish with date, delete with translations, open in preview</span></li></ul>
+        </details>
+        <details>
+          <summary>Root files</summary>
+          <ul class="files">
+            <li><span class="f"><code>sanity.config.ts</code></span><span>Plugins, Presentation (preview) setup, languages</span></li>
+            <li><span class="f"><code>structure.ts</code></span><span>The Studio's left-hand menu</span></li>
+            <li><span class="f"><code>schemaTypes/languages.ts</code></span><span>Languages and translated types</span></li>
+          </ul>
+        </details>
+      </div>
+
+      <div class="tree">
+        <div class="tree-head"><i class="chip front">Site</i><code>frontend/src/</code></div>
+        <details open>
+          <summary><code>pages/</code><span>one file per address</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>index.astro</code>, <code>[...slug].astro</code></span><span>Home and every Page / Practice Area</span></li>
+            <li><span class="f"><code>es/</code></span><span>The same, under /es</span></li>
+            <li><span class="f"><code>news/</code>, <code>search.astro</code></span><span>Built-in pages</span></li>
+            <li><span class="f"><code>api/</code></span><span>Form submit, revalidate, draft mode</span></li>
+            <li><span class="f"><code>preview/</code></span><span>Test pages with hard-coded content</span></li>
+          </ul>
+        </details>
+        <details open>
+          <summary><code>components/</code><span>everything drawn</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>page-builder/</code></span><span>BuilderPage, SectionRenderer, BlockRenderer, blockRegistry</span></li>
+            <li><span class="f"><code>page-builder/sections/</code></span><span>Container.astro, SectionMedia.astro</span></li>
+            <li><span class="f"><code>page-builder/blocks/</code></span><span>One component per block</span></li>
+            <li><span class="f"><code>practice-areas/</code></span><span>Template, Hero, Sidebar, Card</span></li>
+            <li><span class="f"><code>layout/</code></span><span>Header (+ header/), Footer, Theme, Breadcrumbs</span></li>
+            <li><span class="f"><code>portable-text/</code></span><span>How rich text pieces render (Pt*.astro)</span></li>
+            <li><span class="f"><code>sanity/</code></span><span>SanityImage, PortableTextRenderer, VisualEditing</span></li>
+            <li><span class="f"><code>news/</code>, <code>search/</code>, <code>ui/</code></span><span>Feature parts and small shared pieces</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary><code>sanity/</code><span>data</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>lib/queries.ts</code></span><span>Every GROQ query</span></li>
+            <li><span class="f"><code>lib/client.ts</code></span><span>Published vs draft client</span></li>
+            <li><span class="f"><code>types.generated.ts</code></span><span>Made by npm run typegen. Never edit.</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary><code>lib/</code><span>logic, no markup</span></summary>
+          <ul class="files">
+            <li><span class="f"><code>pageRoute.ts</code></span><span>Address → document, redirects</span></li>
+            <li><span class="f"><code>container.ts</code>, <code>containerStyles.ts</code></span><span>Container layout CSS</span></li>
+            <li><span class="f"><code>blockStyles.ts</code>, <code>blockRender.ts</code></span><span>Block Styles CSS</span></li>
+            <li><span class="f"><code>links.ts</code></span><span>Link fields → href</span></li>
+            <li><span class="f"><code>i18n.ts</code></span><span>Languages, addresses, built-in words (EN/ES)</span></li>
+            <li><span class="f"><code>siteSettings.ts</code></span><span>Settings with the Spanish merged in</span></li>
+            <li><span class="f"><code>theme.ts</code>, <code>fonts.ts</code>, <code>maxWidth.ts</code></span><span>Colors, fonts, content width</span></li>
+            <li><span class="f"><code>seo.ts</code></span><span>Title and meta tags</span></li>
+          </ul>
+        </details>
+        <details>
+          <summary>Other</summary>
+          <ul class="files">
+            <li><span class="f"><code>types/sanity.ts</code></span><span>Short names for the generated types</span></li>
+            <li><span class="f"><code>layouts/</code></span><span>Base (head, meta) and Site (header, footer)</span></li>
+            <li><span class="f"><code>styles/global.css</code></span><span>Color tokens, editing badges, shared CSS</span></li>
+            <li><span class="f"><code>middleware.ts</code></span><span>Draft cookie → isDraft</span></li>
+          </ul>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECIPES ============ -->
+  <section id="recipes">
+    <h2>Common changes, step by step</h2>
+    <div class="recipes">
+      <div class="recipe">
+        <h3>Add a new page builder block</h3>
+        <ol>
+          <li><span class="path">studio/schemaTypes/blocks/my-block.ts</span> — define its fields.</li>
+          <li>Register it in <span class="path">blocks/index.ts</span>.</li>
+          <li>Allow it in columns: the content list in <span class="path">blocks/grid-row.ts</span>.</li>
+          <li>If it holds images, links or references, add its projection in <span class="path">sanity/lib/queries.ts</span>.</li>
+          <li>Run <code>npm run typegen</code> from the repo root.</li>
+          <li>Add a type alias in <span class="path">types/sanity.ts</span>.</li>
+          <li>Draw it in <span class="path">page-builder/blocks/MyBlock.astro</span>.</li>
+          <li>One line in <span class="path">page-builder/blockRegistry.ts</span>.</li>
+        </ol>
+      </div>
+      <div class="recipe">
+        <h3>Add a field to a document</h3>
+        <ol>
+          <li>Add it in <span class="path">studio/schemaTypes/documents/&lt;type&gt;.ts</span>, with a <code>group</code> to put it on a tab.</li>
+          <li>Fetch it in the document's query in <span class="path">sanity/lib/queries.ts</span>. Fields the query doesn't name never reach the site.</li>
+          <li>Run <code>npm run typegen</code>.</li>
+          <li>Use it in the component that draws that document.</li>
+          <li>Spanish words for the site's own labels go in <span class="path">lib/i18n.ts</span>.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIPS ============ -->
+  <section id="tips">
+    <h2>Search tips</h2>
+    <div class="tips">
+      <div class="tip">
+        <h3>Search by _type</h3>
+        <p>The camelCase type name appears in every file for that block, Studio and site. Searching <code>statMetric</code> finds all 8.</p>
+      </div>
+      <div class="tip">
+        <h3>Same thing, three spellings</h3>
+        <dl class="names">
+          <dt>Studio file</dt><dd><code>stat-metric.ts</code></dd>
+          <dt>_type</dt><dd><code>statMetric</code></dd>
+          <dt>Component</dt><dd><code>StatMetric.astro</code></dd>
+        </dl>
+      </div>
+      <div class="tip">
+        <h3>Field on screen → file</h3>
+        <p>Search the field's label from the Studio, like <code>'Office Location'</code>. The schema file defining it comes up first.</p>
+      </div>
+    </div>
+  </section>
+</div>
+<script is:inline>
+  const rows = [
+    ['Header menu and dropdowns', ['schemaTypes/documents/site-settings.ts', 'Navigation tab → Main Navigation'], ['components/layout/Header.astro', 'components/layout/header/DesktopNav.astro', 'components/layout/header/MobileNav.astro', 'lib/nav.ts'], 'navigation nav menu top bar'],
+    ['Footer, offices, legal links', ['schemaTypes/documents/site-settings.ts', 'Footer tab'], ['components/layout/Footer.astro'], 'footer office address disclaimer copyright'],
+    ['Colors and fonts of the whole site', ['schemaTypes/documents/site-settings.ts', 'Theme tab'], ['lib/theme.ts', 'components/layout/Theme.astro', 'styles/global.css'], 'theme color colour font typography brand'],
+    ['Site content width', null, ['lib/maxWidth.ts'], 'width max container boxed 1360'],
+    ['A page’s address, parent pages, redirects', ['schemaTypes/fields/rootSlug.ts'], ['pages/[...slug].astro', 'lib/pageRoute.ts'], 'slug url route redirect parent breadcrumb'],
+    ['Practice area layout (hero, content, sidebar)', ['schemaTypes/documents/practice-area.ts'], ['components/practice-areas/PracticeAreaTemplate.astro', 'components/practice-areas/PracticeAreaHero.astro', 'components/practice-areas/PracticeAreaSidebar.astro'], 'practice area template hero sidebar related form office'],
+    ['Office picker in the sidebar tab', ['components/inputs/OfficeInput.tsx'], ['components/practice-areas/PracticeAreaSidebar.astro'], 'office location map directions'],
+    ['Section (Container) layout, padding, background', ['schemaTypes/blocks/grid-row.ts', 'schemaTypes/tabs/'], ['components/page-builder/sections/Container.astro', 'lib/container.ts', 'lib/containerStyles.ts'], 'container section row column padding margin gap layout background'],
+    ['Block Styles on a block', ['schemaTypes/objects/block-styles.ts', 'components/block-styles/'], ['lib/blockStyles.ts', 'lib/blockRender.ts', 'components/page-builder/BlockRenderer.astro'], 'block styles padding typography effects'],
+    ['A specific block (e.g. Video)', ['schemaTypes/blocks/video.ts'], ['components/page-builder/blocks/Video.astro', 'components/page-builder/blockRegistry.ts'], 'block component accordion faq tabs video image'],
+    ['Rich text editor and how it renders', ['schemaTypes/objects/rich-text.ts', 'components/inputs/RichTextInput.tsx'], ['components/sanity/PortableTextRenderer.astro', 'components/portable-text/'], 'rich text portable text paragraph heading list link'],
+    ['Buttons and links', ['schemaTypes/blocks/call-to-action.ts', 'schemaTypes/objects/link.ts', 'schemaTypes/fields/common.ts'], ['components/page-builder/blocks/CallToAction.astro', 'lib/links.ts'], 'button cta link href'],
+    ['Forms and form submissions', ['schemaTypes/blocks/form-block.ts', 'schemaTypes/documents/form-cta.ts'], ['components/page-builder/blocks/FormBlock.astro', 'components/page-builder/blocks/FormCta.astro', 'pages/api/form-submit.ts'], 'form cta contact webhook submit'],
+    ['Spanish: translations and built-in words', ['schemaTypes/languages.ts', 'schemaTypes/documents/site-settings-es.ts'], ['lib/i18n.ts', 'lib/siteSettings.ts', 'pages/es/'], 'spanish translation language es i18n words'],
+    ['News list and posts', ['schemaTypes/documents/news-post.ts', 'schemaTypes/documents/news-category.ts'], ['pages/news/', 'components/news/', 'lib/news.ts'], 'news blog post article category'],
+    ['Search', null, ['pages/search.astro', 'components/search/', 'lib/search.ts'], 'search results overlay'],
+    ['SEO title and meta tags', ['schemaTypes/objects/seo.ts'], ['lib/seo.ts', 'layouts/Base.astro'], 'seo meta title description og'],
+    ['Images', null, ['components/sanity/SanityImage.astro', 'sanity/lib/image.ts'], 'image picture photo lqip'],
+    ['Phone number and phone texts', ['components/inputs/phoneSettings.ts', 'components/inputs/PhoneTextInput.tsx'], ['lib/phone.ts', 'components/ui/PhoneLink.astro'], 'phone tel number call'],
+    ['Animations (Motion tab)', ['schemaTypes/tabs/motion.ts'], ['lib/animation.ts', 'components/layout/Animations.astro'], 'animation motion entrance'],
+    ['What a GROQ query fetches', null, ['sanity/lib/queries.ts', 'sanity/types.generated.ts (generated)'], 'query groq fetch data typegen types'],
+    ['Visual editing / Presentation preview', ['sanity.config.ts'], ['components/sanity/VisualEditing.astro', 'middleware.ts', 'sanity/lib/client.ts', 'pages/api/draft-mode/'], 'preview presentation draft visual editing click'],
+    ['Studio left-hand menu', ['structure.ts'], null, 'studio menu structure desk sidebar list'],
+    ['Publish, delete and preview buttons', ['actions/'], null, 'publish delete action button translations'],
+    ['Cache refresh after publishing', null, ['pages/api/revalidate.ts'], 'cache revalidate isr vercel webhook'],
+  ];
+
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const hl = (text, words) => {
+    let out = esc(text);
+    for (const w of words) {
+      if (w.length < 2) continue;
+      out = out.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'ig'), '<mark>$1</mark>');
+    }
+    return out;
+  };
+  const studioCell = (items, words) => {
+    if (!items) return '<span class="none">—</span>';
+    // A second plain-word entry is a hint (the tab or field), not a file.
+    const files = items.filter((i) => i.includes('/') || i.includes('.'));
+    const hints = items.filter((i) => !files.includes(i));
+    return '<ul>' + files.map((f) => '<li><span class="path">' + hl('studio/' + f, words) + '</span></li>').join('') + '</ul>' +
+      hints.map((h) => '<span class="note">' + hl(h, words) + '</span>').join('');
+  };
+  const siteCell = (items, words) => items
+    ? '<ul>' + items.map((f) => '<li><span class="path">' + hl(f, words) + '</span></li>').join('') + '</ul>'
+    : '<span class="none">—</span>';
+
+  const tbody = document.getElementById('rows');
+  const count = document.getElementById('count');
+  const empty = document.getElementById('empty');
+  const input = document.getElementById('q');
+
+  function render() {
+    const words = input.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    const shown = rows.filter(([what, studio, site, keys]) => {
+      const hay = [what, ...(studio || []), ...(site || []), keys].join(' ').toLowerCase();
+      return words.every((w) => hay.includes(w));
+    });
+    tbody.innerHTML = shown.map(([what, studio, site]) =>
+      '<tr><td>' + hl(what, words) + '</td><td>' + studioCell(studio, words) + '</td><td>' + siteCell(site, words) + '</td></tr>'
+    ).join('');
+    count.textContent = shown.length + ' of ' + rows.length;
+    empty.hidden = shown.length > 0;
+  }
+  input.addEventListener('input', render);
+  render();
+</script>
+  </body>
+</html>
