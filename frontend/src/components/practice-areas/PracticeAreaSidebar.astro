@@ -1,0 +1,106 @@
+---
+/**
+ * A practice area's sidebar: the CTA Form (the one picked in the Sidebar tab,
+ * else the first one made), the office picked there, with a map and
+ * directions, then the Related Pages as links. Each part shows only when
+ * there's something to show, and nothing renders when none has.
+ */
+import type {ComponentProps} from 'astro/types'
+import {stegaClean} from '@sanity/client/stega'
+import FormBlock from '@/components/page-builder/blocks/FormBlock.astro'
+import {fontStack} from '@/lib/fonts'
+import {localizedPath, t, type Language} from '@/lib/i18n'
+import type {PracticeAreaPageData} from '@/types/sanity'
+
+interface Props {
+  page: PracticeAreaPageData
+  language: Language
+}
+
+const {page, language} = Astro.props
+
+const cta = page.sidebarForm?.form ? page.sidebarForm : null
+// The CTA's own heading font, as the Form CTA block draws it.
+const headingFont = fontStack(stegaClean(cta?.headingFont)) ?? fontStack('Libre Baskerville')
+
+const office = page.location
+const address = stegaClean(office?.address)?.trim()
+const name = stegaClean(office?.name)
+
+// The office's own directions link, else its address in Google Maps — as the footer does.
+const directionsHref =
+  stegaClean(office?.directionsUrl) ||
+  (address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : undefined)
+// Google's keyless embed: a pin on the address.
+const mapSrc = address ? `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed` : undefined
+
+const related = (page.relatedPages ?? []).flatMap((p) =>
+  p?.slug ? [{key: p._id, title: p.title, href: localizedPath(p.slug, p.language, p.parents)}] : [],
+)
+
+const heading = 'font-display text-xl font-bold text-foreground'
+---
+
+{
+  (cta || office || related.length > 0) && (
+    <aside class="space-y-8">
+      {cta && (
+        <section class="rounded-lg bg-foreground p-6 font-display text-white">
+          {cta.eyebrow && <p>{cta.eyebrow}</p>}
+          {cta.heading && (
+            <h2 class="mt-1 whitespace-pre-line text-3xl leading-tight" style={`font-family:${headingFont}`}>
+              {cta.heading}
+            </h2>
+          )}
+          {cta.description && <p class="mt-4 leading-relaxed">{cta.description}</p>}
+          <div class="mt-6">
+            <FormBlock data={cta.form as ComponentProps<typeof FormBlock>['data']} formStyle="dark" />
+          </div>
+        </section>
+      )}
+      {office && (
+        <section class="rounded-lg bg-card p-6 shadow-sm">
+          <h2 class={heading}>{t(language, 'officeLocation')}</h2>
+          <p class="mt-4 font-display font-semibold text-foreground">{office.name}</p>
+          {office.address && <p class="mt-1 whitespace-pre-line text-muted">{office.address}</p>}
+          {mapSrc && (
+            <iframe
+              src={mapSrc}
+              title={t(language, 'mapOf', {place: name ?? address ?? ''})}
+              class="mt-4 aspect-[4/3] w-full rounded border-0"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            />
+          )}
+          {directionsHref && (
+            <a
+              href={directionsHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-4 inline-block font-display font-semibold text-primary hover:text-secondary-hover hover:underline"
+            >
+              {t(language, 'getDirections')} →
+            </a>
+          )}
+        </section>
+      )}
+      {related.length > 0 && (
+        <nav aria-label={t(language, 'relatedPages')} class="rounded-lg bg-card p-6 shadow-sm">
+          <h2 class={heading}>{t(language, 'relatedPages')}</h2>
+          <ul class="mt-4 divide-y divide-border">
+            {related.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="block py-3 font-display text-primary transition-colors hover:text-secondary-hover hover:underline"
+                >
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </aside>
+  )
+}

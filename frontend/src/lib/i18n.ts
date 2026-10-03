@@ -144,6 +144,10 @@ const UI = {
     manyResults: '{n} results',
     resultPage: 'Page',
     resultPracticeArea: 'Practice Area',
+    // A practice area's sidebar.
+    officeLocation: 'Office Location',
+    relatedPages: 'Related Pages',
+    mapOf: 'Map of {place}',
   },
   es: {
     getDirections: 'Cómo llegar',
@@ -200,6 +204,10 @@ const UI = {
     // Search results' labels for what each one is.
     resultPage: 'Página',
     resultPracticeArea: 'Área de práctica',
+    // A practice area's sidebar.
+    officeLocation: 'Ubicación de la oficina',
+    relatedPages: 'Páginas relacionadas',
+    mapOf: 'Mapa de {place}',
   },
 } satisfies Record<Language, Record<string, string>>
 

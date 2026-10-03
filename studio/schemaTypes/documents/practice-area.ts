@@ -1,12 +1,15 @@
 import {defineType, defineField} from 'sanity'
 import {CaseIcon} from '@sanity/icons'
 import {rootSlugField, parentPageField} from '../fields/rootSlug'
-import {excludeFromTranslation} from '../fields/common'
+import {excludeFromTranslation, linkField} from '../fields/common'
+import {DEFAULT_LANGUAGE} from '../languages'
 import {PublishStampInput} from '../../components/inputs/PublishStampInput'
+import {OfficeInput} from '../../components/inputs/OfficeInput'
 
 /**
- * A practice area: its own page at /<slug>, built with the Page Builder like
- * any Page, plus the image its card uses on /practice-areas.
+ * A practice area: its own page at /<slug>, laid out by a fixed template — a
+ * hero, then the Page Builder content beside a sidebar — plus the image its
+ * card uses on /practice-areas.
  */
 export const practiceAreaType = defineType({
   name: 'practiceArea',
@@ -14,7 +17,9 @@ export const practiceAreaType = defineType({
   type: 'document',
   icon: CaseIcon,
   groups: [
-    {name: 'content', title: 'Content', default: true},
+    {name: 'hero', title: 'Hero', default: true},
+    {name: 'content', title: 'Content'},
+    {name: 'sidebar', title: 'Sidebar'},
     {name: 'card', title: 'Listing card'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -26,28 +31,64 @@ export const practiceAreaType = defineType({
       readOnly: true,
       hidden: true,
     }),
+
+    // --- Hero ---
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-      group: 'content',
+      group: 'hero',
+      description: 'The page’s main heading (h1).',
       validation: (rule) => rule.required(),
+    }),
+    rootSlugField({group: 'hero'}),
+    parentPageField({group: 'hero'}),
+    defineField({
+      name: 'heroImage',
+      title: 'Image',
+      type: 'image',
+      group: 'hero',
+      description:
+        'Optional. Shown on the right of the hero, fading into the background color. Leave empty to use the default Manhattan skyline.',
+      options: {hotspot: true},
+      fields: [defineField({name: 'alt', type: 'string', title: 'Alt Text'})],
     }),
     defineField({
       name: 'intro',
       title: 'Intro Text',
       type: 'blockContent',
-      group: 'content',
-      description: 'The paragraphs under the title in the hero. Links are allowed.',
+      group: 'hero',
+      description: 'The paragraphs under the title. Links are allowed.',
       validation: (rule) => rule.required(),
     }),
-    rootSlugField({group: 'content'}),
-    parentPageField({group: 'content'}),
+    defineField({
+      name: 'heroButton',
+      title: 'Button',
+      type: 'object',
+      group: 'hero',
+      description: 'Optional. Shown under the intro text.',
+      options: {collapsible: false},
+      fields: [
+        defineField({name: 'label', title: 'Button Text', type: 'string'}),
+        linkField('link', 'Link'),
+      ],
+      validation: (rule) =>
+        rule.custom((value: {label?: string; link?: unknown[]} | undefined) => {
+          const hasLabel = Boolean(value?.label?.trim())
+          const hasLink = Boolean(value?.link?.length)
+          if (hasLabel && !hasLink) return 'Add a link for the button, or clear its text.'
+          if (hasLink && !hasLabel) return 'Add the button text, or remove its link.'
+          return true
+        }),
+    }),
+
+    // --- Content ---
     defineField({
       name: 'pageBuilder',
       title: 'Page Builder',
       type: 'pageBuilder',
       group: 'content',
+      description: 'The main content, beside the sidebar.',
     }),
     defineField({
       name: 'publishedAt',
@@ -72,6 +113,54 @@ export const practiceAreaType = defineType({
       readOnly: true,
       components: {input: PublishStampInput},
     }),
+
+    // --- Sidebar ---
+    defineField({
+      name: 'sidebarForm',
+      title: 'Form',
+      type: 'reference',
+      group: 'sidebar',
+      to: [{type: 'ctaForm'}],
+      description:
+        'Optional. One of the CTA Forms, shown at the top of the sidebar. Leave empty to use the first CTA Form made. Spanish pages show its Spanish translation.',
+    }),
+    defineField({
+      name: 'location',
+      title: 'Office Location',
+      type: 'string',
+      group: 'sidebar',
+      description: 'Optional. One of the offices in Site Settings → Footer → Offices.',
+      components: {input: OfficeInput},
+    }),
+    defineField({
+      name: 'relatedPages',
+      title: 'Related Pages',
+      type: 'array',
+      group: 'sidebar',
+      description: 'Optional. Listed as links in the sidebar, in this order.',
+      // A new translation starts without them: they'd point at pages in this language.
+      options: excludeFromTranslation(),
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'page'}, {type: 'practiceArea'}],
+          options: {
+            // Only pages in the same language, and never the page itself.
+            filter: ({document}) => ({
+              filter: '_id != $id && coalesce(language, $defaultLanguage) == $language',
+              params: {
+                id: document._id.replace(/^drafts\./, ''),
+                language: (document.language as string | undefined) ?? DEFAULT_LANGUAGE,
+                defaultLanguage: DEFAULT_LANGUAGE,
+              },
+            }),
+          },
+        },
+      ],
+      validation: (rule) => rule.unique(),
+    }),
+
+    // --- Listing card ---
     defineField({
       name: 'cardTitle',
       title: 'Card Title',

@@ -1,0 +1,69 @@
+---
+/**
+ * A practice area's hero: the title (the page's h1), the intro text and an
+ * optional button on the dark brand color, with the optional image on the
+ * right fading into it. Filled from the Hero tab in the Studio.
+ */
+import type {ComponentProps} from 'astro/types'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
+import SanityImage from '@/components/sanity/SanityImage.astro'
+import PortableTextRenderer from '@/components/sanity/PortableTextRenderer.astro'
+import CallToAction from '@/components/page-builder/blocks/CallToAction.astro'
+import type {PracticeAreaPageData} from '@/types/sanity'
+
+interface Props {
+  page: PracticeAreaPageData
+}
+
+const {page} = Astro.props
+const image = page.heroImage?.asset ? page.heroImage : null
+/** Shown when no image is picked in the Studio. */
+const DEFAULT_IMAGE = '/assets/images/hero/manhattan.webp'
+const button = page.heroButton?.label && page.heroButton.link?.length ? page.heroButton : null
+
+// The Button block draws it: same link handling and missing-link flag. The
+// white Secondary variant, as it sits on the dark background.
+const buttonData = button
+  ? ({_type: 'callToAction', label: button.label, link: button.link, variant: 'secondary'} as ComponentProps<
+      typeof CallToAction
+    >['data'])
+  : null
+---
+
+<section class="relative isolate overflow-hidden bg-foreground text-white">
+  <div class={`mx-auto ${CONTENT_WIDTH} px-4 py-16 md:px-8 md:py-24`}>
+    <div class="max-w-3xl">
+      <h1 class="font-display text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">{page.title}</h1>
+      {
+        page.intro && page.intro.length > 0 && (
+          <div class="mt-6 space-y-4 text-white/90 [&_a]:text-white [&_a:hover]:text-secondary-hover">
+            <PortableTextRenderer value={page.intro} />
+          </div>
+        )
+      }
+      {buttonData && <div class="mt-8"><CallToAction data={buttonData} /></div>}
+    </div>
+  </div>
+  {/* Below lg, under the text across the full width, pulled up beneath it so
+      its top edge fades in behind the button. From lg, beside the text on the
+      right. Muted (saturate) so it takes on the tint rather than keeping its
+      own colors. */}
+  <div
+    class="relative -z-10 -mt-16 aspect-[4/3] w-full sm:aspect-[16/9] md:-mt-24 md:aspect-[2/1] lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:aspect-auto lg:w-[40%] [&_img]:saturate-[.4]"
+    aria-hidden={image?.alt ? undefined : 'true'}
+  >
+    {
+      image ? (
+        <SanityImage value={image} fill priority width={1200} sizes="(max-width: 1024px) 100vw, 40vw" />
+      ) : (
+        <img src={DEFAULT_IMAGE} alt="" class="absolute inset-0 h-full w-full object-cover" fetchpriority="high" />
+      )
+    }
+    {/* Tinted with the background color all over. */}
+    <div class="absolute inset-0 bg-foreground/60" />
+    {/* The edge that meets the text fades into the background: the top below
+        lg, the left from lg. */}
+    <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-foreground to-transparent lg:hidden" />
+    <div class="absolute inset-y-0 left-0 hidden w-1/2 bg-gradient-to-r from-foreground to-transparent lg:block" />
+  </div>
+</section>

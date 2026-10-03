@@ -345,6 +345,44 @@ export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
   }
 `)
 
+// A practice area's hero and sidebar (components/practice-areas/). The office
+// is stored by its _key in Site Settings' Offices: the Spanish settings'
+// office with that key when a Spanish page has one, else the English one — as
+// the footer falls back. The form is the CTA Form picked, else the first one
+// made; on a Spanish page its Spanish translation when there is one.
+const practiceAreaTemplateFragment = /* groq */ `
+  _type == "practiceArea" => {
+    heroImage { ${imageFragment} },
+    intro[] {
+      ...,
+      _type == "image" => { ${imageFragment} },
+      _type == "callToAction" => { ${linkFragment} }
+    },
+    heroButton { label, ${linkFragment} },
+    "location": coalesce(
+      *[_id == "siteSettingsEs" && $language != "en"][0].footerOffices[_key == ^.location][0]{ name, address, directionsUrl },
+      *[_id == "siteSettings"][0].footerOffices[_key == ^.location][0]{ name, address, directionsUrl }
+    ),
+    relatedPages[]->{ _id, title, "slug": slug.current, language, ${PARENTS_FRAGMENT} },
+    "sidebarForm": {
+      "ref": coalesce(
+        sidebarForm._ref,
+        (*[_type == "ctaForm" && coalesce(language, "en") == "en"] | order(_createdAt asc))[0]._id
+      )
+    } {
+      "cta": coalesce(
+        select($language != "en" =>
+          *[_type == "translation.metadata" && references(^.ref)][0]
+            .translations[language == $language][0].value-> {
+              _id, eyebrow, heading, description, headingFont, form { ..., ${formFieldsFragment} }
+            }
+        ),
+        *[_id == ^.ref][0] { _id, eyebrow, heading, description, headingFont, form { ..., ${formFieldsFragment} } }
+      )
+    }.cta
+  }
+`
+
 // Every page and practice area with this slug in the language: slugs are only
 // unique among siblings (studio fields/rootSlug.ts), so /about-us/faq and
 // /services/faq share "faq", and the route picks the one whose parents match
@@ -359,7 +397,8 @@ export const PAGE_QUERY = defineQuery(/* groq */ `
     "translations": *[_type == "translation.metadata" && references(^._id)][0]
       .translations[].value->{ language, "slug": slug.current, ${PARENTS_FRAGMENT} },
     ${seoFragment},
-    ${pageBuilderFragment}
+    ${pageBuilderFragment},
+    ${practiceAreaTemplateFragment}
   }
 `)
 

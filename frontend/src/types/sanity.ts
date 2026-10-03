@@ -12,6 +12,8 @@ export type NavDropdown = Extract<NavItem, {_type: 'navDropdown'}>
 // ---------- Pages ----------
 // PAGE_QUERY returns every page sharing the slug (lib/pageRoute.ts picks one).
 export type PageData = PAGE_QUERY_RESULT[number]
+/** A Practice Area: a page plus its template's hero and sidebar. */
+export type PracticeAreaPageData = Extract<PageData, {_type: 'practiceArea'}>
 
 // ---------- Page Builder ----------
 // PAGE_QUERY_RESULT has pageBuilder as a non-null array on its type, so use it directly
