@@ -41,6 +41,13 @@ const testimonials = (data.reviews ?? []).filter((review) => review?.reviewText)
         arrows={data.showArrows !== false}
         showDots={data.showDots !== false}
       >
+        {/* The testimonial card: CardCarousel calls this once per review and
+            lays the results out, so this decides only how one card looks. It
+            lives here because this block is its only user. When a second place
+            needs it, move it to components/testimonials/TestimonialCard.astro
+            (taking one review as a prop) along with the Show More script below,
+            which works off its data-review-text / data-review-toggle — as
+            PracticeAreaCard and NewsCard were. */}
         {(t: (typeof testimonials)[number]) => (
           <div class="flex h-full flex-col bg-card px-8 py-10 sm:px-12 sm:py-12">
             {/* h-full: CardCarousel's slide box is what stretches to the

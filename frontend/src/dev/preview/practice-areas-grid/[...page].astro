@@ -2,8 +2,8 @@
 /**
  * Design preview for the Practice Area Grid block, with 23 hardcoded practice
  * areas at the defaults — 10 per page, 5 columns — so there are three pages
- * to click through. Mirrors the real routing: /preview/practice-areas-grid is
- * page 1, /preview/practice-areas-grid/page/2 and /3 the rest.
+ * to click through. Mirrors the real routing: /dev/preview/practice-areas-grid
+ * is page 1, /dev/preview/practice-areas-grid/page/2 and /3 the rest.
  */
 export const prerender = false
 
@@ -43,7 +43,7 @@ const match = rest?.match(/^page\/(.+)$/)
 if (rest && !match) return Astro.rewrite('/404')
 const n = match ? Number(match[1]) : 1
 if (match && (!Number.isInteger(n) || n < 1 || String(n) !== match[1])) return Astro.rewrite('/404')
-if (match && n === 1) return Astro.redirect('/preview/practice-areas-grid', 301)
+if (match && n === 1) return Astro.redirect('/dev/preview/practice-areas-grid', 301)
 const list = findPaginatedList([data])
 if (!list || n > pageCount(list.items, list.perPage)) return Astro.rewrite('/404')
 Astro.locals.listPage = n
