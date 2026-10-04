@@ -1,0 +1,59 @@
+---
+/**
+ * Dev-only: the /dev index, linking every page in src/dev/routes.mjs — the
+ * tools, then the block design previews. Registered with them by the
+ * devRoutes integration in astro.config.mjs, so it exists only under
+ * `astro dev`.
+ */
+export const prerender = false
+
+import Base from '@/layouts/Base.astro'
+import {DEV_PAGES} from './routes.mjs'
+
+const groups = [
+  {kind: 'tool', heading: 'Tools', intro: 'For finding your way around the code.'},
+  {
+    kind: 'preview',
+    heading: 'Block previews',
+    intro: 'Blocks rendered with hard-coded sample content, without the header and footer, to check a design without editing a real page.',
+  },
+].map((group) => ({...group, pages: DEV_PAGES.filter((page) => page.kind === group.kind)}))
+---
+
+<Base title="Dev pages" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <p class="font-mono text-xs uppercase tracking-widest text-muted">Local only · npm run dev</p>
+    <h1 class="mt-3 font-display text-4xl font-bold">Dev pages</h1>
+    <p class="mt-3 text-muted">
+      These pages exist only on your dev server. Production builds leave them out. To add one, put its file in
+      <code class="font-mono text-sm">src/dev/</code> and list it in
+      <code class="font-mono text-sm">src/dev/routes.mjs</code>.
+    </p>
+
+    {
+      groups.map((group) => (
+        <section class="mt-12">
+          <h2 class="font-display text-xl font-bold">{group.heading}</h2>
+          <p class="mt-1 text-sm text-muted">{group.intro}</p>
+          <ul class="mt-4 divide-y divide-border rounded-lg border border-border bg-card">
+            {group.pages.map((page) => {
+              const href = page.href ?? page.pattern
+              return (
+                <li>
+                  <a href={href} class="group block px-5 py-4 transition-colors hover:bg-background">
+                    <span class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <span class="font-display font-semibold text-primary group-hover:underline">{page.title}</span>
+                      <code class="font-mono text-xs text-muted">{href}</code>
+                    </span>
+                    <span class="mt-1 block text-sm text-foreground/80">{page.description}</span>
+                    <code class="mt-2 block font-mono text-xs text-muted">src/dev/{page.file}</code>
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      ))
+    }
+  </main>
+</Base>

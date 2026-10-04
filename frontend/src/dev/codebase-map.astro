@@ -1,16 +1,15 @@
 ---
 /**
  * Dev-only: a map of this codebase — where things live, how a page renders,
- * and which file to open for a given change. Answers 404 outside `astro dev`,
- * like api/dev/open-in-chrome.ts, so it never ships on the live site.
+ * and which file to open for a given change. Served at /dev/codebase-map by
+ * the devRoutes integration in astro.config.mjs, which only adds the route
+ * under `astro dev`, so production builds don't contain this page at all.
  *
  * Plain HTML with its own styles: global (is:global) and inline script
  * (is:inline), because the lookup table's rows are built in the browser and
  * would miss Astro's scoped-style attributes.
  */
 export const prerender = false
-
-if (!import.meta.env.DEV) return Astro.rewrite('/404')
 ---
 
 <!doctype html>
@@ -204,6 +203,7 @@ if (!import.meta.env.DEV) return Astro.rewrite('/404')
     <a href="#folders">Folders</a>
     <a href="#recipes">Common changes</a>
     <a href="#tips">Search tips</a>
+    <a href="/dev">← All dev pages</a>
   </nav>
 
   <!-- ============ LOOKUP ============ -->
@@ -346,11 +346,11 @@ if (!import.meta.env.DEV) return Astro.rewrite('/404')
         <details open>
           <summary><code>pages/</code><span>one file per address</span></summary>
           <ul class="files">
-            <li><span class="f"><code>index.astro</code>, <code>[...slug].astro</code></span><span>Home and every Page / Practice Area</span></li>
-            <li><span class="f"><code>es/</code></span><span>The same, under /es</span></li>
+            <li><span class="f"><code>index.astro</code></span><span>Home, at <code>/</code></span></li>
+            <li><span class="f"><code>[...slug].astro</code></span><span>Every Page and Practice Area, at <code>/&lt;slug&gt;</code></span></li>
+            <li><span class="f"><code>es/</code></span><span>The same pages, at <code>/es/…</code></span></li>
             <li><span class="f"><code>news/</code>, <code>search.astro</code></span><span>Built-in pages</span></li>
             <li><span class="f"><code>api/</code></span><span>Form submit, revalidate, draft mode</span></li>
-            <li><span class="f"><code>preview/</code></span><span>Test pages with hard-coded content</span></li>
           </ul>
         </details>
         <details open>
@@ -394,6 +394,8 @@ if (!import.meta.env.DEV) return Astro.rewrite('/404')
             <li><span class="f"><code>layouts/</code></span><span>Base (head, meta) and Site (header, footer)</span></li>
             <li><span class="f"><code>styles/global.css</code></span><span>Color tokens, editing badges, shared CSS</span></li>
             <li><span class="f"><code>middleware.ts</code></span><span>Draft cookie → isDraft</span></li>
+            <li><span class="f"><code>dev/</code></span><span>Pages that only exist under npm run dev: the index at /dev, this map, and preview/ (block designs with hard-coded content, at /preview/…). Listed in routes.mjs</span></li>
+            <li><span class="f"><code>../public/</code></span><span>Files served as they are, e.g. the default hero image in assets/images/hero/</span></li>
           </ul>
         </details>
       </div>
@@ -460,7 +462,7 @@ if (!import.meta.env.DEV) return Astro.rewrite('/404')
     ['Colors and fonts of the whole site', ['schemaTypes/documents/site-settings.ts', 'Theme tab'], ['lib/theme.ts', 'components/layout/Theme.astro', 'styles/global.css'], 'theme color colour font typography brand'],
     ['Site content width', null, ['lib/maxWidth.ts'], 'width max container boxed 1360'],
     ['A page’s address, parent pages, redirects', ['schemaTypes/fields/rootSlug.ts'], ['pages/[...slug].astro', 'lib/pageRoute.ts'], 'slug url route redirect parent breadcrumb'],
-    ['Practice area layout (hero, content, sidebar)', ['schemaTypes/documents/practice-area.ts'], ['components/practice-areas/PracticeAreaTemplate.astro', 'components/practice-areas/PracticeAreaHero.astro', 'components/practice-areas/PracticeAreaSidebar.astro'], 'practice area template hero sidebar related form office'],
+    ['Practice area layout (hero, content, sidebar)', ['schemaTypes/documents/practice-area.ts'], ['components/practice-areas/PracticeAreaTemplate.astro', 'components/practice-areas/PracticeAreaHero.astro', 'components/practice-areas/PracticeAreaSidebar.astro'], 'practice area template hero sidebar related form office image default manhattan'],
     ['Office picker in the sidebar tab', ['components/inputs/OfficeInput.tsx'], ['components/practice-areas/PracticeAreaSidebar.astro'], 'office location map directions'],
     ['Section (Container) layout, padding, background', ['schemaTypes/blocks/grid-row.ts', 'schemaTypes/tabs/'], ['components/page-builder/sections/Container.astro', 'lib/container.ts', 'lib/containerStyles.ts'], 'container section row column padding margin gap layout background'],
     ['Block Styles on a block', ['schemaTypes/objects/block-styles.ts', 'components/block-styles/'], ['lib/blockStyles.ts', 'lib/blockRender.ts', 'components/page-builder/BlockRenderer.astro'], 'block styles padding typography effects'],
@@ -480,6 +482,8 @@ if (!import.meta.env.DEV) return Astro.rewrite('/404')
     ['Studio left-hand menu', ['structure.ts'], null, 'studio menu structure desk sidebar list'],
     ['Publish, delete and preview buttons', ['actions/'], null, 'publish delete action button translations'],
     ['Cache refresh after publishing', null, ['pages/api/revalidate.ts'], 'cache revalidate isr vercel webhook'],
+    ['Default practice area hero image', null, ['../public/assets/images/hero/manhattan.webp', 'components/practice-areas/PracticeAreaHero.astro'], 'hero image default manhattan background public'],
+    ['Dev-only pages (this map, block previews)', null, ['dev/routes.mjs', 'dev/index.astro', 'dev/codebase-map.astro', 'dev/preview/', '../astro.config.mjs (devRoutes)'], 'dev map codebase local private route preview test design index'],
   ];
 
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));

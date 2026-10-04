@@ -59,68 +59,75 @@ const needsWrapper =
  * which would apply them twice, and its [data-pb-h] fill rules would stretch
  * every image and iframe inside it.
  */
-const mode =
-  type === 'nestedContainer'
-    ? 'nested'
-    : !Component
-      ? 'unsupported'
-      : !needsWrapper
-        ? 'bare'
-        : SELF_STYLED.has(type)
-          ? 'self-styled'
-          : 'wrapped'
+type Mode = 'nested' | 'unsupported' | 'bare' | 'self-styled' | 'wrapped'
+
+function renderMode(): Mode {
+  if (type === 'nestedContainer') return 'nested'
+  if (!Component) return 'unsupported'
+  if (!needsWrapper) return 'bare'
+  return SELF_STYLED.has(type) ? 'self-styled' : 'wrapped'
+}
+
+const mode = renderMode()
 
 const nestedPath = parentPath && blockKey ? `${parentPath}.content[_key=="${blockKey}"]` : undefined
 const selfStyle = mode === 'self-styled' ? elementStyle(styles, {radiusVar: true}) : null
 const markers = layoutMarkers(styles)
 ---
 
-{mode === 'nested' && (
-  <Container
-    data={block as NestedContainerData}
-    parentContainer={parentContainer ?? undefined}
-    documentId={documentId}
-    documentType={documentType}
-    basePath={nestedPath}
-    nested
-  />
-)}
-
 {mode !== 'nested' && css && <Fragment set:html={`<style>${css}</style>`} />}
 
-{mode === 'self-styled' && (
-  <Component
-    data={block}
-    data-pb={blockKey}
-    id={cssId}
-    class={cssClasses}
-    style={selfStyle?.style}
-    data-pb-overlay={selfStyle?.overlay ? '' : undefined}
-    {...markers}
-    {...animation}
-    {...attributes}
-  />
-)}
-
-{mode === 'wrapped' && (
-  <BlockStylesWrapper
-    blockStyles={styles}
-    radiusVar
-    data-pb={blockKey}
-    id={cssId}
-    class={cssClasses}
-    {...markers}
-    {...animation}
-    {...attributes}
-  >
-    <Component data={block} />
-  </BlockStylesWrapper>
-)}
-
-{mode === 'bare' && <Component data={block} />}
-
-{mode === 'unsupported' && (
-  <div class="my-2 rounded-lg border border-dashed border-border p-4 text-center text-xs text-muted">
-    Unsupported: <code>{block._type}</code>
-  </div>
-)}
+{
+  (() => {
+    switch (mode) {
+      case 'nested':
+        return (
+          <Container
+            data={block as NestedContainerData}
+            parentContainer={parentContainer ?? undefined}
+            documentId={documentId}
+            documentType={documentType}
+            basePath={nestedPath}
+            nested
+          />
+        )
+      case 'self-styled':
+        return (
+          <Component
+            data={block}
+            data-pb={blockKey}
+            id={cssId}
+            class={cssClasses}
+            style={selfStyle?.style}
+            data-pb-overlay={selfStyle?.overlay ? '' : undefined}
+            {...markers}
+            {...animation}
+            {...attributes}
+          />
+        )
+      case 'wrapped':
+        return (
+          <BlockStylesWrapper
+            blockStyles={styles}
+            radiusVar
+            data-pb={blockKey}
+            id={cssId}
+            class={cssClasses}
+            {...markers}
+            {...animation}
+            {...attributes}
+          >
+            <Component data={block} />
+          </BlockStylesWrapper>
+        )
+      case 'bare':
+        return <Component data={block} />
+      case 'unsupported':
+        return (
+          <div class="my-2 rounded-lg border border-dashed border-border p-4 text-center text-xs text-muted">
+            Unsupported: <code>{block._type}</code>
+          </div>
+        )
+    }
+  })()
+}

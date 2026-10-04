@@ -4,6 +4,7 @@ import {loadEnv} from 'vite'
 import sanity from '@sanity/astro'
 import vercel from '@astrojs/vercel'
 import tailwindcss from '@tailwindcss/vite'
+import {DEV_PAGES} from './src/dev/routes.mjs'
 
 const {
   PUBLIC_SANITY_PROJECT_ID,
@@ -12,6 +13,25 @@ const {
   PUBLIC_SITE_URL,
   SANITY_REVALIDATE_SECRET,
 } = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '')
+
+/**
+ * Pages for working on the site, not for visitors: the /dev index, the
+ * codebase map and the block design previews (src/dev/routes.mjs). Added only
+ * under `astro dev`, so a production build has no such route and no such
+ * code. They live in src/dev/, outside src/pages/, which every build includes.
+ *
+ * @type {import('astro').AstroIntegration}
+ */
+const devRoutes = {
+  name: 'dev-routes',
+  hooks: {
+    'astro:config:setup': ({command, injectRoute}) => {
+      if (command !== 'dev') return
+      injectRoute({pattern: '/dev', entrypoint: './src/dev/index.astro'})
+      for (const {pattern, file} of DEV_PAGES) injectRoute({pattern, entrypoint: `./src/dev/${file}`})
+    },
+  },
+}
 
 export default defineConfig({
   site: PUBLIC_SITE_URL || 'http://localhost:4321',
@@ -33,6 +53,7 @@ export default defineConfig({
   }),
 
   integrations: [
+    devRoutes,
     sanity({
       projectId: PUBLIC_SANITY_PROJECT_ID,
       dataset: PUBLIC_SANITY_DATASET,
