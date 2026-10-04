@@ -5,6 +5,7 @@
  * highlighted one), the rest outlined.
  */
 import Base from '@/layouts/Base.astro'
+import DataPanel from '@/dev/DataPanel.astro'
 import LinkList from '@/components/page-builder/blocks/LinkList.astro'
 import type {LinkListData} from '@/types/sanity'
 
@@ -26,5 +27,6 @@ const data = {
 <Base title="Link List preview" noIndex>
   <main class="mx-auto max-w-md p-8">
     <LinkList data={data} />
+    <DataPanel data={data} open />
   </main>
 </Base>

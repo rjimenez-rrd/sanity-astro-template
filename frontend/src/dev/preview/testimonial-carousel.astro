@@ -7,6 +7,7 @@
  * leaves out the header and footer, so the block is the only thing on screen.
  */
 import Base from '@/layouts/Base.astro'
+import DataPanel from '@/dev/DataPanel.astro'
 import TestimonialCarousel from '@/components/page-builder/blocks/TestimonialCarousel.astro'
 import type {TestimonialCarouselData} from '@/types/sanity'
 
@@ -55,6 +56,7 @@ const data = {
       Block preview · testimonialCarousel
     </p>
     <TestimonialCarousel data={data} />
+    <DataPanel data={data} open />
 
     </div>
   </main>

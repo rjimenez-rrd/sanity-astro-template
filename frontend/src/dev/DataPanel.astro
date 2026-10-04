@@ -1,0 +1,24 @@
+---
+/**
+ * Dev-only: the data a preview hands its block, as JSON — the same shape the
+ * page query returns from Sanity for that block — so a preview shows both
+ * what the block draws and what it's drawn from.
+ */
+interface Props {
+  data: unknown
+  /** Start expanded. Pages with several variants leave it closed to stay readable. */
+  open?: boolean
+}
+
+const {data, open = false} = Astro.props
+
+const json = JSON.stringify(data, null, 2)
+const type = (data as {_type?: string} | null)?._type
+---
+
+<details class="mt-4 rounded-lg border border-border bg-card text-left" open={open}>
+  <summary class="cursor-pointer select-none px-4 py-2 font-mono text-xs text-muted hover:text-foreground">
+    data{type && <span> · _type: <span class="text-primary">{type}</span></span>}
+  </summary>
+  <pre class="max-h-96 overflow-auto border-t border-border px-4 py-3 font-mono text-xs leading-relaxed text-foreground"><code>{json}</code></pre>
+</details>

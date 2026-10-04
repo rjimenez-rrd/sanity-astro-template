@@ -7,6 +7,7 @@
  * leaves out the header and footer, so the block is the only thing on screen.
  */
 import Base from '@/layouts/Base.astro'
+import DataPanel from '@/dev/DataPanel.astro'
 import CaseResultCards from '@/components/page-builder/blocks/CaseResultCards.astro'
 import type {CaseResultCardsData} from '@/types/sanity'
 
@@ -84,6 +85,7 @@ const variants = [
         <section class="mb-20">
           <h2 class="mb-6 text-sm font-semibold">{variant.title}</h2>
           <CaseResultCards data={variant.data} />
+          <DataPanel data={variant.data} />
         </section>
       ))
     }

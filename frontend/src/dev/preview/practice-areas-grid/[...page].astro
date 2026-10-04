@@ -8,6 +8,7 @@
 export const prerender = false
 
 import Base from '@/layouts/Base.astro'
+import DataPanel from '@/dev/DataPanel.astro'
 import PracticeAreaGrid from '@/components/page-builder/blocks/PracticeAreaGrid.astro'
 import type {PracticeAreaGridData} from '@/types/sanity'
 import {findPaginatedList, pageCount} from '@/lib/pagination'
@@ -54,5 +55,6 @@ Astro.locals.listPage = n
       Block preview · practiceAreaGrid
     </p>
     <PracticeAreaGrid data={data} />
+    <DataPanel data={data} open />
   </main>
 </Base>
