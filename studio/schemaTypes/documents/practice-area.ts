@@ -20,6 +20,7 @@ export const practiceAreaType = defineType({
     {name: 'hero', title: 'Hero', default: true},
     {name: 'content', title: 'Content'},
     {name: 'sidebar', title: 'Sidebar'},
+    {name: 'bottomForm', title: 'Bottom Form'},
     {name: 'card', title: 'Listing card'},
     {name: 'seo', title: 'SEO'},
   ],
@@ -91,6 +92,23 @@ export const practiceAreaType = defineType({
       description: 'The main content, beside the sidebar.',
     }),
     defineField({
+      name: 'reviewedBy',
+      title: 'Content Reviewed By',
+      type: 'reference',
+      group: 'content',
+      to: [{type: 'lawyer'}],
+      description:
+        'Optional. Shown above the content as "Content Reviewed by", beside the Last Updated date.',
+    }),
+    defineField({
+      name: 'showToc',
+      title: 'Show Table of Contents',
+      type: 'boolean',
+      group: 'content',
+      description: 'A Table of Contents above the content, listing its H2 headings.',
+      initialValue: true,
+    }),
+    defineField({
       name: 'publishedAt',
       // Not copied into a new translation: it starts unpublished.
       options: excludeFromTranslation(),
@@ -158,6 +176,26 @@ export const practiceAreaType = defineType({
         },
       ],
       validation: (rule) => rule.unique(),
+    }),
+
+    // --- Bottom form ---
+    defineField({
+      name: 'showBottomForm',
+      title: 'Show Form at the Bottom',
+      type: 'boolean',
+      group: 'bottomForm',
+      description: 'A full-width CTA Form under the content.',
+      initialValue: true,
+    }),
+    defineField({
+      name: 'bottomForm',
+      title: 'Form',
+      type: 'reference',
+      group: 'bottomForm',
+      to: [{type: 'ctaForm'}],
+      description:
+        'Optional. Leave empty to use the first CTA Form made. Spanish pages show its Spanish translation.',
+      hidden: ({document}) => document?.showBottomForm === false,
     }),
 
     // --- Listing card ---

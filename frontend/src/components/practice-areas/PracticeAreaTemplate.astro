@@ -1,15 +1,21 @@
 ---
 /**
  * A Practice Area's page: the hero, then its Page Builder sections beside the
- * sidebar. Without a sidebar the sections take the full width rather than
+ * sidebar, and a full-width CTA Form under both. Above the sections, who
+ * reviewed the content and when it was last updated, then a Table of
+ * Contents. Without a sidebar the sections take the full width rather than
  * leaving its column empty.
  */
+import {stegaClean} from '@sanity/client/stega'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
+import TocBlock from '@/components/page-builder/blocks/TocBlock.astro'
+import FormCta from '@/components/page-builder/blocks/FormCta.astro'
 import PracticeAreaHero from './PracticeAreaHero.astro'
 import PracticeAreaSidebar from './PracticeAreaSidebar.astro'
 import {CONTENT_WIDTH} from '@/lib/maxWidth'
-import type {Language} from '@/lib/i18n'
-import type {PracticeAreaPageData} from '@/types/sanity'
+import {postDate} from '@/lib/news'
+import {t, type Language} from '@/lib/i18n'
+import type {FormCtaData, PracticeAreaPageData, TocBlockData} from '@/types/sanity'
 
 interface Props {
   page: PracticeAreaPageData
@@ -19,6 +25,18 @@ interface Props {
 const {page, language} = Astro.props
 
 const hasSidebar = Boolean(page.sidebarForm?.form || page.location || page.relatedPages?.some((p) => p?.slug))
+
+const reviewedBy = page.reviewedBy
+const updated = postDate(page.updatedAt, language)
+
+// Unset counts as on: both default to on, and pages saved before the
+// toggles existed have neither.
+const toc = page.showToc !== false ? ({_type: 'tocBlock', title: t(language, 'tableOfContents')} as TocBlockData) : null
+
+const bottomForm = page.showBottomForm !== false && page.bottomForm?._type === 'ctaForm' ? page.bottomForm : null
+const formCta = bottomForm ? ({_type: 'formCta', cta: bottomForm} as unknown as FormCtaData) : null
+// The form's own color fills the whole band; the brand color when it has none.
+const formBackground = stegaClean(bottomForm?.backgroundColor)
 ---
 
 <PracticeAreaHero page={page} />
@@ -26,7 +44,43 @@ const hasSidebar = Boolean(page.sidebarForm?.form || page.location || page.relat
   class={`mx-auto ${CONTENT_WIDTH} px-4 py-12 md:px-8 md:py-16 ${hasSidebar ? 'grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12' : ''}`}
 >
   <div class="min-w-0">
+    {
+      (reviewedBy || updated) && (
+        <div class="mb-10 flex flex-wrap items-start justify-between gap-x-8 gap-y-4 font-display text-lg text-foreground">
+          {reviewedBy && (
+            <p>
+              {t(language, 'contentReviewedBy')}
+              <span class="block font-bold">{reviewedBy}</span>
+            </p>
+          )}
+          {updated && (
+            <p class="ml-auto text-right">
+              {t(language, 'dateLastUpdated')}
+              <span class="block font-bold">{updated}</span>
+            </p>
+          )}
+        </div>
+      )
+    }
+    {
+      toc && (
+        <div class="mb-12">
+          <TocBlock data={toc} collapsed />
+        </div>
+      )
+    }
     <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
   </div>
   {hasSidebar && <PracticeAreaSidebar page={page} language={language} />}
 </div>
+{
+  formCta && (
+    <div class="px-4 pb-4">
+      <div class={formBackground ? '' : 'bg-primary'} style={formBackground ? `background-color:${formBackground}` : undefined}>
+        <div class="mx-auto max-w-[1100px]">
+          <FormCta data={formCta} />
+        </div>
+      </div>
+    </div>
+  )
+}

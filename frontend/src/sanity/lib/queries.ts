@@ -379,6 +379,29 @@ const practiceAreaTemplateFragment = /* groq */ `
         ),
         *[_id == ^.ref][0] { _id, eyebrow, heading, description, headingFont, form { ..., ${formFieldsFragment} } }
       )
+    }.cta,
+    // Above the content: who reviewed it and when it was last published.
+    "reviewedBy": reviewedBy->name,
+    updatedAt,
+    showToc,
+    // The full-width form under the content, picked or the first one made,
+    // the same way as the sidebar's; whole, as the Form CTA block draws it.
+    showBottomForm,
+    "bottomForm": {
+      "ref": coalesce(
+        bottomForm._ref,
+        (*[_type == "ctaForm" && coalesce(language, "en") == "en"] | order(_createdAt asc))[0]._id
+      )
+    } {
+      "cta": coalesce(
+        select($language != "en" =>
+          *[_type == "translation.metadata" && references(^.ref)][0]
+            .translations[language == $language][0].value-> {
+              ..., image { ${imageFragment} }, form { ..., ${formFieldsFragment} }
+            }
+        ),
+        *[_id == ^.ref][0] { ..., image { ${imageFragment} }, form { ..., ${formFieldsFragment} } }
+      )
     }.cta
   }
 `

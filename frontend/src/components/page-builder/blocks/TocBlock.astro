@@ -8,9 +8,11 @@ import {fontStack} from '@/lib/fonts'
 
 interface Props {
   data: TocBlockData
+  /** Start with the list closed (the chevron pointing down), as the Practice Area template does. */
+  collapsed?: boolean
 }
 
-const {data} = Astro.props
+const {data, collapsed = false} = Astro.props
 
 const title = data.title || 'Table of Contents'
 const titleFont = fontStack('Baskervville')
@@ -19,15 +21,16 @@ const titleFont = fontStack('Baskervville')
 {/* Headings are discovered from the rendered document, so the list is filled
     on the client. The nav is hidden until it finds at least one heading. */}
 <nav class="bg-white" data-toc hidden>
-  <div class="flex items-center gap-6 border-b border-border px-5 py-4">
+  {/* The divider only shows under the header while the list is open. */}
+  <div class="flex items-center gap-6 px-5 py-4 [&:has(+ol:not([hidden]))]:border-b [&:has(+ol:not([hidden]))]:border-border">
     <button
       type="button"
       class="shrink-0 rounded-full text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-      aria-expanded="true"
-      aria-label={`Collapse ${title}`}
+      aria-expanded={collapsed ? 'false' : 'true'}
+      aria-label={`${collapsed ? 'Expand' : 'Collapse'} ${title}`}
       data-toc-toggle
     >
-      <svg class="h-6 w-6 transition-transform duration-200" viewBox="0 0 24 24" aria-hidden="true" data-toc-chevron>
+      <svg class={`h-6 w-6 transition-transform duration-200 ${collapsed ? 'rotate-180' : ''}`} viewBox="0 0 24 24" aria-hidden="true" data-toc-chevron>
         <circle cx="12" cy="12" r="12" fill="currentColor" />
         <path d="M7.5 14 12 9.5l4.5 4.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -37,6 +40,7 @@ const titleFont = fontStack('Baskervville')
   <ol
     class="list-decimal space-y-[22px] pt-5 pb-10 pl-14 pr-6 font-display text-[17px] leading-7 text-foreground marker:text-primary"
     data-toc-list
+    hidden={collapsed}
   ></ol>
 </nav>
 
