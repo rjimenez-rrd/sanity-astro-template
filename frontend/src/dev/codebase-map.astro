@@ -10,6 +10,10 @@
  * would miss Astro's scoped-style attributes.
  */
 export const prerender = false
+
+// For the site's color tokens (see :root below). Tailwind's reset comes with it,
+// which this page's own styles override where it matters.
+import '@/styles/global.css'
 ---
 
 <!doctype html>
@@ -23,54 +27,26 @@ export const prerender = false
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
     <style is:global>
+  /*
+   * The site's own colors (styles/global.css :root, loaded above), the same
+   * ones the /dev index uses, so the dev pages read as one set. Light only,
+   * like the site.
+   */
   :root {
-    --bg: #f3f4f9;
-    --surface: #ffffff;
-    --surface-2: #e9ebf5;
-    --ink: #0b0d33;
-    --muted: #565a7d;
-    --rule: #d6d9ea;
-    --navy: #0a108c;
-    --studio: #c2410c;
-    --studio-soft: #fbe7dc;
-    --front: #0a6fc2;
-    --front-soft: #dcecfb;
+    --bg: var(--background);
+    --surface: var(--card);
+    --surface-2: var(--background);
+    --ink: var(--foreground);
+    --rule: var(--border);
+    --navy: var(--primary);
+    --studio: var(--accent);
+    --studio-soft: color-mix(in srgb, var(--accent) 12%, var(--card));
+    --front: var(--primary);
+    --front-soft: color-mix(in srgb, var(--primary) 10%, var(--card));
     --mark: #fff1a8;
     --display: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif;
     --body: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
     --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --bg: #0a0b1f;
-      --surface: #13153a;
-      --surface-2: #1b1e4a;
-      --ink: #e7e8f6;
-      --muted: #a2a6c8;
-      --rule: #2a2e62;
-      --navy: #8f9bff;
-      --studio: #ff9a6b;
-      --studio-soft: #3a1f1a;
-      --front: #6cb8ff;
-      --front-soft: #13304d;
-      --mark: #5a4d00;
-    }
-  }
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --bg: #0a0b1f;
-    --surface: #13153a;
-    --surface-2: #1b1e4a;
-    --ink: #e7e8f6;
-    --muted: #a2a6c8;
-    --rule: #2a2e62;
-    --navy: #8f9bff;
-    --studio: #ff9a6b;
-    --studio-soft: #3a1f1a;
-    --front: #6cb8ff;
-    --front-soft: #13304d;
-    --mark: #5a4d00;
   }
 
   * { box-sizing: border-box; }
@@ -166,7 +142,7 @@ export const prerender = false
   /* --- Recipes --- */
   .recipes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .recipe { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; display: grid; gap: 12px; align-content: start; }
-  .recipe ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 8px; }
+  .recipe ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 8px; list-style: decimal; }
   .recipe li::marker { font-family: var(--display); font-weight: 700; color: var(--navy); }
   .tips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   .tip { border-top: 3px solid var(--navy); background: var(--surface); padding: 14px 16px; border-radius: 0 0 8px 8px; display: grid; gap: 6px; align-content: start; }
@@ -472,7 +448,8 @@ export const prerender = false
     ['Forms and form submissions', ['schemaTypes/blocks/form-block.ts', 'schemaTypes/documents/form-cta.ts'], ['components/page-builder/blocks/FormBlock.astro', 'components/page-builder/blocks/FormCta.astro', 'pages/api/form-submit.ts'], 'form cta contact webhook submit'],
     ['Spanish: translations and built-in words', ['schemaTypes/languages.ts', 'schemaTypes/documents/site-settings-es.ts'], ['lib/i18n.ts', 'lib/siteSettings.ts', 'pages/es/'], 'spanish translation language es i18n words'],
     ['News list and posts', ['schemaTypes/documents/news-post.ts', 'schemaTypes/documents/news-category.ts'], ['pages/news/', 'components/news/', 'lib/news.ts'], 'news blog post article category'],
-    ['Search', null, ['pages/search.astro', 'components/search/', 'lib/search.ts'], 'search results overlay'],
+    ['Search in the header (button and overlay)', ['schemaTypes/documents/site-settings.ts', 'Navigation tab → Show Search, Search Heading, Search Placeholder', 'schemaTypes/documents/site-settings-es.ts'], ['components/layout/header/HeaderActions.astro', 'components/layout/Header.astro', 'components/search/SearchOverlay.astro', 'components/search/SearchForm.astro'], 'search header overlay button icon magnifier open'],
+    ['Search results page', null, ['pages/search.astro', 'pages/es/search.astro', 'components/search/SearchPage.astro', 'lib/search.ts', 'sanity/lib/queries.ts (SEARCH_QUERY)'], 'search results page query'],
     ['SEO title and meta tags', ['schemaTypes/objects/seo.ts'], ['lib/seo.ts', 'layouts/Base.astro'], 'seo meta title description og'],
     ['Images', null, ['components/sanity/SanityImage.astro', 'sanity/lib/image.ts'], 'image picture photo lqip'],
     ['Phone number and phone texts', ['components/inputs/phoneSettings.ts', 'components/inputs/PhoneTextInput.tsx'], ['lib/phone.ts', 'components/ui/PhoneLink.astro'], 'phone tel number call'],
