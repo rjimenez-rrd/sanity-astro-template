@@ -1,8 +1,9 @@
 ---
 /**
- * Design preview for the Table of Contents block. It lists the page's h2 and
- * h3 headings, found in the rendered document, so this page carries its own
- * headings below the block to list. Scroll to see the active entry change.
+ * Design preview for the Table of Contents block. It lists the page's h2
+ * headings, found in the rendered document, so this page carries its own
+ * headings below the block to list. The h3s are there to show they're left
+ * out. Scroll to see the active entry change.
  */
 import Base from '@/layouts/Base.astro'
 import BackToDev from '@/dev/BackToDev.astro'
@@ -13,7 +14,7 @@ import type {TocBlockData} from '@/types/sanity'
 const data = {
   _key: 'preview',
   _type: 'tocBlock',
-  title: 'On this page',
+  title: 'Table of Contents',
 } as unknown as TocBlockData
 
 const SECTIONS = [
@@ -31,7 +32,8 @@ const SECTIONS = [
     <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
       Block preview · tocBlock
     </p>
-    <div class="mb-16 max-w-xs">
+    {/* The card is white with no border, so it sits on a tinted section as on the site. */}
+    <div class="mb-16 p-4" style="background:#e9e8f1">
       <TocBlock data={data} />
     </div>
     <DataPanel data={data} />
