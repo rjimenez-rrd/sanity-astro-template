@@ -1,9 +1,11 @@
 ---
 /**
- * Dev-only: the data a preview hands its block, as JSON — the same shape the
- * page query returns from Sanity for that block — so a preview shows both
- * what the block draws and what it's drawn from.
+ * Dev-only: under a preview's block, the fields the Studio defines for that
+ * block (blockFields.ts, from studio/schema.json) and the data the preview
+ * hands it, as JSON — the same shape the page query returns from Sanity.
  */
+import {blockFields} from './blockFields'
+
 interface Props {
   data: unknown
   /** Start expanded. Pages with several variants leave it closed to stay readable. */
@@ -14,11 +16,43 @@ const {data, open = false} = Astro.props
 
 const json = JSON.stringify(data, null, 2)
 const type = (data as {_type?: string} | null)?._type
+const schema = type ? blockFields(type) : null
+
+const label = 'border-t border-border bg-background px-4 py-1.5 font-mono text-[11px] uppercase tracking-wider text-muted'
 ---
 
 <details class="mt-4 rounded-lg border border-border bg-card text-left" open={open}>
   <summary class="cursor-pointer select-none px-4 py-2 font-mono text-xs text-muted hover:text-foreground">
-    data{type && <span> · _type: <span class="text-primary">{type}</span></span>}
+    fields &amp; data{type && <span> · _type: <span class="text-primary">{type}</span></span>}
   </summary>
-  <pre class="max-h-96 overflow-auto border-t border-border px-4 py-3 font-mono text-xs leading-relaxed text-foreground"><code>{json}</code></pre>
+
+  <p class={label}>
+    Fields in Sanity{schema?.file && <span class="normal-case tracking-normal"> · {schema.file}</span>}
+  </p>
+  {
+    schema ? (
+      <div class="max-h-96 overflow-auto">
+        <table class="w-full border-collapse font-mono text-xs">
+          <tbody>
+            {schema.fields.map((field) => (
+              <tr class="border-t border-border first:border-t-0">
+                <td class="whitespace-nowrap px-4 py-1.5 align-top text-foreground">{field.name}</td>
+                <td class="px-4 py-1.5 align-top text-muted">{field.type}</td>
+                <td class={`whitespace-nowrap px-4 py-1.5 align-top ${field.required ? 'text-primary' : 'text-muted'}`}>
+                  {field.required ? 'required' : 'optional'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <p class="px-4 py-3 text-xs text-muted">
+        Not in studio/schema.json. Run <code class="font-mono">npm run typegen</code> from the repo root to extract it.
+      </p>
+    )
+  }
+
+  <p class={label}>Data · what the block receives</p>
+  <pre class="max-h-96 overflow-auto px-4 py-3 font-mono text-xs leading-relaxed text-foreground"><code>{json}</code></pre>
 </details>
