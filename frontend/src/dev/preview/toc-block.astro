@@ -1,0 +1,54 @@
+---
+/**
+ * Design preview for the Table of Contents block. It lists the page's h2 and
+ * h3 headings, found in the rendered document, so this page carries its own
+ * headings below the block to list. Scroll to see the active entry change.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import TocBlock from '@/components/page-builder/blocks/TocBlock.astro'
+import type {TocBlockData} from '@/types/sanity'
+
+const data = {
+  _key: 'preview',
+  _type: 'tocBlock',
+  title: 'On this page',
+} as unknown as TocBlockData
+
+const SECTIONS = [
+  {id: 'what-we-do', title: 'What we do', level: 2},
+  {id: 'practice-areas', title: 'Practice areas', level: 3},
+  {id: 'how-we-charge', title: 'How we charge', level: 2},
+  {id: 'contingency-fees', title: 'Contingency fees', level: 3},
+  {id: 'free-consultation', title: 'Free consultation', level: 2},
+]
+---
+
+<Base title="Table of Contents — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · tocBlock
+    </p>
+    <div class="mb-16 max-w-xs">
+      <TocBlock data={data} />
+    </div>
+    <DataPanel data={data} />
+    {
+      SECTIONS.map((section) => {
+        const Heading = section.level === 2 ? 'h2' : 'h3'
+        return (
+          <section class="mt-16 min-h-[60vh]">
+            <Heading id={section.id} class={section.level === 2 ? 'font-display text-2xl font-bold' : 'font-display text-xl font-semibold'}>
+              {section.title}
+            </Heading>
+            <p class="mt-3 text-muted">
+              Sample text for “{section.title}”, long enough that the heading scrolls past the table of contents.
+            </p>
+          </section>
+        )
+      })
+    }
+  </main>
+</Base>

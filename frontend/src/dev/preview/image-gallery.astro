@@ -1,0 +1,53 @@
+---
+/**
+ * Design preview for the Image Gallery block, in its Grid and Masonry layouts,
+ * with the lightbox on. Six images, so each layout has two rows to show.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import ImageGallery from '@/components/page-builder/blocks/ImageGallery.astro'
+import type {ImageGalleryData} from '@/types/sanity'
+
+const IMAGE = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}}
+const images = [1, 2, 3, 4, 5, 6].map((n) => ({
+  _key: `img-${n}`,
+  _type: 'galleryImage',
+  image: IMAGE,
+  alt: `Sample photo ${n}`,
+  caption: `Photo ${n}`,
+}))
+
+const LAYOUTS = ['grid', 'masonry'] as const
+
+const blocks = LAYOUTS.map((layout) => ({
+  layout,
+  data: {
+    _key: `preview-${layout}`,
+    _type: 'imageGallery',
+    title: `${layout[0].toUpperCase()}${layout.slice(1)} layout`,
+    images,
+    layout,
+    columns: '3',
+    enableLightbox: true,
+  } as unknown as ImageGalleryData,
+}))
+---
+
+<Base title="Image Gallery — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-5xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · imageGallery · Grid and Masonry, lightbox on
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-20">
+          <p class="mb-4 font-mono text-xs text-muted">Layout: {block.layout}</p>
+          <ImageGallery data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

@@ -1,0 +1,46 @@
+---
+/**
+ * Design preview for the Countdown Timer block, once per Display Style (Large,
+ * Compact, Inline). The target is three days from when the page renders, so
+ * the timer always has time left.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import CountdownTimer from '@/components/page-builder/blocks/CountdownTimer.astro'
+import type {CountdownTimerData} from '@/types/sanity'
+
+const targetDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString()
+const STYLES = ['large', 'compact', 'inline'] as const
+
+const blocks = STYLES.map((style) => ({
+  style,
+  data: {
+    _key: `preview-${style}`,
+    _type: 'countdownTimer',
+    title: 'Free webinar starts soon',
+    subtitle: 'Join us to learn what to do after an accident.',
+    targetDate,
+    style,
+    cta: {_type: 'callToAction', label: 'Save my seat', variant: 'primary', link: [{_key: 'l', _type: 'linkExternal', url: 'https://example.com'}]},
+  } as unknown as CountdownTimerData,
+}))
+---
+
+<Base title="Countdown Timer — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-4xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · countdownTimer · one per Display Style
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-20">
+          <p class="mb-4 font-mono text-xs text-muted">Display Style: {block.style}</p>
+          <CountdownTimer data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

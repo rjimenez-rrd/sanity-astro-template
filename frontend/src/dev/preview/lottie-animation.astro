@@ -1,0 +1,35 @@
+---
+/**
+ * Design preview for the Lottie Animation block: a looping animation from a
+ * URL, played on load. It fetches its JSON from the LottieFiles CDN, so it
+ * needs a network connection.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import LottieAnimation from '@/components/page-builder/blocks/LottieAnimation.astro'
+import type {LottieAnimationData} from '@/types/sanity'
+
+const data = {
+  _key: 'preview',
+  _type: 'lottieAnimation',
+  source: 'url',
+  url: 'https://assets2.lottiefiles.com/packages/lf20_UgZWgz.json',
+  autoplay: true,
+  loop: true,
+  speed: 1,
+  trigger: 'auto',
+  alt: 'A looping sample animation',
+} as unknown as LottieAnimationData
+---
+
+<Base title="Lottie Animation — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-md px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · lottieAnimation
+    </p>
+    <LottieAnimation data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

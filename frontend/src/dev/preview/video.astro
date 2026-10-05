@@ -1,0 +1,32 @@
+---
+/**
+ * Design preview for the Video block: a YouTube embed with its controls, with
+ * hardcoded settings.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import Video from '@/components/page-builder/blocks/Video.astro'
+import type {VideoData} from '@/types/sanity'
+
+const data = {
+  _key: 'preview',
+  _type: 'video',
+  source: 'youtube',
+  url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  controls: true,
+  privacyMode: true,
+  lazyLoad: true,
+} as unknown as VideoData
+---
+
+<Base title="Video — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · video
+    </p>
+    <Video data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

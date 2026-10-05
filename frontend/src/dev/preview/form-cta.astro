@@ -1,0 +1,53 @@
+---
+/**
+ * Design preview for the Form CTA block: eyebrow, heading and description with
+ * a form on the left, and a cut-out image with outlined words on the right.
+ * Uses the block's own content, so no Form CTA document is needed.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import FormCta from '@/components/page-builder/blocks/FormCta.astro'
+import type {FormCtaData} from '@/types/sanity'
+
+const fields = [
+  {_key: 'name', _type: 'formField', label: 'Full name', name: 'name', type: 'text', required: true, width: 'full'},
+  {_key: 'email', _type: 'formField', label: 'Email', name: 'email', type: 'email', required: true, width: 'full'},
+  {_key: 'details', _type: 'formField', label: 'What happened?', name: 'details', type: 'textarea', width: 'full'},
+]
+
+const data = {
+  _key: 'preview',
+  _type: 'formCta',
+  eyebrow: 'Free consultation',
+  heading: 'Talk to a lawyer today',
+  description: 'Tell us what happened and we will explain your options at no cost.',
+  outlineText: 'JUSTICE',
+  backgroundColor: '#0A108C',
+  headingFont: 'Libre Baskerville',
+  outlineFont: 'Bebas Neue',
+  image: {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}, alt: 'A lawyer'},
+  form: {
+    _type: 'formBlock',
+    formTitle: '',
+    fields,
+    submitLabel: 'Get my free review',
+    submitAction: 'webhook',
+    successMessage: 'Thanks. We will be in touch shortly.',
+    errorMessage: 'Something went wrong. Please try again.',
+  },
+} as unknown as FormCtaData
+---
+
+<Base title="Form CTA — preview" noIndex>
+  <main class="w-full min-w-0">
+    <BackToDev />
+    <p class="mx-auto mb-10 mt-16 max-w-6xl px-4 font-mono text-xs uppercase tracking-widest text-muted sm:px-6">
+      Block preview · formCta
+    </p>
+    <FormCta data={data} />
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <DataPanel data={data} />
+    </div>
+  </main>
+</Base>

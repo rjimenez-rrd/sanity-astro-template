@@ -1,0 +1,30 @@
+---
+/**
+ * Design preview for the Custom HTML block: a small styled snippet written as
+ * raw markup, rendered exactly as the editor wrote it.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import CustomHtml from '@/components/page-builder/blocks/CustomHtml.astro'
+
+const data = {
+  _key: 'preview',
+  _type: 'htmlBlock',
+  html: `<div style="border:2px dashed #0A108C;border-radius:12px;padding:24px;text-align:center">
+  <p style="font-weight:700;margin:0 0 8px">Raw HTML, as written</p>
+  <p style="margin:0;opacity:.75">Nothing here is parsed or styled by the page builder.</p>
+</div>`,
+}
+---
+
+<Base title="Custom HTML — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · htmlBlock
+    </p>
+    <CustomHtml data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

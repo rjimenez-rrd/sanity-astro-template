@@ -1,0 +1,46 @@
+---
+/**
+ * Design preview for the News Cards block: four picked posts in a carousel, in
+ * the same card the /news list uses. The posts are hardcoded, so the block is
+ * shown as an editor would have picked them (Source: Manual).
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import NewsCards from '@/components/page-builder/blocks/NewsCards.astro'
+import type {NewsCardsData} from '@/types/sanity'
+
+const COVER = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}, alt: 'News cover'}
+
+const posts = [
+  {_id: 'news-1', title: 'New rules for rideshare claims', slug: 'rideshare-claims', language: 'en', publishedAt: '2026-03-02', category: 'Legal updates', coverImage: COVER},
+  {_id: 'news-2', title: 'What to do after a slip and fall', slug: 'slip-and-fall', language: 'en', publishedAt: '2026-02-18', category: 'Guides', coverImage: COVER},
+  {_id: 'news-3', title: 'Our office hours are changing', slug: 'office-hours', language: 'en', publishedAt: '2026-01-27', category: 'Announcements', coverImage: COVER},
+  {_id: 'news-4', title: 'Community clinic this Saturday', slug: 'community-clinic', language: 'en', publishedAt: '2026-01-10', category: 'Events', coverImage: COVER},
+]
+
+const data = {
+  _key: 'preview',
+  _type: 'newsCards',
+  title: 'Latest news',
+  subtitle: 'Updates from the firm.',
+  source: 'manual',
+  count: 4,
+  newsPosts: posts,
+  columns: '3',
+  tabletColumns: '2',
+  stackOnMobile: true,
+  autoPlay: false,
+} as unknown as NewsCardsData
+---
+
+<Base title="News Cards — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · newsCards
+    </p>
+    <NewsCards data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

@@ -1,0 +1,35 @@
+---
+/**
+ * Design preview for the Stat Metric block, once per Size (small, medium,
+ * large), with and without a prefix and suffix.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import StatMetric from '@/components/page-builder/blocks/StatMetric.astro'
+import type {StatMetricData} from '@/types/sanity'
+
+const blocks = [
+  {id: 'small', note: 'Small, value only', data: {_key: 'small', _type: 'statMetric', value: '1,200', label: 'Cases won', size: 'small'}},
+  {id: 'medium', note: 'Medium, with a prefix', data: {_key: 'medium', _type: 'statMetric', value: '4.2', prefix: '$', suffix: 'M', label: 'Recovered for clients', size: 'medium'}},
+  {id: 'large', note: 'Large, with a suffix', data: {_key: 'large', _type: 'statMetric', value: '98', suffix: '%', label: 'Client satisfaction', size: 'large'}},
+].map((b) => ({...b, data: b.data as unknown as StatMetricData}))
+---
+
+<Base title="Stat Metric — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-4xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · statMetric · one per Size
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-2 font-mono text-xs text-muted">{block.note}</p>
+          <StatMetric data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

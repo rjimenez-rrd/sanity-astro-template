@@ -1,0 +1,50 @@
+---
+/**
+ * Design preview for the Button Group block: a horizontal row and a vertical
+ * stack, each with three buttons in different variants.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import ButtonGroup from '@/components/page-builder/blocks/ButtonGroup.astro'
+import type {ButtonGroupData} from '@/types/sanity'
+
+const LINK = [{_key: 'l', _type: 'linkExternal', url: 'https://example.com'}]
+
+const buttons = [
+  {_key: 'primary', _type: 'callToAction', label: 'Primary', variant: 'primary', link: LINK},
+  {_key: 'secondary', _type: 'callToAction', label: 'Secondary', variant: 'secondary', link: LINK},
+  {_key: 'outline', _type: 'callToAction', label: 'Outline', variant: 'outline', link: LINK},
+]
+
+const blocks = [
+  {
+    id: 'horizontal',
+    note: 'Horizontal, medium gap, left aligned',
+    data: {_key: 'horizontal', _type: 'buttonGroup', buttons, direction: 'horizontal', alignment: 'left', gap: 'medium'},
+  },
+  {
+    id: 'vertical',
+    note: 'Vertical, small gap, center aligned',
+    data: {_key: 'vertical', _type: 'buttonGroup', buttons, direction: 'vertical', alignment: 'center', gap: 'small'},
+  },
+].map((b) => ({...b, data: b.data as unknown as ButtonGroupData}))
+---
+
+<Base title="Button Group — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · buttonGroup
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-4 font-mono text-xs text-muted">{block.note}</p>
+          <ButtonGroup data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

@@ -1,0 +1,43 @@
+---
+/**
+ * Design preview for the Map Embed block, once per Style (Default, Rounded,
+ * Borderless), at medium height.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import MapEmbed from '@/components/page-builder/blocks/MapEmbed.astro'
+import type {MapEmbedData} from '@/types/sanity'
+
+const STYLES = ['default', 'rounded', 'borderless'] as const
+
+const blocks = STYLES.map((style) => ({
+  style,
+  data: {
+    _key: `preview-${style}`,
+    _type: 'mapEmbed',
+    embedUrl: 'https://www.google.com/maps?q=Los+Angeles,+CA&output=embed',
+    height: 'medium',
+    caption: 'Our Los Angeles office',
+    style,
+  } as unknown as MapEmbedData,
+}))
+---
+
+<Base title="Map Embed — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · mapEmbed · one per Style
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-4 font-mono text-xs text-muted">Style: {block.style}</p>
+          <MapEmbed data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

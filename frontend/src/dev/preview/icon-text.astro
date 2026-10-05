@@ -1,0 +1,47 @@
+---
+/**
+ * Design preview for the Icon Text block, once per Alignment (left, center,
+ * right), with a sample icon and a text link.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import IconText from '@/components/page-builder/blocks/IconText.astro'
+import type {IconTextData} from '@/types/sanity'
+
+const ICON = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}}
+const LINK = {label: 'Learn more', link: [{_key: 'l', _type: 'linkExternal', url: 'https://example.com'}]}
+const ALIGNMENTS = ['left', 'center', 'right'] as const
+
+const blocks = ALIGNMENTS.map((alignment) => ({
+  alignment,
+  data: {
+    _key: `preview-${alignment}`,
+    _type: 'iconText',
+    icon: ICON,
+    iconSize: 'medium',
+    title: 'Free case review',
+    description: 'A short description under the title, aligned with the block.',
+    alignment,
+    link: LINK,
+  } as unknown as IconTextData,
+}))
+---
+
+<Base title="Icon Text — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · iconText · one per Alignment
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-4 font-mono text-xs text-muted">Alignment: {block.alignment}</p>
+          <IconText data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

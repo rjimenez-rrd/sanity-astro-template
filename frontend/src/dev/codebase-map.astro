@@ -15,6 +15,7 @@ export const prerender = false
 // which this page's own styles override where it matters.
 import '@/styles/global.css'
 import {componentIndex} from './componentIndex'
+import BackToDev from './BackToDev.astro'
 
 const componentGroups = componentIndex()
 const componentCount = componentGroups.reduce((n, g) => n + g.components.length, 0)
@@ -194,6 +195,7 @@ const blockRows = componentGroups
   <body>
 <div class="wrap">
   <header class="top">
+    <BackToDev />
     <h1>Page Builder Codebase Map</h1>
     <p class="lede">Where things live in <code>sanity-astro-template</code>, how a page gets from the Studio to the browser, and which file to open for the change you have in mind.</p>
     <div class="legend">

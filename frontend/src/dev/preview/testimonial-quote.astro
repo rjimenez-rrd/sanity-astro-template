@@ -1,0 +1,46 @@
+---
+/**
+ * Design preview for the Testimonial Quote block, once per Style (Simple,
+ * Card, Large), with a rating and an avatar.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import TestimonialQuote from '@/components/page-builder/blocks/TestimonialQuote.astro'
+import type {TestimonialQuoteData} from '@/types/sanity'
+
+const AVATAR = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}}
+const STYLES = ['simple', 'card', 'large'] as const
+
+const blocks = STYLES.map((style) => ({
+  style,
+  data: {
+    _key: `preview-${style}`,
+    _type: 'testimonialQuote',
+    quote: 'They explained every step, returned every call, and got me more than I expected.',
+    avatar: AVATAR,
+    name: 'Maria Lopez',
+    title: 'Former client',
+    rating: 5,
+    style,
+  } as unknown as TestimonialQuoteData,
+}))
+---
+
+<Base title="Testimonial Quote — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · testimonialQuote · one per Style
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-2 font-mono text-xs text-muted">Style: {block.style}</p>
+          <TestimonialQuote data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

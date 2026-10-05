@@ -1,0 +1,45 @@
+---
+/**
+ * Design preview for the Practice Area Cards block: a carousel of six sample
+ * practice areas, four across on desktop, with the titles stacked one word per
+ * line.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import PracticeAreaCards from '@/components/page-builder/blocks/PracticeAreaCards.astro'
+import type {PracticeAreaCardsData} from '@/types/sanity'
+
+const IMAGE = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}}
+const NAMES = ['Car Accident', 'Slip and Fall', 'Medical Malpractice', 'Workers Compensation', 'Wrongful Death', 'Dog Bite']
+
+const practiceAreas = NAMES.map((title) => ({
+  _id: `preview-${title.toLowerCase().replace(/\s+/g, '-')}`,
+  title,
+  slug: {current: title.toLowerCase().replace(/\s+/g, '-')},
+  coverImage: IMAGE,
+}))
+
+const data = {
+  _key: 'preview',
+  _type: 'practiceAreaCards',
+  title: 'Practice Areas',
+  subtitle: 'Select a practice area to learn more.',
+  practiceAreas,
+  columns: '4',
+  titleAlign: 'center',
+  stackTitleWords: true,
+  autoPlay: false,
+} as unknown as PracticeAreaCardsData
+---
+
+<Base title="Practice Area Cards — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · practiceAreaCards
+    </p>
+    <PracticeAreaCards data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

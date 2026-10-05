@@ -1,0 +1,45 @@
+---
+/**
+ * Design preview for the Logo Row block, once per Size (small, medium, large),
+ * with grayscale on. The logos are the same sample image, so the row's
+ * sizing is what to look at.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import LogoRow from '@/components/page-builder/blocks/LogoRow.astro'
+import type {LogoRowData} from '@/types/sanity'
+
+const IMAGE = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}}
+const logos = ['Firm A', 'Firm B', 'Firm C', 'Firm D'].map((name, i) => ({
+  _key: `logo-${i}`,
+  _type: 'logoItem',
+  image: IMAGE,
+  alt: name,
+  link: 'https://example.com',
+}))
+const SIZES = ['small', 'medium', 'large'] as const
+
+const blocks = SIZES.map((size) => ({
+  size,
+  data: {_key: `preview-${size}`, _type: 'logoRow', logos, grayscale: true, size} as unknown as LogoRowData,
+}))
+---
+
+<Base title="Logo Row — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-4xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · logoRow · one per Size
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-4 font-mono text-xs text-muted">Size: {block.size}</p>
+          <LogoRow data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

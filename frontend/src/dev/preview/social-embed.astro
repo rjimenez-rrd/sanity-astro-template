@@ -1,0 +1,46 @@
+---
+/**
+ * Design preview for the Social Embed block: one card per platform (Instagram,
+ * TikTok, X, Facebook, other). The links are placeholders, so nothing is
+ * fetched from the platforms.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import SocialEmbed from '@/components/page-builder/blocks/SocialEmbed.astro'
+import type {SocialEmbedData} from '@/types/sanity'
+
+const PLATFORMS = ['instagram', 'tiktok', 'twitter', 'facebook', 'other'] as const
+
+const blocks = PLATFORMS.map((platform) => ({
+  platform,
+  data: {
+    _key: platform,
+    _type: 'socialEmbed',
+    platform,
+    embedUrl: `https://example.com/${platform}/post`,
+    caption: `A sample ${platform} post, linked out to the platform.`,
+    aspectRatio: 'square',
+  } as unknown as SocialEmbedData,
+}))
+---
+
+<Base title="Social Embed — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-5xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · socialEmbed · one per platform
+    </p>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        blocks.map((block) => (
+          <div class="flex min-w-0 flex-col">
+            <p class="mb-2 font-mono text-xs text-muted">Platform: {block.platform}</p>
+            <SocialEmbed data={block.data} />
+            <DataPanel data={block.data} />
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</Base>

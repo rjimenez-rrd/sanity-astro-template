@@ -1,0 +1,50 @@
+---
+/**
+ * Design preview for the Tabbed Content block, once per Tab Style (Underline,
+ * Pills, Boxed), with hardcoded tabs that each hold a rich text block.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import TabbedContent from '@/components/page-builder/blocks/TabbedContent.astro'
+import type {TabbedContentData} from '@/types/sanity'
+
+const paragraph = (key: string, text: string) => ({
+  _type: 'richTextBlock',
+  _key: key,
+  content: [
+    {_type: 'block', _key: `${key}-b`, style: 'normal', markDefs: [], children: [{_type: 'span', _key: `${key}-s`, text, marks: []}]},
+  ],
+})
+
+const tabs = [
+  {_key: 'overview', _type: 'tab', label: 'Overview', content: [paragraph('o', 'The first tab’s content, drawn by the same blocks a column holds.')]},
+  {_key: 'details', _type: 'tab', label: 'Details', content: [paragraph('d', 'A second tab with a different paragraph.')]},
+  {_key: 'pricing', _type: 'tab', label: 'Pricing', content: [paragraph('p', 'A third tab, so the tab row has three to lay out.')]},
+]
+
+const STYLES = ['underline', 'pills', 'boxed'] as const
+
+const blocks = STYLES.map((tabStyle) => ({
+  tabStyle,
+  data: {_key: `preview-${tabStyle}`, _type: 'tabbedContent', title: `${tabStyle[0].toUpperCase()}${tabStyle.slice(1)} tabs`, tabStyle, tabs} as unknown as TabbedContentData,
+}))
+---
+
+<Base title="Tabbed Content — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · tabbedContent · one per Tab Style
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-20">
+          <p class="mb-4 font-mono text-xs text-muted">Tab Style: {block.tabStyle}</p>
+          <TabbedContent data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

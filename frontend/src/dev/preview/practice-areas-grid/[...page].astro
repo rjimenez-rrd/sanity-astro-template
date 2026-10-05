@@ -8,6 +8,7 @@
 export const prerender = false
 
 import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
 import DataPanel from '@/dev/DataPanel.astro'
 import PracticeAreaGrid from '@/components/page-builder/blocks/PracticeAreaGrid.astro'
 import type {PracticeAreaGridData} from '@/types/sanity'
@@ -51,6 +52,7 @@ Astro.locals.listPage = n
 
 <Base title="Practice Areas grid — preview" noIndex>
   <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <BackToDev />
     <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
       Block preview · practiceAreaGrid
     </p>

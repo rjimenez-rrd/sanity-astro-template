@@ -36,6 +36,17 @@ const slug = stegaClean(area.slug?.current)
  * spaces. Either way whitespace-pre-line is what renders the breaks.
  */
 const custom = area.cardTitle?.trim()
+
+/**
+ * Stacked, a title is one word per line, but never more than two lines: past
+ * two words the words split into two balanced lines, so the full name still shows.
+ */
+const stackedLines = (words: string[]) => {
+  if (words.length <= 2) return words.join('\n')
+  const half = Math.ceil(words.length / 2)
+  return [words.slice(0, half).join(' '), words.slice(half).join(' ')].join('\n')
+}
+
 const label = custom
   ? custom
   : stackWords
@@ -43,7 +54,7 @@ const label = custom
       // characters for click-to-edit, and JS treats one of them (U+FEFF) as
       // whitespace — splitting the raw string turns two words into hundreds of
       // lines. Only this branch loses click-to-edit, and only while stacking.
-      (stegaClean(area.title) ?? '').trim().split(/\s+/).join('\n')
+      stackedLines((stegaClean(area.title) ?? '').trim().split(/\s+/))
     : area.title
 ---
 
@@ -70,7 +81,7 @@ const label = custom
         )}
       </div>
       <h2
-        class={`whitespace-pre-line bg-practice-card px-6 py-3 font-display text-2xl font-semibold text-white ${
+        class={`whitespace-pre-line text-balance bg-practice-card px-6 py-3 font-display text-2xl font-semibold text-white ${
           align === 'left' ? 'text-left' : 'text-center'
         } ${fillHeight ? `flex flex-1 items-center ${align === 'left' ? 'justify-start' : 'justify-center'}` : ''}`}
       >

@@ -7,6 +7,7 @@
  * leaves out the header and footer, so the block is the only thing on screen.
  */
 import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
 import DataPanel from '@/dev/DataPanel.astro'
 import CaseResultCards from '@/components/page-builder/blocks/CaseResultCards.astro'
 import type {CaseResultCardsData} from '@/types/sanity'
@@ -77,6 +78,7 @@ const variants = [
 
 <Base title="Case Results — preview" noIndex>
   <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <BackToDev />
     <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
       Block preview · caseResultCards
     </p>

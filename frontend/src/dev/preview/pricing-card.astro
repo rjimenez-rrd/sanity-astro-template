@@ -1,0 +1,61 @@
+---
+/**
+ * Design preview for the Pricing Card block: a standard card and a highlighted
+ * one side by side, each with its features and a button.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import PricingCard from '@/components/page-builder/blocks/PricingCard.astro'
+import type {PricingCardData} from '@/types/sanity'
+
+const LINK = [{_key: 'l', _type: 'linkExternal', url: 'https://example.com'}]
+const features = [
+  {_key: 'f1', _type: 'pricingFeature', text: 'Unlimited consultations', included: true},
+  {_key: 'f2', _type: 'pricingFeature', text: 'Document review', included: true},
+  {_key: 'f3', _type: 'pricingFeature', text: 'Weekend support', included: false},
+]
+
+const cards = [
+  {
+    _key: 'standard',
+    _type: 'pricingCard',
+    title: 'Standard',
+    price: '$99',
+    priceSubtext: 'per month',
+    features,
+    cta: {_type: 'callToAction', label: 'Choose Standard', link: LINK},
+    isHighlighted: false,
+  },
+  {
+    _key: 'premium',
+    _type: 'pricingCard',
+    badge: 'Most popular',
+    title: 'Premium',
+    price: '$199',
+    priceSubtext: 'per month',
+    features,
+    cta: {_type: 'callToAction', label: 'Choose Premium', link: LINK},
+    isHighlighted: true,
+  },
+].map((card) => ({...card, data: card as unknown as PricingCardData}))
+---
+
+<Base title="Pricing Card — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-5xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · pricingCard · standard and highlighted
+    </p>
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        cards.map((card) => (
+          <div class="flex min-w-0 flex-col">
+            <PricingCard data={card.data} />
+            <DataPanel data={card.data} />
+          </div>
+        ))
+      }
+    </div>
+  </main>
+</Base>

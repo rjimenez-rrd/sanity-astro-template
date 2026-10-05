@@ -1,0 +1,41 @@
+---
+/**
+ * Design preview for the Code Block: a TypeScript snippet with a filename,
+ * line numbers, highlighted lines and a caption.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import CodeBlock from '@/components/page-builder/blocks/CodeBlock.astro'
+import type {CodeBlockData} from '@/types/sanity'
+
+const data = {
+  _key: 'preview',
+  _type: 'codeBlock',
+  language: 'typescript',
+  filename: 'lib/fees.ts',
+  code: [
+    'export function contingencyFee(recovered: number) {',
+    '  const rate = recovered > 1_000_000 ? 0.25 : 0.33',
+    '  const fee = recovered * rate',
+    '  return {rate, fee, net: recovered - fee}',
+    '}',
+    '',
+    'console.log(contingencyFee(250_000))',
+  ].join('\n'),
+  showLineNumbers: true,
+  highlightLines: '2,4-5',
+  caption: 'Lines 2, 4 and 5 are highlighted.',
+} as unknown as CodeBlockData
+---
+
+<Base title="Code Block — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · codeBlock
+    </p>
+    <CodeBlock data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

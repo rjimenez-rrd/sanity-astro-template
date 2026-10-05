@@ -1,0 +1,30 @@
+---
+/**
+ * Design preview for the Phone block: the site's phone number from Site
+ * Settings, with its label. The number comes from Sanity, so this preview
+ * needs Site Settings to have a phone number set.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import PhoneBlock from '@/components/page-builder/blocks/PhoneBlock.astro'
+import type {PhoneBlockData} from '@/types/sanity'
+
+const data = {
+  _key: 'preview',
+  _type: 'phoneBlock',
+  showLabel: true,
+  label: 'Call us today',
+} as unknown as PhoneBlockData
+---
+
+<Base title="Phone — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · phoneBlock · number from Site Settings
+    </p>
+    <PhoneBlock data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

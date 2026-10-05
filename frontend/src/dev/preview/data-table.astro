@@ -1,0 +1,57 @@
+---
+/**
+ * Design preview for the Data Table block, in its default and compact forms,
+ * both striped, with a caption.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import DataTable from '@/components/page-builder/blocks/DataTable.astro'
+import type {DataTableData} from '@/types/sanity'
+
+const headers = [
+  {_key: 'h1', _type: 'tableHeader', text: 'Case type'},
+  {_key: 'h2', _type: 'tableHeader', text: 'Typical timeline'},
+  {_key: 'h3', _type: 'tableHeader', text: 'Fee'},
+]
+
+const rows = [
+  ['Car accident', '6–12 months', 'Contingency'],
+  ['Slip and fall', '9–18 months', 'Contingency'],
+  ['Medical malpractice', '2–4 years', 'Contingency'],
+  ['Workers’ compensation', '3–9 months', 'Free consultation'],
+].map(([a, b, c], i) => ({
+  _key: `r${i}`,
+  _type: 'dataTableRow',
+  cells: [
+    {_key: `r${i}a`, text: a},
+    {_key: `r${i}b`, text: b},
+    {_key: `r${i}c`, text: c},
+  ],
+}))
+
+const base = {_type: 'dataTable', headers, rows, striped: true} as const
+
+const blocks = [
+  {id: 'default', note: 'Default padding', data: {_key: 'default', ...base, caption: 'Typical timelines by case type.', compact: false}},
+  {id: 'compact', note: 'Compact padding, no caption', data: {_key: 'compact', ...base, compact: true}},
+].map((b) => ({...b, data: b.data as unknown as DataTableData}))
+---
+
+<Base title="Data Table — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-4xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · dataTable · default and compact
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-4 font-mono text-xs text-muted">{block.note}</p>
+          <DataTable data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

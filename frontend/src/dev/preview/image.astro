@@ -1,0 +1,33 @@
+---
+/**
+ * Design preview for the Image block: one picture with a caption, using a
+ * sample image from the dataset.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import Image from '@/components/page-builder/blocks/Image.astro'
+import type {ImageBlockData} from '@/types/sanity'
+
+const data = {
+  _key: 'preview',
+  _type: 'imageBlock',
+  image: {
+    _type: 'image',
+    asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'},
+    alt: 'A sample photograph',
+  },
+  caption: 'A caption under the image, in the block’s own text style.',
+} as unknown as ImageBlockData
+---
+
+<Base title="Image — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · imageBlock
+    </p>
+    <Image data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

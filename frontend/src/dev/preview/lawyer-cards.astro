@@ -1,0 +1,40 @@
+---
+/**
+ * Design preview for the Lawyer Cards block: a row of attorney cards with
+ * their photo, name and role, using the sample image as every photo.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import LawyerCards from '@/components/page-builder/blocks/LawyerCards.astro'
+import type {LawyerCardsData} from '@/types/sanity'
+
+const PHOTO = {_type: 'image', asset: {_ref: 'image-011172f0012afe31d9956c9ba91f9982a9869a44-900x595-webp', _type: 'reference'}}
+const lawyers = [
+  {_key: 'l1', _id: 'preview-1', name: 'Ana Ruiz', role: 'Founding partner', photo: PHOTO},
+  {_key: 'l2', _id: 'preview-2', name: 'David Chen', role: 'Trial attorney', photo: PHOTO},
+  {_key: 'l3', _id: 'preview-3', name: 'Sofia Martin', role: 'Settlement counsel', photo: PHOTO},
+  {_key: 'l4', _id: 'preview-4', name: 'James Okafor', role: 'Associate', photo: PHOTO},
+]
+
+const data = {
+  _key: 'preview',
+  _type: 'lawyerCards',
+  title: 'Our attorneys',
+  subtitle: 'The people who will handle your case.',
+  lawyers,
+  columns: '4',
+  showRole: true,
+} as unknown as LawyerCardsData
+---
+
+<Base title="Lawyer Cards — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · lawyerCards
+    </p>
+    <LawyerCards data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

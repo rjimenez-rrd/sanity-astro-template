@@ -1,0 +1,40 @@
+---
+/**
+ * Design preview for the Accordion block: three panels, the first open by
+ * default, with hardcoded content.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import Accordion from '@/components/page-builder/blocks/Accordion.astro'
+import type {AccordionData} from '@/types/sanity'
+
+const body = (key: string, text: string) => [
+  {_type: 'block', _key: `${key}-b`, style: 'normal', markDefs: [], children: [{_type: 'span', _key: `${key}-s`, text, marks: []}]},
+]
+
+const data = {
+  _key: 'preview',
+  _type: 'accordion',
+  title: 'Frequently asked',
+  subtitle: 'Three panels, one open at a time.',
+  allowMultipleOpen: false,
+  firstOpenByDefault: true,
+  panels: [
+    {_key: 'a', _type: 'accordionPanel', title: 'How long does a case take?', content: body('a', 'Most cases resolve within a year, though complex matters can take longer.')},
+    {_key: 'b', _type: 'accordionPanel', title: 'Is the first consultation free?', content: body('b', 'Yes. The first consultation costs nothing and there is no obligation.')},
+    {_key: 'c', _type: 'accordionPanel', title: 'Do you work on contingency?', content: body('c', 'Most injury cases are handled on contingency, so you pay only if we recover.')},
+  ],
+} as unknown as AccordionData
+---
+
+<Base title="Accordion — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · accordion
+    </p>
+    <Accordion data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

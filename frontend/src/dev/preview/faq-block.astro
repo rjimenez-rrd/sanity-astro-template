@@ -1,0 +1,43 @@
+---
+/**
+ * Design preview for the FAQ block: a title, four questions with answers, and
+ * its FAQPage structured data (shown in the page's head, so view source to see
+ * it). Answers use Site Info placeholders, filled in from Site Settings.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import FaqBlock from '@/components/page-builder/blocks/FaqBlock.astro'
+import type {FaqBlockData} from '@/types/sanity'
+
+const answer = (key: string, text: string) => [
+  {_type: 'block', _key: `${key}-b`, style: 'normal', markDefs: [], children: [{_type: 'span', _key: `${key}-s`, text, marks: []}]},
+]
+
+const data = {
+  _key: 'preview',
+  _type: 'faqBlock',
+  title: 'Frequently asked questions',
+  subtitle: 'Short answers to what clients ask us most.',
+  items: [
+    {_key: 'q1', _type: 'faqItem', question: 'Do I need a lawyer after an accident?', answer: answer('q1', 'It helps. Insurers often make early offers that undervalue a claim.')},
+    {_key: 'q2', _type: 'faqItem', question: 'How much does it cost?', answer: answer('q2', 'Most injury cases are on contingency, so there is no fee unless we recover.')},
+    {_key: 'q3', _type: 'faqItem', question: 'How do I reach you?', answer: answer('q3', 'Call us any time on our main line, or send a message through the form.')},
+    {_key: 'q4', _type: 'faqItem', question: 'Will I have to go to court?', answer: answer('q4', 'Most cases settle before trial. We prepare you for every step either way.')},
+  ],
+  enableSchema: true,
+  allowMultipleOpen: false,
+  firstOpenByDefault: true,
+} as unknown as FaqBlockData
+---
+
+<Base title="FAQ — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · faqBlock
+    </p>
+    <FaqBlock data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>

@@ -1,0 +1,52 @@
+---
+/**
+ * Design preview for the Feature Card Grid block, once per Card Style (Simple,
+ * Bordered, Shadow, Highlighted), each with three columns and six cards, one
+ * of them with a link.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import FeatureCardGrid from '@/components/page-builder/blocks/FeatureCardGrid.astro'
+import type {FeatureCardGridData} from '@/types/sanity'
+
+const cards = [
+  {title: 'Free consultations', description: 'Talk to a lawyer at no cost before you decide anything.'},
+  {title: 'No fee unless we win', description: 'Most cases are on contingency, so you pay only if we recover.'},
+  {title: 'Bilingual team', description: 'Our staff work in English and Spanish, across the office.'},
+  {title: 'Home and hospital visits', description: 'We come to you when getting to our office is hard.'},
+  {title: 'Regular updates', description: 'You hear from us at every stage, not only when something happens.'},
+  {title: 'Proven results', description: 'Settlements and verdicts in cases like yours, published openly.'},
+].map((card, i) => ({
+  _key: `card-${i}`,
+  _type: 'featureCard',
+  title: card.title,
+  description: card.description,
+  ...(i === 0 ? {cta: {label: 'Book now', href: 'https://example.com'}} : {}),
+}))
+
+const STYLES = ['simple', 'bordered', 'shadow', 'highlighted'] as const
+
+const blocks = STYLES.map((style) => ({
+  style,
+  data: {_key: `preview-${style}`, _type: 'featureCardGrid', title: `${style[0].toUpperCase()}${style.slice(1)} cards`, columns: '3', style, cards} as unknown as FeatureCardGridData,
+}))
+---
+
+<Base title="Feature Card Grid — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-6xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · featureCardGrid · one per Card Style
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-20">
+          <p class="mb-4 font-mono text-xs text-muted">Style: {block.style}</p>
+          <FeatureCardGrid data={block.data} />
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

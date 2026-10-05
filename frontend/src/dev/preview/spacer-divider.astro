@@ -1,0 +1,60 @@
+---
+/**
+ * Design preview for the Spacer & Divider block: a spacer on its own, and
+ * dividers in each style, line count and thickness, with a marker either side
+ * so the space each one takes is visible.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import SpacerDivider from '@/components/page-builder/blocks/SpacerDivider.astro'
+import type {SpacerDividerData} from '@/types/sanity'
+
+const cases = [
+  {
+    id: 'spacer',
+    note: 'Spacer only: height xl, no line',
+    data: {_key: 'spacer', _type: 'spacerDivider', height: 'xl', showDivider: false},
+  },
+  {
+    id: 'solid',
+    note: 'Divider: height md, solid, single line',
+    data: {_key: 'solid', _type: 'spacerDivider', height: 'md', showDivider: true, dividerStyle: 'solid', lineCount: 'single', thickness: 1},
+  },
+  {
+    id: 'dashed',
+    note: 'Dashed, double lines, 2px',
+    data: {_key: 'dashed', _type: 'spacerDivider', height: 'md', showDivider: true, dividerStyle: 'dashed', lineCount: 'double', thickness: 2},
+  },
+  {
+    id: 'dotted',
+    note: 'Dotted, triple lines, 3px, primary color',
+    data: {_key: 'dotted', _type: 'spacerDivider', height: 'lg', showDivider: true, dividerStyle: 'dotted', lineCount: 'triple', thickness: 3, dividerColor: '#0A108C'},
+  },
+  {
+    id: 'narrow',
+    note: 'Narrow max width, height xs',
+    data: {_key: 'narrow', _type: 'spacerDivider', height: 'xs', showDivider: true, dividerStyle: 'solid', maxWidth: 'narrow'},
+  },
+].map((c) => ({...c, data: c.data as unknown as SpacerDividerData}))
+---
+
+<Base title="Spacer & Divider — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · spacerDivider
+    </p>
+    {
+      cases.map((c) => (
+        <section class="mb-16">
+          <p class="mb-2 font-mono text-xs text-muted">{c.note}</p>
+          <div class="border-x border-dashed border-primary/30 bg-primary/[0.02]">
+            <SpacerDivider data={c.data} />
+          </div>
+          <DataPanel data={c.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

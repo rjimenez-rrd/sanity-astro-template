@@ -1,0 +1,69 @@
+---
+/**
+ * Design preview for the Form block, in its Default and On Dark styles, with
+ * every field type the Studio offers: text, email, phone, number, textarea,
+ * select and checkbox, at full and half width.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import FormBlock from '@/components/page-builder/blocks/FormBlock.astro'
+import type {FormBlockData} from '@/types/sanity'
+
+const fields = [
+  {_key: 'name', _type: 'formField', label: 'Full name', name: 'name', type: 'text', required: true, width: 'half'},
+  {_key: 'email', _type: 'formField', label: 'Email', name: 'email', type: 'email', required: true, width: 'half'},
+  {_key: 'phone', _type: 'formField', label: 'Phone', name: 'phone', type: 'tel', width: 'half'},
+  {_key: 'amount', _type: 'formField', label: 'Estimated damages', name: 'amount', type: 'number', width: 'half'},
+  {
+    _key: 'topic',
+    _type: 'formField',
+    label: 'Topic',
+    name: 'topic',
+    type: 'select',
+    required: true,
+    optionsSource: 'manual',
+    options: ['Car accident', 'Slip and fall', 'Other'],
+    width: 'full',
+  },
+  {_key: 'details', _type: 'formField', label: 'Tell us what happened', name: 'details', type: 'textarea', width: 'full'},
+  {_key: 'consent', _type: 'formField', label: 'I agree to be contacted', name: 'consent', type: 'checkbox', width: 'full'},
+]
+
+const base = {
+  _type: 'formBlock',
+  formTitle: 'Free case review',
+  formDescription: 'Tell us a little about your case. We reply within one business day.',
+  fields,
+  submitLabel: 'Request review',
+  submitAction: 'webhook',
+  successMessage: 'Thanks. We will be in touch shortly.',
+  errorMessage: 'Something went wrong. Please try again.',
+  footnote: 'We never share your details.',
+}
+
+const blocks = [
+  {id: 'default', note: 'Default', data: {_key: 'default', ...base, formStyle: 'default'}},
+  {id: 'dark', note: 'On Dark, on a brand-colored background', data: {_key: 'dark', ...base, formStyle: 'dark'}},
+].map((b) => ({...b, data: b.data as unknown as FormBlockData}))
+---
+
+<Base title="Form Block — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · formBlock · Default and On Dark
+    </p>
+    {
+      blocks.map((block) => (
+        <section class="mb-16">
+          <p class="mb-4 font-mono text-xs text-muted">{block.note}</p>
+          <div class={block.id === 'dark' ? 'bg-primary p-8' : ''}>
+            <FormBlock data={block.data} />
+          </div>
+          <DataPanel data={block.data} />
+        </section>
+      ))
+    }
+  </main>
+</Base>

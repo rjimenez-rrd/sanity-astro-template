@@ -1,0 +1,85 @@
+---
+/**
+ * Design preview for the Rich Text block: a heading, paragraphs with bold,
+ * italic and a link, and a list, with hardcoded content.
+ */
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import RichText from '@/components/page-builder/blocks/RichText.astro'
+import type {RichTextBlockData} from '@/types/sanity'
+
+const span = (key: string, text: string, marks: string[] = []) => ({_type: 'span', _key: key, text, marks})
+
+const data = {
+  _key: 'preview',
+  _type: 'richTextBlock',
+  content: [
+    {
+      _type: 'block',
+      _key: 'h',
+      style: 'h2',
+      markDefs: [],
+      children: [span('h', 'Rich text, styled as prose')],
+    },
+    {
+      _type: 'block',
+      _key: 'p1',
+      style: 'normal',
+      markDefs: [{_type: 'link', _key: 'lnk', href: 'https://example.com'}],
+      children: [
+        span('a', 'Paragraphs take the prose styles. Some text is '),
+        span('b', 'bold', ['strong']),
+        span('c', ', some is '),
+        span('d', 'italic', ['em']),
+        span('e', ', and a '),
+        span('f', 'link', ['lnk']),
+        span('g', ' keeps its colour.'),
+      ],
+    },
+    {
+      _type: 'block',
+      _key: 'h3',
+      style: 'h3',
+      markDefs: [],
+      children: [span('h3', 'A smaller heading')],
+    },
+    {
+      _type: 'block',
+      _key: 'p2',
+      style: 'normal',
+      markDefs: [],
+      children: [span('i', 'Lists work too, and the text wraps across the column width without any extra setup.')],
+    },
+    {
+      _type: 'block',
+      _key: 'li1',
+      style: 'normal',
+      listItem: 'bullet',
+      level: 1,
+      markDefs: [],
+      children: [span('j', 'A bulleted item')],
+    },
+    {
+      _type: 'block',
+      _key: 'li2',
+      style: 'normal',
+      listItem: 'bullet',
+      level: 1,
+      markDefs: [],
+      children: [span('k', 'Another bulleted item')],
+    },
+  ],
+} as unknown as RichTextBlockData
+---
+
+<Base title="Rich Text — preview" noIndex>
+  <main class="mx-auto w-full min-w-0 max-w-3xl px-4 py-16 sm:px-6">
+    <BackToDev />
+    <p class="mb-10 font-mono text-xs uppercase tracking-widest text-muted">
+      Block preview · richTextBlock
+    </p>
+    <RichText data={data} />
+    <DataPanel data={data} />
+  </main>
+</Base>
