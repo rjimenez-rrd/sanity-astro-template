@@ -227,6 +227,13 @@ export const DEV_PAGES = [
     kind: 'preview',
   },
   {
+    pattern: '/dev/preview/cta-banner',
+    file: 'preview/cta-banner.astro',
+    title: 'CTA Banner',
+    description: 'The CTA Banner block: heading, text and button over a photo fading into navy.',
+    kind: 'preview',
+  },
+  {
     pattern: '/dev/preview/faq-block',
     file: 'preview/faq-block.astro',
     title: 'FAQ',

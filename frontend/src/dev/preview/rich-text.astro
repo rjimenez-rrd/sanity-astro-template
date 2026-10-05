@@ -51,24 +51,16 @@ const data = {
       markDefs: [],
       children: [span('i', 'Lists work too, and the text wraps across the column width without any extra setup.')],
     },
-    {
+    // Linked and plain items mixed, as on a practice area page.
+    ...['Head-On Collision', 'Rear-End Collision', 'Vehicle Rollover', 'Taxi Cab Accidents'].map((text, i) => ({
       _type: 'block',
-      _key: 'li1',
+      _key: `li${i}`,
       style: 'normal',
       listItem: 'bullet',
       level: 1,
-      markDefs: [],
-      children: [span('j', 'A bulleted item')],
-    },
-    {
-      _type: 'block',
-      _key: 'li2',
-      style: 'normal',
-      listItem: 'bullet',
-      level: 1,
-      markDefs: [],
-      children: [span('k', 'Another bulleted item')],
-    },
+      markDefs: i === 1 ? [] : [{_type: 'link', _key: `l${i}`, href: '/new-york-car-accident-lawyer'}],
+      children: [span(`li${i}s`, text, i === 1 ? [] : [`l${i}`])],
+    })),
   ],
 } as unknown as RichTextBlockData
 ---

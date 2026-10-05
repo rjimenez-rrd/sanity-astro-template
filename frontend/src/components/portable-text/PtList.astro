@@ -6,12 +6,27 @@ type Props = ListProps
 
 const {node} = Astro.props
 const isNumbered = stegaClean(node.listItem) === 'number'
+
+/**
+ * Montserrat items, and links in brand blue (underlined, by PtLink). not-prose:
+ * the Rich Text block's prose styles would otherwise set their own spacing and
+ * grey markers over these.
+ */
+const base =
+  'not-prose mb-6 space-y-4 font-display text-base leading-6 text-foreground [&_a]:text-primary [&_a:hover]:text-primary/80'
+
+/**
+ * Bullets are drawn, not the browser's disc: a 7px brand-blue dot centred on
+ * the first line, 14px before the text. The disc is smaller and sits lower.
+ */
+const bullets =
+  'ml-4 list-none [&>li]:relative [&>li]:pl-[21px] [&>li]:before:absolute [&>li]:before:left-0 [&>li]:before:top-[8.5px] [&>li]:before:h-[7px] [&>li]:before:w-[7px] [&>li]:before:rounded-full [&>li]:before:bg-primary'
 ---
 
 {
   isNumbered ? (
-    <ol class="mb-4 ml-6 list-decimal space-y-1"><slot /></ol>
+    <ol class={`${base} ml-5 list-decimal pl-4 marker:text-primary`}><slot /></ol>
   ) : (
-    <ul class="mb-4 ml-6 list-disc space-y-1"><slot /></ul>
+    <ul class={`${base} ${bullets}`}><slot /></ul>
   )
 }

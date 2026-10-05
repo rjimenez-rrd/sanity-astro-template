@@ -27,6 +27,7 @@ import DataTable from './blocks/DataTable.astro'
 import LottieAnimation from './blocks/LottieAnimation.astro'
 import FormBlock from './blocks/FormBlock.astro'
 import FormCta from './blocks/FormCta.astro'
+import CtaBanner from './blocks/CtaBanner.astro'
 import LinkList from './blocks/LinkList.astro'
 import FaqBlock from './blocks/FaqBlock.astro'
 import FeatureCardGrid from './blocks/FeatureCardGrid.astro'
@@ -65,6 +66,7 @@ export const BLOCK_COMPONENTS: Record<string, any> = {
   lottieAnimation: LottieAnimation,
   formBlock: FormBlock,
   formCta: FormCta,
+  ctaBanner: CtaBanner,
   linkList: LinkList,
   faqBlock: FaqBlock,
   featureCardGrid: FeatureCardGrid,

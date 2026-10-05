@@ -1,0 +1,100 @@
+---
+/**
+ * CTA Banner: a heading, text and a button on the left, over a photo that
+ * fades into dark navy behind them, with brand blue glowing in from the top
+ * left and a blue line along the bottom.
+ *
+ * The block only says which banner: the words (in the page's language),
+ * photo and button are built into the site, in lib/banners.ts. The button is
+ * drawn by the Button block's component, as the white Secondary button.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import CallToAction from './CallToAction.astro'
+import {fontStack} from '@/lib/fonts'
+import {BANNERS} from '@/lib/banners'
+import {languageOf} from '@/lib/i18n'
+import type {ComponentProps} from 'astro/types'
+import type {CtaBannerData} from '@/types/sanity'
+
+interface Props {
+  data: CtaBannerData
+}
+
+const {data: block} = Astro.props
+const banner = BANNERS[stegaClean(block.banner) ?? ''] ?? Object.values(BANNERS)[0]
+const language = languageOf(Astro.locals.language)
+const words = banner.words[language]
+
+const data = {heading: words.heading, text: words.text, image: banner.image}
+
+const headingFont = fontStack('Baskervville')
+// A full URL opens as an external link; a path stays on the site.
+const button =
+  words.buttonLabel && words.buttonHref
+    ? ({
+        _type: 'callToAction',
+        label: words.buttonLabel,
+        link: [
+          /^https?:/.test(words.buttonHref)
+            ? {_key: 'b', _type: 'linkExternal', url: words.buttonHref}
+            : {_key: 'b', _type: 'pageSlug', slug: words.buttonHref},
+        ],
+        variant: 'secondary',
+      } as ComponentProps<typeof CallToAction>['data'])
+    : null
+const showLine = banner.showLine
+
+// Which part of the photo stays in view however the box crops it.
+const objectPosition = banner.image?.position ?? '50% 50%'
+---
+
+<section class="relative isolate overflow-hidden bg-foreground text-white">
+  {/* The photo's area: the top 400px on phones, taller than the clear part so
+      the photo is zoomed in and its lower part sits under the navy; wider, the right 80%,
+      so its middle sits a little right of the banner's centre and the navy
+      covers its left edge. The banner's position in lib/banners.ts decides
+      which part of the photo stays in view. */}
+  {
+    data.image && (
+      <div
+        class="absolute top-0 right-0 -z-10 h-[300px] w-full md:h-full md:w-[80%]"
+        style={`--pos:${objectPosition}`}
+      >
+        <img
+          src={data.image.src}
+          alt={data.image.alt[language]}
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover object-[var(--pos)]"
+        />
+      </div>
+    )
+  }
+  {/* Phones: the photo across the top, fading down into navy under the
+      heading, and solid navy behind the text. */}
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--foreground)_10%,transparent)_0,color-mix(in_srgb,var(--foreground)_30%,transparent)_150px,color-mix(in_srgb,var(--foreground)_85%,transparent)_255px,var(--foreground)_320px)] md:hidden"
+  >
+  </div>
+  {/* Wider: navy across the text, clearing toward the right so the photo
+      shows, and brand blue glowing in from the top left. */}
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,var(--foreground)_45%,color-mix(in_srgb,var(--foreground)_55%,transparent)_75%,transparent_100%)] max-md:hidden"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,color-mix(in_srgb,var(--primary)_85%,transparent),transparent_45%)] max-md:hidden"
+  >
+  </div>
+
+  {/* Phones: the heading starts over the photo's lower part. Without a photo there's nothing to overlap, so no gap. */}
+  <div class={`max-w-[30rem] px-5 pb-8 font-display md:px-[30px] md:pt-7 ${data.image ? 'pt-[218px]' : 'pt-7'}`}>
+    <h2 class="text-[26px] font-semibold leading-tight md:text-[clamp(2rem,4vw,2.75rem)]" style={`font-family:${headingFont}`}>{data.heading}</h2>
+    {data.text && <p class="mt-4 whitespace-pre-line text-[17px] leading-[1.75]">{data.text}</p>}
+    {button && <div class="mt-6"><CallToAction data={button} /></div>}
+  </div>
+  {showLine && <div aria-hidden="true" class="mx-5 mb-[30px] h-1 bg-primary md:mx-[30px]"></div>}
+</section>

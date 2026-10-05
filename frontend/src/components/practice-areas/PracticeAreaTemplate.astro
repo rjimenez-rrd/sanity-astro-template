@@ -40,8 +40,12 @@ const formBackground = stegaClean(bottomForm?.backgroundColor)
 ---
 
 <PracticeAreaHero page={page} />
+{/* Padding outside the 1360px box, as the header has it, so the content is
+    the full 1360px and lines up with the logo. With a sidebar: 70% content,
+    30% sidebar, from 1024px up; below that, the sidebar goes under. */}
+<div class="px-4 py-12 md:px-8 md:py-16">
 <div
-  class={`mx-auto ${CONTENT_WIDTH} px-4 py-12 md:px-8 md:py-16 ${hasSidebar ? 'grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12' : ''}`}
+  class={`mx-auto ${CONTENT_WIDTH} ${hasSidebar ? 'grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:gap-12' : ''}`}
 >
   <div class="min-w-0">
     {
@@ -72,6 +76,7 @@ const formBackground = stegaClean(bottomForm?.backgroundColor)
     <SectionRenderer sections={page.pageBuilder} documentId={page._id} documentType={page._type} />
   </div>
   {hasSidebar && <PracticeAreaSidebar page={page} language={language} />}
+</div>
 </div>
 {
   formCta && (

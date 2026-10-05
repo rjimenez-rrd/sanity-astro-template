@@ -62,6 +62,7 @@ const contentMembers = (withColumn: boolean) => [
   defineArrayMember({type: 'featureCardGrid'}), // Feature Card Grid
   defineArrayMember({type: 'formBlock'}), // Form
   defineArrayMember({type: 'formCta'}), // Form CTA
+  defineArrayMember({type: 'ctaBanner'}), // CTA Banner
   defineArrayMember({type: 'iconText'}), // Icon + Text
   defineArrayMember({type: 'imageBlock'}), // Image
   defineArrayMember({type: 'imageGallery'}), // Image Gallery

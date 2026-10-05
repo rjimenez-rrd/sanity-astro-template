@@ -21,6 +21,7 @@ import {dataTableType} from './data-table'
 import {lottieAnimationType} from './lottie-animation'
 import {formBlockType} from './form-block'
 import {formCtaType} from './form-cta'
+import {ctaBannerType} from './cta-banner'
 import {linkListType} from './link-list'
 import {faqBlockType} from './faq-block'
 import {featureCardGridType} from './feature-card-grid'
@@ -62,6 +63,7 @@ export {
   lottieAnimationType,
   formBlockType,
   formCtaType,
+  ctaBannerType,
   linkListType,
   faqBlockType,
   featureCardGridType,
@@ -103,6 +105,7 @@ export const blockTypes = [
   lottieAnimationType,
   formBlockType,
   formCtaType,
+  ctaBannerType,
   linkListType,
   faqBlockType,
   featureCardGridType,

@@ -62,6 +62,7 @@ export type PracticeAreaGridData = Extract<ContentBlock, {_type: 'practiceAreaGr
 export type NewsCardsData = Extract<ContentBlock, {_type: 'newsCards'}>
 export type CaseResultCardsData = Extract<ContentBlock, {_type: 'caseResultCards'}>
 export type FormCtaData = Extract<ContentBlock, {_type: 'formCta'}>
+export type CtaBannerData = Extract<ContentBlock, {_type: 'ctaBanner'}>
 export type LinkListData = Extract<ContentBlock, {_type: 'linkList'}>
 
 // ---------- Practice areas ----------

@@ -8,9 +8,14 @@ interface Props {
   data: Omit<FormBlockData, '_key' | 'blockStyles'>
   /** Set by a block that owns the background, e.g. Form CTA, overriding the form's own choice. */
   formStyle?: 'default' | 'dark'
+  /**
+   * For a narrow column, e.g. a sidebar: every field full width (Half ones
+   * too), slightly shorter fields, and a full-width button.
+   */
+  stacked?: boolean
 }
 
-const {data, formStyle} = Astro.props
+const {data, formStyle, stacked = false} = Astro.props
 const language = Astro.locals.language
 const dark = (formStyle ?? stegaClean(data.formStyle)) === 'dark'
 
@@ -30,9 +35,9 @@ const ui = dark
   ? {
       field:
         'w-full border-0 bg-white px-3 text-[17px] text-foreground placeholder:text-foreground/70 focus:outline-none focus:ring-2 focus:ring-secondary-hover',
-      input: 'h-[50px]',
-      select: 'h-[58px]',
-      textarea: 'min-h-[100px] py-3',
+      input: stacked ? 'h-10' : 'h-[50px]',
+      select: stacked ? 'h-11' : 'h-[58px]',
+      textarea: stacked ? 'min-h-24 py-3' : 'min-h-[100px] py-3',
       label: 'mb-2 block text-sm text-white',
       required: 'ml-1.5 text-xs text-white',
       // Text flows under the box, as in the design, rather than hanging beside it.
@@ -43,7 +48,7 @@ const ui = dark
       footnote: 'px-3 text-sm text-white',
       error: 'text-sm text-red-300',
       button:
-        'inline-flex items-center bg-white px-8 py-3.5 text-lg font-semibold text-primary transition-colors hover:bg-secondary-hover hover:text-white disabled:opacity-50',
+        `${stacked ? 'flex w-full justify-center rounded-[3px]' : 'inline-flex'} items-center bg-white px-8 py-3.5 text-lg font-semibold text-primary transition-colors hover:bg-secondary-hover hover:text-white disabled:opacity-50`,
       success: 'border border-white/30 bg-white/10 p-6 text-center font-medium text-white',
     }
   : {
@@ -85,13 +90,13 @@ const buttonColor = stegaClean(data.buttonColor) || (dark ? undefined : 'var(--p
       data-action={cleanAction}
       data-webhook={stegaClean(data.webhookUrl) || undefined}
     >
-      <div class={`grid grid-cols-1 sm:grid-cols-2 ${dark ? 'gap-x-3 gap-y-4' : 'gap-4'}`}>
+      <div class={`grid grid-cols-1 ${stacked ? '' : 'sm:grid-cols-2'} ${dark ? 'gap-x-3 gap-y-4' : 'gap-4'}`}>
         {
           fields.map((field) => {
             const fieldType = stegaClean(field.type)
             const isHalf = stegaClean(field.width) === 'half'
             return (
-              <div class={isHalf ? '' : 'sm:col-span-2'}>
+              <div class={isHalf || stacked ? '' : 'sm:col-span-2'}>
                 {/* A checkbox carries its text beside the box instead. */}
                 {fieldType !== 'checkbox' && (
                   <label class={ui.label}>

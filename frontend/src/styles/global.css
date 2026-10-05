@@ -15,6 +15,8 @@
    than faked by the browser. Bebas Neue and Anton come in one weight. */
 @import "@fontsource/libre-baskerville/700.css";
 @import "@fontsource/baskervville/700.css";
+/* Semibold, for the CTA Banner's heading: 400 is too light there, 700 too heavy. */
+@import "@fontsource/baskervville/600.css";
 @import "@fontsource/playfair-display/700.css";
 @import "@fontsource/lora/700.css";
 @import "@fontsource/oswald/700.css";

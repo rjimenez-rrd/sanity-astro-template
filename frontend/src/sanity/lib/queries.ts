@@ -380,16 +380,19 @@ const practiceAreaTemplateFragment = /* groq */ `
         *[_id == ^.ref][0] { _id, eyebrow, heading, description, headingFont, form { ..., ${formFieldsFragment} } }
       )
     }.cta,
-    // Above the content: who reviewed it and when it was last published.
-    "reviewedBy": reviewedBy->name,
+    // Above the content: who reviewed it (its own pick, else Site Settings'
+    // default) and when it was last published.
+    "reviewedBy": coalesce(reviewedBy->name, *[_id == "siteSettings"][0].defaultReviewer->name),
     updatedAt,
     showToc,
-    // The full-width form under the content, picked or the first one made,
-    // the same way as the sidebar's; whole, as the Form CTA block draws it.
+    // The full-width form under the content: its own pick, else Site
+    // Settings' default, else the first one made; whole, as the Form CTA
+    // block draws it.
     showBottomForm,
     "bottomForm": {
       "ref": coalesce(
         bottomForm._ref,
+        *[_id == "siteSettings"][0].defaultBottomForm._ref,
         (*[_type == "ctaForm" && coalesce(language, "en") == "en"] | order(_createdAt asc))[0]._id
       )
     } {

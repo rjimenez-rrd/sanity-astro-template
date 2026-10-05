@@ -71,6 +71,7 @@ export const siteSettingsType = defineType({
     {name: 'theme', title: 'Theme'},
     {name: 'navigation', title: 'Navigation'},
     {name: 'footer', title: 'Footer'},
+    {name: 'practiceAreas', title: 'Practice Areas'},
   ],
   fields: [
     // --- Branding ---
@@ -509,6 +510,29 @@ export const siteSettingsType = defineType({
       group: 'footer',
       description: 'Bottom right, e.g. Privacy Policy, FAQ, Terms and Conditions.',
       of: [defineArrayMember({type: 'footerLink'})],
+    }),
+
+    // --- Practice Areas ---
+    // Defaults for every Practice Area page that leaves its own empty. Shared
+    // by both languages: a lawyer's name doesn't change, and the form shows
+    // its Spanish translation on Spanish pages.
+    defineField({
+      name: 'defaultReviewer',
+      title: 'Default Content Reviewer',
+      type: 'reference',
+      group: 'practiceAreas',
+      to: [{type: 'lawyer'}],
+      description:
+        'Shown as "Content Reviewed by" on every Practice Area page that doesn’t pick its own.',
+    }),
+    defineField({
+      name: 'defaultBottomForm',
+      title: 'Default Bottom Form',
+      type: 'reference',
+      group: 'practiceAreas',
+      to: [{type: 'ctaForm'}],
+      description:
+        'The form at the bottom of every Practice Area page that doesn’t pick its own. Leave empty to use the first CTA Form made.',
     }),
   ],
   preview: {

@@ -20,8 +20,10 @@ interface Props {
 const {page, language} = Astro.props
 
 const cta = page.sidebarForm?.form ? page.sidebarForm : null
-// The CTA's own heading font, as the Form CTA block draws it.
-const headingFont = fontStack(stegaClean(cta?.headingFont)) ?? fontStack('Libre Baskerville')
+// The sidebar is narrow, so the card keeps to one short title: the CTA's
+// eyebrow ("Get a Free Case Review"), or its heading when it has none.
+const sidebarTitle = cta?.eyebrow?.trim() || cta?.heading
+const headingFont = fontStack('Baskervville')
 
 const office = page.location
 const address = stegaClean(office?.address)?.trim()
@@ -45,16 +47,14 @@ const heading = 'font-display text-xl font-bold text-foreground'
   (cta || office || related.length > 0) && (
     <aside class="space-y-8">
       {cta && (
-        <section class="rounded-lg bg-foreground p-6 font-display text-white">
-          {cta.eyebrow && <p>{cta.eyebrow}</p>}
-          {cta.heading && (
-            <h2 class="mt-1 whitespace-pre-line text-3xl leading-tight" style={`font-family:${headingFont}`}>
-              {cta.heading}
+        <section class="bg-primary px-5 pt-7 pb-6 font-display text-white">
+          {sidebarTitle && (
+            <h2 class="text-center text-[42px] leading-[1.1]" style={`font-family:${headingFont}`}>
+              {sidebarTitle}
             </h2>
           )}
-          {cta.description && <p class="mt-4 leading-relaxed">{cta.description}</p>}
-          <div class="mt-6">
-            <FormBlock data={cta.form as ComponentProps<typeof FormBlock>['data']} formStyle="dark" />
+          <div class={sidebarTitle ? 'mt-6' : ''}>
+            <FormBlock data={cta.form as ComponentProps<typeof FormBlock>['data']} formStyle="dark" stacked />
           </div>
         </section>
       )}

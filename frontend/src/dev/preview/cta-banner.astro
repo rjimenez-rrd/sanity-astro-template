@@ -1,0 +1,43 @@
+---
+/**
+ * Design preview for the CTA Banner block: the built-in banner from
+ * lib/banners.ts, on the site's tinted section color. ?lang=es shows its
+ * Spanish words.
+ */
+export const prerender = false
+
+import Base from '@/layouts/Base.astro'
+import BackToDev from '@/dev/BackToDev.astro'
+import DataPanel from '@/dev/DataPanel.astro'
+import CtaBanner from '@/components/page-builder/blocks/CtaBanner.astro'
+import {languageOf} from '@/lib/i18n'
+import type {CtaBannerData} from '@/types/sanity'
+
+// The block reads the page's language from locals, as on a real page.
+const language = languageOf(Astro.url.searchParams.get('lang'))
+Astro.locals.language = language
+
+const data = {
+  _key: 'preview',
+  _type: 'ctaBanner',
+  banner: 'we-have-your-back',
+} as unknown as CtaBannerData
+---
+
+<Base title="CTA Banner — preview" noIndex>
+  <main class="w-full min-w-0 px-4 py-16 sm:px-6" style="background:#e9e8f1">
+    <div class="mx-auto max-w-[860px]">
+      <BackToDev />
+      <p class="mb-4 font-mono text-xs uppercase tracking-widest text-muted">
+        Block preview · ctaBanner · {language === 'es' ? 'Español' : 'English'}
+      </p>
+      <p class="mb-10 font-mono text-xs">
+        <a class="text-primary underline" href={language === 'es' ? '?lang=en' : '?lang=es'}>
+          Show {language === 'es' ? 'English' : 'Spanish'}
+        </a>
+      </p>
+      <CtaBanner data={data} />
+      <DataPanel data={data} />
+    </div>
+  </main>
+</Base>

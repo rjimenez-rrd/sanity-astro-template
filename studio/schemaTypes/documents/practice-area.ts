@@ -98,7 +98,7 @@ export const practiceAreaType = defineType({
       group: 'content',
       to: [{type: 'lawyer'}],
       description:
-        'Optional. Shown above the content as "Content Reviewed by", beside the Last Updated date.',
+        'Optional. Shown above the content as "Content Reviewed by", beside the Last Updated date. Leave empty to use the Default Content Reviewer in Site Settings → Practice Areas.',
     }),
     defineField({
       name: 'showToc',
@@ -194,7 +194,7 @@ export const practiceAreaType = defineType({
       group: 'bottomForm',
       to: [{type: 'ctaForm'}],
       description:
-        'Optional. Leave empty to use the first CTA Form made. Spanish pages show its Spanish translation.',
+        'Optional. Leave empty to use the Default Bottom Form in Site Settings → Practice Areas (or, without one, the first CTA Form made). Spanish pages show its Spanish translation.',
       hidden: ({document}) => document?.showBottomForm === false,
     }),
 
