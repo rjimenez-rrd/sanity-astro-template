@@ -24,6 +24,8 @@
     "validate": "sanity-template-validate",
     "seed": "cd studio && npm run seed --",
     "seed:export": "cd studio && npm run seed:export",
+    "import:wp": "cd studio && npm run import:wp --",
+    "import:wp:undo": "cd studio && npm run import:wp -- --undo",
     "typegen": "cd studio && npx sanity schema extract --enforce-required-fields && npx sanity typegen generate"
   },
   "workspaces": [

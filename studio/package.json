@@ -11,7 +11,9 @@
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "seed": "sanity dataset import seed/content.tar.gz --replace",
-    "seed:export": "sanity exec scripts/seed-export.ts --with-user-token"
+    "seed:export": "sanity exec scripts/seed-export.ts --with-user-token",
+    "import:wp": "sanity exec scripts/import-wordpress.ts --with-user-token --",
+    "import:wp:undo": "npm run import:wp -- --undo"
   },
   "keywords": [
     "sanity"
@@ -34,9 +36,11 @@
     "styled-components": "^6.3.12"
   },
   "devDependencies": {
+    "@portabletext/schema": "^2.2.4",
     "@sanity/eslint-config-studio": "^5.0.1",
     "@types/react": "^19",
     "eslint": "^9.9.0",
+    "jsdom": "^29.1.1",
     "prettier": "^3.0.2",
     "typescript": "^5.1.6"
   },

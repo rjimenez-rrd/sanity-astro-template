@@ -47,9 +47,12 @@ const buttonData = button
   {/* Below lg, under the text across the full width, pulled up beneath it so
       its top edge fades in behind the button. From lg, beside the text on the
       right. Muted (saturate) so it takes on the tint rather than keeping its
-      own colors. */}
+      own colors.
+      The edge that meets the text fades out with a mask, so the section's own
+      background shows through: a dark gradient laid over the photo instead
+      left a faint light line where the box's edge fell between two pixels. */}
   <div
-    class="relative -z-10 -mt-16 aspect-[4/3] w-full sm:aspect-[16/9] md:-mt-24 md:aspect-[2/1] lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:aspect-auto lg:w-[40%] [&_img]:saturate-[.4]"
+    class="relative -z-10 -mt-16 aspect-[4/3] w-full [mask-image:linear-gradient(to_bottom,transparent,#000_50%)] sm:aspect-[16/9] md:-mt-24 md:aspect-[2/1] lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:aspect-auto lg:w-[40%] lg:[mask-image:linear-gradient(to_right,transparent,#000_50%)] [&_img]:saturate-[.4]"
     aria-hidden={image?.alt ? undefined : 'true'}
   >
     {
@@ -61,9 +64,5 @@ const buttonData = button
     }
     {/* Tinted with the background color all over. */}
     <div class="absolute inset-0 bg-foreground/60" />
-    {/* The edge that meets the text fades into the background: the top below
-        lg, the left from lg. */}
-    <div class="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-foreground to-transparent lg:hidden" />
-    <div class="absolute inset-y-0 left-0 hidden w-1/2 bg-gradient-to-r from-foreground to-transparent lg:block" />
   </div>
 </section>

@@ -53,3 +53,10 @@ package-lock.json
 
 # astro
 .astro/
+
+# WordPress import: fetched documents, report and uploaded-image cache (studio/scripts/import-wordpress.ts)
+studio/scripts/.wp-import/
+
+# WordPress exports and saved API responses for the import: they hold editors' names and emails
+/*.xml
+/wp-*.json
