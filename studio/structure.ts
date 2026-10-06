@@ -67,13 +67,13 @@ export const structure: StructureResolver = (S) =>
         ),
       // The Home Page's Spanish translation, served at /es.
       S.listItem()
-        .title('Home Page (Español)')
+        .title('Home Page (Spanish)')
         .icon(HomeIcon)
         .child(
           S.document()
             .schemaType('homePage')
             .documentId(HOME_PAGE_IDS.es)
-            .title('Home Page (Español)'),
+            .title('Home Page (Spanish)'),
         ),
 
       S.divider().title('Content'),
@@ -200,12 +200,12 @@ export const structure: StructureResolver = (S) =>
         ),
       // The Spanish words for the header, menus and footer on /es/ pages.
       S.listItem()
-        .title('Site Settings (Español)')
+        .title('Site Settings (Spanish)')
         .icon(TranslateIcon)
         .child(
           S.document()
             .schemaType('siteSettingsEs')
             .documentId('siteSettingsEs')
-            .title('Site Settings (Español)'),
+            .title('Site Settings (Spanish)'),
         ),
     ])
