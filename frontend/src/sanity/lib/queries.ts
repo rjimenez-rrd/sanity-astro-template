@@ -194,7 +194,6 @@ const contentTypesFragment = /* groq */ `
       lawyers[]-> {
         _id, name,
         ${localized('role')},
-        ${localized('shortBio')},
         "slug": slug.current,
         photo { ${imageFragment} }
       },

@@ -1,7 +1,25 @@
 // Lawyer profile: the source for the lawyer cards in the page builder.
-import { defineField, defineType, defineArrayMember } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 import { UserIcon } from '@sanity/icons'
 import { PublishStampInput } from '../../components/inputs/PublishStampInput'
+import { OfficeInput } from '../../components/inputs/OfficeInput'
+
+/**
+ * The lists a lawyer's profile has: one line per item, e.g. "Brooklyn School
+ * of Law, J.D.". For their own page; not shown on the card.
+ */
+const LISTS = [
+  { name: 'education', title: 'Education', example: 'Brooklyn School of Law, J.D.' },
+  { name: 'barAdmissions', title: 'Bar Admissions', example: 'New York' },
+  { name: 'languages', title: 'Languages', example: 'English' },
+  { name: 'speakingEvents', title: 'Speaking & Events', example: 'New York State Trial Lawyers Association' },
+  { name: 'publications', title: 'Publications', example: '"New York’s New Medicaid Law", Journal of the Suffolk Academy of Law, 1995' },
+]
+
+const list = (name: string, title: string, group: string, description: string) =>
+  defineField({ name, title, type: 'array', group, description, of: [defineArrayMember({ type: 'string' })] })
+
+const credentialLists = LISTS.map((l) => list(l.name, l.title, 'credentials', `One per line, e.g. ${l.example}.`))
 
 export const lawyerType = defineType({
   name: 'lawyer',
@@ -12,7 +30,6 @@ export const lawyerType = defineType({
     { name: 'profile', title: 'Profile', default: true },
     { name: 'credentials', title: 'Credentials' },
     { name: 'contact', title: 'Contact' },
-    { name: 'spanish', title: 'Español' },
   ],
   fields: [
     defineField({
@@ -30,6 +47,15 @@ export const lawyerType = defineType({
       group: 'profile',
       description: 'Shown under the name, e.g. Senior Partner.',
       validation: (rule) => rule.required(),
+    }),
+    // Spanish beside each English field, shown on /es/ pages; empty falls
+    // back to the English. The name, photo and the rest are shared.
+    defineField({
+      name: 'roleEs',
+      title: 'Role (Español)',
+      type: 'string',
+      group: 'profile',
+      description: 'e.g. Socio Principal. Leave empty to show the English role.',
     }),
     defineField({
       name: 'slug',
@@ -50,47 +76,26 @@ export const lawyerType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'shortBio',
-      title: 'Short Bio',
-      type: 'text',
-      rows: 3,
-      group: 'profile',
-      description: 'One or two lines, for listings.',
-    }),
-    defineField({
       name: 'bio',
       title: 'Full Bio',
       type: 'blockContent',
       group: 'profile',
-    }),
-    // Spanish versions, shown on /es/ pages. Empty ones fall back to English;
-    // the name, photo and everything else are shared.
-    defineField({
-      name: 'roleEs',
-      title: 'Role (Español)',
-      type: 'string',
-      group: 'spanish',
-      description: 'e.g. Socio Principal. Leave empty to show the English role.',
-    }),
-    defineField({
-      name: 'shortBioEs',
-      title: 'Short Bio (Español)',
-      type: 'text',
-      rows: 3,
-      group: 'spanish',
+      description: 'Their biography. For their own page; not shown on the card.',
     }),
     defineField({
       name: 'bioEs',
       title: 'Full Bio (Español)',
       type: 'blockContent',
-      group: 'spanish',
+      group: 'profile',
+      description: 'The biography for Spanish pages. Leave empty to show the English.',
     }),
     defineField({
-      name: 'order',
-      title: 'Sort Order',
-      type: 'number',
+      name: 'video',
+      title: 'Video',
+      type: 'url',
       group: 'profile',
-      description: 'Lower numbers come first where lawyers are listed automatically.',
+      description: 'A YouTube video about them, e.g. https://youtu.be/0ANB2W0JS2M. Not shown on the card.',
+      validation: (rule) => rule.uri({ scheme: ['https', 'http'] }),
     }),
     defineField({
       name: 'publishedAt',
@@ -117,76 +122,25 @@ export const lawyerType = defineType({
       title: 'Practice Areas',
       type: 'array',
       group: 'credentials',
+      description: 'The practice areas they handle. For their own page; not shown on the card.',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'practiceArea' }] })],
+      validation: (rule) => rule.unique(),
     }),
-    defineField({
-      name: 'barAdmissions',
-      title: 'Bar Admissions',
-      type: 'array',
-      group: 'credentials',
-      description: 'e.g. New York, New Jersey.',
-      of: [defineArrayMember({ type: 'string' })],
-      options: { layout: 'tags' },
-    }),
-    defineField({
-      name: 'languages',
-      title: 'Languages',
-      type: 'array',
-      group: 'credentials',
-      of: [defineArrayMember({ type: 'string' })],
-      options: { layout: 'tags' },
-    }),
-    defineField({
-      name: 'education',
-      title: 'Education',
-      type: 'array',
-      group: 'credentials',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'education',
-          fields: [
-            defineField({ name: 'school', title: 'School', type: 'string' }),
-            defineField({ name: 'degree', title: 'Degree', type: 'string' }),
-            defineField({ name: 'year', title: 'Year', type: 'string' }),
-          ],
-          preview: {
-            select: { title: 'school', degree: 'degree', year: 'year' },
-            prepare({ title, degree, year }: { title?: string; degree?: string; year?: string }) {
-              return {
-                title: title || 'School',
-                subtitle: [degree, year].filter(Boolean).join(' · '),
-              }
-            },
-          },
-        }),
-      ],
-    }),
-    defineField({
-      name: 'awards',
-      title: 'Awards & Recognition',
-      type: 'array',
-      group: 'credentials',
-      of: [defineArrayMember({ type: 'string' })],
-    }),
+    ...credentialLists,
 
+    defineField({
+      name: 'office',
+      title: 'Office',
+      type: 'string',
+      group: 'contact',
+      description: 'Where they mainly work: one of the offices in Site Settings → Footer → Offices.',
+      components: { input: OfficeInput },
+    }),
     defineField({ name: 'email', title: 'Email', type: 'string', group: 'contact' }),
     defineField({ name: 'phone', title: 'Phone', type: 'string', group: 'contact' }),
-    defineField({
-      name: 'linkedin',
-      title: 'LinkedIn URL',
-      type: 'url',
-      group: 'contact',
-    }),
+    defineField({ name: 'fax', title: 'Fax', type: 'string', group: 'contact' }),
   ],
-  orderings: [
-    {
-      title: 'Sort Order',
-      name: 'orderAsc',
-      by: [{ field: 'order', direction: 'asc' }, { field: 'name', direction: 'asc' }],
-    },
-    { title: 'Name', name: 'nameAsc', by: [{ field: 'name', direction: 'asc' }] },
-  ],
+  orderings: [{ title: 'Name', name: 'nameAsc', by: [{ field: 'name', direction: 'asc' }] }],
   preview: {
     select: { title: 'name', subtitle: 'role', media: 'photo' },
   },

@@ -1,5 +1,5 @@
 // Case result: the source for the case result cards in the page builder.
-import {defineField, defineType, defineArrayMember} from 'sanity'
+import {defineField, defineType} from 'sanity'
 import {TrendUpwardIcon} from '@sanity/icons'
 import {PublishStampInput} from '../../components/inputs/PublishStampInput'
 
@@ -31,6 +31,20 @@ export const caseResultType = defineType({
         'Shown on Spanish pages instead of the Summary, e.g. Caída por las escaleras resulta en múltiples cirugías. Leave empty to show the English.',
     }),
     defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 5,
+      description: 'Optional. The story of the case, e.g. what happened and how it was resolved. Not shown on the card.',
+    }),
+    defineField({
+      name: 'descriptionEs',
+      title: 'Description (Español)',
+      type: 'text',
+      rows: 5,
+      description: 'The Description for Spanish pages. Leave empty to show the English.',
+    }),
+    defineField({
       name: 'resultType',
       title: 'Result Type',
       type: 'string',
@@ -44,13 +58,6 @@ export const caseResultType = defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
-    }),
-    defineField({
-      name: 'practiceAreas',
-      title: 'Practice Areas',
-      type: 'array',
-      description: 'Where this result belongs. Not shown on the card.',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'practiceArea'}]})],
     }),
     defineField({
       name: 'order',
