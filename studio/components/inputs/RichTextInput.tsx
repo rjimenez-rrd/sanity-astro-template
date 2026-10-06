@@ -1,4 +1,4 @@
-import {useMemo} from 'react'
+import {useCallback, useMemo} from 'react'
 import type {ArrayOfObjectsInputProps, OnPasteFn, PortableTextInputProps} from 'sanity'
 import {htmlToPortableText} from '@portabletext/html'
 import {sanitySchemaToPortableTextSchema} from '@portabletext/sanity-bridge'
@@ -36,7 +36,9 @@ export function RichTextInput(arrayProps: ArrayOfObjectsInputProps) {
     [props.schemaType],
   )
 
-  const onPaste: OnPasteFn = ({event, path, value}) => {
+  // The same handler across renders: a new one each time hands the editor a
+  // changed prop on every keystroke and selection change.
+  const onPaste: OnPasteFn = useCallback(({event, path, value}) => {
     const data = event.clipboardData
     if (!data) return undefined
     // Copied from a Studio editor: it already has the right styles.
@@ -76,7 +78,7 @@ export function RichTextInput(arrayProps: ArrayOfObjectsInputProps) {
       }
     })
     return {insert}
-  }
+  }, [schema])
 
   return props.renderDefault({...props, onPaste})
 }
