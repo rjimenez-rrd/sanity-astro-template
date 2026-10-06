@@ -9,9 +9,23 @@ export const prerender = false
  * to the preview URL, then sets the cookie middleware reads to decide whether
  * a request renders drafts.
  */
+/**
+ * When draft mode can't start, the preview frame stays here, so this is what
+ * Presentation shows: a short page saying what went wrong and what to do.
+ */
+const failed = (status: number, title: string, fix: string) =>
+  new Response(
+    `<!doctype html><meta charset="utf-8"><title>Preview couldn't start</title>` +
+      `<body style="font:16px/1.5 system-ui,sans-serif;margin:3rem;color:#07083d">` +
+      `<h1 style="font-size:1.25rem">Preview couldn't start: ${title}</h1><p>${fix}</p></body>`,
+    {status, headers: {'Content-Type': 'text/html; charset=utf-8'}},
+  )
+
 export const GET: APIRoute = async ({request, cookies, redirect, url}) => {
   const token = import.meta.env.SANITY_API_READ_TOKEN
-  if (!token) return new Response('Missing SANITY_API_READ_TOKEN', {status: 500})
+  if (!token) {
+    return failed(500, 'no read token', 'Add <code>SANITY_API_READ_TOKEN</code> to <code>frontend/.env</code> and restart the dev server.')
+  }
 
   /**
    * Only Presentation can mint the one-time secret, so in dev `?dev=1` opts in
@@ -26,7 +40,9 @@ export const GET: APIRoute = async ({request, cookies, redirect, url}) => {
     redirectTo = to.startsWith('/') && !to.startsWith('//') ? to : '/'
   } else {
     const result = await validatePreviewUrl(getDraftClient(token), request.url)
-    if (!result.isValid) return new Response('Invalid secret', {status: 401})
+    if (!result.isValid) {
+      return failed(401, 'the preview link has expired', 'Reload Presentation in the Studio to get a new one.')
+    }
     redirectTo = result.redirectTo ?? '/'
   }
 

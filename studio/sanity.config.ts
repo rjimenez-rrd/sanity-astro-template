@@ -125,6 +125,15 @@ export default defineConfig({
           }),
         },
         mainDocuments: defineDocuments([
+          /**
+           * The draft-mode endpoints aren't pages. Presentation opens the
+           * preview at /api/draft-mode/enable, which redirects to the page; it
+           * has three parts, so the nested-page route below would read it as a
+           * page and warn "Missing a main document" until the redirect lands.
+           * Matched first, with nothing to look up, it shows no warning. If
+           * draft mode fails, the frame stays on the endpoint and shows why.
+           */
+          {route: ['/api/draft-mode/enable', '/api/draft-mode/disable'], resolve: () => undefined},
           {route: '/', filter: '_id == "homePage" || _id == "drafts.homePage"'},
           {route: '/es', filter: `_id in ["${HOME_PAGE_IDS.es}", "drafts.${HOME_PAGE_IDS.es}"]`},
           // Before the pages, so /es/news/… isn't read as a page under "news".
