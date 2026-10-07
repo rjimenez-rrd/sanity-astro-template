@@ -4,5 +4,7 @@ type Props = BlockProps
 ---
 
 {/* 1.125em, not text-lg: the same 18px by default, and relative to the block.
-    A Size set in Block Styles makes it exactly that size (global.css). */}
-<p class="leading-relaxed font-display text-[1.125em] pb-4"><slot /></p>
+    16px on mobile and a 30px line either way, as on the original site.
+    A Size set in Block Styles makes it exactly that size (global.css).
+    A margin, not padding, so the last paragraph adds no space below its block. */}
+<p class="font-display text-[1em] leading-[1.875] md:text-[1.125em] md:leading-[1.667] mb-4 last:mb-0"><slot /></p>

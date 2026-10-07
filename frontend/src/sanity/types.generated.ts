@@ -6365,7 +6365,7 @@ export type CountdownTimer = {
 
 export type SpacerDivider = {
   _type: 'spacerDivider'
-  height: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
+  height: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
   showDivider?: boolean
   dividerStyle?: 'solid' | 'dashed' | 'dotted'
   lineCount?: 'single' | 'double' | 'triple'
@@ -11609,7 +11609,7 @@ export type HOME_PAGE_QUERY_RESULT = {
                 | {
                     _key: string
                     _type: 'spacerDivider'
-                    height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+                    height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
                     showDivider?: boolean
                     dividerStyle?: 'dashed' | 'dotted' | 'solid'
                     lineCount?: 'double' | 'single' | 'triple'
@@ -13847,7 +13847,7 @@ export type HOME_PAGE_QUERY_RESULT = {
         | {
             _key: string
             _type: 'spacerDivider'
-            height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+            height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
             showDivider?: boolean
             dividerStyle?: 'dashed' | 'dotted' | 'solid'
             lineCount?: 'double' | 'single' | 'triple'
@@ -19192,7 +19192,7 @@ export type PAGE_QUERY_RESULT = Array<
                     | {
                         _key: string
                         _type: 'spacerDivider'
-                        height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+                        height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
                         showDivider?: boolean
                         dividerStyle?: 'dashed' | 'dotted' | 'solid'
                         lineCount?: 'double' | 'single' | 'triple'
@@ -21431,7 +21431,7 @@ export type PAGE_QUERY_RESULT = Array<
             | {
                 _key: string
                 _type: 'spacerDivider'
-                height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+                height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
                 showDivider?: boolean
                 dividerStyle?: 'dashed' | 'dotted' | 'solid'
                 lineCount?: 'double' | 'single' | 'triple'
@@ -26772,7 +26772,7 @@ export type PAGE_QUERY_RESULT = Array<
                     | {
                         _key: string
                         _type: 'spacerDivider'
-                        height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+                        height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
                         showDivider?: boolean
                         dividerStyle?: 'dashed' | 'dotted' | 'solid'
                         lineCount?: 'double' | 'single' | 'triple'
@@ -29011,7 +29011,7 @@ export type PAGE_QUERY_RESULT = Array<
             | {
                 _key: string
                 _type: 'spacerDivider'
-                height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+                height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
                 showDivider?: boolean
                 dividerStyle?: 'dashed' | 'dotted' | 'solid'
                 lineCount?: 'double' | 'single' | 'triple'
@@ -35700,7 +35700,7 @@ export type NEWS_POST_QUERY_RESULT = {
                 | {
                     _key: string
                     _type: 'spacerDivider'
-                    height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+                    height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
                     showDivider?: boolean
                     dividerStyle?: 'dashed' | 'dotted' | 'solid'
                     lineCount?: 'double' | 'single' | 'triple'
@@ -37938,7 +37938,7 @@ export type NEWS_POST_QUERY_RESULT = {
         | {
             _key: string
             _type: 'spacerDivider'
-            height: 'lg' | 'md' | 'sm' | 'xl' | 'xs' | 'xxl'
+            height: 'lg' | 'md' | 'none' | 'sm' | 'xl' | 'xs' | 'xxl'
             showDivider?: boolean
             dividerStyle?: 'dashed' | 'dotted' | 'solid'
             lineCount?: 'double' | 'single' | 'triple'

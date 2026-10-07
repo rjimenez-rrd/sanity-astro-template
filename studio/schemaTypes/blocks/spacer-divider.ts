@@ -17,6 +17,7 @@ export const spacerDividerType = defineType({
       validation: (rule) => rule.required(),
       options: {
         list: [
+          {title: 'None (line only)', value: 'none'},
           {title: 'Extra Small (16px)', value: 'xs'},
           {title: 'Small (32px)', value: 'sm'},
           {title: 'Medium (48px)', value: 'md'},
@@ -121,7 +122,7 @@ export const spacerDividerType = defineType({
     }) {
       const label = showDivider ? 'Divider' : 'Spacer'
       const sizeLabel =
-        {xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL', xxl: 'XXL'}[height ?? 'md'] ?? height
+        {none: 'None', xs: 'XS', sm: 'SM', md: 'MD', lg: 'LG', xl: 'XL', xxl: 'XXL'}[height ?? 'md'] ?? height
       const lines = {single: 1, double: 2, triple: 3}[lineCount ?? 'single'] ?? 1
       return {
         title: `${label} — ${sizeLabel}`,

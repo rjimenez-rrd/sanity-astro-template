@@ -214,9 +214,62 @@ function loopBlocks(listing: string | undefined, page: PageContext): Obj[] {
 async function blocksIn(elements: Obj[] = [], page: PageContext): Promise<Obj[]> {
   const out: Obj[] = []
   for (const el of elements) {
-    out.push(...(el.elType === 'widget' ? await widgetBlocks(el, page) : await blocksIn(el.elements, page)))
+    if (el.elType === 'widget') out.push(...(await widgetBlocks(el, page)))
+    else if (isCard(el)) out.push(await card(el, page))
+    else out.push(...(await blocksIn(el.elements, page)))
   }
   return out
+}
+
+// --- Cards ----------------------------------------------------------------------
+
+/**
+ * The boxed section most pages end on ("Discuss Your Case With…"): a container
+ * with a background, opening with a heading over a divider. The attorney
+ * profiles' Education, Bar Admission… boxes have the same shape but no
+ * background, so they stay flat.
+ */
+const isCard = (el: Obj) =>
+  el.elType === 'container' &&
+  Boolean(el.settings?.background_background) &&
+  el.elements?.[0]?.widgetType === 'heading' &&
+  el.elements?.[1]?.widgetType === 'divider'
+
+/** Elementor's padding ({top: '30', unit: 'px'…}) for one device, as the Advanced tab's spacing keys. */
+function paddingSides(p: Obj | undefined, suffix = ''): Obj {
+  if (!p) return {}
+  const unit = p.unit || 'px'
+  return Object.fromEntries(
+    ['top', 'right', 'bottom', 'left'].filter((side) => p[side] !== '' && p[side] != null).map((side) => [`${side}${suffix}`, `${p[side]}${unit}`]),
+  )
+}
+
+/**
+ * A card as an Inner Container, spaced as Elementor draws it: padded as on
+ * the site, items 20px apart (the container's gap), the heading with the
+ * theme's H2 margins on top of that, and the divider just its line. The
+ * heading is always an H2, though the site often tags it a <p> for styling.
+ */
+async function card(el: Obj, page: PageContext): Promise<Obj> {
+  const [heading, ...rest] = el.elements
+  const headingBlock = (await textBlock(`<h2>${heading.settings?.title ?? ''}</h2>`)).map((b) => ({
+    ...b,
+    blockStyles: {margin: {top: '30px', bottom: '20px', topMobile: '20px', bottomMobile: '10px', linked: false}},
+  }))
+  const content = [...headingBlock, ...(await blocksIn(rest, page))].map((b) =>
+    b._type === 'spacerDivider' ? {...b, height: 'none', dividerColor: '#EDEDF4'} : b,
+  )
+  const s: Obj = el.settings
+  const padding = {...paddingSides(s.padding), ...paddingSides(s.padding_mobile, 'Mobile')}
+  const gap = Number(s.flex_gap?.size ?? s.flex_gap?.row ?? 20)
+  return block('nestedContainer', {
+    label: decode(heading.settings?.title ?? '').replace(/<[^>]+>/g, '').trim() || undefined,
+    container: {layoutType: 'flex', contentWidth: 'full', direction: {desktop: 'column'}},
+    layout: 'full',
+    columns: [{...column(content), container: {...COLUMN_SETTINGS, gap: {desktop: {column: gap, row: gap, unit: 'px'}}}}],
+    design: {background: {normal: {type: 'classic', color: '#ffffff'}}},
+    ...(Object.keys(padding).length ? {advanced: {padding: {...padding, linked: s.padding?.isLinked !== false}}} : {}),
+  })
 }
 
 // --- Containers and Columns ---------------------------------------------------
