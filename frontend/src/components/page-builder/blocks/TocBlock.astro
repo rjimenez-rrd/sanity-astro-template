@@ -45,6 +45,8 @@ const titleFont = fontStack('Baskervville')
 </nav>
 
 <script>
+  import {collapse, expand} from '@/lib/collapse'
+
   document.querySelectorAll<HTMLElement>('[data-toc]').forEach((root) => {
     const list = root.querySelector<HTMLElement>('[data-toc-list]')
     if (!list) return
@@ -69,15 +71,26 @@ const titleFont = fontStack('Baskervville')
 
     root.hidden = false
 
-    // The chevron collapses the list; pointing down while it's closed.
+    // The chevron collapses the list; pointing down while it's closed. The
+    // list opens and closes with the same motion as the Accordion (lib/collapse.ts).
     const toggle = root.querySelector<HTMLButtonElement>('[data-toc-toggle]')
     const chevron = root.querySelector<SVGElement>('[data-toc-chevron]')
-    toggle?.addEventListener('click', () => {
+    let animating = false
+    toggle?.addEventListener('click', async () => {
+      if (animating) return
+      animating = true
       const open = toggle.getAttribute('aria-expanded') !== 'true'
       toggle.setAttribute('aria-expanded', String(open))
       toggle.setAttribute('aria-label', toggle.getAttribute('aria-label')!.replace(/^\w+/, open ? 'Collapse' : 'Expand'))
-      list.hidden = !open
       chevron?.classList.toggle('rotate-180', !open)
+      if (open) {
+        list.hidden = false
+        await expand(list)
+      } else {
+        await collapse(list)
+        list.hidden = true
+      }
+      animating = false
     })
   })
 </script>

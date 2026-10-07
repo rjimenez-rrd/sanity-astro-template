@@ -126,47 +126,32 @@ const answerText = roomy ? '' : 'text-[1.0625rem] leading-[1.7] text-foreground/
 
 <script>
   /**
-   * Open and close each row smoothly by animating its panel's height (the
-   * chevron and + already turn with CSS). The script takes over exclusivity
-   * from `name` — set, the browser would snap the other row shut the moment
-   * this one opens — and closes the other row with the same motion. No motion
-   * with prefers-reduced-motion: rows just toggle.
+   * Open and close each row smoothly (lib/collapse.ts, the same motion as the
+   * Table of Contents); the chevron and + already turn with CSS. The script
+   * takes over exclusivity from `name` — set, the browser would snap the other
+   * row shut the moment this one opens — and closes the other row with the
+   * same motion.
    */
-  const OPEN_MS = 320
-  const CLOSE_MS = 260
-  const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  import {collapse, expand} from '@/lib/collapse'
 
   const panelOf = (details: HTMLDetailsElement) =>
     details.querySelector<HTMLElement>(':scope > [data-disclosure-panel]')
 
-  function setOpen(details: HTMLDetailsElement, open: boolean) {
+  async function setOpen(details: HTMLDetailsElement, open: boolean) {
     if (details.open === open || details.dataset.animating) return
     const panel = panelOf(details)
-    if (!panel || reduceMotion()) {
-      details.open = open
-      return
-    }
     details.dataset.animating = ''
-    const done = () => delete details.dataset.animating
     if (open) {
       details.open = true
-      const height = panel.scrollHeight
-      panel
-        .animate([{height: '0px', opacity: 0}, {height: `${height}px`, opacity: 1}], {duration: OPEN_MS, easing: 'cubic-bezier(0.2, 0, 0, 1)'})
-        .finished.finally(done)
+      if (panel) await expand(panel)
     } else {
+      // Turns the chevron back now rather than when the panel has finished shrinking.
       details.dataset.closing = ''
-      const height = panel.offsetHeight
-      panel
-        .animate([{height: `${height}px`, opacity: 1}, {height: '0px', opacity: 0}], {duration: CLOSE_MS, easing: 'cubic-bezier(0.4, 0, 1, 1)'})
-        .finished.then(() => {
-          details.open = false
-        })
-        .finally(() => {
-          delete details.dataset.closing
-          done()
-        })
+      if (panel) await collapse(panel)
+      details.open = false
+      delete details.dataset.closing
     }
+    delete details.dataset.animating
   }
 
   document.querySelectorAll<HTMLElement>('[data-disclosure]').forEach((group) => {
