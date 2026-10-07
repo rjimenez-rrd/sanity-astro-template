@@ -1,6 +1,7 @@
 ---
 /**
- * Design preview for the Rich Text block: a heading, paragraphs with bold,
+ * Design preview for the Rich Text block: every text style the editor offers,
+ * from H1 down to Paragraph, each naming itself; then paragraphs with bold,
  * italic and a link, and a list, with hardcoded content.
  */
 import Base from '@/layouts/Base.astro'
@@ -11,10 +12,22 @@ import type {RichTextBlockData} from '@/types/sanity'
 
 const span = (key: string, text: string, marks: string[] = []) => ({_type: 'span', _key: key, text, marks})
 
+// Every style in the Studio's rich text (studio objects/rich-text.ts), top to bottom.
+const styles = [
+  ['h1', 'Heading 1 · h1'],
+  ['h2', 'Heading 2 · h2'],
+  ['h3', 'Heading 3 · h3'],
+  ['h4', 'Heading 4 · h4'],
+  ['blockquote', 'Quote · blockquote. A pulled-out line, set apart from the paragraphs around it.'],
+  ['normal', 'Normal · normal. The default style for body text: a full sentence or two so the line length and spacing show.'],
+  ['paragraph', 'Paragraph · paragraph. The larger body style, also used for lead-in text: a full sentence or two so the size difference from Normal shows.'],
+].map(([style, text]) => ({_type: 'block', _key: `style-${style}`, style, markDefs: [], children: [span(`style-${style}-s`, text)]}))
+
 const data = {
   _key: 'preview',
   _type: 'richTextBlock',
   content: [
+    ...styles,
     {
       _type: 'block',
       _key: 'h',
