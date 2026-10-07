@@ -76,7 +76,24 @@ async function widgetBlocks(widget: Obj, page: PageContext): Promise<Obj[]> {
       return url ? [block('video', {source, url, controls: true})] : []
     }
 
-    case 'nested-accordion':
+    // The newer accordion keeps its titles in settings and each panel's
+    // content as a child container of widgets, in the same order.
+    case 'nested-accordion': {
+      const children: Obj[] = widget.elements ?? []
+      const panels = []
+      for (const [i, item] of (s.items ?? []).entries()) {
+        const content: Obj[] = []
+        for (const b of await blocksIn(children[i]?.elements, page)) {
+          if (b._type === 'richTextBlock') content.push(...b.content)
+          else note(page.where, `A ${b._type} inside accordion panel "${decode(item.item_title ?? '')}" not imported, add it in the Studio.`)
+        }
+        panels.push({_type: 'accordionPanel', _key: key(), title: decode(item.item_title ?? ''), content})
+      }
+      return panels.length
+        ? [block('accordion', {panels, allowMultipleOpen: s.max_items_expended === 'multiple', firstOpenByDefault: s.default_state !== 'all_collapsed'})]
+        : []
+    }
+
     case 'accordion':
     case 'toggle': {
       const panels = []
