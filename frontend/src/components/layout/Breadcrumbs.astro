@@ -11,7 +11,8 @@ import {homePath, localizedPath, t, type Language} from '@/lib/i18n'
 import type {PageData} from '@/types/sanity'
 
 interface Props {
-  page: PageData
+  /** A page, or anything with a title and the same ancestors (a news post under News). */
+  page: Pick<PageData, 'title' | 'ancestors'>
   language: Language
 }
 

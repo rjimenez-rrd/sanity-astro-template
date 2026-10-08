@@ -344,25 +344,10 @@ export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
   }
 `)
 
-// A practice area's hero and sidebar (components/practice-areas/). The office
-// is stored by its _key in Site Settings' Offices: the Spanish settings'
-// office with that key when a Spanish page has one, else the English one — as
-// the footer falls back. The form is the CTA Form picked, else the first one
-// made; on a Spanish page its Spanish translation when there is one.
-const practiceAreaTemplateFragment = /* groq */ `
-  _type == "practiceArea" => {
-    heroImage { ${imageFragment} },
-    intro[] {
-      ...,
-      _type == "image" => { ${imageFragment} },
-      _type == "callToAction" => { ${linkFragment} }
-    },
-    heroButton { label, ${linkFragment} },
-    "location": coalesce(
-      *[_id == "siteSettingsEs" && $language != "en"][0].footerOffices[_key == ^.location][0]{ name, address, directionsUrl },
-      *[_id == "siteSettings"][0].footerOffices[_key == ^.location][0]{ name, address, directionsUrl }
-    ),
-    relatedPages[]->{ _id, title, "slug": slug.current, language, ${PARENTS_FRAGMENT} },
+// The sidebar's CTA Form: the one picked, else the first one made; on a
+// Spanish page its Spanish translation when there is one. Shared by practice
+// areas and news posts (which have no pick, so always the first one made).
+const sidebarFormFragment = /* groq */ `
     "sidebarForm": {
       "ref": coalesce(
         sidebarForm._ref,
@@ -378,16 +363,13 @@ const practiceAreaTemplateFragment = /* groq */ `
         ),
         *[_id == ^.ref][0] { _id, eyebrow, heading, description, headingFont, form { ..., ${formFieldsFragment} } }
       )
-    }.cta,
-    // Above the content: who reviewed it (its own pick, else Site Settings'
-    // default) and when it was last published.
-    "reviewedBy": coalesce(reviewedBy->name, *[_id == "siteSettings"][0].defaultReviewer->name),
-    updatedAt,
-    showToc,
-    // The full-width form under the content: its own pick, else Site
-    // Settings' default, else the first one made; whole, as the Form CTA
-    // block draws it.
-    showBottomForm,
+    }.cta
+`
+
+// The full-width form under the content: its own pick, else Site Settings'
+// default, else the first one made; whole, as the Form CTA block draws it.
+// Shared by practice areas and news posts, as the sidebar form is.
+const bottomFormFragment = /* groq */ `
     "bottomForm": {
       "ref": coalesce(
         bottomForm._ref,
@@ -405,6 +387,34 @@ const practiceAreaTemplateFragment = /* groq */ `
         *[_id == ^.ref][0] { ..., image { ${imageFragment} }, form { ..., ${formFieldsFragment} } }
       )
     }.cta
+`
+
+// A practice area's hero and sidebar (components/practice-areas/). The office
+// is stored by its _key in Site Settings' Offices: the Spanish settings'
+// office with that key when a Spanish page has one, else the English one — as
+// the footer falls back.
+const practiceAreaTemplateFragment = /* groq */ `
+  _type == "practiceArea" => {
+    heroImage { ${imageFragment} },
+    intro[] {
+      ...,
+      _type == "image" => { ${imageFragment} },
+      _type == "callToAction" => { ${linkFragment} }
+    },
+    heroButton { label, ${linkFragment} },
+    "location": coalesce(
+      *[_id == "siteSettingsEs" && $language != "en"][0].footerOffices[_key == ^.location][0]{ name, address, directionsUrl },
+      *[_id == "siteSettings"][0].footerOffices[_key == ^.location][0]{ name, address, directionsUrl }
+    ),
+    relatedPages[]->{ _id, title, "slug": slug.current, language, ${PARENTS_FRAGMENT} },
+    ${sidebarFormFragment},
+    // Above the content: who reviewed it (its own pick, else Site Settings'
+    // default) and when it was last published.
+    "reviewedBy": coalesce(reviewedBy->name, *[_id == "siteSettings"][0].defaultReviewer->name),
+    updatedAt,
+    showToc,
+    showBottomForm,
+    ${bottomFormFragment}
   }
 `
 
@@ -513,7 +523,13 @@ export const NEWS_POST_QUERY = defineQuery(/* groq */ `
     "category": category->title,
     coverImage { ${imageFragment} },
     ${seoFragment},
-    ${pageBuilderFragment}
+    ${pageBuilderFragment},
+    // The sidebar and bottom forms, as a practice area's with nothing picked.
+    ${sidebarFormFragment},
+    ${bottomFormFragment},
+    // The sidebar's Recent Posts: the newest others in this language.
+    "recentPosts": *[_type == "newsPost" && defined(slug.current) && _id != ^._id && ${LANGUAGE_MATCHES}]
+      | order(publishedAt desc) [0...3] { ${newsCardFragment} }
   }
 `)
 

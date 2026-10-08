@@ -18,8 +18,10 @@ const PAGE_TYPES = new Set(['page', 'practiceArea'])
 function syncPath(type: string, doc: Record<string, any> | null): string | null | undefined {
   // The Spanish home (homePage-es) is /es.
   if (type === 'homePage') return doc?.language && doc.language !== DEFAULT_LANGUAGE ? `/${doc.language}` : '/'
-  if (!PAGE_TYPES.has(type)) return undefined
   const slug = doc?.slug?.current
+  // A news post is /news/<slug>, /es/news/<slug> in Spanish.
+  if (type === 'newsPost') return slug ? pagePath(slug, doc?.language, ['news']) : null
+  if (!PAGE_TYPES.has(type)) return undefined
   return slug ? pagePath(slug, doc?.language) : null
 }
 

@@ -1,15 +1,26 @@
 ---
 /**
- * A news post as its routes render it: a reading-width header with the date,
- * category and cover, then the article's own sections. Shared by
- * news/[slug].astro and es/news/[slug].astro.
+ * A news post as its routes render it: breadcrumbs, then the article beside a
+ * sidebar, and a full-width CTA Form under both — the practice area's forms
+ * (components/forms/). The article is the title, the social links and date,
+ * the cover, then its own sections; the sidebar is the form card and a Recent
+ * Posts carousel. From 1024px up, 70% article and 30% sidebar; below that,
+ * the sidebar goes under. Shared by news/[slug].astro and es/news/[slug].astro.
  */
 import {stegaClean} from '@sanity/client/stega'
 import Site from '@/layouts/Site.astro'
+import Breadcrumbs from '@/components/layout/Breadcrumbs.astro'
 import SanityImage from '@/components/sanity/SanityImage.astro'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
+import SidebarForm from '@/components/forms/SidebarForm.astro'
+import BottomForm from '@/components/forms/BottomForm.astro'
+import CardCarousel from '@/components/ui/CardCarousel.astro'
+import NewsCard, {type NewsCardPost} from '@/components/news/NewsCard.astro'
 import {buildSeo} from '@/lib/seo'
-import {newsPath, t, type Language} from '@/lib/i18n'
+import {fontStack} from '@/lib/fonts'
+import {CONTENT_WIDTH} from '@/lib/maxWidth'
+import {SOCIAL_ICONS} from '@/lib/socialIcons'
+import {t, type Language} from '@/lib/i18n'
 import {postDate} from '@/lib/news'
 import type {SiteSettings} from '@/types/sanity'
 import type {NEWS_POST_QUERY_RESULT} from '@/sanity/types.generated'
@@ -27,55 +38,122 @@ const seo = buildSeo(post.seo, {title: post.title, description: post.excerpt ?? 
 
 // In the page's words, and read as a plain date like the card's (postDate).
 const dateLabel = postDate(post.publishedAt, language)
+
+// Home › News › the post. "news" is the list's slug in every language
+// (newsPath), so Breadcrumbs builds /news or /es/news from it.
+const crumbs = {title: post.title, ancestors: [{title: t(language, 'news'), slug: 'news'}]}
+
+// The site's social links from Site Settings, as the footer lists them.
+const socialLinks = (settings?.socialLinks ?? []).filter(
+  (link) => typeof link.platform === 'string' && link.platform.length > 0,
+)
+
+const cta = post.sidebarForm?.form ? post.sidebarForm : null
+const recentPosts = ((post.recentPosts ?? []) as NewsCardPost[]).filter((p) => p?.slug)
+
+const serif = `font-family:${fontStack('Baskervville')}`
 ---
 
 <Site settings={settings} {...seo}>
-  {/* The header keeps a reading width; the Page Builder below sizes itself,
-      the same way it does on any page. */}
-  <header class="mx-auto w-full max-w-3xl px-4 pt-16 pb-10 md:px-8">
-    <a href={newsPath(undefined, language)} class="text-sm font-medium text-primary hover:underline">{t(language, 'allNews')}</a>
+  <Breadcrumbs page={crumbs} language={language} />
 
-    <h1 class="mt-6 text-balance font-display text-4xl font-bold leading-tight text-primary md:text-5xl">
-      {post.title}
-    </h1>
+  {/* Padding outside the 1360px box, as the header has it, so the content
+      lines up with the logo — the practice area's layout. */}
+  <div class="px-4 pt-6 pb-12 md:px-8 md:pb-16">
+    <div class={`mx-auto ${CONTENT_WIDTH} grid gap-10 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:gap-12`}>
+      <article class="min-w-0">
+        <header>
+          <h1 class="text-balance text-4xl leading-tight text-foreground md:text-5xl lg:text-6xl" style={serif}>
+            {post.title}
+          </h1>
 
-    <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-foreground">
-      {dateLabel && (
-        <span class="flex items-center gap-2">
-          <span class="h-2.5 w-2.5 rounded-full bg-secondary-hover" aria-hidden="true" />
-          <time datetime={stegaClean(post.publishedAt) ?? undefined}>{dateLabel}</time>
-        </span>
-      )}
-      {post.category && (
-        <span class="flex items-center gap-2">
-          <span class="h-2.5 w-2.5 rounded-full bg-secondary-hover" aria-hidden="true" />
-          {post.category}
-        </span>
-      )}
+          {
+            (socialLinks.length > 0 || dateLabel) && (
+              <div class="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 font-display text-foreground">
+                {socialLinks.length > 0 && (
+                  <div class="flex items-center gap-3">
+                    <span>{t(language, 'followUs')}</span>
+                    <ul class="flex gap-2">
+                      {socialLinks.map((link) => {
+                        const platform = stegaClean(link.platform)!
+                        const path = SOCIAL_ICONS[platform]
+                        return (
+                          <li>
+                            <a
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={platform}
+                              class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-secondary-hover"
+                            >
+                              {path ? (
+                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                  <path d={path} />
+                                </svg>
+                              ) : (
+                                <span class="text-[10px] font-bold">{platform.slice(0, 2).toUpperCase()}</span>
+                              )}
+                            </a>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </div>
+                )}
+                {dateLabel && (
+                  <p class="ml-auto">
+                    {t(language, 'datePublished')}{' '}
+                    <time class="ml-2 font-bold" datetime={stegaClean(post.publishedAt) ?? undefined}>
+                      {dateLabel}
+                    </time>
+                  </p>
+                )}
+              </div>
+            )
+          }
+
+          {post.coverImage?.asset && (
+            <div class="mt-8 overflow-hidden">
+              <SanityImage
+                value={post.coverImage}
+                alt={stegaClean(post.coverImage.alt) || ''}
+                width={1200}
+                sizes="(max-width: 1023px) 100vw, 900px"
+                class="h-auto w-full"
+                priority
+              />
+            </div>
+          )}
+        </header>
+
+        {/* Only when there is something to show: SectionRenderer's "No sections
+            yet" placeholder is meant for editors, not for a published article. */}
+        {post.pageBuilder && post.pageBuilder.length > 0 && (
+          <div class="mt-10">
+            <SectionRenderer sections={post.pageBuilder} documentId={post._id} documentType={post._type} />
+          </div>
+        )}
+      </article>
+
+      {
+        (cta || recentPosts.length > 0) && (
+          <aside class="space-y-12">
+            {cta && <SidebarForm cta={cta} />}
+            {recentPosts.length > 0 && (
+              <section>
+                <h2 class="mb-6 text-4xl leading-tight text-foreground" style={serif}>
+                  {t(language, 'recentPosts')}
+                </h2>
+                <CardCarousel items={recentPosts} columns={1} tabletColumns={1}>
+                  {(item: NewsCardPost) => <NewsCard post={item} />}
+                </CardCarousel>
+              </section>
+            )}
+          </aside>
+        )
+      }
     </div>
+  </div>
 
-    {post.coverImage?.asset && (
-      <div class="mt-10 overflow-hidden">
-        <SanityImage
-          value={post.coverImage}
-          alt={stegaClean(post.coverImage.alt) || ''}
-          width={1200}
-          sizes="(max-width: 768px) 100vw, 768px"
-          class="h-auto w-full"
-          priority
-        />
-      </div>
-    )}
-
-  </header>
-
-  {/* Only when there is something to show: SectionRenderer's "No sections
-      yet" placeholder is meant for editors, not for a published article. */}
-  {post.pageBuilder && post.pageBuilder.length > 0 && (
-    <SectionRenderer
-      sections={post.pageBuilder}
-      documentId={post._id}
-      documentType={post._type}
-    />
-  )}
+  {post.bottomForm && <BottomForm cta={post.bottomForm} />}
 </Site>

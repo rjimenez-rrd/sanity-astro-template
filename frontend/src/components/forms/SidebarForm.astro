@@ -1,0 +1,36 @@
+---
+/**
+ * The sidebar's CTA Form card: its short title over the form, on the brand
+ * color. Shared by the practice area and news post sidebars.
+ */
+import type {ComponentProps} from 'astro/types'
+import FormBlock from '@/components/page-builder/blocks/FormBlock.astro'
+import {fontStack} from '@/lib/fonts'
+import type {PracticeAreaPageData} from '@/types/sanity'
+
+interface Props {
+  cta: NonNullable<PracticeAreaPageData['sidebarForm']>
+}
+
+const {cta} = Astro.props
+
+// The sidebar is narrow, so the card keeps to one short title: the CTA's
+// eyebrow ("Get a Free Case Review"), or its heading when it has none.
+const sidebarTitle = cta.eyebrow?.trim() || cta.heading
+const headingFont = fontStack('Baskervville')
+---
+
+{
+  cta.form && (
+    <section class="bg-primary px-5 pt-7 pb-6 font-display text-white">
+      {sidebarTitle && (
+        <h2 class="text-center text-[42px] leading-[1.1]" style={`font-family:${headingFont}`}>
+          {sidebarTitle}
+        </h2>
+      )}
+      <div class={sidebarTitle ? 'mt-6' : ''}>
+        <FormBlock data={cta.form as ComponentProps<typeof FormBlock>['data']} formStyle="dark" stacked />
+      </div>
+    </section>
+  )
+}

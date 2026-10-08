@@ -1,0 +1,33 @@
+---
+/**
+ * The full-width CTA Form band under a template's content, in the form's own
+ * color (the brand color when it has none). Shared by the practice area and
+ * news post templates.
+ */
+import {stegaClean} from '@sanity/client/stega'
+import FormCta from '@/components/page-builder/blocks/FormCta.astro'
+import type {FormCtaData, PracticeAreaPageData} from '@/types/sanity'
+
+interface Props {
+  cta: NonNullable<PracticeAreaPageData['bottomForm']>
+}
+
+const {cta} = Astro.props
+
+// The reference is to a CTA Form, but the query's type can't promise it.
+const form = cta._type === 'ctaForm' ? cta : null
+const formCta = form ? ({_type: 'formCta', cta: form} as unknown as FormCtaData) : null
+const formBackground = stegaClean(form?.backgroundColor)
+---
+
+{
+  formCta && (
+    <div class="px-4 pb-4">
+      <div class={formBackground ? '' : 'bg-primary'} style={formBackground ? `background-color:${formBackground}` : undefined}>
+        <div class="mx-auto max-w-[1100px]">
+          <FormCta data={formCta} />
+        </div>
+      </div>
+    </div>
+  )
+}

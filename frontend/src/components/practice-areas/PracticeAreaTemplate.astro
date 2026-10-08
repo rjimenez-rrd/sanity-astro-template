@@ -6,16 +6,15 @@
  * Contents. Without a sidebar the sections take the full width rather than
  * leaving its column empty.
  */
-import {stegaClean} from '@sanity/client/stega'
 import SectionRenderer from '@/components/page-builder/SectionRenderer.astro'
 import TocBlock from '@/components/page-builder/blocks/TocBlock.astro'
-import FormCta from '@/components/page-builder/blocks/FormCta.astro'
+import BottomForm from '@/components/forms/BottomForm.astro'
 import PracticeAreaHero from './PracticeAreaHero.astro'
 import PracticeAreaSidebar from './PracticeAreaSidebar.astro'
 import {CONTENT_WIDTH} from '@/lib/maxWidth'
 import {postDate} from '@/lib/news'
 import {t, type Language} from '@/lib/i18n'
-import type {FormCtaData, PracticeAreaPageData, TocBlockData} from '@/types/sanity'
+import type {PracticeAreaPageData, TocBlockData} from '@/types/sanity'
 
 interface Props {
   page: PracticeAreaPageData
@@ -33,10 +32,7 @@ const updated = postDate(page.updatedAt, language)
 // toggles existed have neither.
 const toc = page.showToc !== false ? ({_type: 'tocBlock', title: t(language, 'tableOfContents')} as TocBlockData) : null
 
-const bottomForm = page.showBottomForm !== false && page.bottomForm?._type === 'ctaForm' ? page.bottomForm : null
-const formCta = bottomForm ? ({_type: 'formCta', cta: bottomForm} as unknown as FormCtaData) : null
-// The form's own color fills the whole band; the brand color when it has none.
-const formBackground = stegaClean(bottomForm?.backgroundColor)
+const bottomForm = page.showBottomForm !== false ? page.bottomForm : null
 ---
 
 <PracticeAreaHero page={page} />
@@ -78,14 +74,4 @@ const formBackground = stegaClean(bottomForm?.backgroundColor)
   {hasSidebar && <PracticeAreaSidebar page={page} language={language} />}
 </div>
 </div>
-{
-  formCta && (
-    <div class="px-4 pb-4">
-      <div class={formBackground ? '' : 'bg-primary'} style={formBackground ? `background-color:${formBackground}` : undefined}>
-        <div class="mx-auto max-w-[1100px]">
-          <FormCta data={formCta} />
-        </div>
-      </div>
-    </div>
-  )
-}
+{bottomForm && <BottomForm cta={bottomForm} />}

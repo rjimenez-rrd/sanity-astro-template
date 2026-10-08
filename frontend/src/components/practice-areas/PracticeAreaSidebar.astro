@@ -5,10 +5,8 @@
  * directions, then the Related Pages as links. Each part shows only when
  * there's something to show, and nothing renders when none has.
  */
-import type {ComponentProps} from 'astro/types'
 import {stegaClean} from '@sanity/client/stega'
-import FormBlock from '@/components/page-builder/blocks/FormBlock.astro'
-import {fontStack} from '@/lib/fonts'
+import SidebarForm from '@/components/forms/SidebarForm.astro'
 import {localizedPath, t, type Language} from '@/lib/i18n'
 import type {PracticeAreaPageData} from '@/types/sanity'
 
@@ -20,10 +18,6 @@ interface Props {
 const {page, language} = Astro.props
 
 const cta = page.sidebarForm?.form ? page.sidebarForm : null
-// The sidebar is narrow, so the card keeps to one short title: the CTA's
-// eyebrow ("Get a Free Case Review"), or its heading when it has none.
-const sidebarTitle = cta?.eyebrow?.trim() || cta?.heading
-const headingFont = fontStack('Baskervville')
 
 const office = page.location
 const address = stegaClean(office?.address)?.trim()
@@ -46,18 +40,7 @@ const heading = 'font-display text-xl font-bold text-foreground'
 {
   (cta || office || related.length > 0) && (
     <aside class="space-y-8">
-      {cta && (
-        <section class="bg-primary px-5 pt-7 pb-6 font-display text-white">
-          {sidebarTitle && (
-            <h2 class="text-center text-[42px] leading-[1.1]" style={`font-family:${headingFont}`}>
-              {sidebarTitle}
-            </h2>
-          )}
-          <div class={sidebarTitle ? 'mt-6' : ''}>
-            <FormBlock data={cta.form as ComponentProps<typeof FormBlock>['data']} formStyle="dark" stacked />
-          </div>
-        </section>
-      )}
+      {cta && <SidebarForm cta={cta} />}
       {office && (
         <section class="rounded-lg bg-card p-6 shadow-sm">
           <h2 class={heading}>{t(language, 'officeLocation')}</h2>
