@@ -62,4 +62,26 @@ export const reviewType = defineType({
       components: { input: PublishStampInput },
     }),
   ],
+  // Listed by the client's name, since many reviews have no title; the title
+  // (or the start of the review) and the stars underneath.
+  preview: {
+    select: { clientName: 'clientName', title: 'title', reviewText: 'reviewText', rating: 'rating' },
+    prepare({
+      clientName,
+      title,
+      reviewText,
+      rating,
+    }: {
+      clientName?: string
+      title?: string
+      reviewText?: string
+      rating?: number
+    }) {
+      const stars = rating ? '★'.repeat(Math.round(rating)) : ''
+      return {
+        title: clientName || 'Unnamed client',
+        subtitle: [stars, title || reviewText].filter(Boolean).join(' · '),
+      }
+    },
+  },
 })
