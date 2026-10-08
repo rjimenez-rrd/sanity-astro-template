@@ -3,7 +3,6 @@ import { DocumentIcon } from '@sanity/icons'
 import { rootSlugField, parentPageField } from '../fields/rootSlug'
 import { excludeFromTranslation } from '../fields/common'
 import { PublishStampInput } from '../../components/inputs/PublishStampInput'
-import { lastEditorMedia } from '../../components/previews/LastEditor'
 
 /**
  * A page at /<slug>, built with the Page Builder. Grouped like a Practice
@@ -87,8 +86,6 @@ export const pageType = defineType({
   ],
   preview: {
     select: {
-      id: '_id',
-      updatedAt: '_updatedAt',
       title: 'title',
       slug: 'slug.current',
       // Ancestors' slugs, for the full address under the title.
@@ -96,35 +93,32 @@ export const pageType = defineType({
       p2: 'parent.parent.slug.current',
       p3: 'parent.parent.parent.slug.current',
       name: 'lastEditedBy.name',
-      image: 'lastEditedBy.image',
+      // The page's own image, as a Practice Area shows its Cover Image.
+      media: 'seo.ogImage',
     },
     prepare({
-      id,
-      updatedAt,
       title,
       slug,
       p1,
       p2,
       p3,
       name,
-      image,
+      media,
     }: {
-      id: string
-      updatedAt?: string
       title?: string
       slug?: string
       p1?: string
       p2?: string
       p3?: string
       name?: string
-      image?: string
+      media?: React.ReactNode
     }) {
       const path = slug ? `/${[p3, p2, p1, slug].filter(Boolean).join('/')}` : 'No slug'
       return {
         title: title || 'Untitled Page',
         // First name only, to keep the row short.
         subtitle: name ? `${path} · ${name.split(' ')[0]}` : path,
-        media: lastEditorMedia({ id, updatedAt, name, image }),
+        media: media ?? DocumentIcon,
       }
     },
   },
