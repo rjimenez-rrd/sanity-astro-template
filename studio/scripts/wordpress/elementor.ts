@@ -25,6 +25,10 @@ export interface PageContext {
 let bottomCtaForm: string | undefined
 export const useBottomCtaForm = (id: string | undefined) => (bottomCtaForm = id)
 
+/** Each WordPress testimonial id, English or Spanish, to the Review it became (set by the import before it starts). */
+let reviewIds = new Map<string, string>()
+export const useReviewIds = (ids: Map<string, string>) => (reviewIds = ids)
+
 // --- Widgets → blocks ---------------------------------------------------------
 
 const block = (type: string, fields: Obj = {}) => ({_type: type, _key: key(), ...fields})
@@ -155,7 +159,7 @@ async function widgetBlocks(widget: Obj, page: PageContext): Promise<Obj[]> {
 
     case 'loop-carousel':
     case 'loop-grid':
-      return loopBlocks(LOOP_TEMPLATES[String(s.template_id)] ?? s.post_query_post_type, page)
+      return loopBlocks(LOOP_TEMPLATES[String(s.template_id)] ?? s.post_query_post_type, s, page)
 
     // Drawn by the site itself, or decoration (the row of review stars).
     case 'breadcrumbs':
@@ -186,11 +190,21 @@ function templateBlocks(id: string, page: PageContext): Obj[] {
 }
 
 /** An Elementor loop (a carousel or grid of posts), by what it lists. */
-function loopBlocks(listing: string | undefined, page: PageContext): Obj[] {
+function loopBlocks(listing: string | undefined, s: Obj, page: PageContext): Obj[] {
   switch (listing) {
-    // The Testimonial Carousel shows every Review when none are picked.
-    case 'testimonials':
-      return [block('testimonialCarousel')]
+    // The loop's picked testimonials become the carousel's Reviews. With none
+    // picked (a loop of every testimonial) it shows every Review, as there.
+    case 'testimonials': {
+      const picked: string[] = (s.post_query_posts_ids ?? []).map(String)
+      const ids = [...new Set(picked.map((id) => reviewIds.get(id)).filter((id): id is string => Boolean(id)))]
+      if (ids.length < picked.length) note(page.where, 'A Testimonial Carousel picks a testimonial that is not in the export: check its Reviews.')
+      const reviews = ids.map((id) => ({_type: 'reference', _key: id, _ref: id, _weak: true, _strengthenOnPublish: {type: 'review'}}))
+      // Cards per view as the loop sets them (Elementor's defaults are 3 and 2);
+      // tablet never shows more than desktop.
+      const desktop = Math.min(Math.max(Number(s.slides_to_show) || 3, 1), 4)
+      const tablet = Math.min(Number(s.slides_to_show_tablet) || 2, desktop, 2)
+      return [block('testimonialCarousel', {...(reviews.length ? {reviews} : {}), perViewDesktop: desktop, perViewTablet: tablet})]
+    }
     case 'news':
       return [block('newsCards', {source: 'latest', count: 3})]
     // Drawn by the site itself: the sidebar's Related Pages, the search page.

@@ -9,6 +9,16 @@ import {pairs, plainText, publishedAt} from './record-pairs'
 import {decode} from './rich-text'
 import {RECORD_FIELDS as F} from './site-mappings'
 
+/** Each testimonial's id, and its Spanish version's, to the Review both become. */
+export function reviewIds(items: WpItem[]): Map<string, string> {
+  const ids = new Map<string, string>()
+  for (const {main, es} of pairs(items)) {
+    ids.set(String(main.id), `wp-testimonial-${main.id}`)
+    if (es) ids.set(String(es.id), `wp-testimonial-${main.id}`)
+  }
+  return ids
+}
+
 export function buildReviews(items: WpItem[]): Obj[] {
   return pairs(items).map(({main, es}) => {
     const reviewText = plainText(main.fields[F.testimonialText])

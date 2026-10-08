@@ -1,4 +1,5 @@
 ---
+import {stegaClean} from '@sanity/client/stega'
 import type {TestimonialCarouselData} from '@/types/sanity'
 import {t as translate} from '@/lib/i18n'
 import CardCarousel from '@/components/ui/CardCarousel.astro'
@@ -13,6 +14,11 @@ const {data} = Astro.props
 // Resolved by the query from the Reviews documents: the editor's picks, or
 // every review when none are picked. A review needs text to be worth a card.
 const testimonials = (data.reviews ?? []).filter((review) => review?.reviewText)
+
+// Never more columns than reviews: one review fills the row, two share it.
+const shown = Math.max(testimonials.length, 1)
+const perViewDesktop = Math.min(Number(stegaClean(data.perViewDesktop ?? 3)) || 3, shown)
+const perViewTablet = Math.min(Number(stegaClean(data.perViewTablet ?? 2)) || 2, shown)
 
 // Text sizes below are in em, relative to the block's own size: the same as
 // before by default (1.125em of 16px = text-lg), and Block Styles ->
@@ -34,8 +40,8 @@ const testimonials = (data.reviews ?? []).filter((review) => review?.reviewText)
           one-up desktop: CardCarousel would otherwise follow desktop down. */}
       <CardCarousel
         items={testimonials}
-        columns={data.perViewDesktop}
-        tabletColumns={data.perViewTablet ?? 2}
+        columns={perViewDesktop}
+        tabletColumns={perViewTablet}
         autoPlay={data.autoPlay}
         autoPlayInterval={data.autoPlayInterval}
         arrows={data.showArrows !== false}

@@ -38,11 +38,11 @@
 import {mkdirSync, writeFileSync} from 'node:fs'
 import {join} from 'node:path'
 import {buildPages, buildPosts, skipExisting, translationLinks, type Fill} from './wordpress/documents'
-import {useBottomCtaForm} from './wordpress/elementor'
+import {useBottomCtaForm, useReviewIds} from './wordpress/elementor'
 import {readExport, type WpExport} from './wordpress/export-file'
 import {buildCaseResults} from './wordpress/case-results'
 import {buildLawyers, type PageIdsBySlug} from './wordpress/lawyers'
-import {buildReviews} from './wordpress/reviews'
+import {buildReviews, reviewIds} from './wordpress/reviews'
 import {client, options, OUT_DIR, report, site, type Obj} from './wordpress/options'
 
 /** Kept published even without --publish: translation links point at published ids, and a post's category must be published to be referenced at all. */
@@ -164,6 +164,9 @@ async function main() {
       'coalesce(*[_id == "siteSettings"][0].defaultBottomForm._ref, *[_type == "ctaForm" && coalesce(language, "en") == "en" && !(_id in path("drafts.**"))] | order(_createdAt asc)[0]._id)',
     ),
   )
+
+  // Testimonial Carousels name testimonials by WordPress id.
+  useReviewIds(reviewIds(wordpress.testimonials))
 
   // --only=<kind>: just that kind; without it, every kind in order.
   if (options.only && !KINDS.includes(options.only as Kind)) {
